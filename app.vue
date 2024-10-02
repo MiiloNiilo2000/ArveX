@@ -1,5 +1,5 @@
 <template>
   <div>
-    Hello ArveX
+    Hello ArveX 2
   </div>
 </template>
