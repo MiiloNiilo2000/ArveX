@@ -1,6 +1,6 @@
 
       const { defaultExtractor: createDefaultExtractor } = require('tailwindcss/lib/lib/defaultExtractor.js')
-      const { customSafelistExtractor, generateSafelist } = require("C:/Users/37253/.vscode/itb2203_2024_arvex/node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/utils/colors")
+      const { customSafelistExtractor, generateSafelist } = require("C:/Users/2004s/OneDrive/Töölaud/ISA3/ArveX/itb2203_2024_arvex/node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/utils/colors")
 
       const defaultExtractor = createDefaultExtractor({ tailwindConfig: { separator: ':' } })
 
@@ -14,8 +14,8 @@
         ],
         content: {
           files: [
-            "C:/Users/37253/.vscode/itb2203_2024_arvex/node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/components/**/*.{vue,mjs,ts}",
-            "C:/Users/37253/.vscode/itb2203_2024_arvex/node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/ui.config/**/*.{mjs,js,ts}"
+            "C:/Users/2004s/OneDrive/Töölaud/ISA3/ArveX/itb2203_2024_arvex/node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/components/**/*.{vue,mjs,ts}",
+            "C:/Users/2004s/OneDrive/Töölaud/ISA3/ArveX/itb2203_2024_arvex/node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/ui.config/**/*.{mjs,js,ts}"
           ],
           transform: {
             vue: (content) => {
