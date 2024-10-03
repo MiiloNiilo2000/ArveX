@@ -20,7 +20,6 @@
     {
       label: "Loo Arve",
       to: "/create-invoice",
-    },
-    
+    },    
   ];
   </script>
