@@ -1,1 +1,0 @@
-<template> Invoice Creation Page Test </template>

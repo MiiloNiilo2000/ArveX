@@ -1,6 +1,5 @@
 <template>
-  <TheMenu />
-<div class="p-2">
-  <NuxtPage />
+  <div>
+    Hello ArveX 2
   </div>
 </template>
