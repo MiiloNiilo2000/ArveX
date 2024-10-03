@@ -1,1 +1,3 @@
-<template>Siia tuleb profiil</template>
+ <template>
+    <Profile />
+ </template>
