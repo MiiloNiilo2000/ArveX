@@ -87,7 +87,7 @@
         "../node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/*"
       ],
       "#ui-colors": [
-        "./ui.colors"
+        "./ui.colors.mjs"
       ],
       "#color-mode-options": [
         "./color-mode-options.mjs"
@@ -104,11 +104,8 @@
       "#tailwind-config": [
         "./tailwind.config"
       ],
-      "#tailwind-config/*": [
-        "./tailwind.config/*"
-      ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/dev.json"
       ],
       "#build": [
         "."
