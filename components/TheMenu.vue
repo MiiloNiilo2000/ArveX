@@ -14,6 +14,10 @@
       to: "/profiles",
     },
     {
+      label: "Loo Arve",
+      to: "/create-invoice",
+    },
+    {
       label: "Avaleht",
       to: "/",
     },

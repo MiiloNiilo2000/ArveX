@@ -2,7 +2,8 @@
 import type { DefineComponent, SlotsType } from 'vue'
 type IslandComponent<T extends DefineComponent> = T & DefineComponent<{}, {refresh: () => Promise<void>}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, SlotsType<{ fallback: { error: unknown } }>>
 interface _GlobalComponents {
-      'Profile': typeof import("../components/Profile.vue")['default']
+      'Invoice': typeof import("../components/Invoice.vue")['default']
+    'Profile': typeof import("../components/Profile.vue")['default']
     'TheMenu': typeof import("../components/TheMenu.vue")['default']
     'UAccordion': typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
     'UAlert': typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']
@@ -80,7 +81,8 @@ interface _GlobalComponents {
     'UModals': IslandComponent<typeof import("../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_ioredis@5.4.1_magicast@0.3.5_rollup@4.23_ezc75yl4ftuhtjdnf726wxgnsa/node_modules/nuxt/dist/app/components/server-placeholder")['default']>
     'USlideovers': IslandComponent<typeof import("../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_ioredis@5.4.1_magicast@0.3.5_rollup@4.23_ezc75yl4ftuhtjdnf726wxgnsa/node_modules/nuxt/dist/app/components/server-placeholder")['default']>
     'NuxtRouteAnnouncer': IslandComponent<typeof import("../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_ioredis@5.4.1_magicast@0.3.5_rollup@4.23_ezc75yl4ftuhtjdnf726wxgnsa/node_modules/nuxt/dist/app/components/server-placeholder")['default']>
-      'LazyProfile': typeof import("../components/Profile.vue")['default']
+      'LazyInvoice': typeof import("../components/Invoice.vue")['default']
+    'LazyProfile': typeof import("../components/Profile.vue")['default']
     'LazyTheMenu': typeof import("../components/TheMenu.vue")['default']
     'LazyUAccordion': typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
     'LazyUAlert': typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']
@@ -164,6 +166,7 @@ declare module 'vue' {
   export interface GlobalComponents extends _GlobalComponents { }
 }
 
+export const Invoice: typeof import("../components/Invoice.vue")['default']
 export const Profile: typeof import("../components/Profile.vue")['default']
 export const TheMenu: typeof import("../components/TheMenu.vue")['default']
 export const UAccordion: typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
@@ -242,6 +245,7 @@ export const NuxtIsland: typeof import("../node_modules/.pnpm/nuxt@3.13.2_@parce
 export const UModals: IslandComponent<typeof import("../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_ioredis@5.4.1_magicast@0.3.5_rollup@4.23_ezc75yl4ftuhtjdnf726wxgnsa/node_modules/nuxt/dist/app/components/server-placeholder")['default']>
 export const USlideovers: IslandComponent<typeof import("../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_ioredis@5.4.1_magicast@0.3.5_rollup@4.23_ezc75yl4ftuhtjdnf726wxgnsa/node_modules/nuxt/dist/app/components/server-placeholder")['default']>
 export const NuxtRouteAnnouncer: IslandComponent<typeof import("../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_ioredis@5.4.1_magicast@0.3.5_rollup@4.23_ezc75yl4ftuhtjdnf726wxgnsa/node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+export const LazyInvoice: typeof import("../components/Invoice.vue")['default']
 export const LazyProfile: typeof import("../components/Profile.vue")['default']
 export const LazyTheMenu: typeof import("../components/TheMenu.vue")['default']
 export const LazyUAccordion: typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.6_magicast@0.3.5_rollup@4.23.0_vite@5.4.8_@types+node@22.7.4_terser@5.34.1__vue@3.5.10/node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
