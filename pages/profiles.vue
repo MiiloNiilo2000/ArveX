@@ -30,7 +30,7 @@
   const userProfile = ref({
     name: 'Sviit Hõum',
     email: 'sviit.houm@example.com',
-    image: 'https://via.placeholder.com/150',
+    image: 'https://wallpapers.com/images/hd/funny-profile-picture-1l2l3tmmbobjqd53.jpg',
     bio: 'Tere, tere kõik see pere.'
   })
   
