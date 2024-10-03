@@ -41,7 +41,7 @@ namespace BackEnd.Controllers
                     page.DefaultTextStyle(x => x.FontSize(20));
 
                     page.Header()
-                        .Text("Hello PDF!")
+                        .Text("Hello!")
                         .SemiBold().FontSize(36).FontColor(Colors.Blue.Medium);
 
                     page.Content()
