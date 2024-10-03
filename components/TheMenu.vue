@@ -9,13 +9,13 @@
   const route = useRoute();
   
   const links = [
+  {
+      label: "Avaleht",
+      to: "/",
+    },
     {
       label: "Profiil",
       to: "/profiles",
-    },
-    {
-      label: "Avaleht",
-      to: "/",
     },
     
   ];
