@@ -1,1 +1,3 @@
-<template>Siin saab arve luua </template>
+<template>
+    <Invoice />
+</template>
