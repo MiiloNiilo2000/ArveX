@@ -1253,7 +1253,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\Project\\BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+      "message": "Problem reading the cache file C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
     }
   ]
 }
