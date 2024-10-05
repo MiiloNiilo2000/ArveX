@@ -1,8 +1,11 @@
 <template>
+    <div class="flex justify-center items-center pt-9">
+        <div class="w-96 p-6 flex flex-col h-99">
+            <h2 class="text-2xl font-bold mb-4 text-center">Lisa toode</h2>
     <UForm
       :validate="validate"
       :state="state"
-      class="space-y-4"
+      class="space-y-4 "
       @submit="onSubmit"
       @error="onError"
     >
@@ -18,6 +21,8 @@
   
       <UButton type="submit"> Lisa </UButton>
     </UForm>
+    </div>
+    </div>
   </template>
 
 <script setup lang="ts">
