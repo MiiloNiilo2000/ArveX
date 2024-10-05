@@ -2,7 +2,7 @@
     <div class="container">
       <h1 class="text-3xl font-bold mb-6">Tooted / teenused</h1>
   
-      <UButton class="add-product-btn mb-6" @click="addProduct">
+      <UButton class="add-product-btn mb-6" @click="navigateToAddProduct">
         Lisa toode
       </UButton>
   
@@ -21,11 +21,16 @@
 
 <script setup lang="ts">
     import { useProductStore } from '~/stores/productStores';
+    import { useRouter } from 'vue-router';
 
-
+    const router = useRouter();
     const {products, deleteProduct, addProduct} = useProductStore();
 
     const editProduct = () => {
         alert('Product editing not implemented yet!')
+    }
+
+    const navigateToAddProduct = () => {
+        router.push('/add-product');
     }
 </script>

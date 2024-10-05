@@ -1,0 +1,3 @@
+<template>
+    <AddProduct />
+</template>
