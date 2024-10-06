@@ -1,12 +1,12 @@
 <template>
-    <div class="max-w-xl p-8"> <!-- Eemaldame mx-auto -->
+    <div class="max-w-xl p-8">
       <h1 class="text-3xl font-bold mb-6">{{ title }}</h1>
   
       <div class="bg-white shadow-md rounded-lg p-6">
         <div class="flex items-center">
           <img :src="userProfile.image" alt="Profile Picture" class="rounded-full w-24 h-24 mr-6" />
           <div>
-            <h2 class="text-xl font-semibold">{{ userProfile.name }}</h2>
+            <h2 class="text-xl font-semibold">{{ userProfile.username }}</h2>
             <p class="text-gray-600">{{ userProfile.email }}</p>
           </div>
         </div>
@@ -25,14 +25,10 @@
   
   <script setup lang="ts">
   const title = 'User Profile'
-  import { ref } from 'vue'
   
-  const userProfile = ref({
-    name: 'Sviit Hõum',
-    email: 'sviit.houm@example.com',
-    image: 'https://wallpapers.com/images/hd/funny-profile-picture-1l2l3tmmbobjqd53.jpg',
-    bio: 'Tere, tere kõik see pere.'
-  })
+  import { useProfileStore } from '~/stores/profileStores';
+  const profileStore = useProfileStore();
+  const userProfile = computed(() => profileStore.profiles[0]);
   
   const editProfile = () => {
     alert('Profile editing not implemented yet!')
