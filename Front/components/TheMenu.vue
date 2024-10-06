@@ -20,6 +20,10 @@
       to: "/profiles",
     },
     {
+      label: "Tooted",
+      to: "/products",
+    },
+    {
       label: "Loo Arve",
       to: "/create-invoice",
     },
