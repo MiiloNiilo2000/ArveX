@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackEnd.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Companion;
@@ -18,18 +19,17 @@ namespace BackEnd.Controllers
     [Route("[controller]")]
     public class CreateInvoiceController : ControllerBase
     {
-        [HttpGet(Name = "GeneratePdf")]
-        public IResult GeneratePdf()
+        [HttpPost(Name = "GeneratePdf")]
+        public IResult GeneratePdf([FromBody] InvoiceData data)
         {
-            var document = CreateDocument();
+            var document = CreateDocument(data.Title);
             
             var pdf = document.GeneratePdf();
-            document.ShowInCompanion();
 
-            return Results.File(pdf, "application/pdf", "hello-world.pdf");
+            return Results.File(pdf, "application/pdf", "invoice.pdf");
         }
 
-        QuestPDF.Infrastructure.IDocument CreateDocument()
+        QuestPDF.Infrastructure.IDocument CreateDocument(string title)
         {
             return Document.Create(container =>
             {
@@ -41,7 +41,7 @@ namespace BackEnd.Controllers
                     page.DefaultTextStyle(x => x.FontSize(20));
 
                     page.Header()
-                        .Text("Hello!")
+                        .Text(title)
                         .SemiBold().FontSize(36).FontColor(Colors.Blue.Medium);
 
                     page.Content()
@@ -51,7 +51,11 @@ namespace BackEnd.Controllers
                             x.Spacing(20);
 
                             x.Item().Text("ArveX");
-                            x.Item().Image(Placeholders.Image(200, 100));
+                            x.Item()
+                            .Height(100)
+                            .Width(400)
+                            .Image("assets/images/pahandus.jpg");
+;
                         });
 
                     page.Footer()
