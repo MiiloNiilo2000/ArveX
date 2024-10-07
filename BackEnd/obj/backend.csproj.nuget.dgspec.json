@@ -1,7 +1,15 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\Project\\BackEnd\\backend.csproj": {}
+=======
+<<<<<<< HEAD
+    "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {}
+=======
+    "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\project\\backend\\backend.csproj": {}
+>>>>>>> 8983be7c5b47961385f62fcc1ab5795513d34ed7
+>>>>>>> bcfd7a272f9bfa9232aaa51c8f8db9e9ac72231b
   },
   "projects": {
     "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\Project\\BackEnd\\backend.csproj": {
@@ -9,15 +17,31 @@
       "restore": {
         "projectUniqueName": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\Project\\BackEnd\\backend.csproj",
         "projectName": "backend",
+<<<<<<< HEAD
         "projectPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\Project\\BackEnd\\backend.csproj",
         "packagesPath": "C:\\Users\\2004s\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\Project\\BackEnd\\obj\\",
+=======
+<<<<<<< HEAD
+        "projectPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+        "packagesPath": "C:\\Users\\37253\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+=======
+        "projectPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\project\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\2004s\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\project\\backend\\obj\\",
+>>>>>>> 8983be7c5b47961385f62fcc1ab5795513d34ed7
+>>>>>>> bcfd7a272f9bfa9232aaa51c8f8db9e9ac72231b
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
+          "C:\\Users\\37253\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
           "C:\\Users\\2004s\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 8983be7c5b47961385f62fcc1ab5795513d34ed7
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
