@@ -25,6 +25,7 @@ namespace BackEnd.Controllers
             var document = CreateDocument(data.Title);
             
             var pdf = document.GeneratePdf();
+            document.ShowInCompanion();
 
             return Results.File(pdf, "application/pdf", "invoice.pdf");
         }
@@ -46,24 +47,41 @@ namespace BackEnd.Controllers
 
                     page.Content()
                         .PaddingVertical(1, Unit.Centimetre)
-                        .Column(x =>
+                        .Table(table => {
+                        table.ColumnsDefinition(columns =>
                         {
-                            x.Spacing(20);
+                            
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
 
-                            x.Item().Text("ArveX");
-                            x.Item()
-                            .Height(100)
-                            .Width(400)
-                            .Image("assets/images/pahandus.jpg");
-;
                         });
+                        table.Cell().Row(1).Column(x => {
+                            x.Spacing(2);
+                            x.Item().Text("Klient: ").FontSize(15);
+                            x.Item().Padding(2);
+                            x.Item().Text(title).Bold().FontSize(18);
+                            x.Item().Text("Ehitajate tee 5").FontSize(15);
+                            x.Item().Text("12345, Tallinn").FontSize(15);
+                            x.Item().Text("Eesti").FontSize(15);
+                        });
+                        table.Cell().Row(1).Column(2).Text("B");
+
+                    });
+                        
+                        //     x.Item()
+                        //     .Height(100)
+                        //     .Width(400)
+                        //     .Image("assets/images/pahandus.jpg");
+
+                        // });
+
 
                     page.Footer()
                         .AlignCenter()
                         .Text(x =>
                         {
-                            x.Span("Page ");
-                            x.CurrentPageNumber();
+                            x.Span("Page ").FontSize(15).FontFamily("Times New Roman");
+                            x.CurrentPageNumber().FontSize(15).FontFamily("Times New Roman");
                         });
                 });
             });
