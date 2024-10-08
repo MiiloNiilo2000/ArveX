@@ -73,6 +73,8 @@ namespace BackEnd.Controllers
                                     innerColumns.RelativeColumn(); 
                                     innerColumns.RelativeColumn(); 
                                 });
+                                innerTable.Cell().Row(0).ColumnSpan(2).Height(25);
+
                                 innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Arve number:").FontSize(15).Bold();
                                 innerTable.Cell().Row(1).Column(2).AlignRight().Text("12345").FontSize(15).Bold();
 
