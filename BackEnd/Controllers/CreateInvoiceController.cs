@@ -25,7 +25,7 @@ namespace BackEnd.Controllers
             var document = CreateDocument(data.Title);
             
             var pdf = document.GeneratePdf();
-            document.ShowInCompanion();
+            // document.ShowInCompanion();
 
             return Results.File(pdf, "application/pdf", "invoice.pdf");
         }
