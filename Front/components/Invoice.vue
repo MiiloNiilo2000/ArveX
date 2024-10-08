@@ -182,14 +182,14 @@
       </UFormGroup>
 
 
-      <!-- <UFormGroup label="Kuupäev" name="dateCreated">
+      <UFormGroup label="Kuupäev" name="dateCreated">
         <UInput 
           v-model="state.dateCreated" 
           type="date" 
           class="w-full bg-gray-900 rounded-md mb-4"
           color="emerald"
         />
-      </UFormGroup> -->
+      </UFormGroup>
 
       <UFormGroup label="Maksetähtaeg" name="dateDue">
         <UInput 
