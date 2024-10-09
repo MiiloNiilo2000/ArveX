@@ -22,7 +22,7 @@ namespace BackEnd.Controllers
         [HttpPost(Name = "GeneratePdf")]
         public IResult GeneratePdf([FromBody] InvoiceData data)
         {
-            var document = CreateDocument(data.Title);
+            var document = CreateDocument(data.Title, data.Address);
             
             var pdf = document.GeneratePdf();
             // document.ShowInCompanion();
@@ -30,7 +30,7 @@ namespace BackEnd.Controllers
             return Results.File(pdf, "application/pdf", "invoice.pdf");
         }
 
-        QuestPDF.Infrastructure.IDocument CreateDocument(string title)
+        QuestPDF.Infrastructure.IDocument CreateDocument(string title, string address)
         {
             return Document.Create(container =>
             {
@@ -60,7 +60,7 @@ namespace BackEnd.Controllers
                             x.Item().Text("Klient: ").FontSize(15);
                             x.Item().Padding(2);
                             x.Item().Text(title).Bold().FontSize(18);
-                            x.Item().Text("Ehitajate tee 5").FontSize(15);
+                            x.Item().Text(address).FontSize(15);
                             x.Item().Text("12345, Tallinn").FontSize(15);
                             x.Item().Text("Eesti").FontSize(15);
                         });

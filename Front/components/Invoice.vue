@@ -9,6 +9,9 @@
       <UFormGroup label="Title" name="title">
         <UInput v-model="state.title" />
       </UFormGroup>
+      <UFormGroup label="Address" name="address">
+        <UInput v-model="state.address" />
+      </UFormGroup>
 
       <UButton type="submit">Generate PDF</UButton>
 
@@ -24,18 +27,20 @@
 
     const state = reactive({
       title: '',
+      address: '',
     });
 
     const validate = (state: any): FormError[] => {
       const errors = [];
       if (!state.title) errors.push({ path: "title", message: "Required" });
+      if (!state.address) errors.push({ path: "address", message: "Required" });
       return errors;
     };
     
     const submitForm = async () => {
       console.log("Form submitted");
       try {
-        const response = await axios.post('http://localhost:5176/CreateInvoice', { title: state.title }, { responseType: 'blob' });
+        const response = await axios.post('http://localhost:5176/CreateInvoice', { title: state.title, address: state.address }, { responseType: 'blob' });
 
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
