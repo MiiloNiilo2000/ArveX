@@ -4,7 +4,7 @@ export type Invoice = {
     city: string
     zipCode: number
     country: string
-    invoiceNr: number
+    invoiceNumber: number
     dateCreated: Date
     dateDue: Date
     condition: string

@@ -80,13 +80,13 @@ namespace BackEnd.Controllers
                                 innerTable.Cell().Row(1).Column(2).AlignRight().Text(invoiceNumber.ToString()).FontSize(15).Bold();
 
                                 innerTable.Cell().Row(2).Column(1).AlignLeft().Text("Kuupäev:").FontSize(12);
-                                innerTable.Cell().Row(2).Column(2).AlignRight().Text(dateCreated.ToString()).FontSize(12);
+                                innerTable.Cell().Row(2).Column(2).AlignRight().Text(dateCreated.ToString("MM.dd.yyyy")).FontSize(12);
 
                                 innerTable.Cell().Row(3).Column(1).AlignLeft().Text("Tingimused:").FontSize(12);
                                 innerTable.Cell().Row(3).Column(2).AlignRight().Text(condition).FontSize(12);
 
                                 innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Maksetähtaeg:").FontSize(12);
-                                innerTable.Cell().Row(4).Column(2).AlignRight().Text(dateDue.ToString()).FontSize(12);
+                                innerTable.Cell().Row(4).Column(2).AlignRight().Text(dateDue.ToString("MM.dd.yyyy")).FontSize(12);
 
                                 innerTable.Cell().Row(5).Column(1).AlignLeft().Text("Viivis:").FontSize(12);
                                 innerTable.Cell().Row(5).Column(2).AlignRight().Text(delayFine).FontSize(12);
