@@ -22,7 +22,8 @@ namespace BackEnd.Controllers
         [HttpPost(Name = "GeneratePdf")]
         public IResult GeneratePdf([FromBody] InvoiceData data)
         {
-            var document = CreateDocument(data.Title, data.Address);
+            var document = CreateDocument(data.Title, data.Address, data.City, data.ZipCode, data.Country, data.InvoiceNumber, data.DateCreated, 
+            data.DateDue, data.Condition, data.DelayFine);
             
             var pdf = document.GeneratePdf();
             // document.ShowInCompanion();
@@ -30,7 +31,7 @@ namespace BackEnd.Controllers
             return Results.File(pdf, "application/pdf", "invoice.pdf");
         }
 
-        QuestPDF.Infrastructure.IDocument CreateDocument(string title, string address)
+        QuestPDF.Infrastructure.IDocument CreateDocument(string title, string address, string city, int zipCode, string country, int invoiceNumber, DateTime dateCreated, DateTime dateDue, string condition, string delayFine)
         {
             return Document.Create(container =>
             {
@@ -61,8 +62,8 @@ namespace BackEnd.Controllers
                             x.Item().Padding(2);
                             x.Item().Text(title).Bold().FontSize(18);
                             x.Item().Text(address).FontSize(15);
-                            x.Item().Text("12345, Tallinn").FontSize(15);
-                            x.Item().Text("Eesti").FontSize(15);
+                            x.Item().Text(zipCode + " " + city).FontSize(15);
+                            x.Item().Text(country).FontSize(15);
                         });
                         table.Cell().Row(1).Column(2).Column(x =>
                         {
@@ -76,19 +77,19 @@ namespace BackEnd.Controllers
                                 innerTable.Cell().Row(0).ColumnSpan(2).Height(25);
 
                                 innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Arve number:").FontSize(15).Bold();
-                                innerTable.Cell().Row(1).Column(2).AlignRight().Text("12345").FontSize(15).Bold();
+                                innerTable.Cell().Row(1).Column(2).AlignRight().Text(invoiceNumber.ToString()).FontSize(15).Bold();
 
                                 innerTable.Cell().Row(2).Column(1).AlignLeft().Text("Kuupäev:").FontSize(12);
-                                innerTable.Cell().Row(2).Column(2).AlignRight().Text("12.07.2024").FontSize(12);
+                                innerTable.Cell().Row(2).Column(2).AlignRight().Text(dateCreated.ToString()).FontSize(12);
 
                                 innerTable.Cell().Row(3).Column(1).AlignLeft().Text("Tingimused:").FontSize(12);
-                                innerTable.Cell().Row(3).Column(2).AlignRight().Text("2 kuud").FontSize(12);
+                                innerTable.Cell().Row(3).Column(2).AlignRight().Text(condition).FontSize(12);
 
                                 innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Maksetähtaeg:").FontSize(12);
-                                innerTable.Cell().Row(4).Column(2).AlignRight().Text("12.09.2024").FontSize(12);
+                                innerTable.Cell().Row(4).Column(2).AlignRight().Text(dateDue.ToString()).FontSize(12);
 
                                 innerTable.Cell().Row(5).Column(1).AlignLeft().Text("Viivis:").FontSize(12);
-                                innerTable.Cell().Row(5).Column(2).AlignRight().Text("5% päevas").FontSize(12);
+                                innerTable.Cell().Row(5).Column(2).AlignRight().Text(delayFine).FontSize(12);
                             });
                         });
                     });
