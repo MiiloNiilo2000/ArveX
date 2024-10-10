@@ -22,21 +22,23 @@ namespace BackEnd.Controllers
         [HttpPost(Name = "GeneratePdf")]
         public IResult GeneratePdf([FromBody] InvoiceData data)
         {
-            var document = CreateDocument(data.Title);
+            var document = CreateDocument(data.Title, data.Address, data.City, data.ZipCode, data.Country, data.InvoiceNumber, data.DateCreated, 
+            data.DateDue, data.Condition, data.DelayFine);
             
             var pdf = document.GeneratePdf();
+            // document.ShowInCompanion();
 
             return Results.File(pdf, "application/pdf", "invoice.pdf");
         }
 
-        QuestPDF.Infrastructure.IDocument CreateDocument(string title)
+        QuestPDF.Infrastructure.IDocument CreateDocument(string title, string address, string city, int zipCode, string country, int invoiceNumber, DateTime dateCreated, DateTime dateDue, string condition, string delayFine)
         {
             return Document.Create(container =>
             {
                 container.Page(page =>
                 {
                     page.Size(PageSizes.A4);
-                    page.Margin(2, Unit.Centimetre);
+                    page.Margin(40);
                     page.PageColor(Colors.White);
                     page.DefaultTextStyle(x => x.FontSize(20));
 
@@ -46,24 +48,66 @@ namespace BackEnd.Controllers
 
                     page.Content()
                         .PaddingVertical(1, Unit.Centimetre)
-                        .Column(x =>
+                        .Table(table => {
+                        table.ColumnsDefinition(columns =>
                         {
-                            x.Spacing(20);
+                            
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
 
-                            x.Item().Text("ArveX");
-                            x.Item()
-                            .Height(100)
-                            .Width(400)
-                            .Image("assets/images/pahandus.jpg");
-;
                         });
+                        table.Cell().Row(1).Column(x => {
+                            x.Spacing(2);
+                            x.Item().Text("Klient: ").FontSize(15);
+                            x.Item().Padding(2);
+                            x.Item().Text(title).Bold().FontSize(18);
+                            x.Item().Text(address).FontSize(15);
+                            x.Item().Text(zipCode + " " + city).FontSize(15);
+                            x.Item().Text(country).FontSize(15);
+                        });
+                        table.Cell().Row(1).Column(2).Column(x =>
+                        {
+                            x.Item().Table(innerTable =>
+                            {
+                                innerTable.ColumnsDefinition(innerColumns =>
+                                {
+                                    innerColumns.RelativeColumn(); 
+                                    innerColumns.RelativeColumn(); 
+                                });
+                                innerTable.Cell().Row(0).ColumnSpan(2).Height(25);
+
+                                innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Arve number:").FontSize(15).Bold();
+                                innerTable.Cell().Row(1).Column(2).AlignRight().Text(invoiceNumber.ToString()).FontSize(15).Bold();
+
+                                innerTable.Cell().Row(2).Column(1).AlignLeft().Text("Kuupäev:").FontSize(12);
+                                innerTable.Cell().Row(2).Column(2).AlignRight().Text(dateCreated.ToString("MM.dd.yyyy")).FontSize(12);
+
+                                innerTable.Cell().Row(3).Column(1).AlignLeft().Text("Tingimused:").FontSize(12);
+                                innerTable.Cell().Row(3).Column(2).AlignRight().Text(condition).FontSize(12);
+
+                                innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Maksetähtaeg:").FontSize(12);
+                                innerTable.Cell().Row(4).Column(2).AlignRight().Text(dateDue.ToString("MM.dd.yyyy")).FontSize(12);
+
+                                innerTable.Cell().Row(5).Column(1).AlignLeft().Text("Viivis:").FontSize(12);
+                                innerTable.Cell().Row(5).Column(2).AlignRight().Text(delayFine).FontSize(12);
+                            });
+                        });
+                    });
+                        
+                        //     x.Item()
+                        //     .Height(100)
+                        //     .Width(400)
+                        //     .Image("assets/images/pahandus.jpg");
+
+                        // });
+
 
                     page.Footer()
                         .AlignCenter()
                         .Text(x =>
                         {
-                            x.Span("Page ");
-                            x.CurrentPageNumber();
+                            x.Span("Page ").FontSize(15).FontFamily("Times New Roman");
+                            x.CurrentPageNumber().FontSize(15).FontFamily("Times New Roman");
                         });
                 });
             });
