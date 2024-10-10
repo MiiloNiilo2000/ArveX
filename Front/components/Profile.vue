@@ -18,7 +18,7 @@
         </div>
   
         <div class="mt-6">
-          <h3 class="text-lg font-medium">Bio</h3>
+          <h3 class="text-lg text-black font-medium">Bio</h3>
           <p class="text-gray-800 mt-2">{{ userProfile.bio }}</p>
         </div>
   
