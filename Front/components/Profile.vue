@@ -1,4 +1,10 @@
 <template>
+    <div class="relative max-w-xl p-8">
+    <button @click="addUser" class="absolute top-5 left-8 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+      Lisa kasutaja
+    </button>
+    </div>
+
     <div class="max-w-xl p-8">
       <h1 class="text-3xl font-bold mb-6">{{ title }}</h1>
   
@@ -32,6 +38,9 @@
   
   const editProfile = () => {
     alert('Profile editing not implemented yet!')
+  }
+  const addUser = () => {
+    alert('Adding user not implemented yet!')
   }
   </script>
   
