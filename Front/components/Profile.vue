@@ -8,11 +8,11 @@
     <div class="max-w-xl p-8">
       <h1 class="text-3xl font-bold mb-6">{{ title }}</h1>
   
-      <div class="bg-white shadow-md rounded-lg p-6">
+      <div class="bg-green-100 shadow-md rounded-lg p-6">
         <div class="flex items-center">
           <img :src="userProfile.image" alt="Profile Picture" class="rounded-full w-24 h-24 mr-6" />
           <div>
-            <h2 class="text-xl font-semibold">{{ userProfile.username }}</h2>
+            <h2 class="text-xl text-black font-semibold">{{ userProfile.username }}</h2>
             <p class="text-gray-600">{{ userProfile.email }}</p>
           </div>
         </div>
@@ -37,7 +37,7 @@
   const userProfile = computed(() => profileStore.profiles[0]);
   import { useRouter } from 'vue-router';
   const router = useRouter();
-  
+
   const editProfile = () => {
     alert('Profile editing not implemented yet!')
   }
