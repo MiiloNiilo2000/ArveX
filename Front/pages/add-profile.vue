@@ -1,1 +1,3 @@
-<template>Siia tuleb profiili lisamine</template>
+<template>
+    <AddProfile/>
+</template>

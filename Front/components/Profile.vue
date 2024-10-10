@@ -35,12 +35,14 @@
   import { useProfileStore } from '~/stores/profileStores';
   const profileStore = useProfileStore();
   const userProfile = computed(() => profileStore.profiles[0]);
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
   
   const editProfile = () => {
     alert('Profile editing not implemented yet!')
   }
   const addUser = () => {
-    alert('Adding user not implemented yet!')
+    router.push('/add-profile')
   }
   </script>
   
