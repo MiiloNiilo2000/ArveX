@@ -1,23 +1,41 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {}
+<<<<<<< HEAD
+    "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {
+    "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
-        "packagesPath": "C:\\Users\\mjara\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+        "projectPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+        "packagesPath": "C:\\Users\\37253\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+=======
+    "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\backend.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\backend.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\backend.csproj",
+        "projectName": "backend",
+        "projectPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\2004s\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\obj\\",
+>>>>>>> cbd78c654972f30f7517d36ac4a47a993d387b90
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\mjara\\AppData\\Roaming\\NuGet\\NuGet.Config",
+<<<<<<< HEAD
+          "C:\\Users\\37253\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\2004s\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> cbd78c654972f30f7517d36ac4a47a993d387b90
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +44,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -63,7 +82,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2024.10.0-rc4, )"
+              "version": "[2024.10.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

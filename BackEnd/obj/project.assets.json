@@ -258,7 +258,7 @@
           }
         }
       },
-      "QuestPDF/2024.10.0-rc4": {
+      "QuestPDF/2024.10.0": {
         "type": "package",
         "compile": {
           "lib/net8.0/QuestPDF.dll": {
@@ -997,10 +997,10 @@
         "microsoft.openapi.nuspec"
       ]
     },
-    "QuestPDF/2024.10.0-rc4": {
-      "sha512": "45nQYv3Tl+fiGYHb4vLDNYI/FT98XxZRUa/wcYklieKlz+023KnV51zKEdJld4GeNKp4Jj3fNCEeqezv/01QUA==",
+    "QuestPDF/2024.10.0": {
+      "sha512": "mROMnm+BX4cBGUeLiR3aq243f9JLD3yAkVh1MbLBWFt/wFt1bb9QjqQtcsHcIQAufOwvhF5+aeu/5akS8J8upQ==",
       "type": "package",
-      "path": "questpdf/2024.10.0-rc4",
+      "path": "questpdf/2024.10.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1052,7 +1052,7 @@
         "lib/net8.0/QuestPDF.xml",
         "lib/netstandard2.0/QuestPDF.dll",
         "lib/netstandard2.0/QuestPDF.xml",
-        "questpdf.2024.10.0-rc4.nupkg.sha512",
+        "questpdf.2024.10.0.nupkg.sha512",
         "questpdf.nuspec",
         "runtimes/linux-arm64/native/libQuestPdfSkia.so",
         "runtimes/linux-musl-x64/native/libQuestPdfSkia.so",
@@ -1150,28 +1150,44 @@
       "Microsoft.AspNetCore.OpenApi >= 8.0.8",
       "Microsoft.EntityFrameworkCore >= 8.0.8",
       "Microsoft.EntityFrameworkCore.InMemory >= 8.0.8",
-      "QuestPDF >= 2024.10.0-rc4",
+      "QuestPDF >= 2024.10.0",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mjara\\.nuget\\packages\\": {},
+<<<<<<< HEAD
+    "C:\\Users\\37253\\.nuget\\packages\\": {},
+=======
+    "C:\\Users\\2004s\\.nuget\\packages\\": {},
+>>>>>>> cbd78c654972f30f7517d36ac4a47a993d387b90
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+<<<<<<< HEAD
+      "projectUniqueName": "c:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
-      "packagesPath": "C:\\Users\\mjara\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+      "projectPath": "c:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+      "packagesPath": "C:\\Users\\37253\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\backend.csproj",
+      "projectName": "backend",
+      "projectPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\backend.csproj",
+      "packagesPath": "C:\\Users\\2004s\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\obj\\",
+>>>>>>> cbd78c654972f30f7517d36ac4a47a993d387b90
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\mjara\\AppData\\Roaming\\NuGet\\NuGet.Config",
+<<<<<<< HEAD
+        "C:\\Users\\37253\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\2004s\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> cbd78c654972f30f7517d36ac4a47a993d387b90
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1180,6 +1196,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1217,7 +1234,7 @@
           },
           "QuestPDF": {
             "target": "Package",
-            "version": "[2024.10.0-rc4, )"
+            "version": "[2024.10.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
@@ -1246,13 +1263,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
