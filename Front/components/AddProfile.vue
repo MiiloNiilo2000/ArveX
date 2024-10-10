@@ -1,69 +1,66 @@
 <template>
-    <div class="max-w-xl mx-auto p-8 bg-white shadow-md rounded-lg">
-      <h1 class="text-3xl font-bold mb-6">Lisa Profiil</h1>
+    <div class="flex justify-center items-center pt-9">
+      <div class="w-96 p-6 flex flex-col h-auto">
+        <h2 class="text-2xl font-bold mb-4 text-center">Lisa kasutaja</h2>
+        <UForm
+          :validate="validate"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
+          @error="onError"
+        >
+          <UFormGroup label="Kasutajanimi" name="username">
+            <UInput v-model="state.username" />
+          </UFormGroup>
+          <UFormGroup label="E-post" name="email">
+            <UInput v-model="state.email" type="email" />
+          </UFormGroup>
+          <UFormGroup label="Bio">
+            <UTextarea v-model="state.bio" />
+          </UFormGroup>
+          <UFormGroup label="Pildi link">
+            <UInput v-model="state.image" />
+          </UFormGroup>
   
-      <form @submit.prevent="submitProfile">
-        <div class="mb-4">
-          <label for="username" class="block text-sm font-medium text-gray-700">Kasutajanimi</label>
-          <input type="text" id="username" v-model="username" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
-        </div>
-  
-        <div class="mb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">E-post</label>
-          <input type="email" id="email" v-model="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
-        </div>
-  
-        <div class="mb-4">
-          <label for="bio" class="block text-sm font-medium text-gray-700">Bio</label>
-          <textarea id="bio" v-model="bio" required class="mt-1 block w-full border border-gray-300 rounded-md p-2"></textarea>
-        </div>
-  
-        <div class="mb-4">
-          <label for="image" class="block text-sm font-medium text-gray-700">Pildi URL</label>
-          <input type="text" id="image" v-model="image" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
-        </div>
-  
-        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-          Lisa Profiil
-        </button>
-      </form>
+          <UButton type="submit"> Lisa </UButton>
+        </UForm>
+      </div>
     </div>
   </template>
-  
   <script setup lang="ts">
-  import { ref } from 'vue';
-  import { useProfileStore } from '~/stores/profileStores';
+  import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
+  import type { Profile } from "~/types/profile";
   
+  import { useProfileStore } from '~/stores/profileStores';
   const profileStore = useProfileStore();
   
-  const username = ref('');
-  const email = ref('');
-  const bio = ref('');
-  const image = ref('');
+  const state = reactive<Profile>({
+    id: 0,
+    username: '',
+    email: '',
+    bio: '',
+    image: '',
+  });
   
-  const submitProfile = () => {
-    const newProfile = {
-      username: username.value,
-      email: email.value,
-      bio: bio.value,
-      image: image.value,
-      id: 0 // id will be set in the store
-    };
+  const validate = (state: any): FormError[] => {
+    const errors = [];
+    if (!state.username) errors.push({ path: "username", message: "Required" });
+    if (!state.email) errors.push({ path: "email", message: "Required"   
+   });
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.email)) {
+      errors.push({ path: "email", message: "Invalid email format" });
+    }
+    return errors;
+  };
   
-    profileStore.addProfile(newProfile);
+  async function onSubmit(event: FormSubmitEvent<any>) {
+    profileStore.addProfile({ ...state });
+    await navigateTo("/profiles");
+  }
   
-    // Reset the form fields
-    username.value = '';
-    email.value = '';
-    bio.value = '';
-    image.value = '';
-    
-    alert('Profiil on lisatud!');
+  async function onError(event: FormErrorEvent) {
+    const element = document.getElementById(event.errors[0].id);
+    element?.focus();
+    element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
   </script>
-  
-  <style scoped>
-  body {
-    background-color: #f3f4f6;
-  }
-  </style>
