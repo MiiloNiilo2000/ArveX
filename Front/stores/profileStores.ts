@@ -12,6 +12,12 @@ export const useProfileStore = defineStore('profile', () => {
         id: i++,
         image: 'https://wallpapers.com/images/hd/funny-profile-picture-1l2l3tmmbobjqd53.jpg'
      },
+     { username: 'Urmas', 
+      bio: 'Tere, tere', 
+      email: 'urmas@urmas.com', 
+      id: i++,
+      image: 'https://i.pinimg.com/280x280_RS/e1/6e/03/e16e034cbae22142e26679c6ef5b616e.jpg',
+   },
   ]);
 
   const addProfile = (profile: Profile) => {
