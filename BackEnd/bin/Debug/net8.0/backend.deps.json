@@ -11,7 +11,7 @@
           "Microsoft.AspNetCore.OpenApi": "8.0.8",
           "Microsoft.EntityFrameworkCore": "8.0.8",
           "Microsoft.EntityFrameworkCore.InMemory": "8.0.8",
-          "QuestPDF": "2024.10.0-rc4",
+          "QuestPDF": "2024.10.0",
           "Swashbuckle.AspNetCore": "6.4.0"
         },
         "runtime": {
@@ -111,7 +111,7 @@
           }
         }
       },
-      "QuestPDF/2024.10.0-rc4": {
+      "QuestPDF/2024.10.0": {
         "runtime": {
           "lib/net8.0/QuestPDF.dll": {
             "assemblyVersion": "2024.10.0.0",
@@ -307,12 +307,12 @@
       "path": "microsoft.openapi/1.4.3",
       "hashPath": "microsoft.openapi.1.4.3.nupkg.sha512"
     },
-    "QuestPDF/2024.10.0-rc4": {
+    "QuestPDF/2024.10.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-45nQYv3Tl+fiGYHb4vLDNYI/FT98XxZRUa/wcYklieKlz+023KnV51zKEdJld4GeNKp4Jj3fNCEeqezv/01QUA==",
-      "path": "questpdf/2024.10.0-rc4",
-      "hashPath": "questpdf.2024.10.0-rc4.nupkg.sha512"
+      "sha512": "sha512-mROMnm+BX4cBGUeLiR3aq243f9JLD3yAkVh1MbLBWFt/wFt1bb9QjqQtcsHcIQAufOwvhF5+aeu/5akS8J8upQ==",
+      "path": "questpdf/2024.10.0",
+      "hashPath": "questpdf.2024.10.0.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/6.4.0": {
       "type": "package",
