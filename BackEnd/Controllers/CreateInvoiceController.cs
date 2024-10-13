@@ -25,7 +25,6 @@ namespace BackEnd.Controllers
             var document = CreateDocument(
                 data.Title, 
                 data.Address, 
-                data.City, 
                 data.ZipCode, 
                 data.Country, 
                 data.InvoiceNumber, 
@@ -48,8 +47,7 @@ namespace BackEnd.Controllers
         QuestPDF.Infrastructure.IDocument CreateDocument(
             string title,
             string address,
-            string city,
-            int zipCode,
+            string zipCode,
             string country,
             int invoiceNumber,
             DateTime dateCreated,

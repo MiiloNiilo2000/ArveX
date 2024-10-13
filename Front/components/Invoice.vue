@@ -10,7 +10,11 @@
     <div class="flex w-7/12 gap-20"> 
       <div class="w-full"> 
 
+
         <UFormGroup label="Firma nimi" name="title">
+          <UInput v-model="state.title" class="w-full h-12" color="emerald" placeholder="'ArveX'" />
+        </UFormGroup>
+        <!-- <UFormGroup label="Firma nimi" name="title">
           <UInput
           v-model="state.title"
           @input="fetchCompanyNames"
@@ -24,7 +28,7 @@
             {{ company.name }}
           </option>
         </datalist>
-        </UFormGroup>
+        </UFormGroup> -->
 
         <UFormGroup label="Aadress" name="address">
           <UInput v-model="state.address" class="w-full h-12" color="emerald" placeholder="'Ehitajate Tee 5'" />
@@ -100,31 +104,30 @@
 
     const companySuggestions = ref([]);
 
-    const fetchCompanyNames = async () => {
-      if (state.title.length < 3) return; 
+    // const fetchCompanyNames = async () => {
+    //   if (state.title.length < 3) return; 
       
-      try {
-        const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
-        companySuggestions.value = response.data.data;
-      } catch (error) {
-        console.error('Error fetching company names:', error);
-      }
-    };
+    //   try {
+    //     const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
+    //     companySuggestions.value = response.data.data;
+    //   } catch (error) {
+    //     console.error('Error fetching company names:', error);
+    //   }
+    // };
 
-    watch(() => state.title, (newTitle) => {
-      const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
-      if (selectedCompany) {
-        state.address = selectedCompany.legal_address;
-        state.zipCode = selectedCompany.zip_code;
-      }
-    });
+    // watch(() => state.title, (newTitle) => {
+    //   const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
+    //   if (selectedCompany) {
+    //     state.address = selectedCompany.legal_address;
+    //     state.zipCode = selectedCompany.zip_code;
+    //   }
+    // });
 
     const validate = (state: any): FormError[] => {
       const errors = [];
       const zipString = state.zipCode.toString();
       if (!state.title) errors.push({ path: "title", message: "Required" });
       if (!state.address) errors.push({ path: "address", message: "Required" });
-      if (!state.city) errors.push({ path: "city", message: "Required" });
       if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
       if (zipString.length < 5 || zipString.length > 5) errors.push({ path: "zipCode", message: "Postiindeks peab olema 5-kohaline number" });
       if (!state.country) errors.push({ path: "country", message: "Required" });
@@ -137,8 +140,7 @@
         const response = await axios.post('http://localhost:5176/CreateInvoice', {
           title: state.title,
           address: state.address,
-          city: state.city,
-          zipCode: state.zipCode,
+          zipCode: state.zipCode.toString(),
           country: state.country,
           invoiceNumber: parseInt(state.invoiceNumber),
           dateCreated: new Date(state.dateCreated).toISOString(),
@@ -156,7 +158,6 @@
         link.remove();
       } catch (error) {
         console.error("Error generating PDF:", error);
-
       }
     };
 
