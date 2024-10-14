@@ -6,6 +6,9 @@
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
 <<<<<<< HEAD
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\37253\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
+=======
+<<<<<<< HEAD
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\mjara\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
 =======
 <<<<<<< HEAD
@@ -14,10 +17,14 @@
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\2004s\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
 >>>>>>> d393df8f7bde4d30b7e2fa42d1d5ea4a36ee2e01
 >>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.11.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+<<<<<<< HEAD
+    <SourceRoot Include="C:\Users\37253\.nuget\packages\" />
+=======
 <<<<<<< HEAD
     <SourceRoot Include="C:\Users\mjara\.nuget\packages\" />
 =======
@@ -27,6 +34,7 @@
     <SourceRoot Include="C:\Users\2004s\.nuget\packages\" />
 >>>>>>> d393df8f7bde4d30b7e2fa42d1d5ea4a36ee2e01
 >>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
@@ -36,6 +44,9 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
 <<<<<<< HEAD
+    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">C:\Users\37253\.nuget\packages\microsoft.extensions.apidescription.server\6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
+=======
+<<<<<<< HEAD
     <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">C:\Users\mjara\.nuget\packages\microsoft.extensions.apidescription.server\6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
 =======
 <<<<<<< HEAD
@@ -44,5 +55,6 @@
     <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">C:\Users\2004s\.nuget\packages\microsoft.extensions.apidescription.server\6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
 >>>>>>> d393df8f7bde4d30b7e2fa42d1d5ea4a36ee2e01
 >>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
   </PropertyGroup>
 </Project>

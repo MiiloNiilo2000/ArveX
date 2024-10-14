@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
+  "dgSpecHash": "F+P522R1UZA=",
+=======
   "dgSpecHash": "nCDoqzDsv6s=",
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
   "success": true,
   "projectFilePath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
   "expectedPackageFiles": [
@@ -46,6 +50,8 @@
     "C:\\Users\\37253\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "C:\\Users\\37253\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
     "C:\\Users\\37253\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+<<<<<<< HEAD
+=======
 =======
   "dgSpecHash": "EomxB7hCkOs=",
   "success": true,
@@ -73,12 +79,16 @@
     "C:\\Users\\2004s\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
 >>>>>>> d393df8f7bde4d30b7e2fa42d1d5ea4a36ee2e01
 >>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
   ],
   "logs": [
     {
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
+<<<<<<< HEAD
+      "message": "Problem reading the cache file C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+=======
 <<<<<<< HEAD
       "message": "Problem reading the cache file C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
 =======
@@ -88,6 +98,7 @@
       "message": "Problem reading the cache file C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
 >>>>>>> d393df8f7bde4d30b7e2fa42d1d5ea4a36ee2e01
 >>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
     }
   ]
 }
