@@ -13,7 +13,7 @@ export const useCompanyStore = defineStore('company', () => {
         VATnumber: 'EE123456789',
         address: 'Tänav 1, Tallinn',
         postalCode: 10123,
-        country: 'Estonia',
+        country: 'Eesti',
         email: 'ettevote1@mail.ee',
         image: 'https://img.freepik.com/premium-vector/minimalist-logo-design-any-corporate-brand-business-company_1253202-77511.jpg'
       },
@@ -24,7 +24,7 @@ export const useCompanyStore = defineStore('company', () => {
         VATnumber: 'EE987654321',
         address: 'Tänav 2, Tartu',
         postalCode: 50403,
-        country: 'Estonia',
+        country: 'Eesti',
         email: 'ettevote2@mail.ee',
         image: 'https://marketplace.canva.com/EAE0rNNM2Fg/1/0/1600w/canva-letter-c-trade-marketing-logo-design-template-r9VFYrbB35Y.jpg'
       },
