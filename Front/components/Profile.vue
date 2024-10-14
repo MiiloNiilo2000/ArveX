@@ -1,9 +1,15 @@
 <template>
-    <div class="relative max-w-xl p-8">
-    <button @click="addUser" class="absolute top-5 left-8 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+<div class="relative max-w-xl p-8">
+  <div class="flex space-x-4">
+    <button @click="addUser" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
       Lisa kasutaja
     </button>
-    </div>
+    
+    <button @click="addCompany" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+      Lisa ettevõte
+    </button>
+  </div>
+</div>
 
     <div class="max-w-xl p-8">
       <h1 class="text-3xl font-bold mb-6">{{ title }}</h1>
@@ -23,14 +29,14 @@
         </div>
   
         <div class="mt-6">
-          <UButton @click="editProfile" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit Profile</UButton>
+          <UButton @click="editProfile" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Muuda profiili</UButton>
         </div>
       </div>
     </div>
   </template>
   
   <script setup lang="ts">
-  const title = 'User Profile'
+  const title = 'Kasutaja profiil'
   
   import { useProfileStore } from '~/stores/profileStores';
   const profileStore = useProfileStore();
@@ -43,6 +49,9 @@
   }
   const addUser = () => {
     router.push('/add-profile')
+  }
+  const addCompany = () => {
+    router.push('/add-company')
   }
   </script>
   
