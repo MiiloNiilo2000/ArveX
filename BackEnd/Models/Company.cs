@@ -18,7 +18,7 @@ namespace BackEnd.Models
     public string? Bank { get; set; } 
     public string? IBAN { get; set; } 
     public string? SWIFT { get; set; } 
-    // public string Email { get; set; } = null!;
+    public string Email { get; set; } = null!;
     public string? Image { get; set; }
     public string? ProfileId { get; set; } = null!;
     [JsonIgnore]
