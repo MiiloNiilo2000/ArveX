@@ -11,10 +11,10 @@
       <div class="w-full"> 
 
 
-        <UFormGroup label="Firma nimi" name="title">
-          <UInput v-model="state.title" class="w-full h-12" color="emerald" placeholder="'ArveX'" />
-        </UFormGroup>
         <!-- <UFormGroup label="Firma nimi" name="title">
+          <UInput v-model="state.title" class="w-full h-12" color="emerald" placeholder="'ArveX'" />
+        </UFormGroup> -->
+        <UFormGroup label="Firma nimi" name="title">
           <UInput
           v-model="state.title"
           @input="fetchCompanyNames"
@@ -28,7 +28,7 @@
             {{ company.name }}
           </option>
         </datalist>
-        </UFormGroup> -->
+        </UFormGroup>
 
         <UFormGroup label="Aadress" name="address">
           <UInput v-model="state.address" class="w-full h-12" color="emerald" placeholder="'Ehitajate Tee 5'" />
@@ -104,24 +104,24 @@
 
     const companySuggestions = ref([]);
 
-    // const fetchCompanyNames = async () => {
-    //   if (state.title.length < 3) return; 
+     const fetchCompanyNames = async () => {
+       if (state.title.length < 3) return; 
       
-    //   try {
-    //     const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
-    //     companySuggestions.value = response.data.data;
-    //   } catch (error) {
-    //     console.error('Error fetching company names:', error);
-    //   }
-    // };
+       try {
+         const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
+         companySuggestions.value = response.data.data;
+       } catch (error) {
+         console.error('Error fetching company names:', error);
+       }
+     };
 
-    // watch(() => state.title, (newTitle) => {
-    //   const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
-    //   if (selectedCompany) {
-    //     state.address = selectedCompany.legal_address;
-    //     state.zipCode = selectedCompany.zip_code;
-    //   }
-    // });
+     watch(() => state.title, (newTitle) => {
+       const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
+       if (selectedCompany) {
+         state.address = selectedCompany.legal_address;
+         state.zipCode = selectedCompany.zip_code;
+       }
+     });
 
     const validate = (state: any): FormError[] => {
       const errors = [];
