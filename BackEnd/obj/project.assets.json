@@ -1155,23 +1155,69 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
+    "C:\\Users\\37253\\.nuget\\packages\\": {},
+=======
+<<<<<<< HEAD
+    "C:\\Users\\mjara\\.nuget\\packages\\": {},
+=======
+<<<<<<< HEAD
+    "C:\\Users\\37253\\.nuget\\packages\\": {},
+=======
     "C:\\Users\\2004s\\.nuget\\packages\\": {},
+>>>>>>> d393df8f7bde4d30b7e2fa42d1d5ea4a36ee2e01
+>>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      "projectUniqueName": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+      "projectName": "backend",
+      "projectPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+      "packagesPath": "C:\\Users\\mjara\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+=======
+<<<<<<< HEAD
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
+      "projectUniqueName": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+      "projectName": "backend",
+      "projectPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+      "packagesPath": "C:\\Users\\37253\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+<<<<<<< HEAD
+=======
+=======
       "projectUniqueName": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\backend.csproj",
       "projectName": "backend",
       "projectPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\backend.csproj",
       "packagesPath": "C:\\Users\\2004s\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\ArveX\\itb2203_2024_arvex\\backend\\obj\\",
+>>>>>>> d393df8f7bde4d30b7e2fa42d1d5ea4a36ee2e01
+>>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
+        "C:\\Users\\37253\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+<<<<<<< HEAD
+        "C:\\Users\\mjara\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+<<<<<<< HEAD
+        "C:\\Users\\37253\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
         "C:\\Users\\2004s\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> d393df8f7bde4d30b7e2fa42d1d5ea4a36ee2e01
+>>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+>>>>>>> 2cbcefb66a68c3c21f418e28c3d5292fea80c19b
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1180,7 +1226,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1247,5 +1292,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+<<<<<<< HEAD
+      "message": "Problem reading the cache file C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+=======
+      "message": "Problem reading the cache file C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+>>>>>>> d46c4d900f3f8fcb5706733cc059b667d2db2d26
+    }
+  ]
 }
