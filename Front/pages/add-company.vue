@@ -1,3 +1,3 @@
 <template>
-Siia tuleb firma lisamine
+    <AddCompany />
 </template>
