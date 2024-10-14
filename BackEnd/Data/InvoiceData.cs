@@ -3,8 +3,7 @@ namespace BackEnd.Data
     public class InvoiceData {
         public required string Title { get; set; }
         public required string Address { get; set; }
-        public required string City { get; set; }
-        public required int ZipCode { get; set; }
+        public required string ZipCode { get; set; }
         public required string Country { get; set; }
         public required int InvoiceNumber { get; set; }
         public required DateTime DateCreated { get; set; }

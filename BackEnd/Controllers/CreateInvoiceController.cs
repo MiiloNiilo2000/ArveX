@@ -22,16 +22,39 @@ namespace BackEnd.Controllers
         [HttpPost(Name = "GeneratePdf")]
         public IResult GeneratePdf([FromBody] InvoiceData data)
         {
-            var document = CreateDocument(data.Title, data.Address, data.City, data.ZipCode, data.Country, data.InvoiceNumber, data.DateCreated, 
-            data.DateDue, data.Condition, data.DelayFine);
+            var document = CreateDocument(
+                data.Title, 
+                data.Address, 
+                data.ZipCode, 
+                data.Country, 
+                data.InvoiceNumber, 
+                data.DateCreated, 
+                data.DateDue, 
+                data.Condition, 
+                data.DelayFine
+            );
             
             var pdf = document.GeneratePdf();
             // document.ShowInCompanion();
-
-            return Results.File(pdf, "application/pdf", "invoice.pdf");
+            
+            var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
+           
+            string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
+            
+            return Results.File(pdf, "application/pdf", fileName);
         }
 
-        QuestPDF.Infrastructure.IDocument CreateDocument(string title, string address, string city, int zipCode, string country, int invoiceNumber, DateTime dateCreated, DateTime dateDue, string condition, string delayFine)
+        QuestPDF.Infrastructure.IDocument CreateDocument(
+            string title,
+            string address,
+            string zipCode,
+            string country,
+            int invoiceNumber,
+            DateTime dateCreated,
+            DateTime dateDue,
+            string condition,
+            string delayFine
+            )
         {
             return Document.Create(container =>
             {
@@ -62,7 +85,7 @@ namespace BackEnd.Controllers
                             x.Item().Padding(2);
                             x.Item().Text(title).Bold().FontSize(18);
                             x.Item().Text(address).FontSize(15);
-                            x.Item().Text(zipCode + " " + city).FontSize(15);
+                            x.Item().Text(zipCode).FontSize(15);
                             x.Item().Text(country).FontSize(15);
                         });
                         table.Cell().Row(1).Column(2).Column(x =>
