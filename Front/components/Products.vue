@@ -12,7 +12,7 @@
         <p class="text-gray-600">Hind: {{ product.price }}€</p>
         
         <div class="flex justify-between mt-4">
-          <UButton @click="editProduct"><i class="edit-icon">✏️</i></UButton>
+          <UButton @click="navigateToEditProduct(product.id)"><i class="edit-icon">✏️</i></UButton>
           <UButton @click="deleteProduct(product.id)"><Icon name="mdi-light:delete"/></UButton>
         </div>
       </div>
@@ -24,13 +24,13 @@
     import { useRouter } from 'vue-router';
 
     const router = useRouter();
-    const {products, deleteProduct, addProduct} = useProductStore();
-
-    const editProduct = () => {
-        alert('Product editing not implemented yet!')
-    }
+    const {products, deleteProduct, addProduct, editProduct} = useProductStore();
 
     const navigateToAddProduct = () => {
         router.push('/add-product');
+    }
+    const navigateToEditProduct = (productId: Number) => {
+      alert('Profile editing not implemented yet!')
+      // router.push(`/edit-product/${productId}`);
     }
 </script>
