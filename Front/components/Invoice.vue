@@ -8,10 +8,6 @@
   >
     <div class="flex w-7/12 gap-20"> 
       <div class="w-full"> 
-<<<<<<< HEAD
-        <UFormGroup label="Firma nimi" name="title">
-          <UInput v-model="state.title" class="w-full h-12" color="emerald" placeholder="'ArveX'" />
-=======
 
 
         <!-- <UFormGroup label="Firma nimi" name="title">
@@ -31,7 +27,6 @@
             {{ company.name }}
           </option>
         </datalist>
->>>>>>> 13d8b51eb371442d504db71e06ba6f02cce804b7
         </UFormGroup>
 
         <UFormGroup label="Aadress" name="address">
@@ -156,31 +151,6 @@
     return errors;
   };
 
-<<<<<<< HEAD
-  const submitForm = async () => {
-    try {
-      const response = await axios.post('http://localhost:5176/CreateInvoice', {
-        title: state.title,
-        address: state.address,
-        zipCode: state.zipCode.toString(),
-        country: state.country,
-        invoiceNumber: parseInt(state.invoiceNumber),
-        dateCreated: new Date(state.dateCreated).toISOString(),
-        dateDue: new Date(state.dateDue).toISOString(),
-        condition: state.condition || "",
-        delayFine: state.delayFine || ""
-      }, { responseType: 'blob' });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'invoice.pdf');
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-=======
      const fetchCompanyNames = async () => {
        if (state.title.length < 3) return; 
       
@@ -242,9 +212,8 @@
       const element = document.getElementById(event.errors[0].id);
       element?.focus();
       element?.scrollIntoView({ behavior: "smooth", block: "center" });
->>>>>>> 13d8b51eb371442d504db71e06ba6f02cce804b7
     }
-  };
+  ;
 
   async function onError(event: FormErrorEvent) {
     const element = document.getElementById(event.errors[0].id);

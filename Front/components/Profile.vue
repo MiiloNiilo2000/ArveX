@@ -59,7 +59,7 @@ const users = computed(() => profileStore.profiles);
 const companies = computed(() => companyStore.companies);
 
 // Valitud kasutaja ja ettevõtte ID
-const selectedUserId = ref<number | null>(users.value[0]?.id || null);
+const selectedUserId = ref<number | null>(users.value[1]?.id || null);
 const selectedCompanyId = ref<number | null>(companies.value[0]?.id || null);
 
 const selectedUser = computed(() => {
