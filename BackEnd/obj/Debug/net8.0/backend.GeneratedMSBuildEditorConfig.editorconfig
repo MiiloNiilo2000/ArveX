@@ -9,11 +9,19 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = backend
 build_property.RootNamespace = backend
+<<<<<<< HEAD
 build_property.ProjectDir = c:\Users\2004s\OneDrive\Töölaud\ISA3\ArveX\itb2203_2024_arvex\BackEnd\
+=======
+build_property.ProjectDir = C:\Users\Apple\source\repos\itb2203_2024_arvex-1\BackEnd\
+>>>>>>> 0ecc0c15f9073a640efcf0fc3bf8ab34d91ce8aa
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+<<<<<<< HEAD
 build_property.MSBuildProjectDirectory = c:\Users\2004s\OneDrive\Töölaud\ISA3\ArveX\itb2203_2024_arvex\BackEnd
+=======
+build_property.MSBuildProjectDirectory = C:\Users\Apple\source\repos\itb2203_2024_arvex-1\BackEnd
+>>>>>>> 0ecc0c15f9073a640efcf0fc3bf8ab34d91ce8aa
 build_property._RazorSourceGeneratorDebug = 
