@@ -140,17 +140,7 @@
     delayFine: '',
   });
 
-  const validate = (state: any): FormError[] => {
-    const errors = [];
-    const zipString = state.zipCode.toString();
-    if (!state.title) errors.push({ path: "title", message: "Required" });
-    if (!state.address) errors.push({ path: "address", message: "Required" });
-    if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
-    if (zipString.length < 5 || zipString.length > 5) errors.push({ path: "zipCode", message: "Postiindeks peab olema 5-kohaline number" });
-    if (!state.country) errors.push({ path: "country", message: "Required" });
-    return errors;
-  };
-
+    const companySuggestions = ref([]);
      const fetchCompanyNames = async () => {
        if (state.title.length < 3) return; 
       
@@ -207,13 +197,6 @@
         console.error("Error generating PDF:", error);
       }
     };
-
-    async function onError(event: FormErrorEvent) {
-      const element = document.getElementById(event.errors[0].id);
-      element?.focus();
-      element?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  ;
 
   async function onError(event: FormErrorEvent) {
     const element = document.getElementById(event.errors[0].id);
