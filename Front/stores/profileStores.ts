@@ -10,13 +10,13 @@ export const useProfileStore = defineStore('profile', () => {
         bio: 'Test, test', 
         email: 'sviithoum@email.com', 
         id: i++,
-        image: 'https://wallpapers.com/images/hd/funny-profile-picture-1l2l3tmmbobjqd53.jpg'
+        image: 'https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg'
      },
      { username: 'Urmas', 
       bio: 'Tere, tere', 
       email: 'urmas@urmas.com', 
       id: i++,
-      image: 'https://i.pinimg.com/280x280_RS/e1/6e/03/e16e034cbae22142e26679c6ef5b616e.jpg',
+      image: 'https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg',
    },
   ]);
 
