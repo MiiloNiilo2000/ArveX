@@ -31,7 +31,8 @@ namespace BackEnd.Controllers
                 data.DateCreated, 
                 data.DateDue, 
                 data.Condition, 
-                data.DelayFine
+                data.DelayFine,
+                data.Font
             );
             
             var pdf = document.GeneratePdf();
@@ -53,7 +54,8 @@ namespace BackEnd.Controllers
             DateTime dateCreated,
             DateTime dateDue,
             string condition,
-            string delayFine
+            string delayFine,
+            string font
             )
         {
             return Document.Create(container =>
@@ -66,8 +68,8 @@ namespace BackEnd.Controllers
                     page.DefaultTextStyle(x =>
                     {
                         return x
-                        .FontFamily("Times New Roman")
-                        .FontSize(20);
+                        .FontSize(20)
+                        .FontFamily(font);
                     });
 
                     page.Header()

@@ -10,5 +10,6 @@ namespace BackEnd.Data
         public required DateTime DateDue { get; set; }
         public string? Condition { get; set; }
         public string? DelayFine { get; set; }
+        public string Font { get; set; }
     }
 }

@@ -68,6 +68,14 @@
         <UFormGroup label="Viivis" name="delayFine">
           <UInput v-model="state.delayFine" class="w-full h-12" color="emerald" placeholder="'5% päevas'"/>
         </UFormGroup>
+
+        <UFormGroup label="Font" name="font">
+          <select v-model="state.selectedFont">
+            <option v-for="font in fonts" :key="font" :value="font">
+              {{ font }}
+            </option>
+          </select>
+        </UFormGroup>
       </div>
 
       <div class="w-full">
@@ -140,7 +148,16 @@
     dateDue: '',
     condition: '',
     delayFine: '',
+    selectedFont: 'Arial',
   });
+
+  const fonts = [
+    'Times New Roman',
+    'Arial',
+    'Courier New',
+    'Georgia',
+    'Verdana',
+  ]
 
   const validate = (state: any): FormError[] => {
     const errors = [];
@@ -187,7 +204,8 @@
           dateCreated: new Date(state.dateCreated).toISOString(),
           dateDue: new Date(state.dateDue).toISOString(),
           condition: state.condition || "",
-          delayFine: state.delayFine || ""
+          delayFine: state.delayFine || "",
+          font: state.selectedFont
         }, { responseType: 'blob' });
 
         const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -242,4 +260,37 @@
     margin-bottom: 8px;
   }
 
+  select {
+  border: 1.5px solid #38a169; /* Adjust to emerald color */
+  background-color: black; /* Background color */
+  color: white; /* Text color */
+  border-radius: 0.375rem; /* Match rounded corners */
+  padding: 0.375rem 0.75rem; /* Adjust padding */
+  font-size: 1rem; /* Match font size */
+  transition: border-color 0.2s ease-in-out; /* Smooth transition for border color */
+  }
+
+  select:focus {
+    border-color: #2f855a; /* Darker emerald on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25); /* Optional shadow for focus */
+  }
+  
+  .form-field {
+  border: 1px solid #38a169; /* Emerald border */
+  background-color: white;
+  color: black;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  height: 3rem; /* Equivalent to h-12 in Tailwind */
+  transition: border-color 0.2s ease-in-out;
+  }
+
+  .form-field:focus {
+    border-color: #2f855a; /* Darker emerald on focus */
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
+  }
 </style>
