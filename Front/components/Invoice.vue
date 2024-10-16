@@ -121,6 +121,14 @@
   import type { FormError, FormErrorEvent } from "#ui/types";
   import axios from 'axios';
 
+  interface Company {
+    company_id: string;
+    reg_code: string;
+    name: string;
+    legal_address: string;
+    zip_code: string;    
+  }
+
   const state = reactive({
     title: '',
     address: '',
@@ -144,7 +152,7 @@
     return errors;
   };
   
-  const companySuggestions = ref([])
+  const companySuggestions = ref<Company[]>([])
 
     const fetchCompanyNames = async () => {
        if (state.title.length < 3) return; 
