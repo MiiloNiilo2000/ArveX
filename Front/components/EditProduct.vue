@@ -25,33 +25,33 @@
   </template>
 
 <script setup lang="ts">
-import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
-import type { Product } from "~/types/product";
-import { reactive, onMounted } from 'vue';
-import { useProductStore } from '~/stores/productStores';
-import { useRoute } from 'vue-router';
+  import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
+  import type { Product } from "~/types/product";
+  import { reactive, onMounted } from 'vue';
+  import { useProductStore } from '~/stores/productStores';
+  import { useRoute } from 'vue-router';
 
 
-const{editProduct, getProductById} = useProductStore();
+  const{editProduct, getProductById} = useProductStore();
 
-const state = reactive<Product>({
-    id: 0,
-    name: '',
-    description: '',
-    price: 0,
+  const state = reactive<Product>({
+      id: 0,
+      name: '',
+      description: '',
+      price: 0,
+    });
+
+
+  const route = useRoute();
+  const productId = Number(route.params.id);
+
+
+  onMounted(async () => {
+    const product = await getProductById(productId); 
+    if (product) {
+      Object.assign(state, product); 
+    }
   });
-
-  // Get the current route to access the product ID
-const route = useRoute();
-const productId = Number(route.params.id); // Extract product ID from route params
-
-// Fetch product details when the component is mounted
-onMounted(async () => {
-  const product = await getProductById(productId); // Fetch product by ID
-  if (product) {
-    Object.assign(state, product); // Update the state with the product details
-  }
-});
 
   const validate = (state: any): FormError[] => {
     const errors = [];
@@ -72,4 +72,5 @@ onMounted(async () => {
     element?.focus();
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
-  </script>
+
+</script>

@@ -9,10 +9,6 @@
     <div class="flex w-7/12 gap-20"> 
       <div class="w-full"> 
 
-
-        <!-- <UFormGroup label="Firma nimi" name="title">
-          <UInput v-model="state.title" class="w-full h-12" color="emerald" placeholder="'ArveX'" />
-        </UFormGroup> -->
         <UFormGroup label="Firma nimi" name="title">
           <UInput
           v-model="state.title"
@@ -75,14 +71,12 @@
       </div>
     </div>
 
-    <!-- Invoice Preview Box -->
     <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
     <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
       <div class="invoice-header text-center mb-6">
         <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
       </div>
 
-      <!-- Flexbox for client info and invoice details side-by-side -->
       <div class="flex justify-between">
         <div class="client-details w-6/12">
           <h2 class="text-lg font-semibold text-black">Klient:</h2>
@@ -96,8 +90,6 @@
 
         <div class="invoice-details w-6/12 text-right">
           
-
-          <!-- New structure for displaying date and conditions -->
           <div class="flex justify-between mb-2">
             <div class="w-1/2 text-left">
               <h3 class="text-lg font-semibold text-black">Arve number:</h3>
@@ -124,6 +116,7 @@
 </template>
 
 <script setup lang="ts">
+
   import { reactive } from 'vue';
   import type { FormError, FormErrorEvent } from "#ui/types";
   import axios from 'axios';
@@ -150,8 +143,10 @@
     if (!state.country) errors.push({ path: "country", message: "Required" });
     return errors;
   };
-    const companySuggestions = ref([])
-     const fetchCompanyNames = async () => {
+  
+  const companySuggestions = ref([])
+
+    const fetchCompanyNames = async () => {
        if (state.title.length < 3) return; 
       
        try {
@@ -169,11 +164,11 @@
          state.zipCode = selectedCompany.zip_code;
        }
      });
-
     
     const submitForm = async () => {
       console.log("Form submitted");
       try {
+
         const response = await axios.post('http://localhost:5176/CreateInvoice', {
           title: state.title,
           address: state.address,
@@ -193,12 +188,11 @@
         document.body.appendChild(link);
         link.click();
         link.remove();
-      } catch (error) {
+      } 
+      catch (error) {
         console.error("Error generating PDF:", error);
       }
     };
-
- 
 
   async function onError(event: FormErrorEvent) {
     const element = document.getElementById(event.errors[0].id);
@@ -230,12 +224,13 @@
   }
   .label {
     font-weight: bold;
-    margin-right: 10px; /* Adds space between label and value */
+    margin-right: 10px;
   }
   .flex {
-    display: flex; /* Ensure flexbox layout */
+    display: flex;
   }
   .mb-2 {
-    margin-bottom: 8px; /* Space between rows if necessary */
+    margin-bottom: 8px;
   }
+
 </style>

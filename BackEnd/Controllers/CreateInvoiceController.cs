@@ -116,14 +116,6 @@ namespace BackEnd.Controllers
                             });
                         });
                     });
-                        
-                        //     x.Item()
-                        //     .Height(100)
-                        //     .Width(400)
-                        //     .Image("assets/images/pahandus.jpg");
-
-                        // });
-
 
                     page.Footer()
                         .AlignCenter()
