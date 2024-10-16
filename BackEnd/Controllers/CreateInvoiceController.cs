@@ -63,7 +63,12 @@ namespace BackEnd.Controllers
                     page.Size(PageSizes.A4);
                     page.Margin(40);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(20));
+                    page.DefaultTextStyle(x =>
+                    {
+                        return x
+                        .FontFamily("Times New Roman")
+                        .FontSize(20);
+                    });
 
                     page.Header()
                         .Text(title)

@@ -6,8 +6,8 @@
     @submit.prevent="submitForm"
     @error="onError"
   >
-    <div class="flex w-7/12 gap-20"> 
-      <div class="w-full"> 
+    <div class="flex w-full gap-20"> 
+      <div class="w-1/2"> 
 
         <UFormGroup label="Firma nimi" name="title">
           <UInput
@@ -38,7 +38,7 @@
         </UFormGroup>
       </div>
 
-      <div class="w-5/12"> 
+      <div class="w-1/3"> 
         <UFormGroup label="Arve Number" name="invoiceNr">
           <UInput v-model="state.invoiceNumber" class="w-full h-12" color="emerald" placeholder="'54321'"/>
         </UFormGroup>
@@ -69,45 +69,46 @@
           <UInput v-model="state.delayFine" class="w-full h-12" color="emerald" placeholder="'5% päevas'"/>
         </UFormGroup>
       </div>
-    </div>
 
-    <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
-    <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
-      <div class="invoice-header text-center mb-6">
-        <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
-      </div>
-
-      <div class="flex justify-between">
-        <div class="client-details w-6/12">
-          <h2 class="text-lg font-semibold text-black">Klient:</h2>
-          <h2 class="text-lg font-semibold text-black">{{ state.title || 'Tallinn University of Technology' }}</h2>
-          <p class="text-black">
-            {{ state.address || 'Pärnu mnt 62/1, Kesklinna linnaosa' }}<br>
-            {{ state.zipCode || '10135' }}<br>
-            {{ state.country || 'Estonia' }}
-          </p>
-        </div>
-
-        <div class="invoice-details w-6/12 text-right">
-          
-          <div class="flex justify-between mb-2">
-            <div class="w-1/2 text-left">
-              <h3 class="text-lg font-semibold text-black">Arve number:</h3>
-              <p class="text-black"><span class="label">Kuupäev:</span></p>
-              <p class="text-black"><span class="label">Tingimused:</span></p>
-              <p class="text-black"><span class="label">Maksetähtaeg:</span></p>
-              <p class="text-black"><span class="label">Viivis:</span></p>
+      <div class="w-full">
+        <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
+          <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
+            <div class="invoice-header text-center mb-6">
+              <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
             </div>
-            <div class="w-1/2 text-left">
-              <p class="text-lg font-semibold text-black"><span>{{ state.invoiceNumber  || '' }}</span></p>
-              <p class="text-black"><span>{{ state.dateCreated || '' }}</span></p>
-              <p class="text-black"><span>{{ state.condition || '' }}</span></p>
-              <p class="text-black"><span>{{ state.dateDue || '' }}</span></p>
-              <p class="text-black"><span>{{ state.delayFine || '' }}</span></p>
+
+            <div class="flex justify-between">
+              <div class="client-details w-6/12">
+                <h2 class="text-lg font-semibold text-black">Klient:</h2>
+                <h2 class="text-lg font-semibold text-black">{{ state.title || 'Tallinn University of Technology' }}</h2>
+                <p class="text-black">
+                  {{ state.address || 'Pärnu mnt 62/1, Kesklinna linnaosa' }}<br>
+                  {{ state.zipCode || '10135' }}<br>
+                  {{ state.country || 'Estonia' }}
+                </p>
+              </div>
+
+            <div class="invoice-details w-6/12 text-right">
+              
+              <div class="flex justify-between mb-2">
+                <div class="w-1/2 text-left">
+                  <h3 class="text-lg font-semibold text-black">Arve number:</h3>
+                  <p class="text-black"><span class="label">Kuupäev:</span></p>
+                  <p class="text-black"><span class="label">Tingimused:</span></p>
+                  <p class="text-black"><span class="label">Maksetähtaeg:</span></p>
+                  <p class="text-black"><span class="label">Viivis:</span></p>
+                </div>
+                <div class="w-1/2 text-left">
+                  <p class="text-lg font-semibold text-black"><span>{{ state.invoiceNumber  || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.dateCreated || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.condition || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.dateDue || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.delayFine || '' }}</span></p>
+                </div>
+              </div>
+            </div>
             </div>
           </div>
-
-        </div>
       </div>
     </div>
 
