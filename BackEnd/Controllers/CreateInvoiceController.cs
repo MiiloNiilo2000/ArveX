@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Data;
+using BackEnd.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Companion;
@@ -20,7 +21,7 @@ namespace BackEnd.Controllers
     public class CreateInvoiceController : ControllerBase
     {
         [HttpPost(Name = "GeneratePdf")]
-        public IResult GeneratePdf([FromBody] InvoiceData data)
+        public IResult GeneratePdf([FromBody] Invoice data)
         {
             var document = CreateDocument(
                 data.Title, 

@@ -166,7 +166,7 @@
     if (!state.address) errors.push({ path: "address", message: "Required" });
     if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
     if (zipString.length < 5 || zipString.length > 5) errors.push({ path: "zipCode", message: "Postiindeks peab olema 5-kohaline number" });
-    if (!state.country) errors.push({ path: "country", message: "Required" });
+
     return errors;
   };
   
