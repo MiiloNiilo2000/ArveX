@@ -25,7 +25,6 @@ export const useProductStore = defineStore('product', () => {
     const editProduct = (updatedProduct: Product) => {
         const index = products.value.findIndex((product) => product.id === updatedProduct.id);
         if (index !== -1) {
-            // Update the product details in the products array
             products.value[index] = { ...updatedProduct };
         }
     };
