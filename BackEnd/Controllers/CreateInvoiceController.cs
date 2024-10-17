@@ -20,9 +20,18 @@ namespace BackEnd.Controllers
     [Route("[controller]")]
     public class CreateInvoiceController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
+
+        public CreateInvoiceController(ApplicationDbContext context){
+            _context = context;
+        }
+
         [HttpPost(Name = "GeneratePdf")]
-        public IResult GeneratePdf([FromBody] Invoice data)
+        public async Task<IResult> GeneratePdf([FromBody] Invoice data)
         {
+            _context.Invoice.Add(data);
+            await _context.SaveChangesAsync();
+
             var document = CreateDocument(
                 data.Title, 
                 data.Address, 
