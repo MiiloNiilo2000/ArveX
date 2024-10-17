@@ -40,5 +40,21 @@ namespace BackEnd.Controllers
 
             return Ok(invoice);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id){
+            var invoice = _context.Invoice.FirstOrDefault(x => x.InvoiceId == id);
+
+            if (invoice == null){
+                return NotFound();
+            }
+
+            _context.Invoice.Remove(invoice);
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <UTable :columns="columns" :rows="invoices" />
-  </template>
+</template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
