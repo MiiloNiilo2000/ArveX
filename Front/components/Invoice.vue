@@ -125,8 +125,7 @@
 </template>
 
 <script setup lang="ts">
-
-  import { reactive } from 'vue';
+  import { reactive, ref, watch, defineExpose } from 'vue';
   import type { FormError, FormErrorEvent } from "#ui/types";
   import axios from 'axios';
 
@@ -226,6 +225,8 @@
     element?.focus();
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
+
+  defineExpose({ validate, fetchCompanyNames, submitForm });
 </script>
 
 <style scoped>
