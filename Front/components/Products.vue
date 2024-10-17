@@ -27,10 +27,9 @@
     const {products, deleteProduct, addProduct, editProduct} = useProductStore();
 
     const navigateToAddProduct = () => {
-        router.push('/add-product');
+        router.push('/products/add');
     }
     const navigateToEditProduct = (productId: Number) => {
-      alert('Profile editing not implemented yet!')
-      // router.push(`/edit-product/${productId}`);
+        router.push(`/products/edit/${productId}`);
     }
 </script>
