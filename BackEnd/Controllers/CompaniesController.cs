@@ -24,10 +24,10 @@ namespace BackEnd.Controllers
         public async Task<IActionResult> GetCompanies(){
             var companies = await _context.Company.ToListAsync();
 
-            if(!companies.Any()){
-                return NotFound();
-            }
-            return Ok(companies);
+            // if(!companies.Any()){
+            //     return NotFound();
+            // }
+            // return Ok(companies);
         }
         [Authorize]
         [HttpGet("{id}")]
