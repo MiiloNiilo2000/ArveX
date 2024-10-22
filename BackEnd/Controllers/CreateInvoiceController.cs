@@ -12,6 +12,7 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BackEnd.Controllers
