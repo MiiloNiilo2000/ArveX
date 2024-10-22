@@ -17,7 +17,7 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> GetProducts(){
             var products = await _context.Product.ToListAsync();
 
-            if(products == null || !products.Any()){
+            if(!products.Any()){
                 return NotFound();
             }
             return Ok(products);
@@ -29,5 +29,20 @@ public class ProductsController : ControllerBase
         _context.SaveChanges();
 
         return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
+    }
+    [HttpDelete]
+    [Route("{id}")]
+    public IActionResult DeleteProduct([FromRoute] int id){
+        var product = _context.Product.FirstOrDefault(x => x.Id == id);
+
+        if (product == null){
+            return NotFound();
+        }
+
+        _context.Product.Remove(product);
+
+        _context.SaveChanges();
+
+        return NoContent();
     }
 }
