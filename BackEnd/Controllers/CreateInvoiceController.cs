@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Data;
+using BackEnd.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Companion;
@@ -11,6 +12,7 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BackEnd.Controllers
@@ -19,9 +21,18 @@ namespace BackEnd.Controllers
     [Route("[controller]")]
     public class CreateInvoiceController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
+
+        public CreateInvoiceController(ApplicationDbContext context){
+            _context = context;
+        }
+
         [HttpPost(Name = "GeneratePdf")]
-        public IResult GeneratePdf([FromBody] InvoiceData data)
+        public async Task<IResult> GeneratePdf([FromBody] Invoice data)
         {
+            _context.Invoice.Add(data);
+            await _context.SaveChangesAsync();
+
             var document = CreateDocument(
                 data.Title, 
                 data.Address, 
@@ -31,7 +42,8 @@ namespace BackEnd.Controllers
                 data.DateCreated, 
                 data.DateDue, 
                 data.Condition, 
-                data.DelayFine
+                data.DelayFine,
+                data.Font
             );
             
             var pdf = document.GeneratePdf();
@@ -53,7 +65,8 @@ namespace BackEnd.Controllers
             DateTime dateCreated,
             DateTime dateDue,
             string condition,
-            string delayFine
+            string delayFine,
+            string font
             )
         {
             return Document.Create(container =>
@@ -63,7 +76,12 @@ namespace BackEnd.Controllers
                     page.Size(PageSizes.A4);
                     page.Margin(40);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(20));
+                    page.DefaultTextStyle(x =>
+                    {
+                        return x
+                        .FontSize(20)
+                        .FontFamily(font);
+                    });
 
                     page.Header()
                         .Text(title)
@@ -116,14 +134,6 @@ namespace BackEnd.Controllers
                             });
                         });
                     });
-                        
-                        //     x.Item()
-                        //     .Height(100)
-                        //     .Width(400)
-                        //     .Image("assets/images/pahandus.jpg");
-
-                        // });
-
 
                     page.Footer()
                         .AlignCenter()

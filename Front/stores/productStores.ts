@@ -22,5 +22,14 @@ export const useProductStore = defineStore('product', () => {
             products.value.splice(index, 1)
         }
     };
-    return {products, addProduct, deleteProduct}
+    const editProduct = (updatedProduct: Product) => {
+        const index = products.value.findIndex((product) => product.id === updatedProduct.id);
+        if (index !== -1) {
+            products.value[index] = { ...updatedProduct };
+        }
+    };
+    const getProductById = (id: number): Product | undefined => {
+        return products.value.find(product => product.id === id);
+    };
+    return {products, addProduct, deleteProduct, editProduct, getProductById}
 })

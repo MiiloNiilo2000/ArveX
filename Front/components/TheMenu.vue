@@ -27,6 +27,10 @@
       label: "Loo Arve",
       to: "/create-invoice",
     },
+    {
+      label: "Ajalugu",
+      to: "/view-history",
+    }
     
   ];
   </script>
