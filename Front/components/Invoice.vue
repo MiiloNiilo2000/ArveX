@@ -76,6 +76,7 @@
             </option>
           </select>
         </UFormGroup>
+
       </div>
 
       <div class="w-full">
@@ -149,6 +150,7 @@
     condition: '',
     delayFine: '',
     selectedFont: 'Arial',
+    footerImage: null,
   });
 
   const fonts = [
@@ -194,9 +196,10 @@
        }
      });
     
-    const submitForm = () => {
-      generateInvoicePDF(state)
-    };
+    
+  const submitForm = () => {
+    generateInvoicePDF(state)
+  };
 
   async function onError(event: FormErrorEvent) {
     const element = document.getElementById(event.errors[0].id);

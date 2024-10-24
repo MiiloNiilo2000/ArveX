@@ -27,8 +27,6 @@
     { key: 'view', label: 'Vaata' },
   ]);
 
-
-  
   const fetchInvoices = async () => {
     try {
       const response = await axios.get('http://localhost:5176/InvoiceHistory/all');
