@@ -15,6 +15,7 @@ namespace BackEnd.Data
         }
 
         public DbSet<Invoice> Invoice { get; set; }
+        public DbSet<Product> Product { get; set; }
 
     }
 }
