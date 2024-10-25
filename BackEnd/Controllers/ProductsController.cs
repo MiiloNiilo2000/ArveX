@@ -3,31 +3,59 @@ using BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackEnd.Controllers;
-[Route("api/[controller]")]
-[ApiController]
-public class ProductsController : ControllerBase
-{
-    private readonly ApplicationDbContext _context;
-    public ProductsController(ApplicationDbContext context){
-        _context = context;
-    }
+namespace BackEnd.Controllers{
+    [ApiController]
+    [Route("[controller]")]
+    public class ProductsController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+        public ProductsController(ApplicationDbContext context){
+            _context = context;
+        }
 
-    [HttpGet]
-    public async Task<IActionResult> GetProducts(){
+        [HttpGet("all")]
+        public async Task<IActionResult> GetProducts(){
             var products = await _context.Product.ToListAsync();
 
             if(products == null || !products.Any()){
-                return NotFound();
+            return NotFound();
             }
             return Ok(products);
         }
-    [HttpPost]
-    public ActionResult<Product> PostProduct(Product product)
-    {
-        _context.Product!.Add(product);
-        _context.SaveChanges();
 
-        return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductsById(int id){
+            var products = await _context.Product.FindAsync(id);
+
+            if(products == null){
+            return NotFound();
+            }
+            return Ok(products);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostProduct([FromBody] Product product)
+        {
+            _context.Product.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetProducts), new { id = product.ProductId }, product);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id){
+            var product = _context.Product.FirstOrDefault(x => x.ProductId == id);
+
+            if (product == null){
+                return NotFound();
+            }
+
+            _context.Product.Remove(product);
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }

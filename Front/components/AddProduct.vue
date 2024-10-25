@@ -27,9 +27,10 @@
 
 <script setup lang="ts">
 import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
-import type { Product } from "~/types/product";
+import type { Product } from "../types/product";
+import { reactive } from 'vue';
+import axios from "axios";
 
-const{addProduct} = useProductStore();
 
 const state = reactive<Product>({
     id: 0,
@@ -37,6 +38,14 @@ const state = reactive<Product>({
     description: '',
     price: 0,
   });
+
+  const addProduct = async (product) => {
+        try {
+            await axios.post('http://localhost:5176/Products', product);
+        } catch (error) {
+            console.error("Error adding product:", error);
+        }
+    };
 
   const validate = (state: any): FormError[] => {
     const errors = [];
