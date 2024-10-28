@@ -26,9 +26,9 @@
 
 <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
-  import type { Product } from "~/types/product";
+  import type { Product } from "../types/product";
   import { reactive, onMounted } from 'vue';
-  import { useProductStore } from '~/stores/productStores';
+  import { useProductStore } from '../stores/productStores';
   import { useRoute } from 'vue-router';
 
 
