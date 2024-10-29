@@ -17,13 +17,8 @@ namespace BackEnd.Controllers{
         public async Task<IActionResult> GetProducts(){
             var products = await _context.Product.ToListAsync();
 
-<<<<<<< HEAD
             if(!products.Any()){
                 return NotFound();
-=======
-            if(products == null || !products.Any()){
-            return NotFound();
->>>>>>> 7c03da10c512fbef42945a206ea8d89ee4845048
             }
             return Ok(products);
         }
@@ -62,20 +57,5 @@ namespace BackEnd.Controllers{
 
             return NoContent();
         }
-    }
-    [HttpDelete]
-    [Route("{id}")]
-    public IActionResult DeleteProduct([FromRoute] int id){
-        var product = _context.Product.FirstOrDefault(x => x.Id == id);
-
-        if (product == null){
-            return NotFound();
-        }
-
-        _context.Product.Remove(product);
-
-        _context.SaveChanges();
-
-        return NoContent();
     }
 }
