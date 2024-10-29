@@ -44,11 +44,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useProfileStore } from '~/stores/profileStores';
-import { useCompanyStore } from '~/stores/companyStores';
+import { useProfileStore } from '../stores/profileStores';
+import { useCompanyStore } from '../stores/companyStores';
 import { useRouter } from 'vue-router';
-import UserProfile from '~/components/UserProfile.vue';
-import CompanyProfile from '~/components/CompanyProfile.vue';
+import UserProfile from '../components/UserProfile.vue';
+import CompanyProfile from '../components/CompanyProfile.vue';
 
 const profileStore = useProfileStore();
 const companyStore = useCompanyStore();
