@@ -57,6 +57,19 @@ namespace backend.Migrations
                     b.HasKey("CompanyId");
 
                     b.ToTable("Company");
+
+                    b.HasData(
+                        new
+                        {
+                            CompanyId = 1,
+                            Address = "Example Address",
+                            Country = "Estonia",
+                            Email = "example@company.com",
+                            Name = "Example Company",
+                            PostalCode = 12345,
+                            RegisterCode = 12345,
+                            VATnumber = "EE123456789"
+                        });
                 });
 
             modelBuilder.Entity("BackEnd.Models.Invoice", b =>
@@ -117,7 +130,7 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -134,13 +147,35 @@ namespace backend.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            CompanyId = 1,
+                            Description = "Description1",
+                            Name = "Product1",
+                            Price = 100
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CompanyId = 1,
+                            Description = "Description2",
+                            Name = "Product2",
+                            Price = 150
+                        });
                 });
 
             modelBuilder.Entity("BackEnd.Models.Product", b =>
                 {
-                    b.HasOne("BackEnd.Models.Company", null)
+                    b.HasOne("BackEnd.Models.Company", "company")
                         .WithMany("Products")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("company");
                 });
 
             modelBuilder.Entity("BackEnd.Models.Company", b =>

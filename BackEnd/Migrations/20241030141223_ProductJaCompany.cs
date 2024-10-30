@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class ProductJaCompany : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,7 +64,7 @@ namespace backend.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: true)
+                    CompanyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,7 +73,22 @@ namespace backend.Migrations
                         name: "FK_Product_Company_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Company",
-                        principalColumn: "CompanyId");
+                        principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Company",
+                columns: new[] { "CompanyId", "Address", "Country", "Email", "Image", "Name", "PostalCode", "RegisterCode", "VATnumber" },
+                values: new object[] { 1, "Example Address", "Estonia", "example@company.com", null, "Example Company", 12345, 12345, "EE123456789" });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "ProductId", "CompanyId", "Description", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, 1, "Description1", "Product1", 100 },
+                    { 2, 1, "Description2", "Product2", 150 }
                 });
 
             migrationBuilder.CreateIndex(

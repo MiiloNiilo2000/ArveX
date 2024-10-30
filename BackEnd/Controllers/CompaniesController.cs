@@ -63,16 +63,12 @@ namespace BackEnd.Controllers
         {
             var company = _context.Company!
                 .Include(x => x.Products)
-                .First(x => x.CompanyId == id);
+                .FirstOrDefault(x => x.CompanyId == id);
 
             if (company == null)
                 return NotFound();
 
-            var products = company.Products
-                .Select(x => x.ProductId)
-                .ToList();
-
-            return Ok(products);
+            return Ok(company.Products);
         }
     }
 }
