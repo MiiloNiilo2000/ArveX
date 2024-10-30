@@ -19,8 +19,8 @@ namespace BackEnd.Data
         public DbSet<CompanyInvoice> CompanyInvoice { get; set; }
         public DbSet<PrivatePersonInvoice> PrivatePersonInvoice { get; set; }
         public DbSet<Product> Product { get; set; }
-        public DbSet<Company> Company { get; set; }
-        public DbSet<Profile> Profile {get; set; } 
+        // public DbSet<Company> Company { get; set; }
+        // public DbSet<Profile> Profile {get; set; } 
         public async Task<bool> UpdateProduct(int id, Product product){
             bool isIdsMatch = id == product.ProductId;
             bool productExists = await Product.AnyAsync(x => x.ProductId == id);
