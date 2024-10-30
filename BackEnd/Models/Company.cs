@@ -7,7 +7,7 @@ namespace BackEnd.Models
 {
     public class Company
     {
-    public int  Id { get; set; }
+    public int  CompanyId { get; set; }
     public string? Name { get; set; }
     public int RegisterCode { get; set; }
     public string? VATnumber { get; set; }
