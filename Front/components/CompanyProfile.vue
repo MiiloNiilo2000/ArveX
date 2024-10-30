@@ -26,6 +26,7 @@
   </template>
   
   <script setup lang="ts">
+  
   import { defineProps } from 'vue';
 
   const title = 'Ettevõtte profiil'

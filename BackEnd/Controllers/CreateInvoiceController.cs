@@ -136,11 +136,9 @@ namespace BackEnd.Controllers
                     });
 
                     page.Footer()
-                        .AlignCenter()
-                        .Text(x =>
+                        .Row(row =>
                         {
-                            x.Span("Page ").FontSize(15).FontFamily("Times New Roman");
-                            x.CurrentPageNumber().FontSize(15).FontFamily("Times New Roman");
+                            row.RelativeItem().AlignLeft().Image("assets/images/TestFooter.png", ImageScaling.FitWidth);
                         });
                 });
             });

@@ -29,9 +29,10 @@
   </template>
   <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
-  import type { Profile } from "~/types/profile";
-  
-  import { useProfileStore } from '~/stores/profileStores';
+  import type { Profile } from "../types/profile";
+  import { useProfileStore } from '../stores/profileStores';
+  import { reactive } from "vue";
+
   const profileStore = useProfileStore();
   
   const state = reactive<Profile>({

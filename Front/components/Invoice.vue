@@ -76,6 +76,7 @@
             </option>
           </select>
         </UFormGroup>
+
       </div>
 
       <div class="w-full">
@@ -128,6 +129,7 @@
   import { reactive, ref, watch, defineExpose } from 'vue';
   import type { FormError, FormErrorEvent } from "#ui/types";
   import axios from 'axios';
+  import { generateInvoicePDF } from '../stores/invoiceUtils';
 
   interface Company {
     company_id: string;
@@ -148,6 +150,7 @@
     condition: '',
     delayFine: '',
     selectedFont: 'Arial',
+    footerImage: null,
   });
 
   const fonts = [
@@ -165,6 +168,9 @@
     if (!state.address) errors.push({ path: "address", message: "Required" });
     if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
     if (zipString.length < 5 || zipString.length > 5) errors.push({ path: "zipCode", message: "Postiindeks peab olema 5-kohaline number" });
+    if (!state.invoiceNumber) errors.push({ path: "invoiceNr", message: "Required" });
+    if (!state.dateCreated) errors.push({ path: "dateCreated", message: "Required" });
+    if (!state.dateDue) errors.push({ path: "dateDue", message: "Required" });
 
     return errors;
   };
@@ -190,35 +196,10 @@
        }
      });
     
-    const submitForm = async () => {
-      console.log("Form submitted");
-      try {
-
-        const response = await axios.post('http://localhost:5176/CreateInvoice', {
-          title: state.title,
-          address: state.address,
-          zipCode: state.zipCode.toString(),
-          country: state.country,
-          invoiceNumber: parseInt(state.invoiceNumber),
-          dateCreated: new Date(state.dateCreated).toISOString(),
-          dateDue: new Date(state.dateDue).toISOString(),
-          condition: state.condition || "",
-          delayFine: state.delayFine || "",
-          font: state.selectedFont
-        }, { responseType: 'blob' });
-
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'invoice.pdf');
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      } 
-      catch (error) {
-        console.error("Error generating PDF:", error);
-      }
-    };
+    
+  const submitForm = () => {
+    generateInvoicePDF(state)
+  };
 
   async function onError(event: FormErrorEvent) {
     const element = document.getElementById(event.errors[0].id);

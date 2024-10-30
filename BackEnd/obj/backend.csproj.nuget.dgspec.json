@@ -1,23 +1,37 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {}
+=======
+    "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {}
+>>>>>>> 494e1bbf673dbb8ff1819e61c853d6fc8db9e794
   },
   "projects": {
-    "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {
+    "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
         "projectName": "backend",
+<<<<<<< HEAD
         "projectPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
         "packagesPath": "C:\\Users\\37253\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+=======
+        "projectPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+        "packagesPath": "C:\\Users\\mjara\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+>>>>>>> 494e1bbf673dbb8ff1819e61c853d6fc8db9e794
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\37253\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\mjara\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 494e1bbf673dbb8ff1819e61c853d6fc8db9e794
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +40,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

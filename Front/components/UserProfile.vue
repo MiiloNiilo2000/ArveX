@@ -27,7 +27,8 @@
   
   <script setup lang="ts">
   import { defineProps } from 'vue';
-  import { useProfileStore } from '~/stores/profileStores';
+  import { useProfileStore } from '../stores/profileStores';
+ 
   const profileStore = useProfileStore();
 
    const title = 'Kasutaja profiil'

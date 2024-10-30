@@ -43,8 +43,9 @@
   </template>
   <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
-  import type { Company } from "~/types/company";
-  import { useCompanyStore } from '~/stores/companyStores';
+  import type { Company } from "../types/company";
+  import { useCompanyStore } from '../stores/companyStores';
+  import { reactive } from "vue";
   
   const companyStore = useCompanyStore();
   

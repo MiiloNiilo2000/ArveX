@@ -4635,23 +4635,39 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\37253\\.nuget\\packages\\": {},
+=======
+    "C:\\Users\\mjara\\.nuget\\packages\\": {},
+>>>>>>> 494e1bbf673dbb8ff1819e61c853d6fc8db9e794
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
       "projectName": "backend",
       "projectPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
       "packagesPath": "C:\\Users\\37253\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+      "projectName": "backend",
+      "projectPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+      "packagesPath": "C:\\Users\\mjara\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+>>>>>>> 494e1bbf673dbb8ff1819e61c853d6fc8db9e794
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\37253\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\mjara\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 494e1bbf673dbb8ff1819e61c853d6fc8db9e794
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4660,7 +4676,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4743,6 +4758,7 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
+<<<<<<< HEAD
   },
   "logs": [
     {
@@ -4752,4 +4768,7 @@
       "message": "Problem reading the cache file C:\\Users\\37253\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
     }
   ]
+=======
+  }
+>>>>>>> 494e1bbf673dbb8ff1819e61c853d6fc8db9e794
 }
