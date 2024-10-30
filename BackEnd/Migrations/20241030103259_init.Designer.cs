@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241024132535_init")]
+    [Migration("20241030103259_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,6 +24,43 @@ namespace backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BackEnd.Models.Company", b =>
+                {
+                    b.Property<int>("CompanyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompanyId"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostalCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RegisterCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VATnumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CompanyId");
+
+                    b.ToTable("Company");
+                });
 
             modelBuilder.Entity("BackEnd.Models.Invoice", b =>
                 {
@@ -83,6 +120,9 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -94,7 +134,21 @@ namespace backend.Migrations
 
                     b.HasKey("ProductId");
 
+                    b.HasIndex("CompanyId");
+
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("BackEnd.Models.Product", b =>
+                {
+                    b.HasOne("BackEnd.Models.Company", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CompanyId");
+                });
+
+            modelBuilder.Entity("BackEnd.Models.Company", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
