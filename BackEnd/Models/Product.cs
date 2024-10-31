@@ -11,7 +11,7 @@ public class Product
     public string? Name { get; set; }
     public string? Description { get; set; }
     public int Price { get; set; }
-    public int CompanyId { get; set; }
+    public int? CompanyId { get; set; }
     [JsonIgnore]
     public virtual Company? company { get; set; } = null!;
 }
