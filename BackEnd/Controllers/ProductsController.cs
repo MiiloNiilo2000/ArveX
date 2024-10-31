@@ -56,7 +56,7 @@ namespace BackEnd.Controllers{
 
             return NoContent();
         }
-         [HttpPut("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditProduct(int id, [FromBody] Product updatedProduct)
         {
             if (id != updatedProduct.ProductId)

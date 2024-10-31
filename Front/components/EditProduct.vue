@@ -48,7 +48,7 @@
 
     const editProducts = async (product) => {
         try {
-            await axios.put(`http://localhost:5176/Products/${product.id}`, product);
+            await axios.put(`http://localhost:5176/Products/${productId}`, product);
         } catch (error) {
             console.error("Error adding product:", error);
         }
