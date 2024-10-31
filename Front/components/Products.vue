@@ -11,7 +11,7 @@
         <UButton @click="deleteProduct(row.productId)" color="gray" variant="ghost" icon="mdi-delete" />
       </template>
       <template #edit-data="{ row }">
-        <UButton @click="navigateToEditProduct(row.id)" color="gray" variant="ghost" icon="mdi-pencil" />
+        <UButton @click="navigateToEditProduct(row.productId)" color="gray" variant="ghost" icon="mdi-pencil" />
       </template>
     </UTable>
   </div>

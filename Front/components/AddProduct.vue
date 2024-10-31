@@ -18,6 +18,9 @@
       <UFormGroup label="Hind" name="price">
         <UInput v-model="state.price" />
       </UFormGroup>
+      <UFormGroup label="Firma" name="companyId">
+        <UInput v-model="state.companyId" />
+      </UFormGroup>
   
       <UButton type="submit"> Lisa </UButton>
     </UForm>
@@ -37,6 +40,7 @@ const state = reactive<Product>({
     name: '',
     description: '',
     price: 0,
+    companyId: 0
   });
 
   const addProduct = async (product) => {

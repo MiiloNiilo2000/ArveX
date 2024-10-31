@@ -50,10 +50,44 @@ namespace BackEnd.Controllers{
             if (product == null){
                 return NotFound();
             }
-
             _context.Product.Remove(product);
 
             _context.SaveChanges();
+
+            return NoContent();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditProduct(int id, [FromBody] Product updatedProduct)
+        {
+            if (id != updatedProduct.ProductId)
+            {
+                return BadRequest("Product ID mismatch");
+            }
+
+            var existingProduct = await _context.Product.FindAsync(id);
+            if (existingProduct == null)
+            {
+                return NotFound();
+            }
+
+            // Update the properties of the existing product
+            existingProduct.Name = updatedProduct.Name;
+            existingProduct.Description = updatedProduct.Description;
+            existingProduct.Price = updatedProduct.Price;
+            existingProduct.CompanyId = updatedProduct.CompanyId;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Product.Any(e => e.ProductId == id))
+                {
+                    return NotFound();
+                }
+                throw;
+            }
 
             return NoContent();
         }
