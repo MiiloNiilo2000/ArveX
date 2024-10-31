@@ -30,6 +30,7 @@ namespace BackEnd.Controllers
         [HttpPost(Name = "GeneratePdf")]
         public async Task<IResult> GeneratePdf([FromBody] Invoice data)
         {
+
             _context.Invoice.Add(data);
             await _context.SaveChangesAsync();
 
@@ -43,7 +44,7 @@ namespace BackEnd.Controllers
                 data.DateDue, 
                 data.Condition, 
                 data.DelayFine,
-                data.Font
+                data.Font 
             );
             
             var pdf = document.GeneratePdf();
@@ -52,6 +53,7 @@ namespace BackEnd.Controllers
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
+            
             
             return Results.File(pdf, "application/pdf", fileName);
         }
@@ -69,19 +71,14 @@ namespace BackEnd.Controllers
             string font
             )
         {
-            return Document.Create(container =>
+           return Document.Create(container =>
             {
                 container.Page(page =>
                 {
                     page.Size(PageSizes.A4);
                     page.Margin(40);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x =>
-                    {
-                        return x
-                        .FontSize(20)
-                        .FontFamily(font);
-                    });
+                    page.DefaultTextStyle(x => x.FontSize(20).FontFamily(font));
 
                     page.Header()
                         .Text(title)
@@ -89,51 +86,90 @@ namespace BackEnd.Controllers
 
                     page.Content()
                         .PaddingVertical(1, Unit.Centimetre)
-                        .Table(table => {
-                        table.ColumnsDefinition(columns =>
+                        .Column(col =>
                         {
-                            
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
-
-                        });
-                        table.Cell().Row(1).Column(x => {
-                            x.Spacing(2);
-                            x.Item().Text("Klient: ").FontSize(15);
-                            x.Item().Padding(2);
-                            x.Item().Text(title).Bold().FontSize(18);
-                            x.Item().Text(address).FontSize(15);
-                            x.Item().Text(zipCode).FontSize(15);
-                            x.Item().Text(country).FontSize(15);
-                        });
-                        table.Cell().Row(1).Column(2).Column(x =>
-                        {
-                            x.Item().Table(innerTable =>
+                            col.Item().Table(table =>
                             {
-                                innerTable.ColumnsDefinition(innerColumns =>
+                                table.ColumnsDefinition(columns =>
                                 {
-                                    innerColumns.RelativeColumn(); 
-                                    innerColumns.RelativeColumn(); 
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
                                 });
-                                innerTable.Cell().Row(0).ColumnSpan(2).Height(25);
 
-                                innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Arve number:").FontSize(15).Bold();
-                                innerTable.Cell().Row(1).Column(2).AlignRight().Text(invoiceNumber.ToString()).FontSize(15).Bold();
+                                table.Cell().Row(1).Column(1).Table(innerTable =>
+                                {
+                                    innerTable.ColumnsDefinition(innerColumns =>
+                                    {
+                                        innerColumns.RelativeColumn();
+                                    });
+                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Klient:").FontSize(15);
+                                    innerTable.Cell().Row(2).Column(1).Padding(2);
+                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(title).FontSize(18).Bold();
+                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text(address).FontSize(12);
+                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text(zipCode).FontSize(12);
+                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text(country).FontSize(12);
+                                });
+                                    
 
-                                innerTable.Cell().Row(2).Column(1).AlignLeft().Text("Kuupäev:").FontSize(12);
-                                innerTable.Cell().Row(2).Column(2).AlignRight().Text(dateCreated.ToString("MM.dd.yyyy")).FontSize(12);
+                                table.Cell().Row(1).Column(2).Table(innerTable =>
+                                {
+                                    innerTable.ColumnsDefinition(innerColumns =>
+                                    {
+                                        innerColumns.RelativeColumn();
+                                        innerColumns.RelativeColumn();
+                                    });
 
-                                innerTable.Cell().Row(3).Column(1).AlignLeft().Text("Tingimused:").FontSize(12);
-                                innerTable.Cell().Row(3).Column(2).AlignRight().Text(condition).FontSize(12);
+                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Arve number:").FontSize(15).Bold();
+                                    innerTable.Cell().Row(1).Column(2).AlignRight().Text(invoiceNumber.ToString()).FontSize(15).Bold();
+                                    innerTable.Cell().Row(2).Column(1).Padding(2);
+                                    
+                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text("Kuupäev:").FontSize(12);
+                                    innerTable.Cell().Row(3).Column(2).AlignRight().Text(dateCreated.ToString("MM.dd.yyyy")).FontSize(12);
 
-                                innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Maksetähtaeg:").FontSize(12);
-                                innerTable.Cell().Row(4).Column(2).AlignRight().Text(dateDue.ToString("MM.dd.yyyy")).FontSize(12);
+                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Tingimused:").FontSize(12);
+                                    innerTable.Cell().Row(4).Column(2).AlignRight().Text(condition).FontSize(12);
 
-                                innerTable.Cell().Row(5).Column(1).AlignLeft().Text("Viivis:").FontSize(12);
-                                innerTable.Cell().Row(5).Column(2).AlignRight().Text(delayFine).FontSize(12);
+                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("Maksetähtaeg:").FontSize(12);
+                                    innerTable.Cell().Row(5).Column(2).AlignRight().Text(dateDue.ToString("MM.dd.yyyy")).FontSize(12);
+
+                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text("Viivis:").FontSize(12);
+                                    innerTable.Cell().Row(6).Column(2).AlignRight().Text(delayFine).FontSize(12);
+                                });
                             });
+
+                            // col.Item().PaddingTop(10).Table(productTable =>
+                            // {
+                            //     productTable.ColumnsDefinition(columns =>
+                            //     {
+                            //         columns.RelativeColumn();
+                            //         columns.RelativeColumn();
+                            //     });
+
+                            //     productTable.Header(header =>
+                            //     {
+                            //         header.Cell().Text("Toote Nimi").FontSize(16).Bold();
+                            //         header.Cell().Text("Hind").FontSize(16).Bold();
+                            //     });             
+               
+                            //     foreach (var product in products)
+                            //     {
+                            //         productTable.Cell().Text(product.Name).FontSize(14);
+                            //         productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
+                            //     }
+                            // });
+
+                            // col.Item().PaddingTop(10).Table(totalTable =>
+                            // {
+                            //     totalTable.ColumnsDefinition(columns =>
+                            //     {
+                            //         columns.RelativeColumn();
+                            //         columns.RelativeColumn();
+                            //     });
+
+                            //     totalTable.Cell().Text("Total:").FontSize(16).Bold();
+                            //     totalTable.Cell().Text(products.Sum(p => p.Price).ToString("C")).FontSize(16).Bold();
+                            // });
                         });
-                    });
 
                     page.Footer()
                         .Row(row =>

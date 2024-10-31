@@ -77,6 +77,20 @@
           </select>
         </UFormGroup>
 
+        <UFormGroup label="Vali Tooted" name="products">
+          <div class="product-selection">
+            <label v-for="product in availableProducts" :key="product.id" class="product-item flex items-center">
+              <input 
+                type="checkbox" 
+                :value="product" 
+                v-model="selectedProducts" 
+                class="mr-2" 
+              />
+              {{ product.name }} - {{ product.price }}
+            </label>
+          </div>
+        </UFormGroup>
+        
       </div>
 
       <div class="w-full">
@@ -126,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-  import { reactive, ref, watch, defineExpose } from 'vue';
+  import { reactive, ref, watch, defineExpose, onMounted } from 'vue';
   import type { FormError, FormErrorEvent } from "#ui/types";
   import axios from 'axios';
   import { generateInvoicePDF } from '../stores/invoiceUtils';
@@ -137,6 +151,12 @@
     name: string;
     legal_address: string;
     zip_code: string;    
+  }
+
+  interface Product {
+    id: number;
+    name: string;
+    price: number;
   }
 
   const state = reactive({
@@ -151,6 +171,19 @@
     delayFine: '',
     selectedFont: 'Arial',
     footerImage: null,
+    products: [] as Product[],
+  });
+
+  const availableProducts = ref<Product[]>([]);
+  const selectedProducts = ref<Product[]>([]);
+
+  onMounted(async () => {
+    try {
+      const response = await axios.get('http://localhost:5176/Products/all')
+      availableProducts.value = response.data;
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
   });
 
   const fonts = [
@@ -177,27 +210,27 @@
   
   const companySuggestions = ref<Company[]>([])
 
-    const fetchCompanyNames = async () => {
-       if (state.title.length < 3) return; 
-      
-       try {
-         const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
-         companySuggestions.value = response.data.data;
-       } catch (error) {
-         console.error('Error fetching company names:', error);
-       }
-     };
+  const fetchCompanyNames = async () => {
+      if (state.title.length < 3) return; 
+    
+      try {
+        const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
+        companySuggestions.value = response.data.data;
+      } catch (error) {
+        console.error('Error fetching company names:', error);
+      }
+    };
 
-     watch(() => state.title, (newTitle) => {
-       const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
-       if (selectedCompany) {
-         state.address = selectedCompany.legal_address;
-         state.zipCode = selectedCompany.zip_code;
-       }
-     });
-    
-    
+    watch(() => state.title, (newTitle) => {
+      const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
+      if (selectedCompany) {
+        state.address = selectedCompany.legal_address;
+        state.zipCode = selectedCompany.zip_code;
+      }
+    });
+       
   const submitForm = () => {
+    state.products = selectedProducts.value;
     generateInvoicePDF(state)
   };
 

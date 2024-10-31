@@ -18,5 +18,6 @@ namespace BackEnd.Models
         public required string Condition { get; set; }
         public required string DelayFine { get; set; }
         public required string Font { get; set; }
+
     }
 }
