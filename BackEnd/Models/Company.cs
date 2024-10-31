@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BackEnd.Models
@@ -16,5 +17,7 @@ namespace BackEnd.Models
     public string? Country { get; set; }
     public string? Email { get; set; }
     public string? Image { get; set; }
+    [JsonIgnore]
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

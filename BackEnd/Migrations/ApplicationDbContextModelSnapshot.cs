@@ -22,6 +22,56 @@ namespace backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BackEnd.Models.Company", b =>
+                {
+                    b.Property<int>("CompanyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompanyId"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostalCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RegisterCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VATnumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CompanyId");
+
+                    b.ToTable("Company");
+
+                    b.HasData(
+                        new
+                        {
+                            CompanyId = 1,
+                            Address = "Example Address",
+                            Country = "Estonia",
+                            Email = "example@company.com",
+                            Name = "Example Company",
+                            PostalCode = 12345,
+                            RegisterCode = 12345,
+                            VATnumber = "EE123456789"
+                        });
+                });
+
             modelBuilder.Entity("BackEnd.Models.Invoice", b =>
                 {
                     b.Property<int>("InvoiceId")
@@ -80,6 +130,9 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -91,7 +144,43 @@ namespace backend.Migrations
 
                     b.HasKey("ProductId");
 
+                    b.HasIndex("CompanyId");
+
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            CompanyId = 1,
+                            Description = "Description1",
+                            Name = "Product1",
+                            Price = 100
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CompanyId = 1,
+                            Description = "Description2",
+                            Name = "Product2",
+                            Price = 150
+                        });
+                });
+
+            modelBuilder.Entity("BackEnd.Models.Product", b =>
+                {
+                    b.HasOne("BackEnd.Models.Company", "company")
+                        .WithMany("Products")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("company");
+                });
+
+            modelBuilder.Entity("BackEnd.Models.Company", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

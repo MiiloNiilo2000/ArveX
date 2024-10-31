@@ -58,5 +58,17 @@ namespace BackEnd.Controllers
 
             return NoContent();
         }
+        [HttpGet("{id}/products")]
+        public ActionResult<IEnumerable<Product>> GetCompanyProducts(int id)
+        {
+            var company = _context.Company!
+                .Include(x => x.Products)
+                .FirstOrDefault(x => x.CompanyId == id);
+
+            if (company == null)
+                return NotFound();
+
+            return Ok(company.Products);
+        }
     }
 }
