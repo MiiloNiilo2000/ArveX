@@ -13,5 +13,5 @@ public class Product
     public int Price { get; set; }
     public int CompanyId { get; set; }
     [JsonIgnore]
-    public virtual Company company { get; set; } = null!;
+    public virtual Company? company { get; set; } = null!;
 }

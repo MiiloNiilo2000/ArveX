@@ -18,6 +18,9 @@
           <UFormGroup label="Hind" name="price">
             <UInput v-model="state.price" />
           </UFormGroup>
+          <UFormGroup label="Firma" name="companyId">
+            <UInput v-model="state.companyId" />
+          </UFormGroup>
           <UButton type="submit"> Salvesta </UButton>
         </UForm>
       </div>
@@ -30,6 +33,7 @@
   import { reactive, onMounted } from 'vue';
   import { useProductStore } from '../stores/productStores';
   import { useRoute } from 'vue-router';
+  import axios from "axios";
 
 
   const{editProduct, getProductById} = useProductStore();
@@ -39,8 +43,16 @@
       name: '',
       description: '',
       price: 0,
+      companyId: 0
     });
 
+    const editProducts = async (product) => {
+        try {
+            await axios.put(`http://localhost:5176/Products/${product.id}`, product);
+        } catch (error) {
+            console.error("Error adding product:", error);
+        }
+    };
 
   const route = useRoute();
   const productId = Number(route.params.id);
@@ -63,7 +75,7 @@
 
   async function onSubmit(event: FormSubmitEvent<any>) {
     console.log("Submitting product:", { ...state });
-    editProduct({ ...state });
+    await editProducts({ ...state });
     await navigateTo("/products");
   }
 
