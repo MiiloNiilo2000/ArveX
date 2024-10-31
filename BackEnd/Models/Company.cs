@@ -11,7 +11,7 @@ namespace BackEnd.Models
     public int  CompanyId { get; set; }
     public string Name { get; set; } = null!;
     public int RegisterCode { get; set; }
-    public string VATnumber { get; set; } = null!;
+    public string VatNumber { get; set; } = null!;
     public string Address { get; set; } = null!;
     public int PostalCode { get; set; }
     public string Country { get; set; } = null!;

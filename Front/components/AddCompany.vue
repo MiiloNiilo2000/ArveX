@@ -19,7 +19,7 @@
             <UTextarea v-model="state.registerCode" />
           </UFormGroup>
           <UFormGroup label="Käibemaksukohuslase number" name="VATnumber">
-            <UInput v-model="state.VATnumber" />
+            <UInput v-model="state.vatNumber" />
           </UFormGroup>
           <UFormGroup label="Aadress" name="address">
             <UInput v-model="state.address" />
@@ -53,7 +53,7 @@
     id: 0,
     name: '',
     registerCode: 0,
-    VATnumber: '',
+    vatNumber: '',
     address: '',
     postalCode: 0,
     country: '',
@@ -66,7 +66,7 @@
     if (!state.name) errors.push({ path: "name", message: "Required" });
     if (!state.email) errors.push({ path: "email", message: "Required"}) ;
     if (!state.registerCode) errors.push({ path: "registerCode", message: "Required" });
-    if (!state.VATnumber) errors.push({ path: "VATnumber", message: "Required" });
+    if (!state.VatNumber) errors.push({ path: "VATnumber", message: "Required" });
     if (!state.address) errors.push({ path: "address", message: "Required" });
     if (!state.postalCode) errors.push({ path: "postalCode", message: "Required" });
     if (!state.country) errors.push({ path: "country", message: "Required" });

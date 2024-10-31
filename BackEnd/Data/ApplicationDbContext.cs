@@ -30,7 +30,7 @@ namespace BackEnd.Data
                 CompanyId = 1,
                 Name = "Example Company",
                 RegisterCode = 12345,
-                VATnumber = "EE123456789",
+                VatNumber = "EE123456789",
                 Address = "Example Address",
                 PostalCode = 12345,
                 Country = "Estonia",
