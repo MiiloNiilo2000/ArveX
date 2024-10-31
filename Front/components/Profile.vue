@@ -23,32 +23,33 @@
       <div class="flex-1">
         <label for="companySelect" class="block text-sm font-medium text-gray-700">Vali ettevõte:</label>
         <select v-model="selectedCompanyId" id="companySelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-          <option v-for="company in companies" :key="company.id" :value="company.id">
+          <option v-for="company in companies" :key="company.CompanyId" :value="company.CompanyId">
             {{ company.name }}
           </option>
         </select>
       </div>
     </div>
- 
+
     <div class="flex space-x-6 mt-6">
-    <div v-if="selectedUser" class="flex-1 mr-8">
-      <UserProfile :profile="selectedUser" :editProfile="editProfile" />
-    </div>
-    
-    <div v-if="selectedCompany" class="flex-1 mr-8">
-      <CompanyProfile :company="selectedCompany" :editCompany="editCompany" />
+      <div v-if="selectedUser" class="flex-1 mr-8">
+        <UserProfile :profile="selectedUser" :editProfile="editProfile" />
+      </div>
+
+      <div v-if="selectedCompany" class="flex-1 mr-8">
+        <CompanyProfile :company="selectedCompany" :editCompany="editCompany" />
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useProfileStore } from '../stores/profileStores';
 import { useCompanyStore } from '../stores/companyStores';
 import { useRouter } from 'vue-router';
 import UserProfile from '../components/UserProfile.vue';
 import CompanyProfile from '../components/CompanyProfile.vue';
+import axios from 'axios';
 
 const profileStore = useProfileStore();
 const companyStore = useCompanyStore();
@@ -56,11 +57,11 @@ const router = useRouter();
 
 // Loendid profiilide ja ettevõtete jaoks
 const users = computed(() => profileStore.profiles);
-const companies = computed(() => companyStore.companies);
+const companies = ref([]);
 
 // Valitud kasutaja ja ettevõtte ID
 const selectedUserId = ref<number | null>(users.value[0]?.id || null);
-const selectedCompanyId = ref<number | null>(companies.value[0]?.id || null);
+const selectedCompanyId = ref<number | null>(null);
 
 const selectedUser = computed(() => {
   return selectedUserId.value !== null
@@ -73,6 +74,20 @@ const selectedCompany = computed(() => {
     ? companies.value.find(company => company.id === selectedCompanyId.value) || null
     : null;
 });
+onMounted(async() => {
+  await fetchCompanies();
+  console.log("Companies data in dropdown:", companies.value);
+});
+
+const fetchCompanies = async () => {
+  try {
+    const response = await axios.get('http://localhost:5176/Companies/all');
+    companies.value = response.data;
+    console.log("Fetched companies:", companies.value);
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+  }
+};
 
 const editProfile = () => {
   alert('Profile editing not implemented yet!');
