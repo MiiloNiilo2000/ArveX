@@ -2,7 +2,7 @@ export type Company = {
     id: number
     name: string
     registerCode: number
-    VATnumber: string
+    vatNumber: string
     address: string
     postalCode: number
     country: string
