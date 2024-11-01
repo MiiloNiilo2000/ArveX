@@ -36,7 +36,7 @@ import axios from "axios";
 
 
 const state = reactive<Product>({
-    id: 0,
+    productId: 0,
     name: '',
     description: '',
     price: 0,

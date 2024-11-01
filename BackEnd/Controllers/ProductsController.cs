@@ -56,7 +56,17 @@ namespace BackEnd.Controllers{
 
             return NoContent();
         }
+        
         [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Product product){
+            bool result = await _context.UpdateProduct(id, product);
+            return result ? NoContent() : NotFound();
+        }
+
+
+
+
+        /* [HttpPut("{id}")]
         public async Task<IActionResult> EditProduct(int id, [FromBody] Product updatedProduct)
         {
             if (id != updatedProduct.ProductId)
@@ -90,6 +100,6 @@ namespace BackEnd.Controllers{
             }
 
             return NoContent();
-        }
+        } */
     }
 }

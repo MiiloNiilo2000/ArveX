@@ -32,37 +32,58 @@
   import type { Product } from "../types/product";
   import { reactive, onMounted } from 'vue';
   import { useProductStore } from '../stores/productStores';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import axios from "axios";
 
-
-  const{editProduct, getProductById} = useProductStore();
-
   const state = reactive<Product>({
-      id: 0,
+      productId: 0,
       name: '',
       description: '',
       price: 0,
       companyId: 0
-    });
+  });
 
-    const editProducts = async (product) => {
-        try {
-            await axios.put(`http://localhost:5176/Products/${productId}`, product);
-        } catch (error) {
-            console.error("Error adding product:", error);
+  const editProduct = async (product: Product) => {
+    try {
+        // Log the product being updated for debugging
+        console.log("Updating product:", product);
+        
+        // Make the PUT request to the API
+        const response = await axios.put(`http://localhost:5176/Products/${product.productId}`, product);
+
+        console.log("Product updated successfully:", response.data);
+        await router.push("/products");
+    } catch (error) {
+        console.error("Error updating product:", error);
+
+        if (error.response) {
+            console.error("Response data:", error.response.data);
+            console.error("Response status:", error.response.status);
+            console.error("Response headers:", error.response.headers);
+        } else {
+            console.error("Error message:", error.message);
         }
-    };
+    }
+};
 
   const route = useRoute();
+  const router = useRouter();
   const productId = Number(route.params.id);
 
+  const fetchProduct = async (id: number) => {
+    try {
+        const response = await axios.get(`http://localhost:5176/Products/${id}`);
+        const product = response.data;
+        if (product) {
+            Object.assign(state, product);
+        }
+    } catch (error) {
+        console.error("Error fetching product:", error);
+    }
+  };
 
   onMounted(async () => {
-    const product = await getProductById(productId); 
-    if (product) {
-      Object.assign(state, product); 
-    }
+    await fetchProduct(productId);
   });
 
   const validate = (state: any): FormError[] => {
@@ -75,8 +96,7 @@
 
   async function onSubmit(event: FormSubmitEvent<any>) {
     console.log("Submitting product:", { ...state });
-    await editProducts({ ...state });
-    await navigateTo("/products");
+    await editProduct({ ...state });
   }
 
   async function onError(event: FormErrorEvent) {
