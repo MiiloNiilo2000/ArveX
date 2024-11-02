@@ -79,14 +79,14 @@
 
         <UFormGroup label="Vali Tooted" name="products">
           <div class="product-selection">
-            <label v-for="product in availableProducts" :key="product.id" class="product-item flex items-center">
+            <label v-for="product in availableProducts" :key="product.productId" class="product-item flex items-center">
               <input 
                 type="checkbox" 
                 :value="product" 
                 v-model="selectedProducts" 
                 class="mr-2" 
               />
-              {{ product.name }} - {{ product.price }}
+              {{ product.name }} - {{ product.price }} - {{ product.productId }}
             </label>
           </div>
         </UFormGroup>
@@ -154,7 +154,7 @@
   }
 
   interface Product {
-    id: number;
+    productId: number;
     name: string;
     price: number;
   }
@@ -230,15 +230,11 @@
     });
        
   const submitForm = () => {
-    const sendProduct = [];
-    selectedProducts.value.forEach(product => {
-      if (product && product[0] !== undefined) {
-        sendProduct.push(product[0]); 
-      }
-    });
+
     
-    state.productIds = sendProduct;
-    console.log(state.productIds);
+    state.productIds = selectedProducts.value.map(product => product.productId);
+    console.log("selected", selectedProducts.value.map(product => product.productId))
+    console.log("StateP", state.productIds);
     generateInvoicePDF(state)
   };
 

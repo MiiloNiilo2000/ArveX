@@ -62,7 +62,8 @@
       dateDue: row.dateDue,
       condition: row.condition,
       delayFine: row.delayFine,
-      selectedFont: row.font 
+      selectedFont: row.font,
+      productIds: row.productIds 
     };
 
     generateInvoicePDF(state);

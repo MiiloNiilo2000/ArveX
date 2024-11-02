@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function generateInvoicePDF(state) {
   try {
-    const productIds = [1, 2]
+    console.log("Ids in util", state.productIds)
     const payload = {
       title: state.title,
       address: state.address,
@@ -14,16 +14,9 @@ export async function generateInvoicePDF(state) {
       condition: state.condition || "",
       delayFine: state.delayFine || "",
       font: state.selectedFont,
-      productIds
+      productIds: state.productIds
     };
 
-    console.log("Payload before sending:", payload);
-    console.log("Is productIds an array?", Array.isArray(state.productIds));
-    console.log("ProductIds:", state.productIds);
-    console.log("state.productIds:", state.productIds);
-    state.productIds.forEach((id, index) => {
-    console.log(`productIds[${index}]`, id, typeof id);
-});
 
     const response = await axios.post('http://localhost:5176/CreateInvoice', payload, {
       headers: {
