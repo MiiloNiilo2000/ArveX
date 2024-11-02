@@ -10,9 +10,10 @@
           class="absolute top-4 right-4 rounded-full w-24 h-24 mr-6"
         />
         <h2 class="text-xl text-black font-semibold">{{ company.name }}</h2>
-        <p class="text-gray-600">KMKN: {{ company.VATnumber }}</p>
+        <p class="text-gray-600">KMKN: {{ company.vatNumber }}</p>
         <p class="text-gray-600">Aadress: {{ company.address }}</p>
         <p class="text-gray-600">Riik: {{ company.country }}</p>
+        <p class="text-gray-600">Registrikood: {{ company.registerCode }}</p>
         <p class="text-gray-600">Postiindeks: {{ company.postalCode }}</p>
         <p class="text-gray-600">E-mail: {{ company.email }}</p>
   
@@ -34,10 +35,11 @@
   const props = defineProps<{
   company: {
     name: string;
-    VATnumber: string;
+    vatNumber: string;
     address: string;
     postalCode: number;
     country: string;
+    registerCode: number;
     email: string;
     image: string;
   };
