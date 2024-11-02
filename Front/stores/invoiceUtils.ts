@@ -2,8 +2,7 @@ import axios from 'axios';
 
 export async function generateInvoicePDF(state) {
   try {
-    
-    const response = await axios.post('http://localhost:5176/CreateInvoice', {
+    const payload = {
       title: state.title,
       address: state.address,
       zipCode: state.zipCode.toString(),
@@ -14,8 +13,24 @@ export async function generateInvoicePDF(state) {
       condition: state.condition || "",
       delayFine: state.delayFine || "",
       font: state.selectedFont,
-      productIds: state.productIds,
-    }, { responseType: 'blob' });
+      productIds: state.productIds
+    };
+
+    console.log("Payload before sending:", payload);
+    console.log("Is productIds an array?", Array.isArray(state.productIds));
+    console.log("ProductIds:", state.productIds);
+    console.log("state.productIds:", state.productIds);
+    state.productIds.forEach((id, index) => {
+    console.log(`productIds[${index}]`, id, typeof id);
+});
+
+    const response = await axios.post('http://localhost:5176/CreateInvoice', payload, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      responseType: 'blob'
+    });
+
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
@@ -24,6 +39,12 @@ export async function generateInvoicePDF(state) {
     link.click();
     link.remove();
   } catch (error) {
-    console.error("Error generating PDF:", error);
+    if (error.response) {
+      console.error("Error response data:", error.response.data);
+      console.error("Error response status:", error.response.status);
+      console.error("Error response headers:", error.response.headers);
+    } else {
+      console.error("Error message:", error.message);
+    }
   }
 }

@@ -13,7 +13,7 @@ using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Microsoft.EntityFrameworkCore;
-
+using System.Text.Json.Serialization;
 
 namespace BackEnd.Controllers
 {
@@ -30,6 +30,7 @@ namespace BackEnd.Controllers
         [HttpPost(Name = "GeneratePdf")]
         public async Task<IResult> GeneratePdf([FromBody] Invoice data)
         {
+            Console.WriteLine("Received Invoice Data: " + data);
 
             _context.Invoice.Add(data);
             await _context.SaveChangesAsync();
