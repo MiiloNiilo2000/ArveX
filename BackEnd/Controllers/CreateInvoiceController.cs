@@ -35,6 +35,10 @@ namespace BackEnd.Controllers
             _context.Invoice.Add(data);
             await _context.SaveChangesAsync();
 
+            var products = await _context.Product
+                .Where(p => data.ProductIds.Contains(p.ProductId))
+                .ToListAsync();
+
             var document = CreateDocument(
                 data.Title, 
                 data.Address, 
@@ -46,7 +50,7 @@ namespace BackEnd.Controllers
                 data.Condition, 
                 data.DelayFine,
                 data.Font,
-                data.ProductIds 
+                products
             );
             
             var pdf = document.GeneratePdf();
@@ -59,7 +63,7 @@ namespace BackEnd.Controllers
             
             return Results.File(pdf, "application/pdf", fileName);
         }
-
+        
         QuestPDF.Infrastructure.IDocument CreateDocument(
             string title,
             string address,
@@ -71,7 +75,7 @@ namespace BackEnd.Controllers
             string condition,
             string delayFine,
             string font,
-            List<int> productIds
+            List<Product> products
             )
         {
            return Document.Create(container =>
@@ -140,38 +144,38 @@ namespace BackEnd.Controllers
                                 });
                             });
 
-                            // col.Item().PaddingTop(10).Table(productTable =>
-                            // {
-                            //     productTable.ColumnsDefinition(columns =>
-                            //     {
-                            //         columns.RelativeColumn();
-                            //         columns.RelativeColumn();
-                            //     });
+                            col.Item().PaddingTop(10).Table(productTable =>
+                            {
+                                productTable.ColumnsDefinition(columns =>
+                                {
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                });
 
-                            //     productTable.Header(header =>
-                            //     {
-                            //         header.Cell().Text("Toote Nimi").FontSize(16).Bold();
-                            //         header.Cell().Text("Hind").FontSize(16).Bold();
-                            //     });             
+                                productTable.Header(header =>
+                                {
+                                    header.Cell().Text("Toote Nimi").FontSize(16).Bold();
+                                    header.Cell().Text("Hind").FontSize(16).Bold();
+                                });             
                
-                            //     foreach (var product in products)
-                            //     {
-                            //         productTable.Cell().Text(product.Name).FontSize(14);
-                            //         productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
-                            //     }
-                            // });
+                                foreach (var product in products)
+                                {
+                                    productTable.Cell().Text(product.Name).FontSize(14);
+                                    productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
+                                }
+                            });
 
-                            // col.Item().PaddingTop(10).Table(totalTable =>
-                            // {
-                            //     totalTable.ColumnsDefinition(columns =>
-                            //     {
-                            //         columns.RelativeColumn();
-                            //         columns.RelativeColumn();
-                            //     });
+                            col.Item().PaddingTop(10).Table(totalTable =>
+                            {
+                                totalTable.ColumnsDefinition(columns =>
+                                {
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                });
 
-                            //     totalTable.Cell().Text("Total:").FontSize(16).Bold();
-                            //     totalTable.Cell().Text(products.Sum(p => p.Price).ToString("C")).FontSize(16).Bold();
-                            // });
+                                totalTable.Cell().Text("Total:").FontSize(16).Bold();
+                                totalTable.Cell().Text(products.Sum(p => p.Price).ToString("C")).FontSize(16).Bold();
+                            });
                         });
 
                     page.Footer()

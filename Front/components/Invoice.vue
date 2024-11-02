@@ -230,7 +230,14 @@
     });
        
   const submitForm = () => {
-    state.productIds = selectedProducts.value.map(product => product.id);
+    const sendProduct = [];
+    selectedProducts.value.forEach(product => {
+      if (product && product[0] !== undefined) {
+        sendProduct.push(product[0]); 
+      }
+    });
+    
+    state.productIds = sendProduct;
     console.log(state.productIds);
     generateInvoicePDF(state)
   };

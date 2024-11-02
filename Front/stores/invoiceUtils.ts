@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export async function generateInvoicePDF(state) {
   try {
+    const productIds = [1, 2]
     const payload = {
       title: state.title,
       address: state.address,
@@ -13,7 +14,7 @@ export async function generateInvoicePDF(state) {
       condition: state.condition || "",
       delayFine: state.delayFine || "",
       font: state.selectedFont,
-      productIds: state.productIds
+      productIds
     };
 
     console.log("Payload before sending:", payload);
