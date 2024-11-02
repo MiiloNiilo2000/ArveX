@@ -44,7 +44,8 @@ namespace BackEnd.Controllers
                 data.DateDue, 
                 data.Condition, 
                 data.DelayFine,
-                data.Font 
+                data.Font,
+                data.ProductIds 
             );
             
             var pdf = document.GeneratePdf();
@@ -68,7 +69,8 @@ namespace BackEnd.Controllers
             DateTime dateDue,
             string condition,
             string delayFine,
-            string font
+            string font,
+            List<int> productIds
             )
         {
            return Document.Create(container =>

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export async function generateInvoicePDF(state) {
   try {
+    
     const response = await axios.post('http://localhost:5176/CreateInvoice', {
       title: state.title,
       address: state.address,
@@ -12,9 +13,9 @@ export async function generateInvoicePDF(state) {
       dateDue: new Date(state.dateDue).toISOString(),
       condition: state.condition || "",
       delayFine: state.delayFine || "",
-      font: state.selectedFont
+      font: state.selectedFont,
+      productIds: state.productIds,
     }, { responseType: 'blob' });
-    
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;

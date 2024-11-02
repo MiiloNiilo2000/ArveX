@@ -33,7 +33,10 @@ import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
 import type { Product } from "../types/product";
 import { reactive } from 'vue';
 import axios from "axios";
+import { useRoute, useRouter } from 'vue-router';
 
+const route = useRoute();
+const router = useRouter();
 
 const state = reactive<Product>({
     productId: 0,
@@ -61,7 +64,7 @@ const state = reactive<Product>({
 
   async function onSubmit(event: FormSubmitEvent<any>) {
     addProduct({ ...state });
-    await navigateTo("/products");
+    await router.push("/products");
   }
 
   async function onError(event: FormErrorEvent) {

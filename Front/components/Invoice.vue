@@ -171,7 +171,7 @@
     delayFine: '',
     selectedFont: 'Arial',
     footerImage: null,
-    products: [] as Product[],
+    productIds: [],
   });
 
   const availableProducts = ref<Product[]>([]);
@@ -230,7 +230,8 @@
     });
        
   const submitForm = () => {
-    state.products = selectedProducts.value;
+    state.productIds = selectedProducts.value.map(product => product.id);
+    console.log(state.productIds);
     generateInvoicePDF(state)
   };
 
