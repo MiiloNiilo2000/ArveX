@@ -31,7 +31,6 @@
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
   import type { Product } from "../types/product";
   import { reactive, onMounted } from 'vue';
-  import { useProductStore } from '../stores/productStores';
   import { useRoute, useRouter } from 'vue-router';
   import axios from "axios";
 
@@ -45,10 +44,8 @@
 
   const editProduct = async (product: Product) => {
     try {
-        // Log the product being updated for debugging
         console.log("Updating product:", product);
         
-        // Make the PUT request to the API
         const response = await axios.put(`http://localhost:5176/Products/${product.productId}`, product);
 
         console.log("Product updated successfully:", response.data);

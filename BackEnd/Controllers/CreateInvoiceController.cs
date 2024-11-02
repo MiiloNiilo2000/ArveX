@@ -55,12 +55,10 @@ namespace BackEnd.Controllers
             
             var pdf = document.GeneratePdf();
             // document.ShowInCompanion();
-            
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
-            
-            
+                 
             return Results.File(pdf, "application/pdf", fileName);
         }
         
@@ -173,7 +171,7 @@ namespace BackEnd.Controllers
                                     columns.RelativeColumn();
                                 });
 
-                                totalTable.Cell().Text("Total:").FontSize(16).Bold();
+                                totalTable.Cell().Text("Kogusumma:").FontSize(16).Bold();
                                 totalTable.Cell().Text(products.Sum(p => p.Price).ToString("C")).FontSize(16).Bold();
                             });
                         });

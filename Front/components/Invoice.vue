@@ -86,7 +86,7 @@
                 v-model="selectedProducts" 
                 class="mr-2" 
               />
-              {{ product.name }} - {{ product.price }} - {{ product.productId }}
+              {{ product.name }} - {{ product.price }}
             </label>
           </div>
         </UFormGroup>
@@ -229,12 +229,8 @@
       }
     });
        
-  const submitForm = () => {
-
-    
+  const submitForm = () => { 
     state.productIds = selectedProducts.value.map(product => product.productId);
-    console.log("selected", selectedProducts.value.map(product => product.productId))
-    console.log("StateP", state.productIds);
     generateInvoicePDF(state)
   };
 
@@ -280,35 +276,35 @@
   }
 
   select {
-  border: 1.5px solid #38a169; /* Adjust to emerald color */
-  background-color: black; /* Background color */
-  color: white; /* Text color */
-  border-radius: 0.375rem; /* Match rounded corners */
-  padding: 0.375rem 0.75rem; /* Adjust padding */
-  font-size: 1rem; /* Match font size */
-  transition: border-color 0.2s ease-in-out; /* Smooth transition for border color */
+  border: 1.5px solid #38a169; 
+  background-color: black; 
+  color: white; 
+  border-radius: 0.375rem; 
+  padding: 0.375rem 0.75rem; 
+  font-size: 1rem; 
+  transition: border-color 0.2s ease-in-out; 
   }
 
   select:focus {
-    border-color: #2f855a; /* Darker emerald on focus */
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25); /* Optional shadow for focus */
+    border-color: #2f855a; 
+    outline: none; 
+    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25); 
   }
   
   .form-field {
-  border: 1px solid #38a169; /* Emerald border */
+  border: 1px solid #38a169; 
   background-color: white;
   color: black;
   border-radius: 0.375rem;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   width: 100%;
-  height: 3rem; /* Equivalent to h-12 in Tailwind */
+  height: 3rem; 
   transition: border-color 0.2s ease-in-out;
   }
 
   .form-field:focus {
-    border-color: #2f855a; /* Darker emerald on focus */
+    border-color: #2f855a; 
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
   }
