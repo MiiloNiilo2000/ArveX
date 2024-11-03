@@ -74,6 +74,17 @@ namespace backend.Migrations
                             PostalCode = 12345,
                             RegisterCode = 12345,
                             VatNumber = "EE123456789"
+                        },
+                        new
+                        {
+                            CompanyId = 2,
+                            Address = "Example Address 2",
+                            Country = "Estonia",
+                            Email = "example2@company.com",
+                            Name = "Example Company 2",
+                            PostalCode = 12344,
+                            RegisterCode = 12344,
+                            VatNumber = "EE123456788"
                         });
                 });
 
