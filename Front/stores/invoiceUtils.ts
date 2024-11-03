@@ -2,7 +2,8 @@ import axios from 'axios';
 
 export async function generateInvoicePDF(state) {
   try {
-    const response = await axios.post('http://localhost:5176/CreateInvoice', {
+    console.log("Ids in util", state.productIds)
+    const payload = {
       title: state.title,
       address: state.address,
       zipCode: state.zipCode.toString(),
@@ -12,9 +13,18 @@ export async function generateInvoicePDF(state) {
       dateDue: new Date(state.dateDue).toISOString(),
       condition: state.condition || "",
       delayFine: state.delayFine || "",
-      font: state.selectedFont
-    }, { responseType: 'blob' });
-    
+      font: state.selectedFont,
+      productIds: state.productIds
+    };
+
+
+    const response = await axios.post('http://localhost:5176/CreateInvoice', payload, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      responseType: 'blob'
+    });
+
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
@@ -23,6 +33,12 @@ export async function generateInvoicePDF(state) {
     link.click();
     link.remove();
   } catch (error) {
-    console.error("Error generating PDF:", error);
+    if (error.response) {
+      console.error("Error response data:", error.response.data);
+      console.error("Error response status:", error.response.status);
+      console.error("Error response headers:", error.response.headers);
+    } else {
+      console.error("Error message:", error.message);
+    }
   }
 }

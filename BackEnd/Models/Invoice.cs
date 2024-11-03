@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace BackEnd.Models
 {
@@ -18,6 +19,7 @@ namespace BackEnd.Models
         public required string Condition { get; set; }
         public required string DelayFine { get; set; }
         public required string Font { get; set; }
+        public List<int> ProductIds { get; set; }
 
     }
 }
