@@ -5,30 +5,7 @@ import { ref } from 'vue';
 export const useCompanyStore = defineStore('company', () => {
   let i: number = 1;
   
-  const companies = ref<Company[]>([
-    {
-        id: i++,
-        name: 'Ettevõte 1',
-        registerCode: 12345678,
-        vatNumber: 'EE123456789',
-        address: 'Tänav 1, Tallinn',
-        postalCode: 10123,
-        country: 'Eesti',
-        email: 'ettevote1@mail.ee',
-        image: 'https://img.freepik.com/premium-vector/minimalist-logo-design-any-corporate-brand-business-company_1253202-77511.jpg'
-      },
-      {
-        id: i++,
-        name: 'Ettevõte 2',
-        registerCode: 87654321,
-        vatNumber: 'EE987654321',
-        address: 'Tänav 2, Tartu',
-        postalCode: 50403,
-        country: 'Eesti',
-        email: 'ettevote2@mail.ee',
-        image: 'https://marketplace.canva.com/EAE0rNNM2Fg/1/0/1600w/canva-letter-c-trade-marketing-logo-design-template-r9VFYrbB35Y.jpg'
-      },
-  ]);
+  const companies = ref<Company[]>([]);
 
   const addCompany = (company: Company) => {
     company.id = i++;

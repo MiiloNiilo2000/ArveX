@@ -80,7 +80,11 @@ namespace backend.Migrations
             migrationBuilder.InsertData(
                 table: "Company",
                 columns: new[] { "CompanyId", "Address", "Country", "Email", "Image", "Name", "PostalCode", "RegisterCode", "VatNumber" },
-                values: new object[] { 1, "Example Address", "Estonia", "example@company.com", null, "Example Company", 12345, 12345, "EE123456789" });
+                values: new object[,]
+                {
+                    { 1, "Example Address", "Estonia", "example@company.com", null, "Example Company", 12345, 12345, "EE123456789" },
+                    { 2, "Example Address 2", "Estonia", "example2@company.com", null, "Example Company 2", 12344, 12344, "EE123456788" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Product",
