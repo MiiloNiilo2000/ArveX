@@ -96,7 +96,7 @@ const editProfile = () => {
 };
 
 const editCompany = () => {
-  alert('Company editing not implemented yet!');
+  router.push(`/companies/edit/${selectedCompanyId.value}`);
 };
 
 const addUser = () => {
