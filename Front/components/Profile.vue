@@ -65,7 +65,7 @@ const selectedUser = computed(() => {
 
 const companies = ref([]);
 const selectedCompanyId = ref<number | null>(null);
-const selectedCompany = computed(() => {
+  const selectedCompany = computed(() => {
   return companies.value.find(company => company.id === selectedCompanyId.value);
 });
 
