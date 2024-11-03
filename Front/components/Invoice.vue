@@ -19,28 +19,45 @@
           list="company-suggestions"
         />
         <datalist id="company-suggestions">
-          <option v-for="company in companySuggestions" :key="company.company_id" :value="company.name">
+          <option 
+            v-for="company in companySuggestions" 
+            :key="company.company_id" 
+            :value="company.name">
             {{ company.name }}
           </option>
         </datalist>
         </UFormGroup>
 
         <UFormGroup label="Aadress" name="address">
-          <UInput v-model="state.address" class="w-full h-12" color="emerald" placeholder="'Ehitajate Tee 5'" />
+          <UInput 
+            v-model="state.address" 
+            class="w-full h-12" 
+            color="emerald" 
+            placeholder="'Ehitajate Tee 5'" />
         </UFormGroup>
 
         <UFormGroup label="Postiindeks" name="zipCode">
-          <UInput v-model="state.zipCode" class="w-full h-12" color="emerald" placeholder="'12345'"/>
+          <UInput 
+            v-model="state.zipCode" 
+            class="w-full h-12" 
+            color="emerald" 
+            placeholder="'12345'"/>
         </UFormGroup>
 
         <UFormGroup label="Riik" name="country">
-          <UInput v-model="state.country" class="w-full h-12" color="emerald" placeholder="'Eesti'"/>
+          <UInput 
+            v-model="state.country" 
+            class="w-full h-12" 
+            color="emerald" 
+            placeholder="'Eesti'"/>
         </UFormGroup>
-      </div>
 
-      <div class="w-1/3"> 
         <UFormGroup label="Arve Number" name="invoiceNr">
-          <UInput v-model="state.invoiceNumber" class="w-full h-12" color="emerald" placeholder="'54321'"/>
+          <UInput 
+            v-model="state.invoiceNumber" 
+            class="w-full h-12" 
+            color="emerald" 
+            placeholder="'54321'"/>
         </UFormGroup>
 
         <UFormGroup label="Kuupäev" name="dateCreated">
@@ -62,14 +79,25 @@
         </UFormGroup>
 
         <UFormGroup label="Tingimused" name="condition">
-          <UInput v-model="state.condition" class="w-full h-12" color="emerald" placeholder="'12 kuud'"/>
+          <UInput 
+            v-model="state.condition" 
+            class="w-full h-12" 
+            color="emerald" 
+            placeholder="'12 kuud'"/>
         </UFormGroup>
 
         <UFormGroup label="Viivis" name="delayFine">
-          <UInput v-model="state.delayFine" class="w-full h-12" color="emerald" placeholder="'5% päevas'"/>
+          <UInput 
+            v-model="state.delayFine" 
+            class="w-full h-12" 
+            color="emerald" 
+            placeholder="'5% päevas'"/>
         </UFormGroup>
+      </div>
 
-        <UFormGroup label="Font" name="font">
+      <div class="w-1/3"> 
+        
+        <UFormGroup label="Font" name="font" class="h-20">
           <select v-model="state.selectedFont">
             <option v-for="font in fonts" :key="font" :value="font">
               {{ font }}
@@ -77,16 +105,20 @@
           </select>
         </UFormGroup>
 
-        <UFormGroup label="Vali Tooted" name="products">
+
+        <UFormGroup label="Vali Tooted:" name="products">
           <div class="product-selection">
-            <label v-for="product in availableProducts" :key="product.productId" class="product-item flex items-center">
-              <input 
-                type="checkbox" 
-                :value="product" 
-                v-model="selectedProducts" 
-                class="mr-2" 
-              />
-              {{ product.name }} - {{ product.price }}
+            <label 
+              v-for="product in availableProducts" 
+              :key="product.productId" 
+              class="product-item flex items-center">
+                <input 
+                  type="checkbox" 
+                  :value="product" 
+                  v-model="selectedProducts" 
+                  class="custom-checkbox mr-2"
+                />
+                {{ product.name }} - {{ product.price + "€"}}
             </label>
           </div>
         </UFormGroup>
@@ -135,7 +167,7 @@
       </div>
     </div>
 
-    <UButton type="submit">Generate PDF</UButton>
+    <UButton type="submit">Lae Arve Alla</UButton>
   </UForm>
 </template>
 
@@ -277,23 +309,23 @@
 
   select {
   border: 1.5px solid #38a169; 
-  background-color: black; 
+  background-color:#121212; 
   color: white; 
   border-radius: 0.375rem; 
-  padding: 0.375rem 0.75rem; 
+  padding: 0.2rem 0.75rem; 
   font-size: 1rem; 
   transition: border-color 0.2s ease-in-out; 
   }
 
   select:focus {
-    border-color: #2f855a; 
+    border-color: #42ac4e; 
     outline: none; 
-    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25); 
+    box-shadow: 0 0 0 0.1rem rgba(66, 248, 56, 0.413); 
   }
   
   .form-field {
   border: 1px solid #38a169; 
-  background-color: white;
+  background-color: #121212;
   color: black;
   border-radius: 0.375rem;
   padding: 0.375rem 0.75rem;
@@ -308,4 +340,31 @@
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
   }
+  
+
+  .custom-checkbox {
+  width: 16px;
+  height: 16px;
+  appearance: none; 
+  border: 2px solid #2f855a; 
+  border-radius: 4px; 
+  background-color: #121212; 
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-checkbox:checked {
+  background-color: #42ac4e; 
+  border-color: #42ac4e;
+}
+
+.custom-checkbox:checked::before {
+  content: '✓';
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
