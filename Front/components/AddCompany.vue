@@ -44,10 +44,11 @@
   <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
   import type { Company } from "../types/company";
-  import { useCompanyStore } from '../stores/companyStores';
   import { reactive } from "vue";
+  import axios from "axios";
+  import { useRouter } from "vue-router";
   
-  const companyStore = useCompanyStore();
+  const router = useRouter();
   
   const state = reactive<Company>({
     id: 0,
@@ -60,7 +61,13 @@
     email: '',
     image: ''
   });
-  
+  const addCompany = async (company) => {
+        try {
+            await axios.post('http://localhost:5176/Companies', company);
+        } catch (error) {
+            console.error("Error adding product:", error);
+        }
+    };
   const validate = (state: any): FormError[] => {
     const errors = [];
     if (!state.name) errors.push({ path: "name", message: "Required" });
@@ -77,8 +84,8 @@
   };
   
   async function onSubmit(event: FormSubmitEvent<any>) {
-    companyStore.addCompany({ ...state });
-    await navigateTo("/profiles");
+    addCompany({ ...state });
+    await router.push("/profiles");
   }
   
   async function onError(event: FormErrorEvent) {
