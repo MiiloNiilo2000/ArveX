@@ -42,8 +42,8 @@ const state = reactive<Product>({
     productId: 0,
     name: '',
     description: '',
-    price: 0,
-    companyId: 0
+    price: null,
+    companyId: null
   });
 
   const addProduct = async (product) => {
@@ -59,6 +59,7 @@ const state = reactive<Product>({
     if (!state.name) errors.push({ path: "name", message: "Required" });
     if (!state.description) errors.push({ path: "description", message: "Required" });
     if (!state.price) errors.push({ path: "price", message: "Required" });
+    if (!state.companyId) errors.push({ path: "companyId", message: "Required" });
     return errors;
   };
 

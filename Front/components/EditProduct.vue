@@ -88,6 +88,7 @@
     if (!state.name) errors.push({ path: "name", message: "Required" });
     if (!state.description) errors.push({ path: "description", message: "Required" });
     if (!state.price) errors.push({ path: "price", message: "Required" });
+    if (!state.companyId) errors.push({ path: "companyId", message: "Required" });
     return errors;
   };
 
