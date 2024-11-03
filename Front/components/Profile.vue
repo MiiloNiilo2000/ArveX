@@ -25,7 +25,7 @@
           Vali ettevõte:
         </label>
         <select v-model="selectedCompanyId" id="companySelect" @change="onCompanyChange" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-          <option v-for="company in companies" :key="company.id" :value="company.id">
+          <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
             {{ company.name }}
           </option>
         </select>
@@ -66,7 +66,7 @@ const selectedUser = computed(() => {
 const companies = ref([]);
 const selectedCompanyId = ref<number | null>(null);
   const selectedCompany = computed(() => {
-  return companies.value.find(company => company.id === selectedCompanyId.value);
+  return companies.value.find(company => company.companyId === selectedCompanyId.value);
 });
 
 const fetchCompanies = async () => {
