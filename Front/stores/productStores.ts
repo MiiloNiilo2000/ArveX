@@ -12,14 +12,14 @@ export const useProductStore = defineStore('product', () => {
     
     
     const editProduct = (updatedProduct: Product) => {
-        const index = products.value.findIndex((product) => product.id === updatedProduct.id);
+        const index = products.value.findIndex((product) => product.productId === updatedProduct.productId);
         if (index !== -1) {
             products.value[index] = { ...updatedProduct };
         }
     };
 
     const getProductById = (id: number): Product | undefined => {
-        return products.value.find(product => product.id === id);
+        return products.value.find(product => product.productId === id);
     };
     
     return { products,  editProduct, getProductById };

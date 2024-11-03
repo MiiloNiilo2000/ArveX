@@ -21,7 +21,7 @@ namespace backend.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegisterCode = table.Column<int>(type: "int", nullable: false),
-                    VATnumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VatNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PostalCode = table.Column<int>(type: "int", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -48,7 +48,8 @@ namespace backend.Migrations
                     DateDue = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Condition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DelayFine = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Font = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Font = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductIds = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,7 +79,7 @@ namespace backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Company",
-                columns: new[] { "CompanyId", "Address", "Country", "Email", "Image", "Name", "PostalCode", "RegisterCode", "VATnumber" },
+                columns: new[] { "CompanyId", "Address", "Country", "Email", "Image", "Name", "PostalCode", "RegisterCode", "VatNumber" },
                 values: new object[] { 1, "Example Address", "Estonia", "example@company.com", null, "Example Company", 12345, 12345, "EE123456789" });
 
             migrationBuilder.InsertData(

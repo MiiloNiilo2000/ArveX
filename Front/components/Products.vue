@@ -6,14 +6,16 @@
       Lisa toode
     </UButton>
 
-    <UTable :columns="columns" :rows="products">
-      <template #delete-data="{ row }">
-        <UButton @click="deleteProduct(row.productId)" color="gray" variant="ghost" icon="mdi-delete" />
-      </template>
-      <template #edit-data="{ row }">
-        <UButton @click="navigateToEditProduct(row.productId)" color="gray" variant="ghost" icon="mdi-pencil" />
-      </template>
-    </UTable>
+    <div v-for="(product, index) in products" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-1/3 mb-6">
+      <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
+      <p class="text-gray-600">{{ product.description }}</p>
+      <p class="text-gray-600">Hind: {{ product.price }}€</p>
+
+      <div class="flex justify-between mt-4">
+        <UButton @click="navigateToEditProduct(product.productId)" title="Muuda"><i class="edit-icon">✏️</i></UButton>
+        <UButton @click="deleteProduct(product.productId)" title="Kustuta"><Icon name="mdi-light:delete"/></UButton>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,14 +26,6 @@
 
     const router = useRouter();
     const products = ref([]);
-
-    const columns = ref([
-    { key: 'name', label: 'Nimi' },
-    { key: 'description', label: 'Kirjeldus' },
-    { key: 'price', label: 'Hind' },
-    { key: 'delete', label: 'Kustuta' },
-    { key: 'edit', label: 'Muuda' },
-    ]);
 
     onMounted(async () => {
       await fetchProducts();

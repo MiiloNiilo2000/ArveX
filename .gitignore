@@ -2,3 +2,7 @@
 BackEnd/bin
 BackEnd/obj
 appsettings.json
+BackEnd/obj/Debug/net8.0/backend.AssemblyInfo.cs
+BackEnd/obj/Debug/net8.0/backend.AssemblyInfoInputs.cache
+BackEnd/obj/Debug/net8.0/backend.assets.cache
+BackEnd/obj/Debug/net8.0/backend.GeneratedMSBuildEditorConfig.editorconfig

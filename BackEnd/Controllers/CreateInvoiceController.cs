@@ -13,7 +13,7 @@ using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Microsoft.EntityFrameworkCore;
-
+using System.Text.Json.Serialization;
 
 namespace BackEnd.Controllers
 {
@@ -30,9 +30,14 @@ namespace BackEnd.Controllers
         [HttpPost(Name = "GeneratePdf")]
         public async Task<IResult> GeneratePdf([FromBody] Invoice data)
         {
+            Console.WriteLine("Received Invoice Data: " + data);
 
             _context.Invoice.Add(data);
             await _context.SaveChangesAsync();
+
+            var products = await _context.Product
+                .Where(p => data.ProductIds.Contains(p.ProductId))
+                .ToListAsync();
 
             var document = CreateDocument(
                 data.Title, 
@@ -44,20 +49,19 @@ namespace BackEnd.Controllers
                 data.DateDue, 
                 data.Condition, 
                 data.DelayFine,
-                data.Font 
+                data.Font,
+                products
             );
             
             var pdf = document.GeneratePdf();
             // document.ShowInCompanion();
-            
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
-            
-            
+                 
             return Results.File(pdf, "application/pdf", fileName);
         }
-
+        
         QuestPDF.Infrastructure.IDocument CreateDocument(
             string title,
             string address,
@@ -68,7 +72,8 @@ namespace BackEnd.Controllers
             DateTime dateDue,
             string condition,
             string delayFine,
-            string font
+            string font,
+            List<Product> products
             )
         {
            return Document.Create(container =>
@@ -137,38 +142,38 @@ namespace BackEnd.Controllers
                                 });
                             });
 
-                            // col.Item().PaddingTop(10).Table(productTable =>
-                            // {
-                            //     productTable.ColumnsDefinition(columns =>
-                            //     {
-                            //         columns.RelativeColumn();
-                            //         columns.RelativeColumn();
-                            //     });
+                            col.Item().PaddingTop(10).Table(productTable =>
+                            {
+                                productTable.ColumnsDefinition(columns =>
+                                {
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                });
 
-                            //     productTable.Header(header =>
-                            //     {
-                            //         header.Cell().Text("Toote Nimi").FontSize(16).Bold();
-                            //         header.Cell().Text("Hind").FontSize(16).Bold();
-                            //     });             
+                                productTable.Header(header =>
+                                {
+                                    header.Cell().Text("Toote Nimi").FontSize(16).Bold();
+                                    header.Cell().Text("Hind").FontSize(16).Bold();
+                                });             
                
-                            //     foreach (var product in products)
-                            //     {
-                            //         productTable.Cell().Text(product.Name).FontSize(14);
-                            //         productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
-                            //     }
-                            // });
+                                foreach (var product in products)
+                                {
+                                    productTable.Cell().Text(product.Name).FontSize(14);
+                                    productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
+                                }
+                            });
 
-                            // col.Item().PaddingTop(10).Table(totalTable =>
-                            // {
-                            //     totalTable.ColumnsDefinition(columns =>
-                            //     {
-                            //         columns.RelativeColumn();
-                            //         columns.RelativeColumn();
-                            //     });
+                            col.Item().PaddingTop(10).Table(totalTable =>
+                            {
+                                totalTable.ColumnsDefinition(columns =>
+                                {
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                });
 
-                            //     totalTable.Cell().Text("Total:").FontSize(16).Bold();
-                            //     totalTable.Cell().Text(products.Sum(p => p.Price).ToString("C")).FontSize(16).Bold();
-                            // });
+                                totalTable.Cell().Text("Kogusumma:").FontSize(16).Bold();
+                                totalTable.Cell().Text(products.Sum(p => p.Price).ToString("C")).FontSize(16).Bold();
+                            });
                         });
 
                     page.Footer()

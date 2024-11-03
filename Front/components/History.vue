@@ -14,7 +14,7 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
-  import { generateInvoicePDF } from '../stores/invoiceUtils';
+  import { generateInvoicePDF } from '../stores/invoiceUtils'; // ARVE VAATAMINE LISAB SELLE UUESTI DATABAASI, KORDA TEHA //
 
   const invoices = ref([]);
 
@@ -62,7 +62,8 @@
       dateDue: row.dateDue,
       condition: row.condition,
       delayFine: row.delayFine,
-      selectedFont: row.font 
+      selectedFont: row.font,
+      productIds: row.productIds 
     };
 
     generateInvoicePDF(state);

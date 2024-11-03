@@ -33,14 +33,17 @@ import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
 import type { Product } from "../types/product";
 import { reactive } from 'vue';
 import axios from "axios";
+import { useRoute, useRouter } from 'vue-router';
 
+const route = useRoute();
+const router = useRouter();
 
 const state = reactive<Product>({
-    id: 0,
+    productId: 0,
     name: '',
     description: '',
-    price: 0,
-    companyId: 0
+    price: null,
+    companyId: null
   });
 
   const addProduct = async (product) => {
@@ -56,12 +59,13 @@ const state = reactive<Product>({
     if (!state.name) errors.push({ path: "name", message: "Required" });
     if (!state.description) errors.push({ path: "description", message: "Required" });
     if (!state.price) errors.push({ path: "price", message: "Required" });
+    if (!state.companyId) errors.push({ path: "companyId", message: "Required" });
     return errors;
   };
 
   async function onSubmit(event: FormSubmitEvent<any>) {
     addProduct({ ...state });
-    await navigateTo("/products");
+    await router.push("/products");
   }
 
   async function onError(event: FormErrorEvent) {

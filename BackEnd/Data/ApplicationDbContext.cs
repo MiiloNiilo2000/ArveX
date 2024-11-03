@@ -17,6 +17,19 @@ namespace BackEnd.Data
         public DbSet<Invoice> Invoice { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Company> Company { get; set; }
+        public async Task<bool> UpdateProduct(int id, Product product){
+            bool isIdsMatch = id == product.ProductId;
+            bool productExists = await Product.AnyAsync(x => x.ProductId == id);
+
+            if (!isIdsMatch || !productExists)
+            {
+                return false;
+            }
+
+            Update(product);
+            int updatedRecordsCount = await SaveChangesAsync();
+            return updatedRecordsCount == 1;
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
