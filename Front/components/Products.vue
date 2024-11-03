@@ -12,8 +12,8 @@
       <p class="text-gray-600">Hind: {{ product.price }}€</p>
 
       <div class="flex justify-between mt-4">
-        <UButton @click="navigateToEditProduct(product.productId)"><i class="edit-icon">✏️</i></UButton>
-        <UButton @click="deleteProduct(product.productId)"><Icon name="mdi-light:delete"/></UButton>
+        <UButton @click="navigateToEditProduct(product.productId)" title="Muuda"><i class="edit-icon">✏️</i></UButton>
+        <UButton @click="deleteProduct(product.productId)" title="Kustuta"><Icon name="mdi-light:delete"/></UButton>
       </div>
     </div>
   </div>
