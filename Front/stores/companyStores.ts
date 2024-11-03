@@ -18,6 +18,16 @@ export const useCompanyStore = defineStore('company', () => {
       companies.value.splice(index, 1);
     }
   };
+  const editCompany = (updatedCompany: Company) => {
+    const index = companies.value.findIndex((company) => company.id === updatedCompany.id);
+    if (index !== -1) {
+        companies.value[index] = { ...updatedCompany };
+    }
+};
 
-  return { companies, addCompany, deleteCompany };
+const getCompanyById = (Id: number): Company | undefined => {
+    return companies.value.find(company => company.id === Id);
+};
+
+  return { companies, deleteCompany, editCompany, getCompanyById };
 });
