@@ -70,5 +70,10 @@ namespace BackEnd.Controllers
 
             return Ok(company.Products);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Company company){
+            bool result = await _context.UpdateCompany(id, company);
+            return result ? NoContent() : NotFound();
+        }
     }
 }

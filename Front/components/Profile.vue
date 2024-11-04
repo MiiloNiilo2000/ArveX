@@ -87,7 +87,7 @@ console.log('Selected company:', selectedCompany.value);
 onMounted(async () => {
   await fetchCompanies();
   if (companies.value.length > 0) {
-      selectedCompanyId.value = companies.value[0].CompanyId;
+      selectedCompanyId.value = 1;
   }
 });
 
@@ -96,7 +96,7 @@ const editProfile = () => {
 };
 
 const editCompany = () => {
-  alert('Company editing not implemented yet!');
+  router.push(`/companies/edit/${selectedCompanyId.value}`);
 };
 
 const addUser = () => {

@@ -13,23 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d371b6cce6b4dcc4ac1e395bc0f2f6515b2d287")]
-=======
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b9e1b7214995f2b14fd854ee7a8f709cf54b0ee")]
-=======
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a7b4d713d1648ba16a91e33748577233b458b12")]
-=======
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bccd3eedeaccd63b3d6f9c9fb5ab309d4c3ad459")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3a3452a8fdeb511a6532f05c4db39202930bc87")]
->>>>>>> EttevottedFrontis
->>>>>>> 2b9e1b7214995f2b14fd854ee7a8f709cf54b0ee
->>>>>>> 6d371b6cce6b4dcc4ac1e395bc0f2f6515b2d287
->>>>>>> 95d43fd3a036654a02c1d38074edf6e423b70209
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb695650c3877216fe1320280aa8ea379636956b")]
 [assembly: System.Reflection.AssemblyProductAttribute("backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
