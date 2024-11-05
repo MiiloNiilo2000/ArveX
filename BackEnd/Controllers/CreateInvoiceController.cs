@@ -60,7 +60,7 @@ namespace BackEnd.Controllers
             );
             
             var pdf = document.GeneratePdf();
-            //document.ShowInCompanion();
+            document.ShowInCompanion();
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
@@ -94,8 +94,52 @@ namespace BackEnd.Controllers
                     page.DefaultTextStyle(x => x.FontSize(20).FontFamily(font));
 
                     page.Header()
-                        .Text(title)
-                        .SemiBold().FontSize(36).FontColor(Colors.Blue.Medium);
+                        .Column(col => 
+                        {
+                            col.Item().Table(headerTable =>
+                            {
+                                headerTable.ColumnsDefinition(columns => 
+                                {
+                                    columns.RelativeColumn();
+                                    
+                                });
+
+                                headerTable.Cell().Row(1).Column(1).Table(innerTable =>
+                                {
+                                    innerTable.ColumnsDefinition(innerColumns =>
+                                    {
+                                        innerColumns.RelativeColumn(3);
+                                        innerColumns.RelativeColumn(2);
+                                    });
+
+                                    innerTable.Cell().Column(1).Width(64).Image("assets/images/arvexLogo.png");
+
+                                    innerTable.Cell().Column(2).Table(innerTableRight => 
+                                    {
+                                        innerTableRight.ColumnsDefinition(innerColumns =>
+                                        {
+                                            innerColumns.RelativeColumn();
+                                            innerColumns.RelativeColumn();
+                                        });
+                                        innerTableRight.Cell().Row(1).Column(1).AlignLeft().Text("Arve number:").FontSize(15).Bold();
+                                        innerTableRight.Cell().Row(1).Column(2).AlignRight().Text(invoiceNumber.ToString()).FontSize(15).Bold();
+                                        innerTableRight.Cell().Row(2).Column(1).Padding(2);
+
+                                        innerTableRight.Cell().Row(3).Column(1).AlignLeft().Text("Kuupäev:").FontSize(11);
+                                        innerTableRight.Cell().Row(3).Column(2).AlignRight().Text(dateCreated.ToString("MM.dd.yyyy")).FontSize(11);
+    
+                                        innerTableRight.Cell().Row(4).Column(1).AlignLeft().Text("Maksetähtaeg:").FontSize(11).Bold();
+                                        innerTableRight.Cell().Row(4).Column(2).AlignRight().Text(dateDue.ToString("MM.dd.yyyy")).FontSize(11).Bold();
+
+                                        innerTableRight.Cell().Row(5).Column(1).AlignLeft().Text("Tingimused:").FontSize(11);
+                                        innerTableRight.Cell().Row(5).Column(2).AlignRight().Text(condition).FontSize(11);
+
+                                        innerTableRight.Cell().Row(6).Column(1).AlignLeft().Text("Viivis:").FontSize(11);
+                                        innerTableRight.Cell().Row(6).Column(2).AlignRight().Text(delayFine).FontSize(11);
+                                    });
+                                });               
+                            });
+                        });
 
                     page.Content()
                         .PaddingVertical(1, Unit.Centimetre)
@@ -105,8 +149,8 @@ namespace BackEnd.Controllers
                             {
                                 table.ColumnsDefinition(columns =>
                                 {
-                                    columns.RelativeColumn();
-                                    columns.RelativeColumn();
+                                    columns.RelativeColumn(3);;
+                                    columns.RelativeColumn(2);
                                 });
 
                                 table.Cell().Row(1).Column(1).Table(innerTable =>
@@ -115,14 +159,21 @@ namespace BackEnd.Controllers
                                     {
                                         innerColumns.RelativeColumn();
                                     });
-                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Klient:").FontSize(15);
+                                   
+                                    var parts = address.Split(',', 3); // Split into a maximum of 3 parts
+
+                                    string firstLine = parts.Length > 2 ? $"{parts[0]}, {parts[1]}" : address;
+                                    string secondLine = parts.Length > 2 ? parts[2] : "";
+
+                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Klient").FontSize(14);
                                     innerTable.Cell().Row(2).Column(1).Padding(2);
-                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(title).FontSize(18).Bold();
-                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Reg. nr.: " + clientRegNr).FontSize(12);
-                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("KMKR: " + clientKMKR).FontSize(12);
-                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text(address).FontSize(12);
-                                    innerTable.Cell().Row(7).Column(1).AlignLeft().Text(zipCode).FontSize(12);
-                                    innerTable.Cell().Row(8).Column(1).AlignLeft().Text(country).FontSize(12);
+                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(title).FontSize(16).Bold();
+                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Reg. nr.: " + clientRegNr).FontSize(11);
+                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("KMKR: " + clientKMKR).FontSize(11);
+                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text(secondLine.Trim()).FontSize(11);
+                                    innerTable.Cell().Row(7).Column(1).AlignLeft().Text(firstLine).FontSize(11);
+                                    innerTable.Cell().Row(8).Column(1).AlignLeft().Text(zipCode).FontSize(11);
+                                    innerTable.Cell().Row(9).Column(1).AlignLeft().Text(country).FontSize(11);
                                 });
                                     
 
@@ -134,25 +185,21 @@ namespace BackEnd.Controllers
                                         innerColumns.RelativeColumn();
                                     });
 
-                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Arve number:").FontSize(15).Bold();
-                                    innerTable.Cell().Row(1).Column(2).AlignRight().Text(invoiceNumber.ToString()).FontSize(15).Bold();
+                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text("ArveX").FontSize(15).Bold();
                                     innerTable.Cell().Row(2).Column(1).Padding(2);
                                     
-                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text("Kuupäev:").FontSize(12);
-                                    innerTable.Cell().Row(3).Column(2).AlignRight().Text(dateCreated.ToString("MM.dd.yyyy")).FontSize(12);
+                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text("[Aadress]").FontSize(11);
+                                    
+                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Reg. nr.: 12345").FontSize(11);
+                                    
 
-                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Tingimused:").FontSize(12);
-                                    innerTable.Cell().Row(4).Column(2).AlignRight().Text(condition).FontSize(12);
+                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("KMKR: EE98765").FontSize(11);
+                                    
 
-                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("Maksetähtaeg:").FontSize(12);
-                                    innerTable.Cell().Row(5).Column(2).AlignRight().Text(dateDue.ToString("MM.dd.yyyy")).FontSize(12);
-
-                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text("Viivis:").FontSize(12);
-                                    innerTable.Cell().Row(6).Column(2).AlignRight().Text(delayFine).FontSize(12);
                                 });
                             });
-                            col.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Black);
-                            col.Item().PaddingTop(100).Table(productTable =>
+
+                            col.Item().PaddingTop(30).Table(productTable =>
                             {
 
                                 // productTable.ColumnsDefinition(columns =>
@@ -180,7 +227,7 @@ namespace BackEnd.Controllers
                                     header.Cell().Row(1).Column(1).Text("Toote Nimi").FontSize(16).Bold();
                                     header.Cell().Row(1).Column(2).Text("Hind").FontSize(16).Bold();
                                     header.Cell().Row(1).Column(3).Text("Kokku").FontSize(16).Bold();
-                                    header.Cell().Row(1).Column(4).Text("KM %").FontSize(16).Bold();
+                                    header.Cell().Row(1).Column(4).Text("KM %").AlignRight().FontSize(16).Bold();
                                 });           
                                 productTable.Cell().PaddingTop(4);  
                                 productTable.Cell().PaddingTop(4); 
@@ -205,7 +252,7 @@ namespace BackEnd.Controllers
                                     productTable.Cell().Text(product.Name).FontSize(14);
                                     productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
                                     productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
-                                    productTable.Cell().Text(_taxPercent).FontSize(14);
+                                    productTable.Cell().AlignRight().Text(_taxPercent).FontSize(14);
                                 }
                             });
 
@@ -214,16 +261,16 @@ namespace BackEnd.Controllers
                             {
                                 totalTable.ColumnsDefinition(columns =>
                                 {
-                                    columns.RelativeColumn(3);
-                                    columns.RelativeColumn(1);
+                                    columns.RelativeColumn(2);
+                                    columns.RelativeColumn();
                                 });
             
-                                totalTable.Cell().Text("Summa:").FontSize(14);
-                                totalTable.Cell().Text(_priceWithoutTax.ToString("C")).FontSize(16);
-                                totalTable.Cell().Text("+Käibemaks").FontSize(12);
-                                totalTable.Cell().Text((_totalPrice - _priceWithoutTax).ToString("C")).FontSize(12);
-                                totalTable.Cell().Text("Kokku").FontSize(16).Bold();
-                                totalTable.Cell().Text(_totalPrice.ToString("C")).FontSize(16).Bold();
+                                totalTable.Cell().AlignRight().Text("Summa").FontSize(14);
+                                totalTable.Cell().AlignRight().Text(_priceWithoutTax.ToString("C")).FontSize(16);
+                                totalTable.Cell().AlignRight().Text("+Käibemaks").FontSize(12);
+                                totalTable.Cell().AlignRight().Text((_totalPrice - _priceWithoutTax).ToString("C")).FontSize(12);
+                                totalTable.Cell().AlignRight().Text("Kokku").FontSize(16).Bold();
+                                totalTable.Cell().AlignRight().Text(_totalPrice.ToString("C")).FontSize(16).Bold();
                             });
                         });
 
