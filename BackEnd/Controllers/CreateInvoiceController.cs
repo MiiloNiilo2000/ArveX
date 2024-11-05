@@ -58,7 +58,7 @@ namespace BackEnd.Controllers
             );
             
             var pdf = document.GeneratePdf();
-            document.ShowInCompanion();
+            //document.ShowInCompanion();
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
@@ -202,6 +202,7 @@ namespace BackEnd.Controllers
                                     productTable.Cell().Text(_taxPercent).FontSize(14);
                                 }
                             });
+                            
                             col.Item().PaddingVertical(10).LineHorizontal(1);
                             col.Item().Table(totalTable =>
                             {
