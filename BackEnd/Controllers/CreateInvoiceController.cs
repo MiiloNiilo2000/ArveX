@@ -45,6 +45,8 @@ namespace BackEnd.Controllers
 
             var document = CreateDocument(
                 data.Title, 
+                data.ClientRegNr,
+                data.ClientKMKR,
                 data.Address, 
                 data.ZipCode, 
                 data.Country, 
@@ -68,6 +70,8 @@ namespace BackEnd.Controllers
         
         QuestPDF.Infrastructure.IDocument CreateDocument(
             string title,
+            string clientRegNr,
+            string clientKMKR,
             string address,
             string zipCode,
             string country,
@@ -114,9 +118,11 @@ namespace BackEnd.Controllers
                                     innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Klient:").FontSize(15);
                                     innerTable.Cell().Row(2).Column(1).Padding(2);
                                     innerTable.Cell().Row(3).Column(1).AlignLeft().Text(title).FontSize(18).Bold();
-                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text(address).FontSize(12);
-                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text(zipCode).FontSize(12);
-                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text(country).FontSize(12);
+                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Reg. nr.: " + clientRegNr).FontSize(12);
+                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("KMKR: " + clientKMKR).FontSize(12);
+                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text(address).FontSize(12);
+                                    innerTable.Cell().Row(7).Column(1).AlignLeft().Text(zipCode).FontSize(12);
+                                    innerTable.Cell().Row(8).Column(1).AlignLeft().Text(country).FontSize(12);
                                 });
                                     
 
@@ -202,7 +208,7 @@ namespace BackEnd.Controllers
                                     productTable.Cell().Text(_taxPercent).FontSize(14);
                                 }
                             });
-                            
+
                             col.Item().PaddingVertical(10).LineHorizontal(1);
                             col.Item().Table(totalTable =>
                             {

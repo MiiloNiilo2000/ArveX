@@ -28,6 +28,22 @@
         </datalist>
         </UFormGroup>
 
+        <UFormGroup label="Registrikood" name="clientRegNr">
+          <UInput 
+            v-model="state.clientRegNr" 
+            class="w-full h-12" 
+            color="emerald" 
+            placeholder="'10379733'" />
+        </UFormGroup>
+
+        <UFormGroup label="Käibemaksukohustuslase number" name="clientKMKR">
+          <UInput 
+            v-model="state.clientKMKR" 
+            class="w-full h-12" 
+            color="emerald" 
+            placeholder="'EE100247019'" />
+        </UFormGroup>
+
         <UFormGroup label="Aadress" name="address">
           <UInput 
             v-model="state.address" 
@@ -193,11 +209,13 @@
 
   const state = reactive({
     title: '',
+    clientRegNr: '',
+    clientKMKR: '',
     address: '',
     zipCode: '',
     country: 'Eesti',
     invoiceNumber: '',
-    dateCreated: '',
+    dateCreated: new Date().toISOString().split('T')[0],
     dateDue: '',
     condition: '',
     delayFine: '',
@@ -256,6 +274,7 @@
     watch(() => state.title, (newTitle) => {
       const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
       if (selectedCompany) {
+        state.clientRegNr = selectedCompany.reg_code;
         state.address = selectedCompany.legal_address;
         state.zipCode = selectedCompany.zip_code;
       }

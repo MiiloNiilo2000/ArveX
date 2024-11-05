@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241105095251_init")]
+    [Migration("20241105120044_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -103,6 +103,14 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClientKMKR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientRegNr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Condition")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -165,7 +173,7 @@ namespace backend.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<double?>("TaxPercent")
+                    b.Property<double>("TaxPercent")
                         .HasColumnType("float");
 
                     b.HasKey("ProductId");

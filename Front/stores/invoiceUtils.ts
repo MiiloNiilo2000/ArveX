@@ -5,6 +5,8 @@ export async function generateInvoicePDF(state) {
     console.log("Ids in util", state.productIds)
     const payload = {
       title: state.title,
+      clientRegNr: state.clientRegNr.toString(),
+      clientKMKR: state.clientKMKR,
       address: state.address,
       zipCode: state.zipCode.toString(),
       country: state.country,
@@ -16,7 +18,6 @@ export async function generateInvoicePDF(state) {
       font: state.selectedFont,
       productIds: state.productIds
     };
-
 
     const response = await axios.post('http://localhost:5176/CreateInvoice', payload, {
       headers: {

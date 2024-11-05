@@ -100,6 +100,14 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClientKMKR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientRegNr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Condition")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -162,7 +170,7 @@ namespace backend.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<double?>("TaxPercent")
+                    b.Property<double>("TaxPercent")
                         .HasColumnType("float");
 
                     b.HasKey("ProductId");

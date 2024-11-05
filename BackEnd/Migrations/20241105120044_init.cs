@@ -48,6 +48,8 @@ namespace backend.Migrations
                     DateDue = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Condition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DelayFine = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientRegNr = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientKMKR = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Font = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductIds = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -66,7 +68,7 @@ namespace backend.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
                     CompanyId = table.Column<int>(type: "int", nullable: true),
-                    TaxPercent = table.Column<double>(type: "float", nullable: true)
+                    TaxPercent = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
