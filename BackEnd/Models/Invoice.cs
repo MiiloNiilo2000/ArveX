@@ -21,7 +21,7 @@ namespace BackEnd.Models
         public required string ClientRegNr { get; set; }
         public required string ClientKMKR { get; set; }
         public required string Font { get; set; }
-        public List<int> ProductIds { get; set; }
+        public required List<int> ProductIds { get; set; }
 
     }
 }

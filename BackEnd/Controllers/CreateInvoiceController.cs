@@ -60,7 +60,7 @@ namespace BackEnd.Controllers
             );
             
             var pdf = document.GeneratePdf();
-            document.ShowInCompanion();
+            //document.ShowInCompanion();
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
@@ -160,7 +160,7 @@ namespace BackEnd.Controllers
                                         innerColumns.RelativeColumn();
                                     });
                                    
-                                    var parts = address.Split(',', 3); // Split into a maximum of 3 parts
+                                    var parts = address.Split(',', 3); 
 
                                     string firstLine = parts.Length > 2 ? $"{parts[0]}, {parts[1]}" : address;
                                     string secondLine = parts.Length > 2 ? parts[2] : "";
@@ -242,7 +242,6 @@ namespace BackEnd.Controllers
                                 productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
 
-                                int rowNumber = 2;
                                 foreach (var product in products)
                                 {   
                                     _taxPercent = product.TaxPercent;
@@ -252,7 +251,7 @@ namespace BackEnd.Controllers
                                     productTable.Cell().Text(product.Name).FontSize(14);
                                     productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
                                     productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
-                                    productTable.Cell().AlignRight().Text(_taxPercent).FontSize(14);
+                                    productTable.Cell().AlignRight().Text(_taxPercent.ToString()).FontSize(14);
                                 }
                             });
 
@@ -277,7 +276,7 @@ namespace BackEnd.Controllers
                     page.Footer()
                         .Row(row =>
                         {
-                            row.RelativeItem().AlignLeft().Image("assets/images/TestFooter.png", ImageScaling.FitWidth);
+                            row.RelativeItem().AlignLeft().Image("assets/images/TestFooter.png");
                         });
                 });
             });
