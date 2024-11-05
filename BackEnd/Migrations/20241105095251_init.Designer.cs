@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241103205145_init")]
+    [Migration("20241105095251_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -165,6 +165,9 @@ namespace backend.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<double?>("TaxPercent")
+                        .HasColumnType("float");
+
                     b.HasKey("ProductId");
 
                     b.HasIndex("CompanyId");
@@ -178,7 +181,8 @@ namespace backend.Migrations
                             CompanyId = 1,
                             Description = "Description1",
                             Name = "Product1",
-                            Price = 100
+                            Price = 100,
+                            TaxPercent = 22.0
                         },
                         new
                         {
@@ -186,7 +190,8 @@ namespace backend.Migrations
                             CompanyId = 1,
                             Description = "Description2",
                             Name = "Product2",
-                            Price = 150
+                            Price = 150,
+                            TaxPercent = 22.0
                         });
                 });
 

@@ -65,7 +65,8 @@ namespace backend.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: true)
+                    CompanyId = table.Column<int>(type: "int", nullable: true),
+                    TaxPercent = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,11 +89,11 @@ namespace backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "CompanyId", "Description", "Name", "Price" },
+                columns: new[] { "ProductId", "CompanyId", "Description", "Name", "Price", "TaxPercent" },
                 values: new object[,]
                 {
-                    { 1, 1, "Description1", "Product1", 100 },
-                    { 2, 1, "Description2", "Product2", 150 }
+                    { 1, 1, "Description1", "Product1", 100, 22.0 },
+                    { 2, 1, "Description2", "Product2", 150, 22.0 }
                 });
 
             migrationBuilder.CreateIndex(

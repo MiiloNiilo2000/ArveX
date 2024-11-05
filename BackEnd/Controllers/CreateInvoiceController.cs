@@ -23,6 +23,9 @@ namespace BackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        protected double _totalPrice;
+        protected double _taxPercent;
+        protected double _priceWithoutTax;
         public CreateInvoiceController(ApplicationDbContext context){
             _context = context;
         }
@@ -54,7 +57,7 @@ namespace BackEnd.Controllers
             );
             
             var pdf = document.GeneratePdf();
-            document.ShowInCompanion();
+            //document.ShowInCompanion();
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
@@ -150,6 +153,7 @@ namespace BackEnd.Controllers
 
                                     columns.RelativeColumn(3);
                                     columns.RelativeColumn(1);
+                                    columns.RelativeColumn(1);
                                 });
 
                                 productTable.Header(header =>
@@ -164,9 +168,13 @@ namespace BackEnd.Controllers
                                 productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
                                 foreach (var product in products)
-                                {
+                                {   
+                                    _taxPercent = product.TaxPercent;
+                                    double priceWithTax = product.Price + (product.Price * (_taxPercent/100));
+                                    _totalPrice += priceWithTax;
+                                    _priceWithoutTax += product.Price;
                                     productTable.Cell().Text(product.Name).FontSize(14);
-                                    productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
+                                    productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
                                 }
                             });
                             col.Item().PaddingVertical(10).LineHorizontal(1);
@@ -178,8 +186,12 @@ namespace BackEnd.Controllers
                                     columns.RelativeColumn(1);
                                 });
             
-                                totalTable.Cell().Text("Kogusumma:").FontSize(16).Bold();
-                                totalTable.Cell().Text(products.Sum(p => p.Price).ToString("C")).FontSize(16).Bold();
+                                totalTable.Cell().Text("Summa:").FontSize(14);
+                                totalTable.Cell().Text(_priceWithoutTax.ToString("C")).FontSize(16);
+                                totalTable.Cell().Text("+Käibemaks").FontSize(12);
+                                totalTable.Cell().Text((_totalPrice - _priceWithoutTax).ToString("C")).FontSize(12);
+                                totalTable.Cell().Text("Kokku").FontSize(16).Bold();
+                                totalTable.Cell().Text(_totalPrice.ToString("C")).FontSize(16).Bold();
                             });
                         });
 
