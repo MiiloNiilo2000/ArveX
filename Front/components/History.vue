@@ -68,7 +68,7 @@
       productIds: row.productIds 
     };
 
-    generateInvoicePDF(state);
+    generateInvoicePDF(state, "GeneratePdfWithoutSaving");
   };
 
   onMounted(() => {

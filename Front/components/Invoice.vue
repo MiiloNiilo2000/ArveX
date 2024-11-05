@@ -282,7 +282,7 @@
        
   const submitForm = () => { 
     state.productIds = selectedProducts.value.map(product => product.productId);
-    generateInvoicePDF(state)
+    generateInvoicePDF(state, "GeneratePdf")
   };
 
   async function onError(event: FormErrorEvent) {

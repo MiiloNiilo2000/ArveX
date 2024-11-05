@@ -28,12 +28,44 @@ namespace BackEnd.Controllers
         protected double _priceWithoutTax;
 
 
-        [HttpPost(Name = "GeneratePdf")]
+        [HttpPost("GeneratePdf")]
         public async Task<IResult> GeneratePdf([FromBody] Invoice data)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
             var invoice = await repo.SaveInvoiceInDb(data);
+
+            var products = await repo.GetProductsById(data);
+
+            var document = CreateDocument(
+                data.Title, 
+                data.ClientRegNr,
+                data.ClientKMKR,
+                data.Address, 
+                data.ZipCode, 
+                data.Country, 
+                data.InvoiceNumber, 
+                data.DateCreated, 
+                data.DateDue, 
+                data.Condition, 
+                data.DelayFine,
+                data.Font,
+                products
+            );
+            
+            var pdf = document.GeneratePdf();
+            //document.ShowInCompanion();
+            var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
+           
+            string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
+                 
+            return Results.File(pdf, "application/pdf", fileName);
+        }
+
+        [HttpPost("GeneratePdfWithoutSaving")]
+        public async Task<IResult> GeneratePdfWithoutSaving([FromBody] Invoice data)
+        {
+            Console.WriteLine("Received Invoice Data: " + data);
 
             var products = await repo.GetProductsById(data);
 
