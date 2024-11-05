@@ -2,6 +2,7 @@ using Microsoft.Extensions.FileProviders;
 using QuestPDF.Infrastructure;
 using QuestPDF.Fluent;
 using BackEnd.Data;
+using BackEnd.Data.Repos;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 }); 
+
+builder.Services.AddScoped<InvoiceRepo>();
 
 var app = builder.Build();
 

@@ -54,6 +54,8 @@
   const viewInvoice = async (row) => {
     const state = {
       title: row.title,
+      clientRegNr: row.clientRegNr,
+      clientKMKR: row.clientKMKR,
       address: row.address,
       zipCode: row.zipCode,
       country: row.country,

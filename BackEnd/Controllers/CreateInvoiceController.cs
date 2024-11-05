@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BackEnd.Data;
 using BackEnd.Models;
 using BackEnd.QuestPDF_Helpers;
+using BackEnd.Data.Repos;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Companion;
@@ -20,28 +21,21 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CreateInvoiceController : ControllerBase
+    public class CreateInvoiceController(InvoiceRepo repo) : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-
         protected double _totalPrice;
         protected double _taxPercent;
         protected double _priceWithoutTax;
-        public CreateInvoiceController(ApplicationDbContext context){
-            _context = context;
-        }
+
 
         [HttpPost(Name = "GeneratePdf")]
         public async Task<IResult> GeneratePdf([FromBody] Invoice data)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
-            _context.Invoice.Add(data);
-            await _context.SaveChangesAsync();
+            var invoice = await repo.SaveInvoiceInDb(data);
 
-            var products = await _context.Product
-                .Where(p => data.ProductIds.Contains(p.ProductId))
-                .ToListAsync();
+            var products = await repo.GetProductsById(data);
 
             var document = CreateDocument(
                 data.Title, 
