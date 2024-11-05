@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Data;
 using BackEnd.Models;
+using BackEnd.QuestPDF_Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Companion;
@@ -57,7 +58,7 @@ namespace BackEnd.Controllers
             );
             
             var pdf = document.GeneratePdf();
-            //document.ShowInCompanion();
+            document.ShowInCompanion();
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
@@ -147,6 +148,17 @@ namespace BackEnd.Controllers
                             col.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Black);
                             col.Item().PaddingTop(100).Table(productTable =>
                             {
+
+                                // productTable.ColumnsDefinition(columns =>
+                                // {
+                                //     columns.ConstantColumn(100);
+                                //     columns.ConstantColumn(100);
+                                //     columns.RelativeColumn(2);
+                                //     columns.RelativeColumn(3);
+                                // });
+
+                                // productTable.Cell().ValueCell().Text("test").FontSize(14);
+
                                
                                 productTable.ColumnsDefinition(columns =>
                                 {
@@ -154,19 +166,30 @@ namespace BackEnd.Controllers
                                     columns.RelativeColumn(3);
                                     columns.RelativeColumn(1);
                                     columns.RelativeColumn(1);
+                                    columns.RelativeColumn(1);
                                 });
 
                                 productTable.Header(header =>
                                 {
-                                    header.Cell().Text("Toote Nimi").FontSize(16).Bold();
-                                    header.Cell().Text("Hind").FontSize(16).Bold();
+                                    header.Cell().Row(1).Column(1).Text("Toote Nimi").FontSize(16).Bold();
+                                    header.Cell().Row(1).Column(2).Text("Hind").FontSize(16).Bold();
+                                    header.Cell().Row(1).Column(3).Text("Kokku").FontSize(16).Bold();
+                                    header.Cell().Row(1).Column(4).Text("KM %").FontSize(16).Bold();
                                 });           
                                 productTable.Cell().PaddingTop(4);  
                                 productTable.Cell().PaddingTop(4); 
+                                productTable.Cell().PaddingTop(4);
+                                productTable.Cell().PaddingTop(4);
+                                productTable.Cell().LineHorizontal(1);
+                                productTable.Cell().LineHorizontal(1);
                                 productTable.Cell().LineHorizontal(1);
                                 productTable.Cell().LineHorizontal(1);
                                 productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
+                                productTable.Cell().Padding(5);
+                                productTable.Cell().Padding(5);
+
+                                int rowNumber = 2;
                                 foreach (var product in products)
                                 {   
                                     _taxPercent = product.TaxPercent;
@@ -174,7 +197,9 @@ namespace BackEnd.Controllers
                                     _totalPrice += priceWithTax;
                                     _priceWithoutTax += product.Price;
                                     productTable.Cell().Text(product.Name).FontSize(14);
+                                    productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
                                     productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
+                                    productTable.Cell().Text(_taxPercent).FontSize(14);
                                 }
                             });
                             col.Item().PaddingVertical(10).LineHorizontal(1);
