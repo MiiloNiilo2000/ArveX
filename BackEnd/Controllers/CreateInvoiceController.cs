@@ -54,7 +54,7 @@ namespace BackEnd.Controllers
             );
             
             var pdf = document.GeneratePdf();
-            // document.ShowInCompanion();
+            document.ShowInCompanion();
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
@@ -141,36 +141,43 @@ namespace BackEnd.Controllers
                                     innerTable.Cell().Row(6).Column(2).AlignRight().Text(delayFine).FontSize(12);
                                 });
                             });
-
-                            col.Item().PaddingTop(10).Table(productTable =>
+                            col.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Black);
+                            col.Item().PaddingTop(100).Table(productTable =>
                             {
+                               
                                 productTable.ColumnsDefinition(columns =>
                                 {
-                                    columns.RelativeColumn();
-                                    columns.RelativeColumn();
+
+                                    columns.RelativeColumn(3);
+                                    columns.RelativeColumn(1);
                                 });
 
                                 productTable.Header(header =>
                                 {
                                     header.Cell().Text("Toote Nimi").FontSize(16).Bold();
                                     header.Cell().Text("Hind").FontSize(16).Bold();
-                                });             
-               
+                                });           
+                                productTable.Cell().PaddingTop(4);  
+                                productTable.Cell().PaddingTop(4); 
+                                productTable.Cell().LineHorizontal(1);
+                                productTable.Cell().LineHorizontal(1);
+                                productTable.Cell().Padding(5);
+                                productTable.Cell().Padding(5);
                                 foreach (var product in products)
                                 {
                                     productTable.Cell().Text(product.Name).FontSize(14);
                                     productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
                                 }
                             });
-
-                            col.Item().PaddingTop(10).Table(totalTable =>
+                            col.Item().PaddingVertical(10).LineHorizontal(1);
+                            col.Item().Table(totalTable =>
                             {
                                 totalTable.ColumnsDefinition(columns =>
                                 {
-                                    columns.RelativeColumn();
-                                    columns.RelativeColumn();
+                                    columns.RelativeColumn(3);
+                                    columns.RelativeColumn(1);
                                 });
-
+            
                                 totalTable.Cell().Text("Kogusumma:").FontSize(16).Bold();
                                 totalTable.Cell().Text(products.Sum(p => p.Price).ToString("C")).FontSize(16).Bold();
                             });

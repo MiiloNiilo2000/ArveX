@@ -30,6 +30,19 @@ namespace BackEnd.Data
             int updatedRecordsCount = await SaveChangesAsync();
             return updatedRecordsCount == 1;
         }
+        public async Task<bool> UpdateCompany(int Id, Company company){
+            bool isIdsMatch = Id == company.CompanyId;
+            bool companyExists = await Company.AnyAsync(x => x.CompanyId == Id);
+
+            if (!isIdsMatch || !companyExists)
+            {
+                return false;
+            }
+
+            Update(company);
+            int updatedRecordsCount = await SaveChangesAsync();
+            return updatedRecordsCount == 1;
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
@@ -48,6 +61,17 @@ namespace BackEnd.Data
                 PostalCode = 12345,
                 Country = "Estonia",
                 Email = "example@company.com"
+            },
+            new Company
+            {
+                CompanyId = 2,
+                Name = "Example Company 2",
+                RegisterCode = 12344,
+                VatNumber = "EE123456788",
+                Address = "Example Address 2",
+                PostalCode = 12344,
+                Country = "Estonia",
+                Email = "example2@company.com"
             }
         );
             modelBuilder.Entity<Product>().HasData(

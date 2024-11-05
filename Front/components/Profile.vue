@@ -21,9 +21,11 @@
       </div>
 
       <div class="flex-1">
-        <label for="companySelect" class="block text-sm font-medium text-gray-700">Vali ettevõte:</label>
-        <select v-model="selectedCompanyId" id="companySelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-          <option v-for="company in companies" :key="company.CompanyId" :value="company.CompanyId">
+        <label for="companySelect" class="block text-sm font-medium text-gray-700">
+          Vali ettevõte:
+        </label>
+        <select v-model="selectedCompanyId" id="companySelect" @change="onCompanyChange" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+          <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
             {{ company.name }}
           </option>
         </select>
@@ -43,40 +45,28 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useProfileStore } from '../stores/profileStores';
-import { useCompanyStore } from '../stores/companyStores';
 import { useRouter } from 'vue-router';
 import UserProfile from '../components/UserProfile.vue';
 import CompanyProfile from '../components/CompanyProfile.vue';
 import axios from 'axios';
 
 const profileStore = useProfileStore();
-const companyStore = useCompanyStore();
 const router = useRouter();
 
-// Loendid profiilide ja ettevõtete jaoks
 const users = computed(() => profileStore.profiles);
-const companies = ref([]);
-
-// Valitud kasutaja ja ettevõtte ID
 const selectedUserId = ref<number | null>(users.value[0]?.id || null);
-const selectedCompanyId = ref<number | null>(null);
-
 const selectedUser = computed(() => {
   return selectedUserId.value !== null
     ? users.value.find(user => user.id === selectedUserId.value) || null
     : null;
 });
 
-const selectedCompany = computed(() => {
-  return selectedCompanyId.value !== null
-    ? companies.value.find(company => company.id === selectedCompanyId.value) || null
-    : null;
-});
-onMounted(async() => {
-  await fetchCompanies();
-  console.log("Companies data in dropdown:", companies.value);
+const companies = ref([]);
+const selectedCompanyId = ref<number | null>(null);
+  const selectedCompany = computed(() => {
+  return companies.value.find(company => company.companyId === selectedCompanyId.value);
 });
 
 const fetchCompanies = async () => {
@@ -89,12 +79,24 @@ const fetchCompanies = async () => {
   }
 };
 
+const onCompanyChange = async () => {
+  console.log('Selected company ID:', selectedCompanyId.value);
+console.log('Selected company:', selectedCompany.value);
+};
+
+onMounted(async () => {
+  await fetchCompanies();
+  if (companies.value.length > 0) {
+      selectedCompanyId.value = 1;
+  }
+});
+
 const editProfile = () => {
   alert('Profile editing not implemented yet!');
 };
 
 const editCompany = () => {
-  alert('Company editing not implemented yet!');
+  router.push(`/companies/edit/${selectedCompanyId.value}`);
 };
 
 const addUser = () => {

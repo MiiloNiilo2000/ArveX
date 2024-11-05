@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center pt-9">
       <div class="w-96 p-6 flex flex-col h-99">
-        <h2 class="text-2xl font-bold mb-4 text-center">Muuda toode</h2>
+        <h2 class="text-2xl font-bold mb-4 text-center">Muuda toodet</h2>
         <UForm
           :validate="validate"
           :state="state"

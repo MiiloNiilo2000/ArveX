@@ -7,10 +7,7 @@ import { defineStore } from 'pinia';
 export const useProductStore = defineStore('product', () => {
 
     const products = ref<Product[]>([]);
-    
-   
-    
-    
+       
     const editProduct = (updatedProduct: Product) => {
         const index = products.value.findIndex((product) => product.productId === updatedProduct.productId);
         if (index !== -1) {
