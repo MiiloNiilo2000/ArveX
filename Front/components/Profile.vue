@@ -65,16 +65,6 @@ const selectedCompanyId = ref<number | null>(null);
   return companies.value.find(company => company.companyId === selectedCompanyId.value);
 });
 
-const fetchCompanies = async () => {
-  try {
-    const response = await axios.get('http://localhost:5176/Companies/all');
-    companies.value = response.data;
-    console.log("Fetched companies:", companies.value);
-  } catch (error) {
-    console.error("Error fetching companies:", error);
-  }
-};
-
 const fetchProfiles = async () => {
   try {
     const response = await axios.get('http://localhost:5176/Profile/all');
@@ -98,7 +88,9 @@ const fetchCompaniesForProfile = async (profileId: number) => {
 const onProfileChange = async () => {
   if (selectedProfileId.value !== null) {
     await fetchCompaniesForProfile(selectedProfileId.value);
-    selectedCompanyId.value = null;
+    if (companies.value.length > 0) {
+      selectedCompanyId.value = companies.value[0].companyId;
+    }
   }
 };
 
@@ -112,6 +104,9 @@ onMounted(async () => {
   if (profiles.value.length > 0) {
     selectedProfileId.value = profiles.value[0].profileId;
     await fetchCompaniesForProfile(selectedProfileId.value);
+    if (companies.value.length > 0) {
+      selectedCompanyId.value = companies.value[0].companyId;
+    }
   }
 });
 
