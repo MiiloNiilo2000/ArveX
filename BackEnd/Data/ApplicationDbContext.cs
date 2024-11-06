@@ -81,7 +81,8 @@ namespace BackEnd.Data
                 Name = "Product1",
                 Description = "Description1",
                 Price = 100,
-                CompanyId = 1
+                CompanyId = 1,
+                TaxPercent = 22
             },
             new Product
             {
@@ -89,7 +90,8 @@ namespace BackEnd.Data
                 Name = "Product2",
                 Description = "Description2",
                 Price = 150,
-                CompanyId = 1
+                CompanyId = 1,
+                TaxPercent = 22
             }
         );
         }

@@ -1,4 +1,4 @@
-import type { Profile } from "~/types/profile";
+import type { Profile } from "../types/profile";
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 

@@ -100,6 +100,14 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClientKMKR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientRegNr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Condition")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -162,6 +170,9 @@ namespace backend.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<double>("TaxPercent")
+                        .HasColumnType("float");
+
                     b.HasKey("ProductId");
 
                     b.HasIndex("CompanyId");
@@ -175,7 +186,8 @@ namespace backend.Migrations
                             CompanyId = 1,
                             Description = "Description1",
                             Name = "Product1",
-                            Price = 100
+                            Price = 100,
+                            TaxPercent = 22.0
                         },
                         new
                         {
@@ -183,7 +195,8 @@ namespace backend.Migrations
                             CompanyId = 1,
                             Description = "Description2",
                             Name = "Product2",
-                            Price = 150
+                            Price = 150,
+                            TaxPercent = 22.0
                         });
                 });
 

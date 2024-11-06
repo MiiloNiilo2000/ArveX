@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,8 @@ namespace backend.Migrations
                     DateDue = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Condition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DelayFine = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientRegNr = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientKMKR = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Font = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductIds = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -65,7 +67,8 @@ namespace backend.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: true)
+                    CompanyId = table.Column<int>(type: "int", nullable: true),
+                    TaxPercent = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,11 +91,11 @@ namespace backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "CompanyId", "Description", "Name", "Price" },
+                columns: new[] { "ProductId", "CompanyId", "Description", "Name", "Price", "TaxPercent" },
                 values: new object[,]
                 {
-                    { 1, 1, "Description1", "Product1", 100 },
-                    { 2, 1, "Description2", "Product2", 150 }
+                    { 1, 1, "Description1", "Product1", 100, 22.0 },
+                    { 2, 1, "Description2", "Product2", 150, 22.0 }
                 });
 
             migrationBuilder.CreateIndex(

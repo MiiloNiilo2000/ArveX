@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-export async function generateInvoicePDF(state) {
+export async function generateInvoicePDF(state, routeName) {
   try {
     console.log("Ids in util", state.productIds)
     const payload = {
       title: state.title,
+      clientRegNr: state.clientRegNr.toString(),
+      clientKMKR: state.clientKMKR,
       address: state.address,
       zipCode: state.zipCode.toString(),
       country: state.country,
@@ -17,8 +19,7 @@ export async function generateInvoicePDF(state) {
       productIds: state.productIds
     };
 
-
-    const response = await axios.post('http://localhost:5176/CreateInvoice', payload, {
+    const response = await axios.post(`http://localhost:5176/CreateInvoice/${routeName}`, payload, {
       headers: {
         'Content-Type': 'application/json'
       },
