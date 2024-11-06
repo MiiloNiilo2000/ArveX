@@ -62,7 +62,7 @@ public class ProfileController : ControllerBase
 
             return NoContent();
         }
-        [HttpGet("{id}/profiles")]
+        [HttpGet("{id}/companies")]
         public ActionResult<IEnumerable<Profile>> GetProfileCompanies(int id)
         {
             var profile = _context.Profile!

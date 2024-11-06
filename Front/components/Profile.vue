@@ -13,7 +13,7 @@
     <div class="flex space-x-6 mt-6">
       <div class="flex-1">
         <label for="userSelect" class="block text-sm font-medium text-gray-700">Vali kasutaja:</label>
-        <select v-model="selectedProfileId" id="userSelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        <select v-model="selectedProfileId" id="userSelect" @change="onProfileChange" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
           <option v-for="profile in profiles" :key="profile.profileId" :value="profile.profileId">
             {{ profile.username }}
           </option>
@@ -85,19 +85,33 @@ const fetchProfiles = async () => {
   }
 };
 
+const fetchCompaniesForProfile = async (profileId: number) => {
+  try {
+    const response = await axios.get(`http://localhost:5176/Profile/${profileId}/companies`);
+    companies.value = response.data;
+    console.log("Fetched companies for profile:", profileId, companies.value);
+  } catch (error) {
+    console.error("Error fetching companies for profile:", error);
+  }
+};
+
+const onProfileChange = async () => {
+  if (selectedProfileId.value !== null) {
+    await fetchCompaniesForProfile(selectedProfileId.value);
+    selectedCompanyId.value = null;
+  }
+};
+
 const onCompanyChange = async () => {
   console.log('Selected company ID:', selectedCompanyId.value);
   console.log('Selected company:', selectedCompany.value);
 };
 
 onMounted(async () => {
-  await fetchCompanies();
-  if (companies.value.length > 0) {
-      selectedCompanyId.value = 1;
-  }
   await fetchProfiles();
   if (profiles.value.length > 0) {
-      selectedProfileId.value = 1;
+    selectedProfileId.value = profiles.value[0].profileId;
+    await fetchCompaniesForProfile(selectedProfileId.value);
   }
 });
 
