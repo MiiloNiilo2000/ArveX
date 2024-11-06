@@ -17,6 +17,7 @@ namespace BackEnd.Data
         public DbSet<Invoice> Invoice { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Company> Company { get; set; }
+        public DbSet<Profile> Profile {get; set; } 
         public async Task<bool> UpdateProduct(int id, Product product){
             bool isIdsMatch = id == product.ProductId;
             bool productExists = await Product.AnyAsync(x => x.ProductId == id);
@@ -43,12 +44,26 @@ namespace BackEnd.Data
             int updatedRecordsCount = await SaveChangesAsync();
             return updatedRecordsCount == 1;
         }
+        public async Task<bool> UpdateProfile(int Id, Profile profile){
+            bool isIdsMatch = Id == profile.ProfileId;
+            bool profileExists = await Profile.AnyAsync(x => x.ProfileId == Id);
+
+            if (!isIdsMatch || !profileExists)
+            {
+                return false;
+            }
+
+            Update(profile);
+            int updatedRecordsCount = await SaveChangesAsync();
+            return updatedRecordsCount == 1;
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.company)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CompanyId);
+
 
             modelBuilder.Entity<Company>().HasData(
             new Company
@@ -60,7 +75,8 @@ namespace BackEnd.Data
                 Address = "Example Address",
                 PostalCode = 12345,
                 Country = "Estonia",
-                Email = "example@company.com"
+                Email = "example@company.com",
+                ProfileId = 1
             },
             new Company
             {
@@ -71,7 +87,8 @@ namespace BackEnd.Data
                 Address = "Example Address 2",
                 PostalCode = 12344,
                 Country = "Estonia",
-                Email = "example2@company.com"
+                Email = "example2@company.com",
+                ProfileId = 2,
             }
         );
             modelBuilder.Entity<Product>().HasData(
@@ -92,6 +109,27 @@ namespace BackEnd.Data
                 Price = 150,
                 CompanyId = 1,
                 TaxPercent = 22
+            }
+        );
+        modelBuilder.Entity<Company>()
+            .HasOne(p => p.profile)
+            .WithMany(c => c.Companies)
+            .HasForeignKey(p => p.ProfileId);
+
+        modelBuilder.Entity<Profile>().HasData(
+            new Profile
+            {
+                ProfileId = 1,
+                Username = "Profiil1",
+                Bio = "Minu profiil",
+                Email = "Profiil1@mail.ee",
+            },
+            new Profile
+            {
+                ProfileId = 2,
+                Username = "Profiil2",
+                Bio = "Minu profiil 2",
+                Email = "Profiil2@mail.ee",
             }
         );
         }

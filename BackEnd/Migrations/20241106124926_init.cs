@@ -8,31 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Company",
-                columns: table => new
-                {
-                    CompanyId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegisterCode = table.Column<int>(type: "int", nullable: false),
-                    VatNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostalCode = table.Column<int>(type: "int", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Company", x => x.CompanyId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Invoice",
                 columns: table => new
@@ -59,6 +39,48 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Profile",
+                columns: table => new
+                {
+                    ProfileId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profile", x => x.ProfileId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Company",
+                columns: table => new
+                {
+                    CompanyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegisterCode = table.Column<int>(type: "int", nullable: false),
+                    VatNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostalCode = table.Column<int>(type: "int", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Company", x => x.CompanyId);
+                    table.ForeignKey(
+                        name: "FK_Company_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profile",
+                        principalColumn: "ProfileId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Product",
                 columns: table => new
                 {
@@ -81,12 +103,21 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Company",
-                columns: new[] { "CompanyId", "Address", "Country", "Email", "Image", "Name", "PostalCode", "RegisterCode", "VatNumber" },
+                table: "Profile",
+                columns: new[] { "ProfileId", "Bio", "Email", "Image", "Username" },
                 values: new object[,]
                 {
-                    { 1, "Example Address", "Estonia", "example@company.com", null, "Example Company", 12345, 12345, "EE123456789" },
-                    { 2, "Example Address 2", "Estonia", "example2@company.com", null, "Example Company 2", 12344, 12344, "EE123456788" }
+                    { 1, "Minu profiil", "Profiil1@mail.ee", null, "Profiil1" },
+                    { 2, "Minu profiil 2", "Profiil2@mail.ee", null, "Profiil2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Company",
+                columns: new[] { "CompanyId", "Address", "Country", "Email", "Image", "Name", "PostalCode", "ProfileId", "RegisterCode", "VatNumber" },
+                values: new object[,]
+                {
+                    { 1, "Example Address", "Estonia", "example@company.com", null, "Example Company", 12345, 1, 12345, "EE123456789" },
+                    { 2, "Example Address 2", "Estonia", "example2@company.com", null, "Example Company 2", 12344, 2, 12344, "EE123456788" }
                 });
 
             migrationBuilder.InsertData(
@@ -97,6 +128,11 @@ namespace backend.Migrations
                     { 1, 1, "Description1", "Product1", 100, 22.0 },
                     { 2, 1, "Description2", "Product2", 150, 22.0 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Company_ProfileId",
+                table: "Company",
+                column: "ProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_CompanyId",
@@ -115,6 +151,9 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Company");
+
+            migrationBuilder.DropTable(
+                name: "Profile");
         }
     }
 }
