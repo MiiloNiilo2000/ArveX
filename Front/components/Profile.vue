@@ -14,7 +14,7 @@
       <div class="flex-1">
         <label for="userSelect" class="block text-sm font-medium text-gray-700">Vali kasutaja:</label>
         <select v-model="selectedUserId" id="userSelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-          <option v-for="user in users" :key="user.id" :value="user.id">
+          <option v-for="user in users" :key="user.profileId" :value="user.profileId">
             {{ user.username }}
           </option>
         </select>
@@ -46,21 +46,17 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import { useProfileStore } from '../stores/profileStores';
 import { useRouter } from 'vue-router';
 import UserProfile from '../components/UserProfile.vue';
 import CompanyProfile from '../components/CompanyProfile.vue';
 import axios from 'axios';
 
-const profileStore = useProfileStore();
 const router = useRouter();
 
-const users = computed(() => profileStore.profiles);
-const selectedUserId = ref<number | null>(users.value[0]?.id || null);
+const users = ref([]);
+const selectedUserId = ref<number | null>(null);
 const selectedUser = computed(() => {
-  return selectedUserId.value !== null
-    ? users.value.find(user => user.id === selectedUserId.value) || null
-    : null;
+  return users.value.find(user => user.profileId === selectedUserId.value);
 });
 
 const companies = ref([]);
@@ -79,15 +75,29 @@ const fetchCompanies = async () => {
   }
 };
 
+const fetchProfiles = async () => {
+  try {
+    const response = await axios.get('http://localhost:5176/Profile/all');
+    users.value = response.data;
+    console.log("Fetched companies:", users.value);
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+  }
+};
+
 const onCompanyChange = async () => {
   console.log('Selected company ID:', selectedCompanyId.value);
-console.log('Selected company:', selectedCompany.value);
+  console.log('Selected company:', selectedCompany.value);
 };
 
 onMounted(async () => {
   await fetchCompanies();
   if (companies.value.length > 0) {
       selectedCompanyId.value = 1;
+  }
+  await fetchProfiles();
+  if (users.value.length > 0) {
+      selectedUserId.value = 1;
   }
 });
 
