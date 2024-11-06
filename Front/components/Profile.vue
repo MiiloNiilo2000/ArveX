@@ -13,9 +13,9 @@
     <div class="flex space-x-6 mt-6">
       <div class="flex-1">
         <label for="userSelect" class="block text-sm font-medium text-gray-700">Vali kasutaja:</label>
-        <select v-model="selectedUserId" id="userSelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-          <option v-for="user in users" :key="user.profileId" :value="user.profileId">
-            {{ user.username }}
+        <select v-model="selectedProfileId" id="userSelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+          <option v-for="profile in profiles" :key="profile.profileId" :value="profile.profileId">
+            {{ profile.username }}
           </option>
         </select>
       </div>
@@ -33,8 +33,8 @@
     </div>
 
     <div class="flex space-x-6 mt-6">
-      <div v-if="selectedUser" class="flex-1 mr-8">
-        <UserProfile :profile="selectedUser" :editProfile="editProfile" />
+      <div v-if="selectedProfile" class="flex-1 mr-8">
+        <UserProfile :profile="selectedProfile" :editProfile="editProfile" />
       </div>
 
       <div v-if="selectedCompany" class="flex-1 mr-8">
@@ -53,10 +53,10 @@ import axios from 'axios';
 
 const router = useRouter();
 
-const users = ref([]);
-const selectedUserId = ref<number | null>(null);
-const selectedUser = computed(() => {
-  return users.value.find(user => user.profileId === selectedUserId.value);
+const profiles = ref([]);
+const selectedProfileId = ref<number | null>(null);
+const selectedProfile = computed(() => {
+  return profiles.value.find(user => user.profileId === selectedProfileId.value);
 });
 
 const companies = ref([]);
@@ -78,10 +78,10 @@ const fetchCompanies = async () => {
 const fetchProfiles = async () => {
   try {
     const response = await axios.get('http://localhost:5176/Profile/all');
-    users.value = response.data;
-    console.log("Fetched companies:", users.value);
+    profiles.value = response.data;
+    console.log("Fetched profiles:", profiles.value);
   } catch (error) {
-    console.error("Error fetching companies:", error);
+    console.error("Error fetching profiles:", error);
   }
 };
 
@@ -96,8 +96,8 @@ onMounted(async () => {
       selectedCompanyId.value = 1;
   }
   await fetchProfiles();
-  if (users.value.length > 0) {
-      selectedUserId.value = 1;
+  if (profiles.value.length > 0) {
+      selectedProfileId.value = 1;
   }
 });
 
