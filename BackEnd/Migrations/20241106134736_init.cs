@@ -117,7 +117,9 @@ namespace backend.Migrations
                 values: new object[,]
                 {
                     { 1, "Example Address", "Estonia", "example@company.com", null, "Example Company", 12345, 1, 12345, "EE123456789" },
-                    { 2, "Example Address 2", "Estonia", "example2@company.com", null, "Example Company 2", 12344, 2, 12344, "EE123456788" }
+                    { 2, "Example Address 2", "Estonia", "example2@company.com", null, "Example Company 2", 12344, 2, 12344, "EE123456788" },
+                    { 3, "Example Address 3", "Estonia", "example3@company.com", null, "Example Company 3", 1234456, 1, 123446, "EE1234567889" },
+                    { 4, "Example Address 4", "Estonia", "example3@company.com", null, "Example Company 4", 556134, 2, 65432, "EE123457678" }
                 });
 
             migrationBuilder.InsertData(

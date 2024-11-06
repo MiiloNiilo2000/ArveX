@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241106124926_init")]
+    [Migration("20241106134736_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -95,6 +95,30 @@ namespace backend.Migrations
                             ProfileId = 2,
                             RegisterCode = 12344,
                             VatNumber = "EE123456788"
+                        },
+                        new
+                        {
+                            CompanyId = 3,
+                            Address = "Example Address 3",
+                            Country = "Estonia",
+                            Email = "example3@company.com",
+                            Name = "Example Company 3",
+                            PostalCode = 1234456,
+                            ProfileId = 1,
+                            RegisterCode = 123446,
+                            VatNumber = "EE1234567889"
+                        },
+                        new
+                        {
+                            CompanyId = 4,
+                            Address = "Example Address 4",
+                            Country = "Estonia",
+                            Email = "example3@company.com",
+                            Name = "Example Company 4",
+                            PostalCode = 556134,
+                            ProfileId = 2,
+                            RegisterCode = 65432,
+                            VatNumber = "EE123457678"
                         });
                 });
 

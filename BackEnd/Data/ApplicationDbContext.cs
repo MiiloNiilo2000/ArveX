@@ -89,6 +89,30 @@ namespace BackEnd.Data
                 Country = "Estonia",
                 Email = "example2@company.com",
                 ProfileId = 2,
+            },
+            new Company
+            {
+                CompanyId = 3,
+                Name = "Example Company 3",
+                RegisterCode = 123446,
+                VatNumber = "EE1234567889",
+                Address = "Example Address 3",
+                PostalCode = 1234456,
+                Country = "Estonia",
+                Email = "example3@company.com",
+                ProfileId = 1,
+            },
+            new Company
+            {
+                CompanyId = 4,
+                Name = "Example Company 4",
+                RegisterCode = 65432,
+                VatNumber = "EE123457678",
+                Address = "Example Address 4",
+                PostalCode = 556134,
+                Country = "Estonia",
+                Email = "example3@company.com",
+                ProfileId = 2,
             }
         );
             modelBuilder.Entity<Product>().HasData(
