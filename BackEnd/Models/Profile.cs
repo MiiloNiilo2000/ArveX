@@ -10,7 +10,6 @@ namespace BackEnd.Models
     {
     public int ProfileId { get; set; }
     public string Username {get; set; } = null!;   
-    public string Bio {get; set; } = null!;
     public string Email {get; set; } = null!;
     public string? Image {get; set; }
     [JsonIgnore]

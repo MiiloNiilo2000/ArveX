@@ -145,14 +145,12 @@ namespace BackEnd.Data
             {
                 ProfileId = 1,
                 Username = "Profiil1",
-                Bio = "Minu profiil",
                 Email = "Profiil1@mail.ee",
             },
             new Profile
             {
                 ProfileId = 2,
                 Username = "Profiil2",
-                Bio = "Minu profiil 2",
                 Email = "Profiil2@mail.ee",
             }
         );
