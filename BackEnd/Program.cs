@@ -4,6 +4,8 @@ using QuestPDF.Fluent;
 using BackEnd.Data;
 using BackEnd.Data.Repos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.Data;
+using BackEnd.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddSingleton<TokenGenerator>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -44,5 +47,13 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.UseCors("AllowAll");
+
+app.MapPost("/login", (LoginRequest request, TokenGenerator tokenGenerator) =>
+{
+    return new
+    {
+        access_token = tokenGenerator.GenerateToken(request.Email)
+    };
+});
 
 app.Run();
