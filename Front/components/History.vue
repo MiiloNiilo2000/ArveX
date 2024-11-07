@@ -14,7 +14,7 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
-  import { generateInvoicePDF } from '../stores/invoiceUtils'; // ARVE VAATAMINE LISAB SELLE UUESTI DATABAASI, KORDA TEHA //
+  import { generateInvoicePDF } from '../stores/invoiceUtils'; 
 
   const invoices = ref([]);
 
