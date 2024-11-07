@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241105132645_Init")]
-    partial class Init
+    [Migration("20241106134736_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace backend.Migrations
                     b.Property<int>("PostalCode")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProfileId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RegisterCode")
                         .HasColumnType("int");
 
@@ -63,6 +66,8 @@ namespace backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CompanyId");
+
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Company");
 
@@ -75,6 +80,7 @@ namespace backend.Migrations
                             Email = "example@company.com",
                             Name = "Example Company",
                             PostalCode = 12345,
+                            ProfileId = 1,
                             RegisterCode = 12345,
                             VatNumber = "EE123456789"
                         },
@@ -86,8 +92,33 @@ namespace backend.Migrations
                             Email = "example2@company.com",
                             Name = "Example Company 2",
                             PostalCode = 12344,
+                            ProfileId = 2,
                             RegisterCode = 12344,
                             VatNumber = "EE123456788"
+                        },
+                        new
+                        {
+                            CompanyId = 3,
+                            Address = "Example Address 3",
+                            Country = "Estonia",
+                            Email = "example3@company.com",
+                            Name = "Example Company 3",
+                            PostalCode = 1234456,
+                            ProfileId = 1,
+                            RegisterCode = 123446,
+                            VatNumber = "EE1234567889"
+                        },
+                        new
+                        {
+                            CompanyId = 4,
+                            Address = "Example Address 4",
+                            Country = "Estonia",
+                            Email = "example3@company.com",
+                            Name = "Example Company 4",
+                            PostalCode = 556134,
+                            ProfileId = 2,
+                            RegisterCode = 65432,
+                            VatNumber = "EE123457678"
                         });
                 });
 
@@ -203,6 +234,59 @@ namespace backend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BackEnd.Models.Profile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"));
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProfileId");
+
+                    b.ToTable("Profile");
+
+                    b.HasData(
+                        new
+                        {
+                            ProfileId = 1,
+                            Bio = "Minu profiil",
+                            Email = "Profiil1@mail.ee",
+                            Username = "Profiil1"
+                        },
+                        new
+                        {
+                            ProfileId = 2,
+                            Bio = "Minu profiil 2",
+                            Email = "Profiil2@mail.ee",
+                            Username = "Profiil2"
+                        });
+                });
+
+            modelBuilder.Entity("BackEnd.Models.Company", b =>
+                {
+                    b.HasOne("BackEnd.Models.Profile", "profile")
+                        .WithMany("Companies")
+                        .HasForeignKey("ProfileId");
+
+                    b.Navigation("profile");
+                });
+
             modelBuilder.Entity("BackEnd.Models.Product", b =>
                 {
                     b.HasOne("BackEnd.Models.Company", "company")
@@ -215,6 +299,11 @@ namespace backend.Migrations
             modelBuilder.Entity("BackEnd.Models.Company", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("BackEnd.Models.Profile", b =>
+                {
+                    b.Navigation("Companies");
                 });
 #pragma warning restore 612, 618
         }

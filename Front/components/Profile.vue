@@ -13,9 +13,9 @@
     <div class="flex space-x-6 mt-6">
       <div class="flex-1">
         <label for="userSelect" class="block text-sm font-medium text-gray-700">Vali kasutaja:</label>
-        <select v-model="selectedUserId" id="userSelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-          <option v-for="user in users" :key="user.id" :value="user.id">
-            {{ user.username }}
+        <select v-model="selectedProfileId" id="userSelect" @change="onProfileChange" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+          <option v-for="profile in profiles" :key="profile.profileId" :value="profile.profileId">
+            {{ profile.username }}
           </option>
         </select>
       </div>
@@ -33,8 +33,8 @@
     </div>
 
     <div class="flex space-x-6 mt-6">
-      <div v-if="selectedUser" class="flex-1 mr-8">
-        <UserProfile :profile="selectedUser" :editProfile="editProfile" />
+      <div v-if="selectedProfile" class="flex-1 mr-8">
+        <UserProfile :profile="selectedProfile" :editProfile="editProfile" />
       </div>
 
       <div v-if="selectedCompany" class="flex-1 mr-8">
@@ -46,21 +46,17 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import { useProfileStore } from '../stores/profileStores';
 import { useRouter } from 'vue-router';
 import UserProfile from '../components/UserProfile.vue';
 import CompanyProfile from '../components/CompanyProfile.vue';
 import axios from 'axios';
 
-const profileStore = useProfileStore();
 const router = useRouter();
 
-const users = computed(() => profileStore.profiles);
-const selectedUserId = ref<number | null>(users.value[0]?.id || null);
-const selectedUser = computed(() => {
-  return selectedUserId.value !== null
-    ? users.value.find(user => user.id === selectedUserId.value) || null
-    : null;
+const profiles = ref([]);
+const selectedProfileId = ref<number | null>(null);
+const selectedProfile = computed(() => {
+  return profiles.value.find(user => user.profileId === selectedProfileId.value);
 });
 
 const companies = ref([]);
@@ -69,25 +65,48 @@ const selectedCompanyId = ref<number | null>(null);
   return companies.value.find(company => company.companyId === selectedCompanyId.value);
 });
 
-const fetchCompanies = async () => {
+const fetchProfiles = async () => {
   try {
-    const response = await axios.get('http://localhost:5176/Companies/all');
-    companies.value = response.data;
-    console.log("Fetched companies:", companies.value);
+    const response = await axios.get('http://localhost:5176/Profile/all');
+    profiles.value = response.data;
+    console.log("Fetched profiles:", profiles.value);
   } catch (error) {
-    console.error("Error fetching companies:", error);
+    console.error("Error fetching profiles:", error);
+  }
+};
+
+const fetchCompaniesForProfile = async (profileId: number) => {
+  try {
+    const response = await axios.get(`http://localhost:5176/Profile/${profileId}/companies`);
+    companies.value = response.data;
+    console.log("Fetched companies for profile:", profileId, companies.value);
+  } catch (error) {
+    console.error("Error fetching companies for profile:", error);
+  }
+};
+
+const onProfileChange = async () => {
+  if (selectedProfileId.value !== null) {
+    await fetchCompaniesForProfile(selectedProfileId.value);
+    if (companies.value.length > 0) {
+      selectedCompanyId.value = companies.value[0].companyId;
+    }
   }
 };
 
 const onCompanyChange = async () => {
   console.log('Selected company ID:', selectedCompanyId.value);
-console.log('Selected company:', selectedCompany.value);
+  console.log('Selected company:', selectedCompany.value);
 };
 
 onMounted(async () => {
-  await fetchCompanies();
-  if (companies.value.length > 0) {
-      selectedCompanyId.value = 1;
+  await fetchProfiles();
+  if (profiles.value.length > 0) {
+    selectedProfileId.value = profiles.value[0].profileId;
+    await fetchCompaniesForProfile(selectedProfileId.value);
+    if (companies.value.length > 0) {
+      selectedCompanyId.value = companies.value[0].companyId;
+    }
   }
 });
 

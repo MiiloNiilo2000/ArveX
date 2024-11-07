@@ -8,7 +8,7 @@ namespace BackEnd.Models
 {
     public class Company
     {
-    public int  CompanyId { get; set; }
+    public int CompanyId { get; set; }
     public string Name { get; set; } = null!;
     public int RegisterCode { get; set; }
     public string VatNumber { get; set; } = null!;
@@ -17,6 +17,9 @@ namespace BackEnd.Models
     public string Country { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string? Image { get; set; }
+    public int? ProfileId { get; set; }
+    [JsonIgnore]
+    public virtual Profile? profile { get; set; } = null!;
     [JsonIgnore]
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
