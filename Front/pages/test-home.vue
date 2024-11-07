@@ -16,7 +16,7 @@
 
         <NuxtLink
             to="/create-invoice"
-            class="centered-button text-white 
+            class="centered-top-button text-white 
             bg-gradient-to-r from-green-400 via-green-500 to-green-600 
             hover:bg-gradient-to-br 
             focus:ring-4 
@@ -28,6 +28,25 @@
             font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             Alusta uue arve loomist
         </NuxtLink>   
+
+        <div class="login-text">
+            Kõikide funktsioonide kasutamiseks peate olema sisse logitud
+        </div>
+
+        <NuxtLink
+            to="/signup"
+            class="centered-button text-white 
+            bg-gradient-to-r from-green-400 via-green-500 to-green-600 
+            hover:bg-gradient-to-br 
+            focus:ring-4 
+            focus:outline-none 
+            focus:ring-green-300 
+            dark:focus:ring-green-800 shadow-lg shadow-green-500/50 
+            dark:shadow-lg 
+            dark:shadow-green-800/80 
+            font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+            Logi sisse / Registreeri
+        </NuxtLink>   
         
         <NuxtLink to="/products">
             <UButton class="icon-button icon-button-1" icon="mdi-box-variant" />
@@ -37,7 +56,6 @@
             <UButton class="icon-button icon-button-2" icon="mdi-eye" />
         </NuxtLink>
         
-
         <div class="top-text">
             Arve<span class="last-letter">X</span>
         </div>
@@ -53,7 +71,6 @@
     </div>
 
     </div>
-
   </template>
   
   <script>
@@ -128,6 +145,7 @@
     left: 50%;
     font-family: 'LowBallItalicBold';
     color: #33cd35;
+    user-select: none;
 }
 
 .last-letter {
@@ -135,10 +153,19 @@
     text-shadow: 0 0 8px #9d00ff;
 }
 
-.centered-button {
+.centered-top-button {
     position: absolute;
     width: 200px;
     top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.centered-button {
+    position: absolute;
+    width: 200px;
+    top: 270px;
     left: 50%;
     transform: translateX(-50%);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -172,19 +199,30 @@
 
 .product-text{
     position: absolute;
-    top: 175px; 
+    top: 170px; 
     left: -284px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
 }
 
 .history-text{
     position: absolute;
-    top: 175px;
+    top: 170px;
     width: 100px; 
     left: 240px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
 }
 
+.login-text{
+    position: absolute;
+    text-align: center;
+    top: 215px;
+    width: 260px; 
+    left: -106px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+}
 
 @font-face {
 font-family: 'LowBallItalicBold';
@@ -193,7 +231,6 @@ font-weight: bold;
 font-style: normal;
 }
 
-     
 </style>
   
   
