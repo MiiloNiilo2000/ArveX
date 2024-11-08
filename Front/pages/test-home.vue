@@ -1,20 +1,20 @@
 <template>
     <div class="flex items-center justify-center min-h-screen">
-      <div class="hexagon-container">
+      <div class="container">
 
-        <div class="hexagon-line top"></div>
+         
 
-        <div class="hexagon-line top-right"></div>
+        
+        
+        
 
-        <div class="hexagon-line bottom-right"></div>
+        
 
-        <div class="hexagon-line bottom"></div>
-
-        <div class="hexagon-line bottom-left"></div>
-
-        <div class="hexagon-line top-left"></div>
-
-        <NuxtLink
+        
+        
+        <div class="top-text">
+            Arve<span class="last-letter">X</span>
+            <NuxtLink
             to="/create-invoice"
             class="centered-top-button text-white 
             bg-gradient-to-r from-green-400 via-green-500 to-green-600 
@@ -27,7 +27,7 @@
             dark:shadow-green-800/80 
             font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             Alusta uue arve loomist
-        </NuxtLink>   
+        </NuxtLink>  
 
         <div class="login-text">
             Kõikide funktsioonide kasutamiseks peate olema sisse logitud
@@ -47,26 +47,26 @@
             font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             Logi sisse / Registreeri
         </NuxtLink>   
-        
+
         <NuxtLink to="/products">
+            <div class="product-text">
+                Halda tooteid
+            </div>
+
             <UButton class="icon-button icon-button-1" icon="mdi-box-variant" />
         </NuxtLink>
 
         <NuxtLink to="/view-history">
+            <div class="history-text">
+                Vaata ajalugu
+            </div>
+
             <UButton class="icon-button icon-button-2" icon="mdi-eye" />
         </NuxtLink>
-        
-        <div class="top-text">
-            Arve<span class="last-letter">X</span>
+
         </div>
 
-        <div class="product-text">
-            Halda tooteid
-        </div>
-
-        <div class="history-text">
-            Vaata ajalugu
-        </div>
+    
     
     </div>
 
@@ -83,66 +83,20 @@
   
 <style scoped>
 
-.hexagon-container {
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 5vh;
     position: relative;
-    width: 50px;
-    height: 1000px;
-}
-
-.hexagon-line {
-    position: absolute;
-    width: 288px; 
-    height: 2px;
-    background-color: #38a169;
-    box-shadow: 0 0 8px #38a169, 0 0 12px #00f, 0 0 16px #38a169;
-}
-
-.top {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.top-right {
-    top: 25%;
-    right: 0;
-    transform: rotate(60deg);
-    transform-origin: left center;
-}
-
-.bottom-right {
-    bottom: 25%;
-    right: 0;
-    transform: rotate(-60deg);
-    transform-origin: left center;
-}
-
-.bottom {
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.bottom-left {
-    bottom: 25%;
-    left: 0;
-    transform: rotate(60deg);
-    transform-origin: right center;
-}
-
-.top-left {
-    top: 25%;
-    left: 0;
-    transform: rotate(-60deg);
-    transform-origin: right center;
 }
 
 .top-text {
     font-size: 100px;
     position: absolute;
-    top: -115px;
-    transform: translateX(-50%);
+    top: -50vh;
     left: 50%;
+    transform: translateX(-50%);
     font-family: 'LowBallItalicBold';
     color: #33cd35;
     user-select: none;
@@ -155,8 +109,8 @@
 
 .centered-top-button {
     position: absolute;
-    width: 200px;
-    top: 20px;
+    top: 80%;
+    width: 80%;
     left: 50%;
     transform: translateX(-50%);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -164,8 +118,8 @@
 
 .centered-button {
     position: absolute;
-    width: 200px;
-    top: 270px;
+    width: 80%;
+    top: 220%;
     left: 50%;
     transform: translateX(-50%);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -187,40 +141,48 @@
 
 .icon-button-1 {
     position: absolute;
-    top: 200px;
-    left: -254px;
+    top: 310%;
+    left: -85%;
+
 }
 
 .icon-button-2 {
     position: absolute;
-    top: 200px;
-    left: 268px;
+    top: 310%;
+    right: -80%;
 }
 
 .product-text{
     position: absolute;
-    top: 170px; 
-    left: -284px;
+    top: 290%; 
+    left: -100%;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-size: large;
     user-select: none;
 }
 
 .history-text{
     position: absolute;
-    top: 170px;
-    width: 100px; 
-    left: 240px;
+    top: 290%;
+    width: 50%; 
+    right: -100%;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-size: large;
     user-select: none;
 }
 
 .login-text{
-    position: absolute;
+    position: fixed;
     text-align: center;
-    top: 215px;
-    width: 260px; 
-    left: -106px;
+    top: 180%;
+    width: 130%; 
+    left: 50%;
+    transform: translateX(-50%);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    color: white;
     user-select: none;
 }
 
