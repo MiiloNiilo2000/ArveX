@@ -4,6 +4,7 @@
         
         <div class="top-text">
             Arve<span class="last-letter">X</span>
+            <div class="gradient-line"></div>
             <NuxtLink
             to="/create-invoice"
             class="centered-top-button text-white 
@@ -186,6 +187,15 @@
     font-size:xx-large;
     user-select: none;
     text-shadow: 0 0 6px black;
+}
+
+.gradient-line {
+    position: absolute;
+    top: 75%;
+    background: linear-gradient(to right, #33cd35 60%, #9d00ff);
+    height: 2px; /* line thickness */
+    width: 100%; /* line length */
+    border-radius: 4px;
 }
 
 @font-face {
