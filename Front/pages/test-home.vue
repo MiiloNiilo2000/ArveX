@@ -1,16 +1,6 @@
 <template>
     <div class="flex items-center justify-center min-h-screen">
-      <div class="container">
-
-         
-
-        
-        
-        
-
-        
-
-        
+      <div class="container">  
         
         <div class="top-text">
             Arve<span class="last-letter">X</span>
@@ -48,21 +38,40 @@
             Logi sisse / Registreeri
         </NuxtLink>   
 
-        <NuxtLink to="/products">
-            <div class="product-text">
-                Halda tooteid
-            </div>
-
-            <UButton class="icon-button icon-button-1" icon="mdi-box-variant" />
+        <NuxtLink to="/products"
+            class="route-buttons-base product-button text-white 
+            bg-gradient-to-r from-green-400 via-green-500 to-green-600 
+            hover:bg-gradient-to-br 
+            focus:ring-4 
+            focus:outline-none 
+            focus:ring-green-300 
+            dark:focus:ring-green-800 shadow-lg shadow-green-500/50 
+            dark:shadow-lg 
+            dark:shadow-green-800/80 
+            font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+            Halda tooteid 
+            <div class="emoji-text">
+                📦
+            </div> 
         </NuxtLink>
 
-        <NuxtLink to="/view-history">
-            <div class="history-text">
-                Vaata ajalugu
-            </div>
-
-            <UButton class="icon-button icon-button-2" icon="mdi-eye" />
+        <NuxtLink to="/products"
+            class="route-buttons-base history-button text-white 
+            bg-gradient-to-r from-green-400 via-green-500 to-green-600 
+            hover:bg-gradient-to-br 
+            focus:ring-4 
+            focus:outline-none 
+            focus:ring-green-300 
+            dark:focus:ring-green-800 shadow-lg shadow-green-500/50 
+            dark:shadow-lg 
+            dark:shadow-green-800/80 
+            font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+            Vaata ajalugu
+            <div class="emoji-text">
+                📜
+            </div> 
         </NuxtLink>
+
 
         </div>
 
@@ -114,6 +123,7 @@
     left: 50%;
     transform: translateX(-50%);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 0 0 4px black;
 }
 
 .centered-button {
@@ -123,27 +133,13 @@
     left: 50%;
     transform: translateX(-50%);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.icon-button-base {
-    color: none;
-    background: #38a169;
-    border: none;
-    cursor: pointer;
-    border-radius: 50%; 
-    padding: 10px; 
-    transition: box-shadow 0.2s, transform 0.2s;
-}
-
-.icon-button:hover {
-    box-shadow: 0 4px 8px #38a169;
+    text-shadow: 0 0 4px black;
 }
 
 .icon-button-1 {
-    position: absolute;
-    top: 310%;
-    left: -85%;
-
+    color: black;
+    background-color: transparent;
+    border: none;
 }
 
 .icon-button-2 {
@@ -152,29 +148,28 @@
     right: -80%;
 }
 
-.product-text{
+.route-buttons-base {
     position: absolute;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-size: large;
+    text-shadow: 0 0 4px black;
+    user-select: none;
+    width: 70%; 
+    height: 50%;
+}
+.product-button{
     top: 290%; 
     left: -100%;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
-    font-size: large;
-    user-select: none;
 }
 
-.history-text{
-    position: absolute;
+.history-button{
     top: 290%;
-    width: 50%; 
     right: -100%;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
-    font-size: large;
-    user-select: none;
 }
 
 .login-text{
-    position: fixed;
+    position: absolute;
     text-align: center;
     top: 180%;
     width: 130%; 
@@ -184,6 +179,13 @@
     font-size: large;
     color: white;
     user-select: none;
+}
+
+.emoji-text{
+    padding: 7%;
+    font-size:xx-large;
+    user-select: none;
+    text-shadow: 0 0 6px black;
 }
 
 @font-face {
