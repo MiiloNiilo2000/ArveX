@@ -25,7 +25,7 @@
       </UFormGroup>
     </div>
 
-    <!-- <div class="w-100">
+    <div class="w-100">
         <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
           <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
             <div class="invoice-header text-center mb-6">
@@ -64,7 +64,7 @@
             </div>
             </div>
           </div>
-      </div> -->
+      </div>
   </div>
   <div class="flex justify-center w-full gap-20"> 
     <div class="w-1/2"> 
