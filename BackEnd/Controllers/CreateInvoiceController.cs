@@ -86,7 +86,7 @@ namespace BackEnd.Controllers
             );
             
             var pdf = document.GeneratePdf();
-            //document.ShowInCompanion();
+
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
            
             string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
