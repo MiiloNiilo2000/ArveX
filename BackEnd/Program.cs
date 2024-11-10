@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using BackEnd.Controllers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,16 +28,15 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddSingleton<TokenGenerator>();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x =>
     {
         x.TokenValidationParameters = new TokenValidationParameters
         {
-            IssuerSigningKey = new SymmetricSecurityKey("OurSecurityKeyThatHasToBeSomeWhatOfALongArrayOfLetters"u8.ToArray()),
-            ValidIssuer = "http://id.localhost:3000/",
-            ValidAudience = "http://localhost:3000/",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
             ValidateIssuerSigningKey = true,
             ValidateLifetime = true,
             ValidateIssuer = true,
@@ -49,6 +49,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 }); 
 
 builder.Services.AddScoped<InvoiceRepo>();
+builder.Services.AddScoped<ProfileRepo>();
 
 var app = builder.Build();
 
@@ -67,13 +68,5 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.UseCors("AllowAll");
-
-app.MapPost("/login", (LoginRequest request, TokenGenerator tokenGenerator) =>
-{
-    return new
-    {
-        access_token = tokenGenerator.GenerateToken(request.Email)
-    };
-});
 
 app.Run();

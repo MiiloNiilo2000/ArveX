@@ -63,8 +63,7 @@ namespace BackEnd.Data
                 .HasOne(p => p.company)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CompanyId);
-
-
+        
             modelBuilder.Entity<Company>().HasData(
             new Company
             {
@@ -139,18 +138,20 @@ namespace BackEnd.Data
             .HasOne(p => p.profile)
             .WithMany(c => c.Companies)
             .HasForeignKey(p => p.ProfileId);
-
+        
         modelBuilder.Entity<Profile>().HasData(
             new Profile
             {
                 ProfileId = 1,
                 Username = "Profiil1",
+                Password = "9m3hoCPjb1UPf9Rtjv5k9Rd/Qe3eV03FWdj8gZ+CY8I=", //Password1
                 Email = "Profiil1@mail.ee",
             },
             new Profile
             {
                 ProfileId = 2,
                 Username = "Profiil2",
+                Password = "Nap22SGtaVHh4mEwqD9K/Ew/g7YFYYv8VxHOL5D3nO4=", //Password2
                 Email = "Profiil2@mail.ee",
             }
         );
