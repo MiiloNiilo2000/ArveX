@@ -45,7 +45,7 @@ namespace backend.Migrations
                     ProfileId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -104,11 +104,11 @@ namespace backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Profile",
-                columns: new[] { "ProfileId", "Bio", "Email", "Image", "Username" },
+                columns: new[] { "ProfileId", "Email", "Image", "Password", "Username" },
                 values: new object[,]
                 {
-                    { 1, "Minu profiil", "Profiil1@mail.ee", null, "Profiil1" },
-                    { 2, "Minu profiil 2", "Profiil2@mail.ee", null, "Profiil2" }
+                    { 1, "Profiil1@mail.ee", null, "9m3hoCPjb1UPf9Rtjv5k9Rd/Qe3eV03FWdj8gZ+CY8I=", "Profiil1" },
+                    { 2, "Profiil2@mail.ee", null, "Nap22SGtaVHh4mEwqD9K/Ew/g7YFYYv8VxHOL5D3nO4=", "Profiil2" }
                 });
 
             migrationBuilder.InsertData(

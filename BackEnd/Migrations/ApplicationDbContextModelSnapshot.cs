@@ -239,15 +239,15 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"));
 
-                    b.Property<string>("Bio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
@@ -262,15 +262,15 @@ namespace backend.Migrations
                         new
                         {
                             ProfileId = 1,
-                            Bio = "Minu profiil",
                             Email = "Profiil1@mail.ee",
+                            Password = "9m3hoCPjb1UPf9Rtjv5k9Rd/Qe3eV03FWdj8gZ+CY8I=",
                             Username = "Profiil1"
                         },
                         new
                         {
                             ProfileId = 2,
-                            Bio = "Minu profiil 2",
                             Email = "Profiil2@mail.ee",
+                            Password = "Nap22SGtaVHh4mEwqD9K/Ew/g7YFYYv8VxHOL5D3nO4=",
                             Username = "Profiil2"
                         });
                 });

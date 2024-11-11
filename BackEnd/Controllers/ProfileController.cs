@@ -1,22 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BackEnd.Data;
+using BackEnd.Data.Repos;
 using BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-public class ProfileController : ControllerBase
+    public class ProfileController(ProfileRepo repo, ApplicationDbContext context) : ControllerBase()
     {
-        private readonly ApplicationDbContext _context;
-        public ProfileController(ApplicationDbContext context){
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
+        private readonly ProfileRepo repo = repo;
 
         [HttpGet("all")]
         public async Task<IActionResult> GetProfiles(){
@@ -78,6 +80,20 @@ public class ProfileController : ControllerBase
         public async Task<IActionResult> Update(int id, [FromBody] Profile profile){
             bool result = await _context.UpdateProfile(id, profile);
             return result ? NoContent() : NotFound();
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        {
+            var token = await repo.Login(loginRequest);
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                return Ok(new { Token = token });
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
     }
 }
