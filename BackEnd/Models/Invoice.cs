@@ -18,8 +18,10 @@ namespace BackEnd.Models
         public required DateTime DateDue { get; set; }
         public required string Condition { get; set; }
         public required string DelayFine { get; set; }
+        public required string ClientRegNr { get; set; }
+        public required string ClientKMKR { get; set; }
         public required string Font { get; set; }
-        public List<int> ProductIds { get; set; }
+        public required List<int> ProductIds { get; set; }
 
     }
 }

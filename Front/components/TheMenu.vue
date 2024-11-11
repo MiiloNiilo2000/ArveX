@@ -30,6 +30,10 @@
     {
       label: "Ajalugu",
       to: "/view-history",
+    },
+    {
+      label: "Test",
+      to: "/test-home",
     }
     
   ];
