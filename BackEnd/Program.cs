@@ -16,11 +16,12 @@ QuestPDF.Settings.License = LicenseType.Community;
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
+    options.AddPolicy("MyPolicy", builder =>
     {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
+        builder.SetIsOriginAllowed(_ => true)
+            .AllowCredentials()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
     });
 });
 
@@ -44,14 +45,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-}); 
+builder.Services
+    .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")))
+    .AddScoped<InvoiceRepo>()
+    .AddScoped<ProfileRepo>();
 
-builder.Services.AddScoped<InvoiceRepo>();
-builder.Services.AddScoped<ProfileRepo>();
+
 
 var app = builder.Build();
+
+using (var scope = ((IApplicationBuilder)app).ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
+{
+    context?.Database.EnsureCreated();
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -67,6 +75,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-app.UseCors("AllowAll");
+app.UseCors("MyPolicy");
 
 app.Run();

@@ -47,8 +47,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import UserProfile from '../components/UserProfile.vue';
-import CompanyProfile from '../components/CompanyProfile.vue';
+import UserProfile from './UserProfile.vue';
+import CompanyProfile from './CompanyProfile.vue';
 import axios from 'axios';
 
 const router = useRouter();
