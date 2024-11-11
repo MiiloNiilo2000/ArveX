@@ -50,8 +50,6 @@ builder.Services
     .AddScoped<InvoiceRepo>()
     .AddScoped<ProfileRepo>();
 
-
-
 var app = builder.Build();
 
 using (var scope = ((IApplicationBuilder)app).ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -59,7 +57,6 @@ using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
 {
     context?.Database.EnsureCreated();
 }
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
