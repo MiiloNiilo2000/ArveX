@@ -4,4 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/ui', '@pinia/nuxt'],
   imports: {dirs: ['types/*.ts']},
+  runtimeConfig: {
+    public: {apiUrl: "http://localhost:5176/"},
+  }
 })

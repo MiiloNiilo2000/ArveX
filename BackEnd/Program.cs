@@ -24,7 +24,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
-//etst//
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
