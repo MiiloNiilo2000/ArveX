@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1 class="text-3xl font-bold mb-6">{{ getCompanyNameById(selectedCompanyId) }}</h1>
     <h1 class="text-2xl font-bold mb-6">Tooted / teenused</h1>
 
     <div class="mb-6">
@@ -31,67 +30,69 @@
 </template>
 
 <script setup lang="ts">
-    import { useRouter } from 'vue-router';
-    import axios from 'axios';
-    import { onMounted, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useApi } from '../composables/useApi';
+import type { Product } from "../types/product";
+import type { Company } from "../types/company";
 
-    const router = useRouter();
-    const products = ref([]);
-    const companies = ref([]);
-    const selectedCompanyId = ref<number | null>(null);
+const router = useRouter();
+const products = ref<Product[]>([]);
+const companies = ref<Company[]>([]);
+const selectedCompanyId = ref<number>();
+const { customFetch } = useApi();
 
-    onMounted(async () => {
-      await fetchCompanies();
-    if (companies.value.length > 0) {
-      selectedCompanyId.value = companies.value[0].companyId;
-      fetchProducts();
-    }
-    });
+const navigateToAddProduct = () => {
+  router.push('/products/add');
+};
 
-    console.log("Products after fetch:", products);
+const navigateToEditProduct = (productId: number) => {
+  router.push(`/products/edit/${productId}`);
+};
 
-    const navigateToAddProduct = () => {
-        router.push('/products/add');
-    };
-
-    const navigateToEditProduct = (productId: Number) => {
-        router.push(`/products/edit/${productId}`);
-    };
-    
-    const fetchProducts = async () => {
-      if (selectedCompanyId.value) {
-      try {
-        const response = await axios.get(`http://localhost:5176/Companies/${selectedCompanyId.value}/products`);
-        products.value = response.data;
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    }
-    };
-    const fetchCompanies = async () => {
+const fetchProducts = async () => {
+  if (selectedCompanyId.value) {
     try {
-      const response = await axios.get('http://localhost:5176/Companies/all');
-      companies.value = response.data;
+      const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/products`, { method: 'GET' });
+      products.value = response;
     } catch (error) {
-      console.error("Error fetching companies:", error);
+      console.error("Error fetching products:", error);
     }
-    };
-    const onCompanyChange = () => {
-      fetchProducts();
-    };
+  }
+};
 
-    const deleteProduct = async (id) => {
-      try {
-          await axios.delete(`http://localhost:5176/Products/${id}`);
-          products.value = products.value.filter(product => product.ProductId !== id);
-          fetchProducts();
-      } 
-      catch (error) {
-          console.error("Error deleting product:", error);
-      }
-  	};
-    const getCompanyNameById = (companyId: number) => {
-    const company = companies.value.find(c => c.companyId === companyId);
-    return company ? company.name : 'Ettevõte ei leitud';
-    };
+const fetchCompanies = async () => {
+  try {
+    const response = await customFetch<Company[]>(`Companies/all`, { method: 'GET' });
+    companies.value = response;
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+  }
+};
+
+const onCompanyChange = () => {
+  fetchProducts();
+};
+
+const deleteProduct = async (id: number) => {
+  try {
+    const response = await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
+    products.value = products.value.filter(product => product.productId !== id);
+    fetchProducts();
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  }
+};
+const getCompanyNameById = (companyId: number) => {
+  const company = companies.value.find(c => c.companyId === companyId);
+  return company ? company.name : 'Ettevõte ei leitud';
+};
+
+onMounted(async () => {
+  await fetchCompanies();
+  if (companies.value.length > 0) {
+    selectedCompanyId.value = companies.value[0].companyId;
+    fetchProducts();
+  }
+});
 </script>
