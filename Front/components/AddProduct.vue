@@ -19,7 +19,12 @@
         <UInput v-model="state.price" />
       </UFormGroup>
       <UFormGroup label="Firma" name="companyId">
-        <UInput v-model="state.companyId" />
+        <select v-model="state.companyId" class="w-full border p-2 rounded">
+            <option value="" disabled>Select a company</option>
+            <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
+              {{ company.name }}
+            </option>
+          </select>
       </UFormGroup>
   
       <UButton type="submit"> Lisa </UButton>
@@ -31,7 +36,7 @@
 <script setup lang="ts">
 import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
 import type { Product } from "../types/product";
-import { reactive } from 'vue';
+import { reactive, ref, onMounted, watch } from 'vue';
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router';
 
@@ -46,13 +51,30 @@ const state = reactive<Product>({
     companyId: null
   });
 
-  const addProduct = async (product) => {
-        try {
-            await axios.post('http://localhost:5176/Products', product);
-        } catch (error) {
-            console.error("Error adding product:", error);
-        }
-    };
+const companies = ref<{ companyId: number; name: string }[]>([]);
+
+const fetchCompanies = async () => {
+  try {
+    const response = await axios.get('http://localhost:5176/Companies/all');
+    companies.value = response.data;
+    console.log('Fetched companies:', companies.value);
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+  }
+};
+
+onMounted(fetchCompanies);
+watch(() => state.companyId, (newVal) => {
+  console.log('Selected companyId:', newVal);
+});
+
+const addProduct = async (product) => {
+      try {
+          await axios.post('http://localhost:5176/Products', product);
+      } catch (error) {
+          console.error("Error adding product:", error);
+      }
+  };
 
   const validate = (state: any): FormError[] => {
     const errors = [];
