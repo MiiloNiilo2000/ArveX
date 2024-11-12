@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1 class="text-3xl font-bold mb-6">{{ selectedCompanyId !== undefined ? getCompanyNameById(selectedCompanyId) : 'Select a company' }}</h1>
     <h1 class="text-2xl font-bold mb-6">Tooted / teenused</h1>
 
     <div class="mb-6">
@@ -19,6 +20,7 @@
       <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
       <p class="text-gray-600">{{ product.description }}</p>
       <p class="text-gray-600">Hind: {{ product.price }}€</p>
+      <p class="text-gray-600">Maksuprotsent: {{ product.taxPercent }}%</p>
       <p class="text-gray-600">{{ getCompanyNameById(product.companyId) }}</p>
 
       <div class="flex justify-between mt-4">

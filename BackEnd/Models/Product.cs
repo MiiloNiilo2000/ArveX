@@ -16,5 +16,5 @@ public class Product
     [JsonIgnore]
     public virtual Company? company { get; set; } = null!;
 
-    public double TaxPercent { get; set; } = 22; //praegu iga loodud toode 22
+    public double TaxPercent { get; set; }
 }
