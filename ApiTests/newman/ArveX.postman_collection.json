@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "d590db80-4eda-477c-9bf9-75a659deb1ca",
+		"name": "ArveX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38075304"
+	},
+	"item": [
+		{
+			"name": "GetAllCompanies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Companies/all",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Companies",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
