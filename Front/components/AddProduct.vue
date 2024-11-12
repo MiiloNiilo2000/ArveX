@@ -18,8 +18,16 @@
       <UFormGroup label="Hind" name="price">
         <UInput v-model="state.price" />
       </UFormGroup>
+      <UFormGroup label="Maksuprotsent" name="taxPercent">
+        <UInput v-model="state.taxPercent" />
+      </UFormGroup>
       <UFormGroup label="Firma" name="companyId">
-        <UInput v-model="state.companyId" />
+        <select v-model="state.companyId" class="w-full border p-2 rounded">
+            <option value="" disabled>Select a company</option>
+            <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
+              {{ company.name }}
+            </option>
+          </select>
       </UFormGroup>
   
       <UButton type="submit"> Lisa </UButton>
@@ -31,7 +39,7 @@
 <script setup lang="ts">
 import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
 import type { Product } from "../types/product";
-import { reactive } from 'vue';
+import { reactive, ref, onMounted, watch } from 'vue';
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router';
 
@@ -43,22 +51,41 @@ const state = reactive<Product>({
     name: '',
     description: '',
     price: null,
-    companyId: null
+    companyId: null,
+    taxPercent: null
   });
 
-  const addProduct = async (product) => {
-        try {
-            await axios.post('http://localhost:5176/Products', product);
-        } catch (error) {
-            console.error("Error adding product:", error);
-        }
-    };
+const companies = ref<{ companyId: number; name: string }[]>([]);
+
+const fetchCompanies = async () => {
+  try {
+    const response = await axios.get('http://localhost:5176/Companies/all');
+    companies.value = response.data;
+    console.log('Fetched companies:', companies.value);
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+  }
+};
+
+onMounted(fetchCompanies);
+watch(() => state.companyId, (newVal) => {
+  console.log('Selected companyId:', newVal);
+});
+
+const addProduct = async (product) => {
+      try {
+          await axios.post('http://localhost:5176/Products', product);
+      } catch (error) {
+          console.error("Error adding product:", error);
+      }
+  };
 
   const validate = (state: any): FormError[] => {
     const errors = [];
     if (!state.name) errors.push({ path: "name", message: "Required" });
     if (!state.description) errors.push({ path: "description", message: "Required" });
     if (!state.price) errors.push({ path: "price", message: "Required" });
+    if (!state.taxPercent) errors.push({ path: "taxPercent", message: "Required" });
     if (!state.companyId) errors.push({ path: "companyId", message: "Required" });
     return errors;
   };

@@ -18,8 +18,16 @@
           <UFormGroup label="Hind" name="price">
             <UInput v-model="state.price" />
           </UFormGroup>
+          <UFormGroup label="Maksuprotsent" name="taxPercent">
+            <UInput v-model="state.taxPercent" />
+          </UFormGroup>
           <UFormGroup label="Firma" name="companyId">
-            <UInput v-model="state.companyId" />
+            <select v-model="state.companyId" class="w-full border p-2 rounded">
+            <option value="" disabled>Select a company</option>
+            <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
+              {{ company.name }}
+            </option>
+          </select>
           </UFormGroup>
           <UButton type="submit"> Salvesta </UButton>
         </UForm>
@@ -30,7 +38,7 @@
 <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
   import type { Product } from "../types/product";
-  import { reactive, onMounted } from 'vue';
+  import { reactive, onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import axios from "axios";
 
@@ -39,8 +47,21 @@
       name: '',
       description: '',
       price: 0,
-      companyId: 0
+      companyId: 0,
+      taxPercent: 0
   });
+
+  const companies = ref<{ companyId: number; name: string }[]>([]);
+
+  const fetchCompanies = async () => {
+    try {
+      const response = await axios.get('http://localhost:5176/Companies/all');
+      companies.value = response.data;
+      console.log('Fetched companies:', companies.value);
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+    }
+  };
 
   const editProduct = async (product: Product) => {
     try {
@@ -81,6 +102,7 @@
 
   onMounted(async () => {
     await fetchProduct(productId);
+    await fetchCompanies();
   });
 
   const validate = (state: any): FormError[] => {
@@ -88,6 +110,7 @@
     if (!state.name) errors.push({ path: "name", message: "Required" });
     if (!state.description) errors.push({ path: "description", message: "Required" });
     if (!state.price) errors.push({ path: "price", message: "Required" });
+    if (!state.taxPercent) errors.push({ path: "taxPercent", message: "Required" });
     if (!state.companyId) errors.push({ path: "companyId", message: "Required" });
     return errors;
   };
