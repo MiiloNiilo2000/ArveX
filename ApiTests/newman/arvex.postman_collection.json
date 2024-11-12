@@ -1,0 +1,78 @@
+{
+	"info": {
+		"_postman_id": "d590db80-4eda-477c-9bf9-75a659deb1ca",
+		"name": "arvex",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38075304"
+	},
+	"item": [
+		{
+			"name": "GetAllCompanies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Companies/all",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Companies",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetId1RegCode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Register code is 12345\", function () {\r",
+							"    pm.expect(responseData.registerCode).to.eql(12345);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Companies/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Companies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
