@@ -31,27 +31,16 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useApi } from '../composables/useApi';
-
-interface Product {
-  productId: number;
-  name: string;
-  description: string;
-  price: number;
-  companyId: number;
-}
-
-interface Company {
-  companyId: number;
-  name: string;
-}
+import type { Product } from "../types/product";
+import type { Company } from "../types/company";
 
 const router = useRouter();
 const products = ref<Product[]>([]);
 const companies = ref<Company[]>([]);
 const selectedCompanyId = ref<number>();
+const { customFetch } = useApi();
 
 const navigateToAddProduct = () => {
   router.push('/products/add');
@@ -62,7 +51,6 @@ const navigateToEditProduct = (productId: number) => {
 };
 
 const fetchProducts = async () => {
-  const { customFetch } = useApi();
   if (selectedCompanyId.value) {
     try {
       const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/products`, { method: 'GET' });
@@ -75,8 +63,8 @@ const fetchProducts = async () => {
 
 const fetchCompanies = async () => {
   try {
-    const response = await axios.get('http://localhost:5176/Companies/all');
-    companies.value = response.data;
+    const response = await customFetch<Company[]>(`Companies/all`, { method: 'GET' });
+    companies.value = response;
   } catch (error) {
     console.error("Error fetching companies:", error);
   }
@@ -88,14 +76,13 @@ const onCompanyChange = () => {
 
 const deleteProduct = async (id: number) => {
   try {
-    await axios.delete(`http://localhost:5176/Products/${id}`);
+    const response = await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
     products.value = products.value.filter(product => product.productId !== id);
     fetchProducts();
   } catch (error) {
     console.error("Error deleting product:", error);
   }
 };
-
 const getCompanyNameById = (companyId: number) => {
   const company = companies.value.find(c => c.companyId === companyId);
   return company ? company.name : 'Ettevõte ei leitud';
