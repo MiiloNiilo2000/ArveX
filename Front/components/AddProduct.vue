@@ -18,6 +18,9 @@
       <UFormGroup label="Hind" name="price">
         <UInput v-model="state.price" />
       </UFormGroup>
+      <UFormGroup label="Maksuprotsent" name="taxPercent">
+        <UInput v-model="state.taxPercent" />
+      </UFormGroup>
       <UFormGroup label="Firma" name="companyId">
         <select v-model="state.companyId" class="w-full border p-2 rounded">
             <option value="" disabled>Select a company</option>
@@ -48,7 +51,8 @@ const state = reactive<Product>({
     name: '',
     description: '',
     price: null,
-    companyId: null
+    companyId: null,
+    taxPercent: null
   });
 
 const companies = ref<{ companyId: number; name: string }[]>([]);
@@ -81,6 +85,7 @@ const addProduct = async (product) => {
     if (!state.name) errors.push({ path: "name", message: "Required" });
     if (!state.description) errors.push({ path: "description", message: "Required" });
     if (!state.price) errors.push({ path: "price", message: "Required" });
+    if (!state.taxPercent) errors.push({ path: "taxPercent", message: "Required" });
     if (!state.companyId) errors.push({ path: "companyId", message: "Required" });
     return errors;
   };
