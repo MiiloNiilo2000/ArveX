@@ -41,50 +41,41 @@
   import type { Company } from "../types/company";
   import { reactive, onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import axios from "axios";
+  import { useApi } from '../composables/useApi';
+
+  const { customFetch } = useApi(); 
+  const route = useRoute();
+  const router = useRouter();
+  const companyId = Number(route.params.id);
 
   const state = reactive<Company>({
-      id: 0,
+      companyId: 0,
       name: '',
-      registerCode: 0,
+      registerCode: '',
       vatNumber: '',
       address: '',
-      postalCode: 0,
+      postalCode: '',
       country: '',
       email: '',
       image: ''
   });
 
   const editCompany = async (company: Company) => {
-    console.log("Attempting to update company:", company);
-    try {
-        console.log("Updating company:", company);
-        
-        const response = await axios.put(`http://localhost:5176/Companies/${companyId}`, company);
-
-        console.log("Company updated successfully:", response.data);
+    try {     
+        await customFetch(`Companies/${company.companyId}`, {
+            method: 'PUT',
+            body: company,
+        });
         await router.push("/profiles");
     } catch (error) {
         console.error("Error updating company:", error);
-
-        if (error.response) {
-            console.error("Response data:", error.response.data);
-            console.error("Response status:", error.response.status);
-            console.error("Response headers:", error.response.headers);
-        } else {
-            console.error("Error message:", error.message);
-        }
     }
 };
 
-  const route = useRoute();
-  const router = useRouter();
-  const companyId = Number(route.params.id);
-
   const fetchCompany = async (id: number) => {
     try {
-        const response = await axios.get(`http://localhost:5176/Companies/${id}`);
-        const company = response.data;
+        const response =await customFetch<Company[]>(`Companies/${id}`, { method: 'GET' });
+        const company = response;
         if (company) {
             Object.assign(state, company);
         }
@@ -92,10 +83,6 @@
         console.error("Error fetching company:", error);
     }
   };
-
-  onMounted(async () => {
-    await fetchCompany(companyId);
-  });
 
   const validate = (state: any): FormError[] => {
     const errors = [];
@@ -122,5 +109,10 @@
     element?.focus();
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
+
+  onMounted(async () => {
+    await fetchCompany(companyId);
+  });
+
 
 </script>

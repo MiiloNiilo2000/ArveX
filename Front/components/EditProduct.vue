@@ -41,6 +41,13 @@
   import { reactive, onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import axios from "axios";
+  import { useApi } from '../composables/useApi';
+
+  const { customFetch } = useApi(); 
+  const companies = ref<{ companyId: number; name: string }[]>([]);
+  const route = useRoute();
+  const router = useRouter();
+  const productId = Number(route.params.id);
 
   const state = reactive<Product>({
       productId: 0,
@@ -51,13 +58,10 @@
       taxPercent: 0
   });
 
-  const companies = ref<{ companyId: number; name: string }[]>([]);
-
   const fetchCompanies = async () => {
     try {
-      const response = await axios.get('http://localhost:5176/Companies/all');
-      companies.value = response.data;
-      console.log('Fetched companies:', companies.value);
+      const response = await customFetch<Company[]>(`Companies/all`, { method: 'GET' });
+      companies.value = response;
     } catch (error) {
       console.error("Error fetching companies:", error);
     }
@@ -65,33 +69,21 @@
 
   const editProduct = async (product: Product) => {
     try {
-        console.log("Updating product:", product);
-        
-        const response = await axios.put(`http://localhost:5176/Products/${product.productId}`, product);
-
-        console.log("Product updated successfully:", response.data);
+        await customFetch(`Products/${product.productId}`, {
+            method: 'PUT',
+            body: product,
+        });
         await router.push("/products");
     } catch (error) {
         console.error("Error updating product:", error);
 
-        if (error.response) {
-            console.error("Response data:", error.response.data);
-            console.error("Response status:", error.response.status);
-            console.error("Response headers:", error.response.headers);
-        } else {
-            console.error("Error message:", error.message);
-        }
     }
-};
-
-  const route = useRoute();
-  const router = useRouter();
-  const productId = Number(route.params.id);
+  };
 
   const fetchProduct = async (id: number) => {
     try {
-        const response = await axios.get(`http://localhost:5176/Products/${id}`);
-        const product = response.data;
+        const response = await customFetch<Product[]>(`Products/${id}`, { method: 'GET' })
+        const product = response;
         if (product) {
             Object.assign(state, product);
         }
@@ -99,11 +91,6 @@
         console.error("Error fetching product:", error);
     }
   };
-
-  onMounted(async () => {
-    await fetchProduct(productId);
-    await fetchCompanies();
-  });
 
   const validate = (state: any): FormError[] => {
     const errors = [];
@@ -126,4 +113,8 @@
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
+  onMounted(async () => {
+    await fetchProduct(productId);
+    await fetchCompanies();
+  });
 </script>
