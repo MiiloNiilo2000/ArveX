@@ -1,46 +1,45 @@
 <template>
-    <div class="flex justify-center items-center pt-9">
-      <div class="w-96 p-6 flex flex-col h-99">
-        <h2 class="text-2xl font-bold mb-4 text-center">Muuda toodet</h2>
-        <UForm
-          :validate="validate"
-          :state="state"
-          class="space-y-4"
-          @submit="onSubmit"
-          @error="onError"
-        >
-          <UFormGroup label="Toote nimi" name="name">
-            <UInput v-model="state.name" />
-          </UFormGroup>
-          <UFormGroup label="Kirjeldus" name="description">
-            <UInput v-model="state.description" />
-          </UFormGroup>
-          <UFormGroup label="Hind" name="price">
-            <UInput v-model="state.price" />
-          </UFormGroup>
-          <UFormGroup label="Maksuprotsent" name="taxPercent">
-            <UInput v-model="state.taxPercent" />
-          </UFormGroup>
-          <UFormGroup label="Firma" name="companyId">
-            <select v-model="state.companyId" class="w-full border p-2 rounded">
-            <option value="" disabled>Select a company</option>
-            <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
-              {{ company.name }}
-            </option>
-          </select>
-          </UFormGroup>
-          <UButton type="submit"> Salvesta </UButton>
-        </UForm>
-      </div>
+  <div class="flex justify-center items-center pt-9">
+    <div class="w-96 p-6 flex flex-col h-99">
+      <h2 class="text-2xl font-bold mb-4 text-center">Muuda toodet</h2>
+      <UForm
+        :validate="validate"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+        @error="onError"
+      >
+        <UFormGroup label="Toote nimi" name="name">
+          <UInput v-model="state.name" />
+        </UFormGroup>
+        <UFormGroup label="Kirjeldus" name="description">
+          <UInput v-model="state.description" />
+        </UFormGroup>
+        <UFormGroup label="Hind" name="price">
+          <UInput v-model="state.price" />
+        </UFormGroup>
+        <UFormGroup label="Maksuprotsent" name="taxPercent">
+          <UInput v-model="state.taxPercent" />
+        </UFormGroup>
+        <UFormGroup label="Firma" name="companyId">
+          <select v-model="state.companyId" class="w-full border p-2 rounded">
+          <option value="" disabled>Select a company</option>
+          <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
+            {{ company.name }}
+          </option>
+        </select>
+        </UFormGroup>
+        <UButton type="submit"> Salvesta </UButton>
+      </UForm>
     </div>
-  </template>
+  </div>
+</template>
 
 <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
   import type { Product } from "../types/product";
   import { reactive, onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import axios from "axios";
   import { useApi } from '../composables/useApi';
 
   const { customFetch } = useApi(); 

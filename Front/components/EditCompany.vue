@@ -1,40 +1,40 @@
 <template>
-    <div class="flex justify-center items-center pt-9">
-      <div class="w-96 p-6 flex flex-col h-99">
-        <h2 class="text-2xl font-bold mb-4 text-center">Muuda ettevõtet</h2>
-        <UForm
-          :validate="validate"
-          :state="state"
-          class="space-y-4"
-          @submit="onSubmit"
-          @error="onError"
-        >
-          <UFormGroup label="Firma nimi" name="name">
-            <UInput v-model="state.name" />
-          </UFormGroup>
-          <UFormGroup label="Registrikood" name="registerCode">
-            <UInput v-model="state.registerCode" />
-          </UFormGroup>
-          <UFormGroup label="KMKN" name="vatNumber">
-            <UInput v-model="state.vatNumber" />
-          </UFormGroup>
-          <UFormGroup label="Aadress" name="address">
-            <UInput v-model="state.address" />
-          </UFormGroup>
-          <UFormGroup label="Postiindeks" name="postalCode">
-            <UInput v-model="state.postalCode" />
-          </UFormGroup>
-          <UFormGroup label="Riik" name="country">
-            <UInput v-model="state.country" />
-          </UFormGroup>
-          <UFormGroup label="Email" name="email">
-            <UInput v-model="state.email" />
-          </UFormGroup>
-          <UButton type="submit"> Salvesta </UButton>
-        </UForm>
-      </div>
+  <div class="flex justify-center items-center pt-9">
+    <div class="w-96 p-6 flex flex-col h-99">
+      <h2 class="text-2xl font-bold mb-4 text-center">Muuda ettevõtet</h2>
+      <UForm
+        :validate="validate"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+        @error="onError"
+      >
+        <UFormGroup label="Firma nimi" name="name">
+          <UInput v-model="state.name" />
+        </UFormGroup>
+        <UFormGroup label="Registrikood" name="registerCode">
+          <UInput v-model="state.registerCode" />
+        </UFormGroup>
+        <UFormGroup label="KMKN" name="vatNumber">
+          <UInput v-model="state.vatNumber" />
+        </UFormGroup>
+        <UFormGroup label="Aadress" name="address">
+          <UInput v-model="state.address" />
+        </UFormGroup>
+        <UFormGroup label="Postiindeks" name="postalCode">
+          <UInput v-model="state.postalCode" />
+        </UFormGroup>
+        <UFormGroup label="Riik" name="country">
+          <UInput v-model="state.country" />
+        </UFormGroup>
+        <UFormGroup label="Email" name="email">
+          <UInput v-model="state.email" />
+        </UFormGroup>
+        <UButton type="submit"> Salvesta </UButton>
+      </UForm>
     </div>
-  </template>
+  </div>
+</template>
 
 <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";

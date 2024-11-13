@@ -78,7 +78,7 @@ const onCompanyChange = () => {
 
 const deleteProduct = async (id: number) => {
   try {
-    const response = await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
+    await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
     products.value = products.value.filter(product => product.productId !== id);
     fetchProducts();
   } catch (error) {

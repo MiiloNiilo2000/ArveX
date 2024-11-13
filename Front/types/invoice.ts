@@ -1,4 +1,5 @@
 export type Invoice = {
+    invoiceId: number
     title: string
     address: string
     city: string
