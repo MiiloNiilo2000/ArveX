@@ -21,7 +21,7 @@
         <datalist id="company-suggestions">
           <option 
             v-for="company in companySuggestions" 
-            :key="company.company_id" 
+            :key="company.companyId" 
             :value="company.name">
             {{ company.name }}
           </option>
@@ -192,20 +192,12 @@
   import type { FormError, FormErrorEvent } from "#ui/types";
   import axios from 'axios';
   import { generateInvoicePDF } from '../stores/invoiceUtils';
+  import type { Product } from "../types/product";
+  import type { Company } from "../types/company";
 
-  interface Company {
-    company_id: string;
-    reg_code: string;
-    name: string;
-    legal_address: string;
-    zip_code: string;    
-  }
+  const { customFetch } = useApi();
 
-  interface Product {
-    productId: number;
-    name: string;
-    price: number;
-  }
+
 
   const state = reactive({
     title: '',
@@ -221,7 +213,7 @@
     delayFine: '',
     selectedFont: 'Arial',
     footerImage: null,
-    productIds: [],
+    productIds: [] as number[],
   });
 
   const availableProducts = ref<Product[]>([]);
@@ -265,6 +257,7 @@
     
       try {
         const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
+        const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/products`, { method: 'GET' });
         companySuggestions.value = response.data.data;
       } catch (error) {
         console.error('Error fetching company names:', error);
@@ -274,7 +267,7 @@
     watch(() => state.title, (newTitle) => {
       const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
       if (selectedCompany) {
-        state.clientRegNr = selectedCompany.reg_code;
+        state.clientRegNr = selectedCompany.registerCode;
         state.address = selectedCompany.legal_address;
         state.zipCode = selectedCompany.zip_code;
       }
