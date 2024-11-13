@@ -15,9 +15,6 @@
           <UFormGroup label="E-post" name="email">
             <UInput v-model="state.email" type="email" />
           </UFormGroup>
-          <UFormGroup label="Bio">
-            <UTextarea v-model="state.bio" />
-          </UFormGroup>
           <UFormGroup label="Pildi link">
             <UInput v-model="state.image" />
           </UFormGroup>
@@ -39,7 +36,6 @@
     id: 0,
     username: '',
     email: '',
-    bio: '',
     image: '',
   });
   
