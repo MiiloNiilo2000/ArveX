@@ -58,12 +58,12 @@
     registerCode: '',
     vatNumber: '',
     address: '',
-    postalCode: 0,
+    postalCode: '',
     country: '',
     email: '',
     image: ''
   });
-  
+
   const addCompany = async (company: Company) => {
   try {
     await customFetch('Companies', {

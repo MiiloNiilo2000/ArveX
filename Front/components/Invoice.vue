@@ -21,7 +21,7 @@
         <datalist id="company-suggestions">
           <option 
             v-for="company in companySuggestions" 
-            :key="company.companyId" 
+            :key="company.company_id" 
             :value="company.name">
             {{ company.name }}
           </option>
@@ -192,12 +192,34 @@
   import type { FormError, FormErrorEvent } from "#ui/types";
   import axios from 'axios';
   import { generateInvoicePDF } from '../stores/invoiceUtils';
-  import type { Product } from "../types/product";
-  import type { Company } from "../types/company";
+  import { useApi } from '../composables/useApi';
 
   const { customFetch } = useApi();
+  const availableProducts = ref<Product[]>([]);
+  const selectedProducts = ref<Product[]>([]);
+  const companySuggestions = ref<Company[]>([])
 
+  const fonts = [
+    'Times New Roman',
+    'Arial',
+    'Courier New',
+    'Georgia',
+    'Verdana',
+  ]
 
+  interface Company {
+    company_id: string;
+    reg_code: string;
+    name: string;
+    legal_address: string;
+    zip_code: string;    
+  }
+
+  interface Product {
+    productId: number;
+    name: string;
+    price: number;
+  }
 
   const state = reactive({
     title: '',
@@ -216,26 +238,6 @@
     productIds: [] as number[],
   });
 
-  const availableProducts = ref<Product[]>([]);
-  const selectedProducts = ref<Product[]>([]);
-
-  onMounted(async () => {
-    try {
-      const response = await axios.get('http://localhost:5176/Products/all')
-      availableProducts.value = response.data;
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  });
-
-  const fonts = [
-    'Times New Roman',
-    'Arial',
-    'Courier New',
-    'Georgia',
-    'Verdana',
-  ]
-
   const validate = (state: any): FormError[] => {
     const errors = [];
     const zipString = state.zipCode.toString();
@@ -249,40 +251,46 @@
 
     return errors;
   };
-  
-  const companySuggestions = ref<Company[]>([])
 
   const fetchCompanyNames = async () => {
-      if (state.title.length < 3) return; 
-    
-      try {
-        const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
-        const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/products`, { method: 'GET' });
-        companySuggestions.value = response.data.data;
-      } catch (error) {
-        console.error('Error fetching company names:', error);
-      }
-    };
+    if (state.title.length < 3) return; 
 
-    watch(() => state.title, (newTitle) => {
-      const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
-      if (selectedCompany) {
-        state.clientRegNr = selectedCompany.registerCode;
-        state.address = selectedCompany.legal_address;
-        state.zipCode = selectedCompany.zip_code;
-      }
-    });
-       
+    try {
+      const response = await customFetch<any>(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`, { method: 'GET' })
+      companySuggestions.value = response.data;
+    } catch (error) {
+      console.error('Error fetching company names:', error);
+    }
+  };
+
+  watch(() => state.title, (newTitle) => {
+    const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
+    if (selectedCompany) {
+      state.clientRegNr = selectedCompany.reg_code;
+      state.address = selectedCompany.legal_address;
+      state.zipCode = selectedCompany.zip_code;
+    }
+  });
+      
   const submitForm = () => { 
-    state.productIds = selectedProducts.value.map(product => product.productId);
-    generateInvoicePDF(state, "GeneratePdf")
+  state.productIds = selectedProducts.value.map(product => product.productId);
+  generateInvoicePDF(state, "GeneratePdf")
   };
 
   async function onError(event: FormErrorEvent) {
-    const element = document.getElementById(event.errors[0].id);
-    element?.focus();
-    element?.scrollIntoView({ behavior: "smooth", block: "center" });
+  const element = document.getElementById(event.errors[0].id);
+  element?.focus();
+  element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
+
+  onMounted(async () => {
+  try {
+    const response = await axios.get('http://localhost:5176/Products/all')
+    availableProducts.value = response.data;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+  });
 
   defineExpose({ validate, fetchCompanyNames, submitForm });
 </script>

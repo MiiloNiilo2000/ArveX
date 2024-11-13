@@ -4,7 +4,7 @@ export type Company = {
     registerCode: string
     vatNumber: string
     address: string
-    postalCode: number
+    postalCode: string
     country: string
     email: string
     image: string
