@@ -1,10 +1,10 @@
 export type Company = {
-    id: number
+    companyId: number
     name: string
-    registerCode: number
+    registerCode: string
     vatNumber: string
     address: string
-    postalCode: number
+    postalCode: string
     country: string
     email: string
     image: string

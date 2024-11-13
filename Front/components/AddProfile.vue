@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="flex justify-center items-center pt-9">
       <div class="w-96 p-6 flex flex-col h-auto">
         <h2 class="text-2xl font-bold mb-4 text-center">Lisa kasutaja</h2>
@@ -22,8 +23,36 @@
           <UButton type="submit"> Lisa </UButton>
         </UForm>
       </div>
+=======
+  <div class="flex justify-center items-center pt-9">
+    <div class="w-96 p-6 flex flex-col h-auto">
+      <h2 class="text-2xl font-bold mb-4 text-center">Lisa kasutaja</h2>
+      <UForm
+        :validate="validate"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+        @error="onError"
+      >
+        <UFormGroup label="Kasutajanimi" name="username">
+          <UInput v-model="state.username" />
+        </UFormGroup>
+        
+        <UFormGroup label="E-post" name="email">
+          <UInput v-model="state.email" type="email" />
+        </UFormGroup>
+
+        <UFormGroup label="Pildi link">
+          <UInput v-model="state.image" />
+        </UFormGroup>
+
+        <UButton type="submit"> Lisa </UButton>
+      </UForm>
+>>>>>>> 571ea931c21104e20b0e6dfeaa637f96c17d9d3f
     </div>
-  </template>
+  </div>
+</template>
+
   <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
   import type { Profile } from "../types/profile";
