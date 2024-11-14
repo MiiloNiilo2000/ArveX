@@ -15,10 +15,9 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProfileController(ProfileRepo repo, ApplicationDbContext context) : ControllerBase()
+    public class ProfileController(ApplicationDbContext context) : ControllerBase()
     {
         private readonly ApplicationDbContext _context = context;
-        private readonly ProfileRepo repo = repo;
 
         [HttpGet("all")]
         public async Task<IActionResult> GetProfiles(){

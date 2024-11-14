@@ -71,8 +71,7 @@ builder.Services.AddSwaggerGen(option =>
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")))
     .AddScoped<InvoiceRepo>()
-    .AddScoped<ITokenService, TokenService>()
-    .AddScoped<ProfileRepo>();
+    .AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddIdentity<Profile, IdentityRole>(options =>{
     options.Password.RequireDigit = true;
