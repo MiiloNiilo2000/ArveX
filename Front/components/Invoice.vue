@@ -121,6 +121,15 @@
           </select>
         </UFormGroup>
 
+        <UFormGroup label="Kopeeri varasema arve andmed" name="pastInvoice" class="h-20">
+          <select v-model="state.pastInvoice">
+            <option value="" disabled>Vali varasem arve</option>
+            <option v-for="invoice in pastInvoices" :key="invoice.invoiceId" :value="invoice.invoiceId">
+              {{ formatInvoiceOption(invoice) }}
+            </option>
+          </select>
+        </UFormGroup>
+
 
         <UFormGroup label="Vali Tooted:" name="products">
           <div class="product-selection">
@@ -190,14 +199,15 @@
 <script setup lang="ts">
   import { reactive, ref, watch, defineExpose, onMounted } from 'vue';
   import type { FormError, FormErrorEvent } from "#ui/types";
-  import axios from 'axios';
   import { generateInvoicePDF } from '../stores/invoiceUtils';
   import { useApi } from '../composables/useApi';
+  import type { Invoice } from '../types/invoice'
 
   const { customFetch } = useApi();
   const availableProducts = ref<Product[]>([]);
   const selectedProducts = ref<Product[]>([]);
-  const companySuggestions = ref<Company[]>([])
+  const companySuggestions = ref<Company[]>([]);
+  const pastInvoices = ref<Invoice[]>([]);
 
   const fonts = [
     'Times New Roman',
@@ -236,6 +246,7 @@
     selectedFont: 'Arial',
     footerImage: null,
     productIds: [] as number[],
+    pastInvoice: null,
   });
 
   const validate = (state: any): FormError[] => {
@@ -271,6 +282,42 @@
       state.zipCode = selectedCompany.zip_code;
     }
   });
+
+  watch(() => state.pastInvoice, (selectedInvoiceId) => {
+    if (!selectedInvoiceId) return;
+
+    const selectedInvoice = pastInvoices.value.find(invoice => invoice.invoiceId === selectedInvoiceId);
+
+    if (selectedInvoice) {
+      state.title = selectedInvoice.title || '';
+      state.clientRegNr = selectedInvoice.clientRegNr || '';
+      state.clientKMKR = selectedInvoice.clientKMKR || '';
+      state.address = selectedInvoice.address || '';
+      state.zipCode = String(selectedInvoice.zipCode);
+      state.country = selectedInvoice.country || 'Eesti';
+      state.invoiceNumber = String(selectedInvoice.invoiceNumber);
+      state.dateCreated = formatDate(selectedInvoice.dateCreated || '');
+      state.dateDue = formatDate(selectedInvoice.dateDue || '');
+      state.condition = selectedInvoice.condition || '';
+      state.delayFine = selectedInvoice.delayFine || '';
+      state.selectedFont = selectedInvoice.font || '';
+
+      selectedProducts.value = selectedInvoice.products || [];
+      state.productIds = selectedProducts.value.map(product => product.productId);
+    }
+  });
+
+  function formatDate(dateInput: string | Date): string {
+    const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+    if (isNaN(date.getTime())) return ''; 
+    return date.toISOString().split('T')[0]; 
+  }
+
+  function formatInvoiceOption(invoice: Invoice): string {
+    const dateCreated = new Date(invoice.dateCreated).toISOString().split('T')[0]; 
+    return `${invoice.title} - Nr: ${invoice.invoiceNumber} (${dateCreated})`;
+  }
+
       
   const submitForm = () => { 
   state.productIds = selectedProducts.value.map(product => product.productId);
@@ -285,8 +332,10 @@
 
   onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:5176/Products/all')
-    availableProducts.value = response.data;
+    const response = await customFetch<Product[]>(`Products/all`, { method: 'GET' });
+    availableProducts.value = response;
+    const invoicesResponse = await customFetch<Invoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+    pastInvoices.value = invoicesResponse;
   } catch (error) {
     console.error('Error fetching products:', error);
   }

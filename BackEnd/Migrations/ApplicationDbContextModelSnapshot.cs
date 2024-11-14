@@ -304,24 +304,24 @@ namespace backend.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1bd49cf0-f7f9-4913-a3d0-44292ceef80c",
+                            ConcurrencyStamp = "0ce7c772-77f8-4db4-a3f6-14cb7f25be65",
                             Email = "Profiil1@mail.ee",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9c849659-aa50-43d8-8574-36d709b68b7d",
+                            SecurityStamp = "550ace79-bb97-4c8e-8a03-d4ad21a9dcc6",
                             TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fc7d78ce-0984-4f75-aaf6-e1219fc50ad2",
+                            ConcurrencyStamp = "12a361f4-1378-4e9d-8327-c5596ab17f27",
                             Email = "Profiil2@mail.ee",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c230983e-399a-4318-9bff-152786fe3555",
+                            SecurityStamp = "e8e24e4b-e15c-498d-bfda-1e6d79e4397f",
                             TwoFactorEnabled = false
                         });
                 });
@@ -354,13 +354,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "60236699-21a5-4e8c-a356-9d2bd6fa82a5",
+                            Id = "e08b8e90-9ec5-4c32-91bf-1035a5794c7c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "87cd9a1e-18bf-41ac-98bc-64c02034106a",
+                            Id = "ffd955c3-a40b-4879-abad-44aeabcfe104",
                             Name = "User",
                             NormalizedName = "USER"
                         });
