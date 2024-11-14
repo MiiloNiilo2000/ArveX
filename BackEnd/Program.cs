@@ -15,6 +15,10 @@ using System.Text.Json.Serialization;
 using BackEnd.Interfaces;
 using BackEnd.Services;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 

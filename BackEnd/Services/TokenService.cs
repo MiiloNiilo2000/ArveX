@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BackEnd.Services
