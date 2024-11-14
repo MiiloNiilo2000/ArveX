@@ -23,15 +23,15 @@ namespace BackEnd.Data.Repos
             _context = context;
         }
 
-        public async Task<string> Login([FromBody] LoginRequest loginRequest)
-        {
-            var dbProfile = await _context.Profile!.FirstOrDefaultAsync(profile => profile.Username == loginRequest.Username);
+        // public async Task<string> Login([FromBody] LoginRequest loginRequest)
+        // {
+        //     var dbProfile = await _context.Profile!.FirstOrDefaultAsync(profile => profile.UserName == loginRequest.Username);
 
-            if (dbProfile == null || dbProfile.Password != HashPassword(loginRequest.Password)){
-                return "";
-            }
-            return GenerateToken(dbProfile.Email);
-        }
+        //     if (dbProfile == null || dbProfile.Password != HashPassword(loginRequest.Password)){
+        //         return "";
+        //     }
+        //     return GenerateToken(dbProfile.Email);
+        // }
 
         private string HashPassword(string password)
         {

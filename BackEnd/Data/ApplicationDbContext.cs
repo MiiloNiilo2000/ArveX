@@ -4,14 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BackEnd.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace BackEnd.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<Profile>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options){
-
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
         }
 
         public DbSet<Invoice> Invoice { get; set; }
@@ -44,9 +46,9 @@ namespace BackEnd.Data
             int updatedRecordsCount = await SaveChangesAsync();
             return updatedRecordsCount == 1;
         }
-        public async Task<bool> UpdateProfile(int Id, Profile profile){
-            bool isIdsMatch = Id == profile.ProfileId;
-            bool profileExists = await Profile.AnyAsync(x => x.ProfileId == Id);
+        public async Task<bool> UpdateProfile(int id, Profile profile){
+            bool isIdsMatch = id.ToString() == profile.Id;
+            bool profileExists = await Profile.AnyAsync(x => x.Id == id.ToString());
 
             if (!isIdsMatch || !profileExists)
             {
@@ -58,7 +60,24 @@ namespace BackEnd.Data
             return updatedRecordsCount == 1;
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {      
+            base.OnModelCreating(modelBuilder); 
+            
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                },
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER"
+                }
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
+
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.company)
                 .WithMany(c => c.Products)
@@ -75,7 +94,7 @@ namespace BackEnd.Data
                 PostalCode = 12345,
                 Country = "Estonia",
                 Email = "example@company.com",
-                ProfileId = 1
+                ProfileId = "1"
             },
             new Company
             {
@@ -87,7 +106,7 @@ namespace BackEnd.Data
                 PostalCode = 12344,
                 Country = "Estonia",
                 Email = "example2@company.com",
-                ProfileId = 2,
+                ProfileId = "2",
             },
             new Company
             {
@@ -99,7 +118,7 @@ namespace BackEnd.Data
                 PostalCode = 1234456,
                 Country = "Estonia",
                 Email = "example3@company.com",
-                ProfileId = 1,
+                ProfileId = "1",
             },
             new Company
             {
@@ -111,7 +130,7 @@ namespace BackEnd.Data
                 PostalCode = 556134,
                 Country = "Estonia",
                 Email = "example3@company.com",
-                ProfileId = 2,
+                ProfileId = "2",
             }
         );
             modelBuilder.Entity<Product>().HasData(
@@ -138,20 +157,25 @@ namespace BackEnd.Data
             .HasOne(p => p.profile)
             .WithMany(c => c.Companies)
             .HasForeignKey(p => p.ProfileId);
+
+        modelBuilder.Entity<Profile>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+        });
         
         modelBuilder.Entity<Profile>().HasData(
             new Profile
             {
-                ProfileId = 1,
-                Username = "Profiil1",
-                Password = "9m3hoCPjb1UPf9Rtjv5k9Rd/Qe3eV03FWdj8gZ+CY8I=", //Password1
+                Id = "1",
+                //Username = "Profiil1",
+               // Password = "9m3hoCPjb1UPf9Rtjv5k9Rd/Qe3eV03FWdj8gZ+CY8I=", //Password1
                 Email = "Profiil1@mail.ee",
             },
             new Profile
             {
-                ProfileId = 2,
-                Username = "Profiil2",
-                Password = "Nap22SGtaVHh4mEwqD9K/Ew/g7YFYYv8VxHOL5D3nO4=", //Password2
+                Id = "2",
+                //Username = "Profiil2",
+                //Password = "Nap22SGtaVHh4mEwqD9K/Ew/g7YFYYv8VxHOL5D3nO4=", //Password2
                 Email = "Profiil2@mail.ee",
             }
         );
