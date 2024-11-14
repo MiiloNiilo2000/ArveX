@@ -1013,3 +1013,9 @@ C:\Users\37253\.vscode\itb2203_2024_arvex\BackEnd\bin\Debug\net8.0\Microsoft.Asp
 C:\Users\37253\.vscode\itb2203_2024_arvex\BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\37253\.vscode\itb2203_2024_arvex\BackEnd\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\37253\.vscode\itb2203_2024_arvex\BackEnd\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\2004s\OneDrive\Töölaud\ISA3\itb2203_2024_arvex\backend\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\2004s\OneDrive\Töölaud\ISA3\itb2203_2024_arvex\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\2004s\OneDrive\Töölaud\ISA3\itb2203_2024_arvex\backend\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\2004s\OneDrive\Töölaud\ISA3\itb2203_2024_arvex\backend\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\2004s\OneDrive\Töölaud\ISA3\itb2203_2024_arvex\backend\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\2004s\OneDrive\Töölaud\ISA3\itb2203_2024_arvex\backend\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
