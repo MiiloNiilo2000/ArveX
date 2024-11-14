@@ -13,7 +13,6 @@ namespace BackEnd.Models
     { 
     public string? Image {get; set; }
     [JsonIgnore]
-    public virtual ICollection<Company> Companies { get; set; } = new List<Company>();
-    
+    public virtual ICollection<Company> Companies { get; set; } = new List<Company>();   
     }
 }
