@@ -32,7 +32,7 @@ namespace BackEnd.Controllers
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfilesById(int id){
-            var profiles = await _context.Profile.FindAsync(id);
+            var profiles = await _context.Profile.FindAsync(id.ToString());
 
             if(profiles == null){
             return NotFound();
@@ -81,19 +81,5 @@ namespace BackEnd.Controllers
             bool result = await _context.UpdateProfile(id, profile);
             return result ? NoContent() : NotFound();
         }
-        // [HttpPost("login")]
-        // public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
-        // {
-        //     var token = await repo.Login(loginRequest);
-
-        //     if (!string.IsNullOrEmpty(token))
-        //     {
-        //         return Ok(new { Token = token });
-        //     }
-        //     else
-        //     {
-        //         return Unauthorized();
-        //     }
-        // }
     }
 }
