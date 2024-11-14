@@ -6,151 +6,155 @@
     @submit.prevent="submitForm"
     @error="onError"
   >
-    <div class="flex w-full gap-20"> 
-      <div class="w-1/2"> 
+  <div class="flex w-full gap-20"> 
+    <div class="w-1/2"> 
+      <UDivider label="Kopeeri varasema arve andmed" class="h-10 mb-2" />
+      <UFormGroup name="pastInvoice" class="flex justify-center h-16">
+        <select v-model="state.pastInvoice">
+          <option value="" disabled>Vali varasem arve:</option>
+          <option v-for="invoice in pastInvoices" :key="invoice.invoiceId" :value="invoice.invoiceId">
+            {{ formatInvoiceOption(invoice) }}
+          </option>
+        </select>
+      </UFormGroup>
+      <UDivider label="Loo uus arve" />
+    </div>
+  </div>
 
-        <UFormGroup label="Firma nimi" name="title">
-          <UInput
-          v-model="state.title"
-          @input="fetchCompanyNames"
+  <div class="flex w-full gap-20"> 
+
+    <div class="w-1/4"> 
+
+      <UFormGroup label="Firma nimi" name="title">
+        <UInput
+        v-model="state.title"
+        @input="fetchCompanyNames"
+        class="w-full h-12"
+        color="emerald"
+        placeholder="Sisesta firma nimi"
+        list="company-suggestions"
+      />
+      <datalist id="company-suggestions">
+        <option 
+          v-for="company in companySuggestions" 
+          :key="company.company_id" 
+          :value="company.name">
+          {{ company.name }}
+        </option>
+      </datalist>
+      </UFormGroup>
+
+      <UFormGroup label="Registrikood" name="clientRegNr">
+        <UInput 
+          v-model="state.clientRegNr" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'10379733'" />
+      </UFormGroup>
+
+      <UFormGroup label="Käibemaksukohustuslase number" name="clientKMKR">
+        <UInput 
+          v-model="state.clientKMKR" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'EE100247019'" />
+      </UFormGroup>
+
+      <UFormGroup label="Aadress" name="address">
+        <UInput 
+          v-model="state.address" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'Harju maakond, Tallinn, Nõmme linnaosa, Pärnu mnt 238'" />
+      </UFormGroup>
+
+      <UFormGroup label="Postiindeks" name="zipCode">
+        <UInput 
+          v-model="state.zipCode" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'12345'"/>
+      </UFormGroup>
+
+      <UFormGroup label="Riik" name="country">
+        <UInput 
+          v-model="state.country" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'Eesti'"/>
+      </UFormGroup>
+
+      
+    </div>
+
+    <div class="w-1/5"> 
+
+      <UFormGroup label="Arve Number" name="invoiceNr">
+        <UInput 
+          v-model="state.invoiceNumber" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'54321'"/>
+      </UFormGroup>
+
+
+      <UFormGroup label="Kuupäev" name="dateCreated">
+        <UInput 
+          v-model="state.dateCreated" 
+          type="date" 
           class="w-full h-12"
           color="emerald"
-          placeholder="Sisesta firma nimi"
-          list="company-suggestions"
         />
-        <datalist id="company-suggestions">
-          <option 
-            v-for="company in companySuggestions" 
-            :key="company.company_id" 
-            :value="company.name">
-            {{ company.name }}
-          </option>
-        </datalist>
-        </UFormGroup>
+      </UFormGroup>
 
-        <UFormGroup label="Registrikood" name="clientRegNr">
-          <UInput 
-            v-model="state.clientRegNr" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'10379733'" />
-        </UFormGroup>
+      <UFormGroup label="Maksetähtaeg" name="dateDue">
+        <UInput 
+          v-model="state.dateDue" 
+          type="date" 
+          class="w-full h-12"
+          color="emerald"
+        />
+      </UFormGroup>
 
-        <UFormGroup label="Käibemaksukohustuslase number" name="clientKMKR">
-          <UInput 
-            v-model="state.clientKMKR" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'EE100247019'" />
-        </UFormGroup>
+      <UFormGroup label="Tingimused" name="condition">
+        <UInput 
+          v-model="state.condition" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'12 kuud'"/>
+      </UFormGroup>
 
-        <UFormGroup label="Aadress" name="address">
-          <UInput 
-            v-model="state.address" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'Ehitajate Tee 5'" />
-        </UFormGroup>
+      <UFormGroup label="Viivis" name="delayFine">
+        <UInput 
+          v-model="state.delayFine" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'5% päevas'"/>
+      </UFormGroup>
+      
+      
 
-        <UFormGroup label="Postiindeks" name="zipCode">
-          <UInput 
-            v-model="state.zipCode" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'12345'"/>
-        </UFormGroup>
+      <UFormGroup label="Vali Tooted:" name="products">
+        <div class="product-selection">
+          <label 
+            v-for="product in availableProducts" 
+            :key="product.productId" 
+            class="product-item flex items-center">
+              <input 
+                type="checkbox" 
+                :value="product" 
+                v-model="selectedProducts" 
+                class="custom-checkbox mr-2"
+              />
+              {{ product.name }} - {{ product.price + "€"}}
+          </label>
+        </div>
+      </UFormGroup>
+      
+      
+    </div>
 
-        <UFormGroup label="Riik" name="country">
-          <UInput 
-            v-model="state.country" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'Eesti'"/>
-        </UFormGroup>
-
-        <UFormGroup label="Arve Number" name="invoiceNr">
-          <UInput 
-            v-model="state.invoiceNumber" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'54321'"/>
-        </UFormGroup>
-
-        <UFormGroup label="Kuupäev" name="dateCreated">
-          <UInput 
-            v-model="state.dateCreated" 
-            type="date" 
-            class="w-full h-12"
-            color="emerald"
-          />
-        </UFormGroup>
-
-        <UFormGroup label="Maksetähtaeg" name="dateDue">
-          <UInput 
-            v-model="state.dateDue" 
-            type="date" 
-            class="w-full h-12"
-            color="emerald"
-          />
-        </UFormGroup>
-
-        <UFormGroup label="Tingimused" name="condition">
-          <UInput 
-            v-model="state.condition" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'12 kuud'"/>
-        </UFormGroup>
-
-        <UFormGroup label="Viivis" name="delayFine">
-          <UInput 
-            v-model="state.delayFine" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'5% päevas'"/>
-        </UFormGroup>
-      </div>
-
-      <div class="w-1/3"> 
-        
-        <UFormGroup label="Font" name="font" class="h-20">
-          <select v-model="state.selectedFont">
-            <option v-for="font in fonts" :key="font" :value="font">
-              {{ font }}
-            </option>
-          </select>
-        </UFormGroup>
-
-        <UFormGroup label="Kopeeri varasema arve andmed" name="pastInvoice" class="h-20">
-          <select v-model="state.pastInvoice">
-            <option value="" disabled>Vali varasem arve</option>
-            <option v-for="invoice in pastInvoices" :key="invoice.invoiceId" :value="invoice.invoiceId">
-              {{ formatInvoiceOption(invoice) }}
-            </option>
-          </select>
-        </UFormGroup>
-
-
-        <UFormGroup label="Vali Tooted:" name="products">
-          <div class="product-selection">
-            <label 
-              v-for="product in availableProducts" 
-              :key="product.productId" 
-              class="product-item flex items-center">
-                <input 
-                  type="checkbox" 
-                  :value="product" 
-                  v-model="selectedProducts" 
-                  class="custom-checkbox mr-2"
-                />
-                {{ product.name }} - {{ product.price + "€"}}
-            </label>
-          </div>
-        </UFormGroup>
-        
-      </div>
-
-      <div class="w-full">
+      <div class="w-100">
         <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
           <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
             <div class="invoice-header text-center mb-6">
@@ -190,9 +194,25 @@
             </div>
           </div>
       </div>
-    </div>
+    
+  </div>
 
-    <UButton type="submit">Lae Arve Alla</UButton>
+    <div class="flex w-full gap-20"> 
+      <div class="w-1/2"> 
+        <UDivider label="Kujunda arvet" class="h-10 mb-2" />
+
+        <UFormGroup label="Font" name="font" class="h-20">
+          <select v-model="state.selectedFont">
+            <option v-for="font in fonts" :key="font" :value="font">
+              {{ font }}
+            </option>
+          </select>
+        </UFormGroup>
+        <UButton block type="submit" icon="i-heroicons-arrow-down-tray">Lae Arve Alla</UButton>
+    </div>
+  </div>
+
+ 
   </UForm>
 </template>
 
@@ -202,6 +222,10 @@
   import { generateInvoicePDF } from '../stores/invoiceUtils';
   import { useApi } from '../composables/useApi';
   import type { Invoice } from '../types/invoice'
+  import { format } from 'date-fns'
+
+  
+  const date = ref(new Date())
 
   const { customFetch } = useApi();
   const availableProducts = ref<Product[]>([]);
