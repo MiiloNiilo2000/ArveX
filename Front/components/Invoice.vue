@@ -32,16 +32,7 @@
               <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
             </div>
 
-            <div class="flex justify-between">
-              <div class="client-details w-6/12">
-                <h2 class="text-lg font-semibold text-black">Klient:</h2>
-                <h2 class="text-lg font-semibold text-black">{{ state.title || 'Tallinn University of Technology' }}</h2>
-                <p class="text-black">
-                  {{ state.address || 'Pärnu mnt 62/1, Kesklinna linnaosa' }}<br>
-                  {{ state.zipCode || '10135' }}<br>
-                  {{ state.country || 'Estonia' }}
-                </p>
-              </div>
+            
 
             <div class="invoice-details w-6/12 text-right">
               
