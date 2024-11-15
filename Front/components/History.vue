@@ -62,7 +62,7 @@
       condition: row.condition,
       delayFine: row.delayFine,
       selectedFont: row.font,
-      productIds: row.productIds 
+      productsAndQuantities: row.productsAndQuantities 
     };
 
     generateInvoicePDF(state, "GeneratePdfWithoutSaving");

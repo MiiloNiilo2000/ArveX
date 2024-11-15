@@ -130,39 +130,7 @@
           class="w-full h-12" 
           color="emerald" 
           placeholder="'5% päevas'"/>
-      </UFormGroup>
-      
-      
-
-      <UFormGroup label="Vali Tooted:" name="products">
-          <div class="product-selection">
-            <div 
-              v-for="product in availableProducts" 
-              :key="product.productId" 
-              class="product-item flex items-center mb-2">
-              
-              <input 
-                type="checkbox" 
-                :value="product" 
-                v-model="selectedProducts" 
-                @change="toggleProductSelection(product.productId)" 
-                class="custom-checkbox mr-2"
-              />
-              <span>{{ product.name }} - {{ product.price + "€" }}</span>
-              
-              <input 
-                v-if="state.productsAndQuantities[product.productId] !== undefined" 
-                type="number" 
-                class="quantity-input ml-4 w-16" 
-                v-model.number="state.productsAndQuantities[product.productId]" 
-                min="1" 
-                @input="updateQuantity(product.productId)"
-              />
-            </div>
-          </div>
-        </UFormGroup>
-      
-      
+      </UFormGroup>  
     </div>
 
       <div class="w-100">
@@ -205,7 +173,47 @@
             </div>
           </div>
       </div>
-    
+  </div>
+
+  <div class="flex w-full gap-20"> 
+    <div class="w-1/2 h-auto"> 
+      <UDivider label="Vali Tooted" class="h-10 mb-2" />
+      <UFormGroup name="products">
+            <div class="product-selection">
+              <div 
+                v-for="product in availableProducts" 
+                :key="product.productId" 
+                class="product-item flex items-center mb-2">
+                
+                <input 
+                  type="checkbox" 
+                  :value="product" 
+                  :checked="selectedProducts.some(p => p.productId === product.productId)"
+                  v-model="selectedProducts" 
+                  @change="toggleProductSelection(product.productId)" 
+                  class="custom-checkbox mr-2"
+                />
+                <span>{{ product.name }} - {{ product.price + "€" }}</span>
+
+                <div v-if="state.productsAndQuantities[product.productId] !== undefined" class="flex items-center ml-auto">
+                  <label class="text-sm font-medium text-gray-700">
+                    Kogus
+                  </label>
+                </div>
+                
+                <UInput 
+                  v-if="state.productsAndQuantities[product.productId] !== undefined" 
+                  type="number" 
+                  class="ml-4 w-16" 
+                  color="emerald"
+                  v-model.number="state.productsAndQuantities[product.productId]" 
+                  min="1" 
+                  @input="updateQuantity(product.productId)"
+                />
+              </div>
+            </div>
+          </UFormGroup>
+      </div>
   </div>
 
     <div class="flex w-full gap-20"> 
@@ -284,17 +292,19 @@
   });
 
   const toggleProductSelection = (productId: number) => {
-  if (state.productsAndQuantities[productId] !== undefined) {
-    // Product was already selected, remove it
-    delete state.productsAndQuantities[productId];
-  } else {
-    // Product is being selected, initialize with a default quantity
-    state.productsAndQuantities[productId] = 1;
-  }
-};
+    if (state.productsAndQuantities[productId] !== undefined) {
+      delete state.productsAndQuantities[productId];
+      selectedProducts.value = selectedProducts.value.filter(product => product.productId !== productId);
+    } else {
+      state.productsAndQuantities[productId] = 1;
+      const product = availableProducts.value.find(p => p.productId === productId);
+      if (product) {
+        selectedProducts.value.push(product);
+      }
+    }
+  };
 
 const updateQuantity = (productId: number) => {
-  // Ensure the quantity stays valid
   if (state.productsAndQuantities[productId] < 1) {
     state.productsAndQuantities[productId] = 1;
   }
@@ -353,9 +363,12 @@ const updateQuantity = (productId: number) => {
       state.delayFine = selectedInvoice.delayFine || '';
       state.selectedFont = selectedInvoice.font || '';
 
-      selectedProducts.value = selectedInvoice.products || [];
-      state.productIds = selectedProducts.value.map(product => product.productId);
-    }
+      state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
+    
+      selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
+        return availableProducts.value.find(product => product.productId === parseInt(productId));
+        }).filter(product => product !== undefined) as Product[];
+      }
   });
 
   function formatDate(dateInput: string | Date): string {

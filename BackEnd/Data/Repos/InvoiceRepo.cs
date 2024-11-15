@@ -22,7 +22,6 @@ namespace BackEnd.Data.Repos
         {
             IQueryable<Invoice> queryable = context.Invoice.AsQueryable();
 
-            // Ensure ProductsAndQuantities is deserialized
             var invoices = await queryable.ToListAsync();
             foreach (var invoice in invoices)
             {
@@ -34,10 +33,8 @@ namespace BackEnd.Data.Repos
 
         public async Task<Invoice> SaveInvoiceInDb(Invoice invoice)
         {
-            // Ensure ProductsAndQuantities is serialized before saving
             if (invoice.ProductsAndQuantities != null)
             {
-                // Set the ProductsAndQuantitiesJson before saving
                 invoice.ProductsAndQuantitiesJson = JsonConvert.SerializeObject(invoice.ProductsAndQuantities);
             }
 
@@ -50,7 +47,6 @@ namespace BackEnd.Data.Repos
         {
             var invoice = await context.Invoice.FindAsync(id);
 
-            // Ensure ProductsAndQuantities is deserialized
             if (invoice != null)
             {
                 invoice.ProductsAndQuantities = invoice.ProductsAndQuantities;

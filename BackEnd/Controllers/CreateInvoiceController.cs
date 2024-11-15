@@ -32,7 +32,6 @@ namespace BackEnd.Controllers
         {
             var invoice = await repo.SaveInvoiceInDb(data);
 
-            // Pass the product IDs to the method instead of the Invoice object
             var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
             return await GeneratePdfResponse(invoice, products);
@@ -41,10 +40,9 @@ namespace BackEnd.Controllers
         [HttpPost("GeneratePdfWithoutSaving")]
         public async Task<IResult> GeneratePdfWithoutSaving([FromBody] Invoice data)
         {
-            // Fetch products using the product IDs in the invoice
+
             var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            // Call the GeneratePdfResponse method with both invoice and products
             return await GeneratePdfResponse(data, products);
         }
 
@@ -210,17 +208,6 @@ namespace BackEnd.Controllers
 
                             col.Item().PaddingTop(30).Table(productTable =>
                             {
-
-                                // productTable.ColumnsDefinition(columns =>
-                                // {
-                                //     columns.ConstantColumn(100);
-                                //     columns.ConstantColumn(100);
-                                //     columns.RelativeColumn(2);
-                                //     columns.RelativeColumn(3);
-                                // });
-
-                                // productTable.Cell().ValueCell().Text("test").FontSize(14);
-
                                
                                 productTable.ColumnsDefinition(columns =>
                                 {
