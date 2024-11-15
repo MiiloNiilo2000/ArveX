@@ -197,7 +197,7 @@
 
                 <div v-if="state.productsAndQuantities[product.productId] !== undefined" class="flex items-center ml-auto">
                   <label class="text-sm font-medium text-gray-700">
-                    Kogus
+                    Kogus:
                   </label>
                 </div>
                 
