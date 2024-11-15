@@ -135,21 +135,32 @@
       
 
       <UFormGroup label="Vali Tooted:" name="products">
-        <div class="product-selection">
-          <label 
-            v-for="product in availableProducts" 
-            :key="product.productId" 
-            class="product-item flex items-center">
+          <div class="product-selection">
+            <div 
+              v-for="product in availableProducts" 
+              :key="product.productId" 
+              class="product-item flex items-center mb-2">
+              
               <input 
                 type="checkbox" 
                 :value="product" 
                 v-model="selectedProducts" 
+                @change="toggleProductSelection(product.productId)" 
                 class="custom-checkbox mr-2"
               />
-              {{ product.name }} - {{ product.price + "€"}}
-          </label>
-        </div>
-      </UFormGroup>
+              <span>{{ product.name }} - {{ product.price + "€" }}</span>
+              
+              <input 
+                v-if="state.productsAndQuantities[product.productId] !== undefined" 
+                type="number" 
+                class="quantity-input ml-4 w-16" 
+                v-model.number="state.productsAndQuantities[product.productId]" 
+                min="1" 
+                @input="updateQuantity(product.productId)"
+              />
+            </div>
+          </div>
+        </UFormGroup>
       
       
     </div>
@@ -224,14 +235,13 @@
   import type { Invoice } from '../types/invoice'
   import { format } from 'date-fns'
 
-  
   const date = ref(new Date())
-
+  const selectedProducts = ref<Product[]>([]);
   const { customFetch } = useApi();
   const availableProducts = ref<Product[]>([]);
-  const selectedProducts = ref<Product[]>([]);
   const companySuggestions = ref<Company[]>([]);
   const pastInvoices = ref<Invoice[]>([]);
+
 
   const fonts = [
     'Times New Roman',
@@ -269,9 +279,26 @@
     delayFine: '',
     selectedFont: 'Arial',
     footerImage: null,
-    productIds: [] as number[],
+    productsAndQuantities: {} as Record<number, number>,
     pastInvoice: null,
   });
+
+  const toggleProductSelection = (productId: number) => {
+  if (state.productsAndQuantities[productId] !== undefined) {
+    // Product was already selected, remove it
+    delete state.productsAndQuantities[productId];
+  } else {
+    // Product is being selected, initialize with a default quantity
+    state.productsAndQuantities[productId] = 1;
+  }
+};
+
+const updateQuantity = (productId: number) => {
+  // Ensure the quantity stays valid
+  if (state.productsAndQuantities[productId] < 1) {
+    state.productsAndQuantities[productId] = 1;
+  }
+};
 
   const validate = (state: any): FormError[] => {
     const errors = [];
@@ -343,9 +370,18 @@
   }
 
       
-  const submitForm = () => { 
-  state.productIds = selectedProducts.value.map(product => product.productId);
-  generateInvoicePDF(state, "GeneratePdf")
+  const submitForm = () => {
+
+    selectedProducts.value.forEach((product) => {
+      if (product.productId !== undefined) {
+        const quantity = state.productsAndQuantities[product.productId] || 1;
+        state.productsAndQuantities[product.productId] = quantity;
+      } else {
+        console.warn('Invalid product detected:', product);
+      }
+    });
+
+    generateInvoicePDF(state, "GeneratePdf");
   };
 
   async function onError(event: FormErrorEvent) {

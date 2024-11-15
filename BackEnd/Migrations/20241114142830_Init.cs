@@ -240,8 +240,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "e08b8e90-9ec5-4c32-91bf-1035a5794c7c", null, "Admin", "ADMIN" },
-                    { "ffd955c3-a40b-4879-abad-44aeabcfe104", null, "User", "USER" }
+                    { "9f9974d5-1d5d-4757-a218-8778bd8fa3ba", null, "User", "USER" },
+                    { "abbfb38f-1458-4255-859c-b07a332ddb94", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -249,8 +249,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "0ce7c772-77f8-4db4-a3f6-14cb7f25be65", "Profiil1@mail.ee", false, null, false, null, null, null, null, null, false, "550ace79-bb97-4c8e-8a03-d4ad21a9dcc6", false, null },
-                    { "2", 0, "12a361f4-1378-4e9d-8327-c5596ab17f27", "Profiil2@mail.ee", false, null, false, null, null, null, null, null, false, "e8e24e4b-e15c-498d-bfda-1e6d79e4397f", false, null }
+                    { "1", 0, "5d07f0fc-15cf-46f8-8301-dd697818db9a", "Profiil1@mail.ee", false, null, false, null, null, null, null, null, false, "fe090450-bbb1-4d7a-9c21-9a4cd1005eb0", false, null },
+                    { "2", 0, "12e08cee-b4ec-4a61-8f8e-b32a062b706f", "Profiil2@mail.ee", false, null, false, null, null, null, null, null, false, "ed174aae-33af-4177-93f3-c94a56480725", false, null }
                 });
 
             migrationBuilder.InsertData(

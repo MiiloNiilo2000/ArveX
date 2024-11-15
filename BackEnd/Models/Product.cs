@@ -17,4 +17,5 @@ public class Product
     public virtual Company? company { get; set; } = null!;
 
     public double TaxPercent { get; set; }
+
 }

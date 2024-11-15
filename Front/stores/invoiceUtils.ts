@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export async function generateInvoicePDF(state, routeName) {
+export async function generateInvoicePDF(state: any, routeName: string) {
   try {
-    console.log("Ids in util", state.productIds)
+    console.log("Products and Quantities in util", state.productsAndQuantities);
     const payload = {
       title: state.title,
       clientRegNr: state.clientRegNr.toString(),
@@ -16,7 +16,7 @@ export async function generateInvoicePDF(state, routeName) {
       condition: state.condition || "",
       delayFine: state.delayFine || "",
       font: state.selectedFont,
-      productIds: state.productIds
+      productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
     };
 
     const response = await axios.post(`http://localhost:5176/CreateInvoice/${routeName}`, payload, {
