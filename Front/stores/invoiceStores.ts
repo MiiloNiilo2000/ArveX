@@ -122,7 +122,6 @@ export const useInvoiceStore = defineStore('invoice', () => {
     return `${invoice.title} - Nr: ${invoice.invoiceNumber} (${dateCreated})`;
   }
 
-
   const validate = (state: any): FormError[] => {
     const errors = [];
     const zipString = state.zipCode.toString();
@@ -162,6 +161,6 @@ export const useInvoiceStore = defineStore('invoice', () => {
             availableProducts, 
             companySuggestions, 
             pastInvoices, 
-            fonts 
+            fonts
           };
 });
