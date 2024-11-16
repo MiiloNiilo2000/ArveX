@@ -14,7 +14,7 @@
     </div>
   </div>
 
-    <UButton class="add-product-btn mb-6" @click="navigateToAddProduct">
+    <UButton class="add-product-btn mb-6" icon="i-heroicons-plus"  @click="navigateToAddProduct">
       Lisa toode
     </UButton>
 

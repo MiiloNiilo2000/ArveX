@@ -21,7 +21,9 @@
           <UInput v-model="state.image" />
         </UFormGroup>
 
-        <UButton type="submit"> Lisa </UButton>
+        <div class="col-span-2 flex justify-center">
+            <UButton type="submit">Lisa</UButton>
+        </div>
       </UForm>
     </div>
   </div>
