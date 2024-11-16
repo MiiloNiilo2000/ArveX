@@ -25,6 +25,15 @@
         </span>
       </template>
 
+      <template #view-data="{ row }">
+        <UButton 
+          @click="viewInvoice(row)" 
+          color="gray" 
+          variant="ghost" 
+          icon="i-heroicons-eye" 
+        />
+      </template>
+
       <template #delete-data="{ row }">
         <UButton 
           @click="deleteInvoice(row.invoiceId)" 
@@ -34,14 +43,7 @@
         />
       </template>
 
-      <template #view-data="{ row }">
-        <UButton 
-          @click="viewInvoice(row)" 
-          color="gray" 
-          variant="ghost" 
-          icon="i-heroicons-eye" 
-        />
-      </template>
+      
     </UTable>
   </div>
 </template>
@@ -60,8 +62,8 @@
     { key: 'invoiceNumber', label: 'Arve Number' },
     { key: 'dateCreated', label: 'Loomiskuupäev' },
     { key: 'dateDue', label: 'Tähtaeg' },
+    { key: 'view', label: 'Laadi Alla' },
     { key: 'delete', label: 'Kustuta' },
-    { key: 'view', label: 'Vaata' },
   ]);
 
   const isPastDue = (dueDate: string): boolean => {
