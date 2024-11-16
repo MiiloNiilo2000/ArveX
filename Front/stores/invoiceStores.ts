@@ -1,5 +1,3 @@
-import axios from 'axios';
-import type { Product } from "../types/product";
 import type { FormError, FormErrorEvent } from "#ui/types";
 import { useApi } from '../composables/useApi';
 
