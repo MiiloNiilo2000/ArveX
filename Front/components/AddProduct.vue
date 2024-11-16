@@ -53,9 +53,9 @@ const state = reactive<Product>({
     productId: 0,
     name: '',
     description: '',
-    price: 0,
+    price: null,
     companyId: 0,
-    taxPercent: 0
+    taxPercent: null
   });
 
 const addProduct = async (product: Product) => {
