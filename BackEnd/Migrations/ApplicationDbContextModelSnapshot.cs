@@ -229,6 +229,60 @@ namespace backend.Migrations
                             Name = "Product2",
                             Price = 150,
                             TaxPercent = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            CompanyId = 1,
+                            Description = "Description3",
+                            Name = "Product3",
+                            Price = 300,
+                            TaxPercent = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            CompanyId = 1,
+                            Description = "Description4",
+                            Name = "Product4",
+                            Price = 400,
+                            TaxPercent = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            CompanyId = 1,
+                            Description = "Description5",
+                            Name = "Product5",
+                            Price = 500,
+                            TaxPercent = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            CompanyId = 1,
+                            Description = "Description6",
+                            Name = "Product6",
+                            Price = 600,
+                            TaxPercent = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            CompanyId = 1,
+                            Description = "Description7",
+                            Name = "Product7",
+                            Price = 700,
+                            TaxPercent = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            CompanyId = 1,
+                            Description = "Description9",
+                            Name = "Product8",
+                            Price = 800,
+                            TaxPercent = 22.0
                         });
                 });
 
@@ -303,24 +357,24 @@ namespace backend.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b4c70667-4b79-4fc4-8799-f4b0906ee3f0",
+                            ConcurrencyStamp = "321946a0-3050-415a-bc2c-40e783474778",
                             Email = "Profiil1@mail.ee",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fe6f10d5-63b8-4479-a026-b8a89e2f2a48",
+                            SecurityStamp = "e03cea08-e73d-47ef-b312-46f432c7592c",
                             TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cc8bb003-c21f-4bee-9543-c8e2a9b6bb92",
+                            ConcurrencyStamp = "7c814a15-8b53-4f49-bf30-d03a7083bbd1",
                             Email = "Profiil2@mail.ee",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fefe195a-6cdb-44f8-98d3-a8648dab069b",
+                            SecurityStamp = "00a3f6f8-49d2-46b7-96e6-2ef98e957284",
                             TwoFactorEnabled = false
                         });
                 });
@@ -353,13 +407,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "58759d26-7fe0-42d8-ba5d-ef6ad01b7fd9",
+                            Id = "a7a0c021-853d-4516-9d0a-da930479b0f8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "673ffcc4-6bc4-42ed-80cf-70250c9637bb",
+                            Id = "9d608f48-1aeb-43c3-afd4-bc0921df7c7f",
                             Name = "User",
                             NormalizedName = "USER"
                         });

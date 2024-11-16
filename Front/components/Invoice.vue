@@ -178,13 +178,13 @@
   <div class="flex w-full gap-20"> 
     <div class="w-1/2 h-auto"> 
       <UDivider label="Vali Tooted" class="h-10 mb-2" />
-      <UButton @click="navigateToAddProduct" class="mb-4">Lisa uus toode</UButton>
-      <UFormGroup name="products">
+      <UButton @click="navigateToAddProduct" class="mb-4 ml-2">Lisa uus toode</UButton>
+      <UFormGroup name="products" class="h-64 overflow-y-auto">
             <div class="product-selection">
               <div 
                 v-for="product in availableProducts" 
                 :key="product.productId" 
-                class="product-item flex items-center mb-2">
+                class="product-item flex items-center mb-4 border-t-2 border-b-2 border-emerald-800 rounded-b rounded-t pb-2 mr-2 ml-2">
                 
                 <input 
                   type="checkbox" 
@@ -192,34 +192,32 @@
                   :checked="selectedProducts.some(p => p.productId === product.productId)"
                   v-model="selectedProducts" 
                   @change="toggleProductSelection(product.productId)" 
-                  class="custom-checkbox mr-2"
+                  class="custom-checkbox mr-2 mt-2"
                 />
-                <span>{{ product.name }} - {{ product.price + "€" }}</span>
+                <span class="mt-2">{{ product.name }} - {{ product.price + "€" }}</span>
 
-                <div v-if="state.productsAndQuantities[product.productId] !== undefined" class="flex items-center ml-80">
-                  <label class="text-sm font-medium text-gray-500">
+                <div v-if="state.productsAndQuantities[product.productId] !== undefined" class="flex items-center ml-auto">
+                  <label class="text-sm font-medium text-gray-500 mt-1">
                     Kogus:
                   </label>
-                </div>
-                
-                <UInput 
+
+                  <UInput 
                   v-if="state.productsAndQuantities[product.productId] !== undefined" 
                   type="number" 
-                  class="ml-4 w-16" 
+                  class="ml-2 w-16 mt-2" 
                   color="emerald"
                   v-model.number="state.productsAndQuantities[product.productId]" 
                   min="1" 
                   @input="updateQuantity(product.productId)"
                 />
-
-                <div class="ml-auto mt-2">
-                  <div>
-                    <UDropdown :items="productDropdownItems(product.productId)" :popper="{ offsetDistance: 4, placement: 'right-start' }">
-                      <UButton size="md" color="white" variant="ghost" :padded="false" trailing-icon="i-heroicons-ellipsis-vertical" />
-                    </UDropdown>
+                  <div class="ml-6 mt-3">
+                    <div>
+                      <UDropdown :items="productDropdownItems(product.productId)" :popper="{ offsetDistance: 4, placement: 'right-start' }">
+                        <UButton class="mr-2" size="md" color="emerald" variant="ghost" :padded="false" trailing-icon="i-heroicons-ellipsis-horizontal-circle" />
+                      </UDropdown>
+                    </div>
                   </div>
-                </div>
-                
+                </div>   
               </div>
             </div>
           </UFormGroup>
@@ -228,7 +226,7 @@
 
     <div class="flex w-full gap-20"> 
       <div class="w-1/2"> 
-        <UDivider label="Kujunda arvet" class="h-10 mb-2" />
+        <UDivider label="Kujunda Arvet" class="h-10 mb-2" />
 
         <UFormGroup label="Font" name="font" class="h-20">
           <select v-model="state.selectedFont">
@@ -240,7 +238,7 @@
         <UButton block type="submit" icon="i-heroicons-arrow-down-tray">Lae Arve Alla</UButton>
     </div>
   </div>
- 
+
   </UForm>
 </template>
 
@@ -335,7 +333,7 @@
       if (missingProducts.length > 0) {
         window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
       }
-    
+      // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
       selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
         return availableProducts.value.find(product => product.productId === parseInt(productId));
         }).filter(product => product !== undefined) as Product[];
@@ -462,5 +460,28 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+::-webkit-scrollbar {
+    width: 12px; /* Width of the vertical scrollbar */
+    height: 12px; /* Height of the horizontal scrollbar */
+}
+
+/* Style the track (the part the thumb slides on) */
+::-webkit-scrollbar-track {
+    background: #202121; /* Light gray background */
+    border-radius: 10px;
+}
+
+/* Style the draggable part of the scrollbar (the thumb) */
+::-webkit-scrollbar-thumb {
+    background: #2f855a; /* Darker gray color for thumb */
+    border-radius: 10px;
+    border: 3px solid #f1f1f1; /* Creates a padding around the thumb */
+}
+
+/* Style when hovering over the thumb */
+::-webkit-scrollbar-thumb:hover {
+    background: #33bd45; /* Darker shade when hovering */
 }
 </style>

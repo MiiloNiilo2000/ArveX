@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241115121319_AddProductsAndQuantitiesJsonToInvoice")]
-    partial class AddProductsAndQuantitiesJsonToInvoice
+    [Migration("20241116130158_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -306,24 +306,24 @@ namespace backend.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b4c70667-4b79-4fc4-8799-f4b0906ee3f0",
+                            ConcurrencyStamp = "f5d8595c-559f-4310-8899-1a9873790967",
                             Email = "Profiil1@mail.ee",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fe6f10d5-63b8-4479-a026-b8a89e2f2a48",
+                            SecurityStamp = "0f9b1927-a704-444e-920b-de25f1e0998a",
                             TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cc8bb003-c21f-4bee-9543-c8e2a9b6bb92",
+                            ConcurrencyStamp = "cb43543d-bcb9-4a2e-af7f-6f459de5c477",
                             Email = "Profiil2@mail.ee",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fefe195a-6cdb-44f8-98d3-a8648dab069b",
+                            SecurityStamp = "fb588fb2-c899-466b-a070-5e774cfeb524",
                             TwoFactorEnabled = false
                         });
                 });
@@ -356,13 +356,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "58759d26-7fe0-42d8-ba5d-ef6ad01b7fd9",
+                            Id = "287e0719-c4b9-4a16-8fac-c2dfb6e99474",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "673ffcc4-6bc4-42ed-80cf-70250c9637bb",
+                            Id = "3774a0d6-4b87-4795-9cd1-9f51ec29eaff",
                             Name = "User",
                             NormalizedName = "USER"
                         });

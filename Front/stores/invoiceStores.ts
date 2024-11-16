@@ -1,8 +1,10 @@
 import axios from 'axios';
 import type { Product } from "../types/product";
 import type { FormError, FormErrorEvent } from "#ui/types";
+import { useApi } from '../composables/useApi';
 
 export async function generateInvoicePDF(state: any, routeName: string) {
+  const { customFetch } = useApi();
   try {
     console.log("Products and Quantities in util", state.productsAndQuantities);
     const payload = {
@@ -21,14 +23,15 @@ export async function generateInvoicePDF(state: any, routeName: string) {
       productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
     };
 
-    const response = await axios.post(`http://localhost:5176/CreateInvoice/${routeName}`, payload, {
+    const response = await customFetch<Blob>(`/CreateInvoice/${routeName}`, {
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      responseType: 'blob'
+      body: JSON.stringify(payload),
     });
 
-    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const url = window.URL.createObjectURL(new Blob([response]));
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', 'invoice.pdf');
@@ -43,7 +46,6 @@ export async function generateInvoicePDF(state: any, routeName: string) {
 export const useInvoiceStore = defineStore('invoice', () => {
 
   const selectedProducts = ref<Product[]>([]);
-  const { customFetch } = useApi();
   const availableProducts = ref<Product[]>([]);
   const companySuggestions = ref<Company[]>([]);
   const pastInvoices = ref<Invoice[]>([]);
@@ -115,8 +117,6 @@ export const useInvoiceStore = defineStore('invoice', () => {
     const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
     if (isNaN(date.getTime())) return ''; 
     return date.toISOString().split('T')[0]; 
-
-    
   }
 
   function formatInvoiceOption(invoice: Invoice): string {
@@ -153,5 +153,17 @@ export const useInvoiceStore = defineStore('invoice', () => {
     'Verdana',
   ]
   
-  return { toggleProductSelection, updateQuantity, productDropdownItems, validate, formatDate, formatInvoiceOption, onError, state, selectedProducts, availableProducts, companySuggestions, pastInvoices, fonts  };
+  return {  toggleProductSelection, 
+            updateQuantity, 
+            productDropdownItems, 
+            validate, formatDate, 
+            formatInvoiceOption, 
+            onError, 
+            state, 
+            selectedProducts, 
+            availableProducts, 
+            companySuggestions, 
+            pastInvoices, 
+            fonts 
+          };
 });

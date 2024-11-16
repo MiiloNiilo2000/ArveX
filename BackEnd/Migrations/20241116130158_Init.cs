@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -73,7 +72,7 @@ namespace backend.Migrations
                     ClientRegNr = table.Column<string>(type: "text", nullable: false),
                     ClientKMKR = table.Column<string>(type: "text", nullable: false),
                     Font = table.Column<string>(type: "text", nullable: false),
-                    ProductIds = table.Column<List<int>>(type: "integer[]", nullable: false)
+                    ProductsAndQuantitiesJson = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -240,8 +239,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "9f9974d5-1d5d-4757-a218-8778bd8fa3ba", null, "User", "USER" },
-                    { "abbfb38f-1458-4255-859c-b07a332ddb94", null, "Admin", "ADMIN" }
+                    { "287e0719-c4b9-4a16-8fac-c2dfb6e99474", null, "Admin", "ADMIN" },
+                    { "3774a0d6-4b87-4795-9cd1-9f51ec29eaff", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -249,8 +248,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "5d07f0fc-15cf-46f8-8301-dd697818db9a", "Profiil1@mail.ee", false, null, false, null, null, null, null, null, false, "fe090450-bbb1-4d7a-9c21-9a4cd1005eb0", false, null },
-                    { "2", 0, "12e08cee-b4ec-4a61-8f8e-b32a062b706f", "Profiil2@mail.ee", false, null, false, null, null, null, null, null, false, "ed174aae-33af-4177-93f3-c94a56480725", false, null }
+                    { "1", 0, "f5d8595c-559f-4310-8899-1a9873790967", "Profiil1@mail.ee", false, null, false, null, null, null, null, null, false, "0f9b1927-a704-444e-920b-de25f1e0998a", false, null },
+                    { "2", 0, "cb43543d-bcb9-4a2e-af7f-6f459de5c477", "Profiil2@mail.ee", false, null, false, null, null, null, null, null, false, "fb588fb2-c899-466b-a070-5e774cfeb524", false, null }
                 });
 
             migrationBuilder.InsertData(
