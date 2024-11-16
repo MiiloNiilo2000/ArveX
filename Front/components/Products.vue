@@ -1,16 +1,18 @@
 <template>
   <div class="container">
-    <h1 class="text-3xl font-bold mb-6">{{ selectedCompanyId !== undefined ? getCompanyNameById(selectedCompanyId) : 'Select a company' }}</h1>
-    <h1 class="text-2xl font-bold mb-6">Tooted / teenused</h1>
+    
+    <h1 class="text-2xl font-bold mb-6">Tooted / Teenused</h1>
 
     <div class="mb-6">
-      <label for="companySelect" class="block text-sm font-medium">Vali ettevõte:</label>
-      <select v-model="selectedCompanyId" id="companySelect" @change="onCompanyChange" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" style="width: 200px">
-        <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
-          {{ company.name }}
-        </option>
-      </select>
+    <label for="companySelect" class="block text-sm font-medium">Vali ettevõte:</label>
+    <div class="mt-1 w-1/3">
+      <USelect 
+        v-model="selectedCompanyId" 
+        :options="companyOptions" 
+        @change="onCompanyChange"
+      />
     </div>
+  </div>
 
     <UButton class="add-product-btn mb-6" @click="navigateToAddProduct">
       Lisa toode
@@ -46,6 +48,12 @@ const selectedCompanyId = ref<number>();
 const { customFetch } = useApi();
 const { navigateToAddProduct, navigateToEditProduct } = useProductStore();
 
+const companyOptions = computed(() => {
+  return companies.value.map(company => ({
+    label: company.name,
+    value: company.companyId,
+  }));
+});
 
 const fetchProducts = async () => {
   if (selectedCompanyId.value) {
@@ -93,3 +101,22 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style scoped>
+/* Override the background color of the dropdown options */
+.custom-select .u-dropdown-menu {
+  background-color: #00ff4c !important; /* Change background color */
+  border-radius: 8px !important; /* Optional: Adjust border radius */
+  color: #ff0000 !important; /* Optional: Change text color */
+}
+
+/* Optional: Adjust the color of each dropdown item */
+.custom-select .u-dropdown-menu .u-dropdown-item {
+  color: #f90101d2 !important;
+}
+
+/* Optional: Hover effect on dropdown items */
+.custom-select .u-dropdown-menu .u-dropdown-item:hover {
+  background-color: #a7f3d0 !important; /* Hover background color */
+}
+</style>

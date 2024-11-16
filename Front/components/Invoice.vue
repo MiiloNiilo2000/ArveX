@@ -243,8 +243,8 @@
 </template>
 
 <script setup lang="ts">
-  import { reactive, ref, watch, defineExpose, onMounted } from 'vue';
-  import type { FormError, FormErrorEvent } from "#ui/types";
+  import { ref, watch, defineExpose, onMounted } from 'vue';
+  import type { FormErrorEvent } from "#ui/types";
   import { generateInvoicePDF } from '../stores/invoiceStores';
   import { useApi } from '../composables/useApi';
   import type { Invoice } from '../types/invoice'
@@ -463,25 +463,22 @@
 }
 
 ::-webkit-scrollbar {
-    width: 12px; /* Width of the vertical scrollbar */
-    height: 12px; /* Height of the horizontal scrollbar */
+    width: 12px; 
+    height: 12px; 
 }
 
-/* Style the track (the part the thumb slides on) */
 ::-webkit-scrollbar-track {
-    background: #202121; /* Light gray background */
+    background: #202121;
     border-radius: 10px;
 }
 
-/* Style the draggable part of the scrollbar (the thumb) */
 ::-webkit-scrollbar-thumb {
-    background: #2f855a; /* Darker gray color for thumb */
+    background: #2f855a;
     border-radius: 10px;
-    border: 3px solid #f1f1f1; /* Creates a padding around the thumb */
+    border: 3px solid #f1f1f1; 
 }
 
-/* Style when hovering over the thumb */
 ::-webkit-scrollbar-thumb:hover {
-    background: #33bd45; /* Darker shade when hovering */
+    background: #33bd45;
 }
 </style>
