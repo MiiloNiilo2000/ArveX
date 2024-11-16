@@ -29,7 +29,7 @@
         <UInput
         v-model="state.title"
         @input="fetchCompanyNames"
-        class="w-full h-12"
+        class="w-full bg-gray-900 rounded-md mb-4"
         color="emerald"
         placeholder="Sisesta firma nimi"
         list="company-suggestions"
@@ -47,7 +47,7 @@
       <UFormGroup label="Registrikood" name="clientRegNr">
         <UInput 
           v-model="state.clientRegNr" 
-          class="w-full h-12" 
+          class="w-full bg-gray-900 rounded-md mb-4" 
           color="emerald" 
           placeholder="'10379733'" />
       </UFormGroup>
@@ -55,7 +55,7 @@
       <UFormGroup label="Käibemaksukohustuslase number" name="clientKMKR">
         <UInput 
           v-model="state.clientKMKR" 
-          class="w-full h-12" 
+          class="w-full bg-gray-900 rounded-md mb-4" 
           color="emerald" 
           placeholder="'EE100247019'" />
       </UFormGroup>
@@ -63,7 +63,7 @@
       <UFormGroup label="Aadress" name="address">
         <UInput 
           v-model="state.address" 
-          class="w-full h-12" 
+          class="w-full bg-gray-900 rounded-md mb-4" 
           color="emerald" 
           placeholder="'Harju maakond, Tallinn, Nõmme linnaosa, Pärnu mnt 238'" />
       </UFormGroup>
@@ -71,7 +71,7 @@
       <UFormGroup label="Postiindeks" name="zipCode">
         <UInput 
           v-model="state.zipCode" 
-          class="w-full h-12" 
+          class="w-full bg-gray-900 rounded-md mb-4" 
           color="emerald" 
           placeholder="'12345'"/>
       </UFormGroup>
@@ -79,7 +79,7 @@
       <UFormGroup label="Riik" name="country">
         <UInput 
           v-model="state.country" 
-          class="w-full h-12" 
+          class="w-full bg-gray-900 rounded-md mb-4" 
           color="emerald" 
           placeholder="'Eesti'"/>
       </UFormGroup>
@@ -92,7 +92,7 @@
       <UFormGroup label="Arve Number" name="invoiceNr">
         <UInput 
           v-model="state.invoiceNumber" 
-          class="w-full h-12" 
+          class="w-full bg-gray-900 rounded-md mb-4" 
           color="emerald" 
           placeholder="'54321'"/>
       </UFormGroup>
@@ -102,7 +102,7 @@
         <UInput 
           v-model="state.dateCreated" 
           type="date" 
-          class="w-full h-12"
+          class="w-full bg-gray-900 rounded-md mb-4"
           color="emerald"
         />
       </UFormGroup>
@@ -111,7 +111,7 @@
         <UInput 
           v-model="state.dateDue" 
           type="date" 
-          class="w-full h-12"
+          class="w-full bg-gray-900 rounded-md mb-4"
           color="emerald"
         />
       </UFormGroup>
@@ -119,7 +119,7 @@
       <UFormGroup label="Tingimused" name="condition">
         <UInput 
           v-model="state.condition" 
-          class="w-full h-12" 
+          class="w-full bg-gray-900 rounded-md mb-4" 
           color="emerald" 
           placeholder="'12 kuud'"/>
       </UFormGroup>
@@ -127,7 +127,7 @@
       <UFormGroup label="Viivis" name="delayFine">
         <UInput 
           v-model="state.delayFine" 
-          class="w-full h-12" 
+          class="w-full bg-gray-900 rounded-md mb-4" 
           color="emerald" 
           placeholder="'5% päevas'"/>
       </UFormGroup>  
@@ -175,21 +175,14 @@
       </div>
   </div>
 
-  <div class="w-1/2 h-auto">
-  <UDivider label="Vali Tooted" class="h-10 mb-2" />
-  <div class="flex items-center mb-4">
-    <UButton @click="navigateToAddProduct" class="h-10 flex items-center mb-0 mr-4">Lisa uus toode</UButton>
-    <input
-      v-model="searchTerm"
-      type="text"
-      placeholder="Otsi toodet..."
-      class="border border-gray-300 rounded-md px-3 py-2 shadow-sm w-1/3 h-10 mb-0"
-    />
-  </div>
+  <div class="flex w-full gap-20"> 
+    <div class="w-1/2 h-auto"> 
+      <UDivider label="Vali Tooted" class="h-10 mb-2" />
+      <UButton @click="navigateToAddProduct" icon="i-heroicons-plus" class="mb-4 ml-2">Lisa uus toode</UButton>
       <UFormGroup name="products" class="h-64 overflow-y-auto">
             <div class="product-selection">
               <div 
-                v-for="product in filteredProducts" 
+                v-for="product in availableProducts" 
                 :key="product.productId" 
                 class="product-item flex items-center mb-4 border-t-2 border-b-2 border-emerald-800 rounded-b rounded-t pb-2 mr-2 ml-2">
                 
@@ -229,12 +222,13 @@
             </div>
           </UFormGroup>
       </div>
+    </div>
 
     <div class="flex w-full gap-20"> 
       <div class="w-1/2"> 
         <UDivider label="Kujunda Arvet" class="h-10 mb-2" />
 
-        <UFormGroup label="Font" name="font" class="h-20">
+        <UFormGroup label="Font" name="font" class="h-20 ">
           <select v-model="state.selectedFont">
             <option v-for="font in fonts" :key="font" :value="font">
               {{ font }}
@@ -419,7 +413,7 @@
 
   select {
   border: 1.5px solid #38a169; 
-  background-color:#121212; 
+  background-color: #111827; 
   color: white; 
   border-radius: 0.375rem; 
   padding: 0.2rem 0.75rem; 

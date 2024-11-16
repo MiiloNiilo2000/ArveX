@@ -10,18 +10,20 @@
         @error="onError"
       >
         <UFormGroup label="Kasutajanimi" name="username">
-          <UInput v-model="state.username" />
+          <UInput v-model="state.username" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
         
         <UFormGroup label="E-post" name="email">
-          <UInput v-model="state.email" type="email" />
+          <UInput v-model="state.email" type="email" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
 
         <UFormGroup label="Pildi link">
-          <UInput v-model="state.image" />
+          <UInput v-model="state.image" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
 
-        <UButton type="submit"> Lisa </UButton>
+        <div class="col-span-2 flex justify-center">
+            <UButton type="submit">Lisa</UButton>
+        </div>
       </UForm>
     </div>
   </div>

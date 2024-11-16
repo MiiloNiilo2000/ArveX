@@ -24,6 +24,10 @@
       />
     </div>
 
+    <UButton class="add-product-btn mb-6" icon="i-heroicons-plus"  @click="navigateToAddProduct">
+      Lisa toode
+    </UButton>
+
     <div v-for="(product, index) in filteredProducts" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-1/3 mb-6">
       <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
       <p class="text-gray-600">{{ product.description }}</p>
