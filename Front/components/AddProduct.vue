@@ -89,7 +89,7 @@ const validate = (state: any): FormError[] => {
 
 async function onSubmit(event: FormSubmitEvent<any>) {
   addProduct({ ...state });
-  await router.push("/products");
+  await router.back();
 }
 
 async function onError(event: FormErrorEvent) {

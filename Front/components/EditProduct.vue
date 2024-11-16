@@ -72,7 +72,7 @@
             method: 'PUT',
             body: product,
         });
-        await router.push("/products");
+        await router.back();
     } catch (error) {
         console.error("Error updating product:", error);
 

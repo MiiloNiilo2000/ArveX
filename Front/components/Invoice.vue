@@ -178,6 +178,7 @@
   <div class="flex w-full gap-20"> 
     <div class="w-1/2 h-auto"> 
       <UDivider label="Vali Tooted" class="h-10 mb-2" />
+      <UButton @click="navigateToAddProduct" class="mb-4">Lisa uus toode</UButton>
       <UFormGroup name="products">
             <div class="product-selection">
               <div 
@@ -195,8 +196,8 @@
                 />
                 <span>{{ product.name }} - {{ product.price + "€" }}</span>
 
-                <div v-if="state.productsAndQuantities[product.productId] !== undefined" class="flex items-center ml-auto">
-                  <label class="text-sm font-medium text-gray-700">
+                <div v-if="state.productsAndQuantities[product.productId] !== undefined" class="flex items-center ml-80">
+                  <label class="text-sm font-medium text-gray-500">
                     Kogus:
                   </label>
                 </div>
@@ -210,6 +211,15 @@
                   min="1" 
                   @input="updateQuantity(product.productId)"
                 />
+
+                <div class="ml-auto mt-2">
+                  <div>
+                    <UDropdown :items="productDropdownItems(product.productId)" :popper="{ offsetDistance: 4, placement: 'right-start' }">
+                      <UButton size="md" color="white" variant="ghost" :padded="false" trailing-icon="i-heroicons-ellipsis-vertical" />
+                    </UDropdown>
+                  </div>
+                </div>
+                
               </div>
             </div>
           </UFormGroup>
@@ -230,7 +240,6 @@
         <UButton block type="submit" icon="i-heroicons-arrow-down-tray">Lae Arve Alla</UButton>
     </div>
   </div>
-
  
   </UForm>
 </template>
@@ -238,10 +247,11 @@
 <script setup lang="ts">
   import { reactive, ref, watch, defineExpose, onMounted } from 'vue';
   import type { FormError, FormErrorEvent } from "#ui/types";
-  import { generateInvoicePDF } from '../stores/invoiceUtils';
+  import { generateInvoicePDF } from '../stores/invoiceStores';
   import { useApi } from '../composables/useApi';
   import type { Invoice } from '../types/invoice'
-  import { format } from 'date-fns'
+  import { useProductStore } from '../stores/productStores';
+  import { useInvoiceStore } from '../stores/invoiceStores';
 
   const date = ref(new Date())
   const selectedProducts = ref<Product[]>([]);
@@ -249,15 +259,18 @@
   const availableProducts = ref<Product[]>([]);
   const companySuggestions = ref<Company[]>([]);
   const pastInvoices = ref<Invoice[]>([]);
-
-
-  const fonts = [
-    'Times New Roman',
-    'Arial',
-    'Courier New',
-    'Georgia',
-    'Verdana',
-  ]
+  const { navigateToAddProduct } = useProductStore();
+  const { 
+          toggleProductSelection, 
+          updateQuantity, 
+          productDropdownItems, 
+          validate, 
+          formatDate, 
+          formatInvoiceOption,
+          onError, 
+          state, 
+          fonts } 
+        = useInvoiceStore();
 
   interface Company {
     company_id: string;
@@ -271,58 +284,7 @@
     productId: number;
     name: string;
     price: number;
-  }
-
-  const state = reactive({
-    title: '',
-    clientRegNr: '',
-    clientKMKR: '',
-    address: '',
-    zipCode: '',
-    country: 'Eesti',
-    invoiceNumber: '',
-    dateCreated: new Date().toISOString().split('T')[0],
-    dateDue: '',
-    condition: '',
-    delayFine: '',
-    selectedFont: 'Arial',
-    footerImage: null,
-    productsAndQuantities: {} as Record<number, number>,
-    pastInvoice: null,
-  });
-
-  const toggleProductSelection = (productId: number) => {
-    if (state.productsAndQuantities[productId] !== undefined) {
-      delete state.productsAndQuantities[productId];
-      selectedProducts.value = selectedProducts.value.filter(product => product.productId !== productId);
-    } else {
-      state.productsAndQuantities[productId] = 1;
-      const product = availableProducts.value.find(p => p.productId === productId);
-      if (product) {
-        selectedProducts.value.push(product);
-      }
-    }
-  };
-
-const updateQuantity = (productId: number) => {
-  if (state.productsAndQuantities[productId] < 1) {
-    state.productsAndQuantities[productId] = 1;
-  }
-};
-
-  const validate = (state: any): FormError[] => {
-    const errors = [];
-    const zipString = state.zipCode.toString();
-    if (!state.title) errors.push({ path: "title", message: "Required" });
-    if (!state.address) errors.push({ path: "address", message: "Required" });
-    if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
-    if (zipString.length < 5 || zipString.length > 5) errors.push({ path: "zipCode", message: "Postiindeks peab olema 5-kohaline number" });
-    if (!state.invoiceNumber) errors.push({ path: "invoiceNr", message: "Required" });
-    if (!state.dateCreated) errors.push({ path: "dateCreated", message: "Required" });
-    if (!state.dateDue) errors.push({ path: "dateDue", message: "Required" });
-
-    return errors;
-  };
+  }  
 
   const fetchCompanyNames = async () => {
     if (state.title.length < 3) return; 
@@ -344,6 +306,7 @@ const updateQuantity = (productId: number) => {
     }
   });
 
+
   watch(() => state.pastInvoice, (selectedInvoiceId) => {
     if (!selectedInvoiceId) return;
 
@@ -364,6 +327,14 @@ const updateQuantity = (productId: number) => {
       state.selectedFont = selectedInvoice.font || '';
 
       state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
+
+      const missingProducts = Object.keys(state.productsAndQuantities).filter(productId => {
+      return !availableProducts.value.some(product => product.productId === parseInt(productId));
+      });
+
+      if (missingProducts.length > 0) {
+        window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
+      }
     
       selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
         return availableProducts.value.find(product => product.productId === parseInt(productId));
@@ -371,18 +342,6 @@ const updateQuantity = (productId: number) => {
       }
   });
 
-  function formatDate(dateInput: string | Date): string {
-    const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
-    if (isNaN(date.getTime())) return ''; 
-    return date.toISOString().split('T')[0]; 
-  }
-
-  function formatInvoiceOption(invoice: Invoice): string {
-    const dateCreated = new Date(invoice.dateCreated).toISOString().split('T')[0]; 
-    return `${invoice.title} - Nr: ${invoice.invoiceNumber} (${dateCreated})`;
-  }
-
-      
   const submitForm = () => {
 
     selectedProducts.value.forEach((product) => {
@@ -397,11 +356,6 @@ const updateQuantity = (productId: number) => {
     generateInvoicePDF(state, "GeneratePdf");
   };
 
-  async function onError(event: FormErrorEvent) {
-  const element = document.getElementById(event.errors[0].id);
-  element?.focus();
-  element?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
 
   onMounted(async () => {
   try {

@@ -13,7 +13,7 @@
   
 <script setup lang="ts">
   import { ref, onMounted } from 'vue';
-  import { generateInvoicePDF } from '../stores/invoiceUtils'; 
+  import { generateInvoicePDF } from '../stores/invoiceStores'; 
   import type { Invoice } from "../types/invoice";
   import { useApi } from '../composables/useApi';
 
