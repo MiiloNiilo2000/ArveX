@@ -1,11 +1,46 @@
 <template>
   <div>
     <UTable :columns="columns" :rows="invoices">
-      <template #delete-data="{ row }">
-              <UButton @click="deleteInvoice(row.invoiceId)" color="gray" variant="ghost" icon="mdi-delete" />
+      <template #title-data="{ row }">
+        <span class="text-emerald-500 font-bold">
+          {{ row.title }}
+        </span>
       </template>
+
+      <template #invoiceNumber-data="{ row }">
+        <span class="text-indigo-400">
+          {{ row.invoiceNumber }}
+        </span>
+      </template>
+
+      <template #dateCreated-data="{ row }">
+        <span class="text-gray-400">
+          {{ new Date(row.dateCreated).toLocaleDateString() }}
+        </span>
+      </template>
+
+      <template #dateDue-data="{ row }">
+        <span :class="{'text-red-500 font-bold': isPastDue(row.dateDue), 'text-green-500': !isPastDue(row.dateDue)}">
+          {{ new Date(row.dateDue).toLocaleDateString() }}
+        </span>
+      </template>
+
+      <template #delete-data="{ row }">
+        <UButton 
+          @click="deleteInvoice(row.invoiceId)" 
+          color="gray" 
+          variant="ghost" 
+          icon="i-heroicons-trash" 
+        />
+      </template>
+
       <template #view-data="{ row }">
-              <UButton @click="viewInvoice(row)" color="gray" variant="ghost" icon="mdi-eye" /> 
+        <UButton 
+          @click="viewInvoice(row)" 
+          color="gray" 
+          variant="ghost" 
+          icon="i-heroicons-eye" 
+        />
       </template>
     </UTable>
   </div>
@@ -28,6 +63,10 @@
     { key: 'delete', label: 'Kustuta' },
     { key: 'view', label: 'Vaata' },
   ]);
+
+  const isPastDue = (dueDate: string): boolean => {
+    return new Date(dueDate) < new Date();
+  };
 
   const fetchInvoices = async () => {
     try {
