@@ -13,20 +13,18 @@
     </div>
 
     <div class="flex items-center mb-6">
-      <UButton class="add-product-btn" @click="navigateToAddProduct">
-        Lisa toode
-      </UButton>
+      <UButton class="add-product-btn h-10 flex items-center" icon="i-heroicons-plus"  @click="navigateToAddProduct">
+      Lisa toode
+    </UButton>
       <input
         v-model="searchTerm"
         type="text"
         placeholder="Otsi toodet..."
-        class="border border-gray-300 rounded-md px-3 py-2 shadow-sm ml-4 w-auto"
+        class="border border-emerald-500 rounded-md px-3 py-2 shadow-sm ml-4 w-auto"
       />
     </div>
 
-    <UButton class="add-product-btn mb-6" icon="i-heroicons-plus"  @click="navigateToAddProduct">
-      Lisa toode
-    </UButton>
+    
 
     <div v-for="(product, index) in filteredProducts" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-1/3 mb-6">
       <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
