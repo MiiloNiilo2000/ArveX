@@ -27,70 +27,50 @@ namespace BackEnd.Controllers
         protected double _taxPercent;
         protected double _priceWithoutTax;
 
-
         [HttpPost("GeneratePdf")]
         public async Task<IResult> GeneratePdf([FromBody] Invoice data)
         {
-            Console.WriteLine("Received Invoice Data: " + data);
-
             var invoice = await repo.SaveInvoiceInDb(data);
 
-            var products = await repo.GetProductsById(data);
+            var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            var document = CreateDocument(
-                data.Title, 
-                data.ClientRegNr,
-                data.ClientKMKR,
-                data.Address, 
-                data.ZipCode, 
-                data.Country, 
-                data.InvoiceNumber, 
-                data.DateCreated, 
-                data.DateDue, 
-                data.Condition, 
-                data.DelayFine,
-                data.Font,
-                products
-            );
-            
-            var pdf = document.GeneratePdf();
-            //document.ShowInCompanion();
-            var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
-           
-            string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
-                 
-            return Results.File(pdf, "application/pdf", fileName);
+            return await GeneratePdfResponse(invoice, products);
         }
 
         [HttpPost("GeneratePdfWithoutSaving")]
         public async Task<IResult> GeneratePdfWithoutSaving([FromBody] Invoice data)
         {
+
+            var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
+
+            return await GeneratePdfResponse(data, products);
+        }
+
+        private async Task<IResult> GeneratePdfResponse(Invoice data, List<Product> products)
+        {
             Console.WriteLine("Received Invoice Data: " + data);
 
-            var products = await repo.GetProductsById(data);
-
             var document = CreateDocument(
-                data.Title, 
+                data.Title,
                 data.ClientRegNr,
                 data.ClientKMKR,
-                data.Address, 
-                data.ZipCode, 
-                data.Country, 
-                data.InvoiceNumber, 
-                data.DateCreated, 
-                data.DateDue, 
-                data.Condition, 
+                data.Address,
+                data.ZipCode,
+                data.Country,
+                data.InvoiceNumber,
+                data.DateCreated,
+                data.DateDue,
+                data.Condition,
                 data.DelayFine,
                 data.Font,
-                products
+                products,
+                data
             );
-            
-            var pdf = document.GeneratePdf();
 
+            var pdf = document.GeneratePdf();
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
-           
-            string fileName = $"{sanitizedTitle}_invoice_{data.InvoiceNumber}";
-                 
+            string fileName = $"{data.InvoiceNumber}";
+
             return Results.File(pdf, "application/pdf", fileName);
         }
         
@@ -107,7 +87,8 @@ namespace BackEnd.Controllers
             string condition,
             string delayFine,
             string font,
-            List<Product> products
+            List<Product> products,
+            Invoice data
             )
         {
            return Document.Create(container =>
@@ -227,17 +208,6 @@ namespace BackEnd.Controllers
 
                             col.Item().PaddingTop(30).Table(productTable =>
                             {
-
-                                // productTable.ColumnsDefinition(columns =>
-                                // {
-                                //     columns.ConstantColumn(100);
-                                //     columns.ConstantColumn(100);
-                                //     columns.RelativeColumn(2);
-                                //     columns.RelativeColumn(3);
-                                // });
-
-                                // productTable.Cell().ValueCell().Text("test").FontSize(14);
-
                                
                                 productTable.ColumnsDefinition(columns =>
                                 {
@@ -246,35 +216,46 @@ namespace BackEnd.Controllers
                                     columns.RelativeColumn(1);
                                     columns.RelativeColumn(1);
                                     columns.RelativeColumn(1);
+                                    columns.RelativeColumn(1);
                                 });
 
                                 productTable.Header(header =>
                                 {
                                     header.Cell().Row(1).Column(1).Text("Toote Nimi").FontSize(16).Bold();
-                                    header.Cell().Row(1).Column(2).Text("Hind").FontSize(16).Bold();
-                                    header.Cell().Row(1).Column(3).Text("Kokku").FontSize(16).Bold();
-                                    header.Cell().Row(1).Column(4).Text("KM %").AlignRight().FontSize(16).Bold();
+                                    header.Cell().Row(1).Column(3).Text("Hind(tk)").FontSize(16).Bold();
+                                    header.Cell().Row(1).Column(2).Text("Kogus").FontSize(16).Bold();                              
+                                    header.Cell().Row(1).Column(4).Text("Kokku").FontSize(16).Bold();
+                                    header.Cell().Row(1).Column(5).Text("KM %").AlignRight().FontSize(16).Bold();
                                 });           
                                 productTable.Cell().PaddingTop(4);  
                                 productTable.Cell().PaddingTop(4); 
                                 productTable.Cell().PaddingTop(4);
+                                productTable.Cell().PaddingTop(4);  
                                 productTable.Cell().PaddingTop(4);
                                 productTable.Cell().LineHorizontal(1);
                                 productTable.Cell().LineHorizontal(1);
                                 productTable.Cell().LineHorizontal(1);
                                 productTable.Cell().LineHorizontal(1);
+                                productTable.Cell().LineHorizontal(1);
+                                productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
 
                                 foreach (var product in products)
-                                {   
+                                {
+                                    int quantity = data.ProductsAndQuantities.ContainsKey(product.ProductId) 
+                                        ? data.ProductsAndQuantities[product.ProductId] 
+                                        : 1; 
+
                                     _taxPercent = product.TaxPercent;
-                                    double priceWithTax = product.Price + (product.Price * (_taxPercent/100));
+                                    double priceWithTax = product.Price * quantity + (product.Price * quantity * (_taxPercent / 100));
                                     _totalPrice += priceWithTax;
-                                    _priceWithoutTax += product.Price;
+                                    _priceWithoutTax += product.Price * quantity;
+
                                     productTable.Cell().Text(product.Name).FontSize(14);
+                                    productTable.Cell().Text(quantity.ToString()).FontSize(14);
                                     productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
                                     productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
                                     productTable.Cell().AlignRight().Text(_taxPercent.ToString()).FontSize(14);

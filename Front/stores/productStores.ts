@@ -1,12 +1,14 @@
 import type { Product } from "../types/product";
 import { ref } from 'vue';
-import axios from "axios";
+import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
+
 
 
 export const useProductStore = defineStore('product', () => {
 
     const products = ref<Product[]>([]);
+    const router = useRouter();
        
     const editProduct = (updatedProduct: Product) => {
         const index = products.value.findIndex((product) => product.productId === updatedProduct.productId);
@@ -15,9 +17,18 @@ export const useProductStore = defineStore('product', () => {
         }
     };
 
+    const navigateToAddProduct = () => {
+        router.push('/products/add');
+      };
+      
+    const navigateToEditProduct = (productId: number) => {
+    router.push(`/products/edit/${productId}`);
+    };
+    
+
     const getProductById = (id: number): Product | undefined => {
         return products.value.find(product => product.productId === id);
     };
     
-    return { products,  editProduct, getProductById };
+    return { products,  editProduct, navigateToAddProduct, navigateToEditProduct, getProductById };
 });

@@ -6,142 +6,134 @@
     @submit.prevent="submitForm"
     @error="onError"
   >
-    <div class="flex w-full gap-20"> 
-      <div class="w-1/2"> 
+  <div class="flex w-full gap-20"> 
+    <div class="w-1/2"> 
+      <UDivider label="Kopeeri varasema arve andmed" class="h-10 mb-2" />
+      <UFormGroup name="pastInvoice" class="flex justify-center h-16">
+        <select v-model="state.pastInvoice">
+          <option value="" disabled>Vali varasem arve:</option>
+          <option v-for="invoice in pastInvoices" :key="invoice.invoiceId" :value="invoice.invoiceId">
+            {{ formatInvoiceOption(invoice) }}
+          </option>
+        </select>
+      </UFormGroup>
+      <UDivider label="Loo uus arve" />
+    </div>
+  </div>
 
-        <UFormGroup label="Firma nimi" name="title">
-          <UInput
-          v-model="state.title"
-          @input="fetchCompanyNames"
+  <div class="flex w-full gap-20"> 
+
+    <div class="w-1/4"> 
+
+      <UFormGroup label="Firma nimi" name="title">
+        <UInput
+        v-model="state.title"
+        @input="fetchCompanyNames"
+        class="w-full h-12"
+        color="emerald"
+        placeholder="Sisesta firma nimi"
+        list="company-suggestions"
+      />
+      <datalist id="company-suggestions">
+        <option 
+          v-for="company in companySuggestions" 
+          :key="company.company_id" 
+          :value="company.name">
+          {{ company.name }}
+        </option>
+      </datalist>
+      </UFormGroup>
+
+      <UFormGroup label="Registrikood" name="clientRegNr">
+        <UInput 
+          v-model="state.clientRegNr" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'10379733'" />
+      </UFormGroup>
+
+      <UFormGroup label="Käibemaksukohustuslase number" name="clientKMKR">
+        <UInput 
+          v-model="state.clientKMKR" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'EE100247019'" />
+      </UFormGroup>
+
+      <UFormGroup label="Aadress" name="address">
+        <UInput 
+          v-model="state.address" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'Harju maakond, Tallinn, Nõmme linnaosa, Pärnu mnt 238'" />
+      </UFormGroup>
+
+      <UFormGroup label="Postiindeks" name="zipCode">
+        <UInput 
+          v-model="state.zipCode" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'12345'"/>
+      </UFormGroup>
+
+      <UFormGroup label="Riik" name="country">
+        <UInput 
+          v-model="state.country" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'Eesti'"/>
+      </UFormGroup>
+
+      
+    </div>
+
+    <div class="w-1/5"> 
+
+      <UFormGroup label="Arve Number" name="invoiceNr">
+        <UInput 
+          v-model="state.invoiceNumber" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'54321'"/>
+      </UFormGroup>
+
+
+      <UFormGroup label="Kuupäev" name="dateCreated">
+        <UInput 
+          v-model="state.dateCreated" 
+          type="date" 
           class="w-full h-12"
           color="emerald"
-          placeholder="Sisesta firma nimi"
-          list="company-suggestions"
         />
-        <datalist id="company-suggestions">
-          <option 
-            v-for="company in companySuggestions" 
-            :key="company.company_id" 
-            :value="company.name">
-            {{ company.name }}
-          </option>
-        </datalist>
-        </UFormGroup>
+      </UFormGroup>
 
-        <UFormGroup label="Registrikood" name="clientRegNr">
-          <UInput 
-            v-model="state.clientRegNr" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'10379733'" />
-        </UFormGroup>
+      <UFormGroup label="Maksetähtaeg" name="dateDue">
+        <UInput 
+          v-model="state.dateDue" 
+          type="date" 
+          class="w-full h-12"
+          color="emerald"
+        />
+      </UFormGroup>
 
-        <UFormGroup label="Käibemaksukohustuslase number" name="clientKMKR">
-          <UInput 
-            v-model="state.clientKMKR" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'EE100247019'" />
-        </UFormGroup>
+      <UFormGroup label="Tingimused" name="condition">
+        <UInput 
+          v-model="state.condition" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'12 kuud'"/>
+      </UFormGroup>
 
-        <UFormGroup label="Aadress" name="address">
-          <UInput 
-            v-model="state.address" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'Ehitajate Tee 5'" />
-        </UFormGroup>
+      <UFormGroup label="Viivis" name="delayFine">
+        <UInput 
+          v-model="state.delayFine" 
+          class="w-full h-12" 
+          color="emerald" 
+          placeholder="'5% päevas'"/>
+      </UFormGroup>  
+    </div>
 
-        <UFormGroup label="Postiindeks" name="zipCode">
-          <UInput 
-            v-model="state.zipCode" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'12345'"/>
-        </UFormGroup>
-
-        <UFormGroup label="Riik" name="country">
-          <UInput 
-            v-model="state.country" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'Eesti'"/>
-        </UFormGroup>
-
-        <UFormGroup label="Arve Number" name="invoiceNr">
-          <UInput 
-            v-model="state.invoiceNumber" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'54321'"/>
-        </UFormGroup>
-
-        <UFormGroup label="Kuupäev" name="dateCreated">
-          <UInput 
-            v-model="state.dateCreated" 
-            type="date" 
-            class="w-full h-12"
-            color="emerald"
-          />
-        </UFormGroup>
-
-        <UFormGroup label="Maksetähtaeg" name="dateDue">
-          <UInput 
-            v-model="state.dateDue" 
-            type="date" 
-            class="w-full h-12"
-            color="emerald"
-          />
-        </UFormGroup>
-
-        <UFormGroup label="Tingimused" name="condition">
-          <UInput 
-            v-model="state.condition" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'12 kuud'"/>
-        </UFormGroup>
-
-        <UFormGroup label="Viivis" name="delayFine">
-          <UInput 
-            v-model="state.delayFine" 
-            class="w-full h-12" 
-            color="emerald" 
-            placeholder="'5% päevas'"/>
-        </UFormGroup>
-      </div>
-
-      <div class="w-1/3"> 
-        
-        <UFormGroup label="Font" name="font" class="h-20">
-          <select v-model="state.selectedFont">
-            <option v-for="font in fonts" :key="font" :value="font">
-              {{ font }}
-            </option>
-          </select>
-        </UFormGroup>
-
-
-        <UFormGroup label="Vali Tooted:" name="products">
-          <div class="product-selection">
-            <label 
-              v-for="product in availableProducts" 
-              :key="product.productId" 
-              class="product-item flex items-center">
-                <input 
-                  type="checkbox" 
-                  :value="product" 
-                  v-model="selectedProducts" 
-                  class="custom-checkbox mr-2"
-                />
-                {{ product.name }} - {{ product.price + "€"}}
-            </label>
-          </div>
-        </UFormGroup>
-        
-      </div>
-
-      <div class="w-full">
+      <div class="w-100">
         <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
           <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
             <div class="invoice-header text-center mb-6">
@@ -181,17 +173,102 @@
             </div>
           </div>
       </div>
-    </div>
+  </div>
 
-    <UButton type="submit">Lae Arve Alla</UButton>
+  <div class="flex w-full gap-20"> 
+    <div class="w-1/2 h-auto"> 
+      <UDivider label="Vali Tooted" class="h-10 mb-2" />
+      <UButton @click="navigateToAddProduct" class="mb-4 ml-2">Lisa uus toode</UButton>
+      <UFormGroup name="products" class="h-64 overflow-y-auto">
+            <div class="product-selection">
+              <div 
+                v-for="product in availableProducts" 
+                :key="product.productId" 
+                class="product-item flex items-center mb-4 border-t-2 border-b-2 border-emerald-800 rounded-b rounded-t pb-2 mr-2 ml-2">
+                
+                <input 
+                  type="checkbox" 
+                  :value="product" 
+                  :checked="selectedProducts.some(p => p.productId === product.productId)"
+                  v-model="selectedProducts" 
+                  @change="toggleProductSelection(product.productId)" 
+                  class="custom-checkbox mr-2 mt-2"
+                />
+                <span class="mt-2">{{ product.name }} - {{ product.price + "€" }}</span>
+
+                <div v-if="state.productsAndQuantities[product.productId] !== undefined" class="flex items-center ml-auto">
+                  <label class="text-sm font-medium text-gray-500 mt-1">
+                    Kogus:
+                  </label>
+
+                  <UInput 
+                  v-if="state.productsAndQuantities[product.productId] !== undefined" 
+                  type="number" 
+                  class="ml-2 w-16 mt-2" 
+                  color="emerald"
+                  v-model.number="state.productsAndQuantities[product.productId]" 
+                  min="1" 
+                  @input="updateQuantity(product.productId)"
+                />
+                  <div class="ml-6 mt-3">
+                    <div>
+                      <UDropdown :items="productDropdownItems(product.productId)" :popper="{ offsetDistance: 4, placement: 'right-start' }">
+                        <UButton class="mr-2" size="md" color="emerald" variant="ghost" :padded="false" trailing-icon="i-heroicons-ellipsis-horizontal-circle" />
+                      </UDropdown>
+                    </div>
+                  </div>
+                </div>   
+              </div>
+            </div>
+          </UFormGroup>
+      </div>
+  </div>
+
+    <div class="flex w-full gap-20"> 
+      <div class="w-1/2"> 
+        <UDivider label="Kujunda Arvet" class="h-10 mb-2" />
+
+        <UFormGroup label="Font" name="font" class="h-20">
+          <select v-model="state.selectedFont">
+            <option v-for="font in fonts" :key="font" :value="font">
+              {{ font }}
+            </option>
+          </select>
+        </UFormGroup>
+        <UButton block type="submit" icon="i-heroicons-arrow-down-tray">Lae Arve Alla</UButton>
+    </div>
+  </div>
+
   </UForm>
 </template>
 
 <script setup lang="ts">
   import { reactive, ref, watch, defineExpose, onMounted } from 'vue';
   import type { FormError, FormErrorEvent } from "#ui/types";
-  import axios from 'axios';
-  import { generateInvoicePDF } from '../stores/invoiceUtils';
+  import { generateInvoicePDF } from '../stores/invoiceStores';
+  import { useApi } from '../composables/useApi';
+  import type { Invoice } from '../types/invoice'
+  import { useProductStore } from '../stores/productStores';
+  import { useInvoiceStore } from '../stores/invoiceStores';
+
+  const date = ref(new Date())
+  const selectedProducts = ref<Product[]>([]);
+  const { customFetch } = useApi();
+  const availableProducts = ref<Product[]>([]);
+  const companySuggestions = ref<Company[]>([]);
+  const pastInvoices = ref<Invoice[]>([]);
+  const { navigateToAddProduct } = useProductStore();
+  const { 
+          toggleProductSelection, 
+          updateQuantity, 
+          productDropdownItems, 
+          validate, 
+          formatDate, 
+          formatInvoiceOption,
+          onError, 
+          state, 
+          fonts } 
+        = useInvoiceStore();
 
   interface Company {
     company_id: string;
@@ -205,91 +282,89 @@
     productId: number;
     name: string;
     price: number;
-  }
+  }  
 
-  const state = reactive({
-    title: '',
-    clientRegNr: '',
-    clientKMKR: '',
-    address: '',
-    zipCode: '',
-    country: 'Eesti',
-    invoiceNumber: '',
-    dateCreated: new Date().toISOString().split('T')[0],
-    dateDue: '',
-    condition: '',
-    delayFine: '',
-    selectedFont: 'Arial',
-    footerImage: null,
-    productIds: [],
-  });
+  const fetchCompanyNames = async () => {
+    if (state.title.length < 3) return; 
 
-  const availableProducts = ref<Product[]>([]);
-  const selectedProducts = ref<Product[]>([]);
-
-  onMounted(async () => {
     try {
-      const response = await axios.get('http://localhost:5176/Products/all')
-      availableProducts.value = response.data;
+      const response = await customFetch<any>(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`, { method: 'GET' })
+      companySuggestions.value = response.data;
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching company names:', error);
+    }
+  };
+
+  watch(() => state.title, (newTitle) => {
+    const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
+    if (selectedCompany) {
+      state.clientRegNr = selectedCompany.reg_code;
+      state.address = selectedCompany.legal_address;
+      state.zipCode = selectedCompany.zip_code;
     }
   });
 
-  const fonts = [
-    'Times New Roman',
-    'Arial',
-    'Courier New',
-    'Georgia',
-    'Verdana',
-  ]
 
-  const validate = (state: any): FormError[] => {
-    const errors = [];
-    const zipString = state.zipCode.toString();
-    if (!state.title) errors.push({ path: "title", message: "Required" });
-    if (!state.address) errors.push({ path: "address", message: "Required" });
-    if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
-    if (zipString.length < 5 || zipString.length > 5) errors.push({ path: "zipCode", message: "Postiindeks peab olema 5-kohaline number" });
-    if (!state.invoiceNumber) errors.push({ path: "invoiceNr", message: "Required" });
-    if (!state.dateCreated) errors.push({ path: "dateCreated", message: "Required" });
-    if (!state.dateDue) errors.push({ path: "dateDue", message: "Required" });
+  watch(() => state.pastInvoice, (selectedInvoiceId) => {
+    if (!selectedInvoiceId) return;
 
-    return errors;
-  };
-  
-  const companySuggestions = ref<Company[]>([])
+    const selectedInvoice = pastInvoices.value.find(invoice => invoice.invoiceId === selectedInvoiceId);
 
-  const fetchCompanyNames = async () => {
-      if (state.title.length < 3) return; 
-    
-      try {
-        const response = await axios.get(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`);
-        companySuggestions.value = response.data.data;
-      } catch (error) {
-        console.error('Error fetching company names:', error);
+    if (selectedInvoice) {
+      state.title = selectedInvoice.title || '';
+      state.clientRegNr = selectedInvoice.clientRegNr || '';
+      state.clientKMKR = selectedInvoice.clientKMKR || '';
+      state.address = selectedInvoice.address || '';
+      state.zipCode = String(selectedInvoice.zipCode);
+      state.country = selectedInvoice.country || 'Eesti';
+      state.invoiceNumber = String(selectedInvoice.invoiceNumber);
+      state.dateCreated = formatDate(selectedInvoice.dateCreated || '');
+      state.dateDue = formatDate(selectedInvoice.dateDue || '');
+      state.condition = selectedInvoice.condition || '';
+      state.delayFine = selectedInvoice.delayFine || '';
+      state.selectedFont = selectedInvoice.font || '';
+
+      state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
+
+      const missingProducts = Object.keys(state.productsAndQuantities).filter(productId => {
+      return !availableProducts.value.some(product => product.productId === parseInt(productId));
+      });
+
+      if (missingProducts.length > 0) {
+        window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
       }
-    };
+      // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
+      selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
+        return availableProducts.value.find(product => product.productId === parseInt(productId));
+        }).filter(product => product !== undefined) as Product[];
+      }
+  });
 
-    watch(() => state.title, (newTitle) => {
-      const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
-      if (selectedCompany) {
-        state.clientRegNr = selectedCompany.reg_code;
-        state.address = selectedCompany.legal_address;
-        state.zipCode = selectedCompany.zip_code;
+  const submitForm = () => {
+
+    selectedProducts.value.forEach((product) => {
+      if (product.productId !== undefined) {
+        const quantity = state.productsAndQuantities[product.productId] || 1;
+        state.productsAndQuantities[product.productId] = quantity;
+      } else {
+        console.warn('Invalid product detected:', product);
       }
     });
-       
-  const submitForm = () => { 
-    state.productIds = selectedProducts.value.map(product => product.productId);
-    generateInvoicePDF(state, "GeneratePdf")
+
+    generateInvoicePDF(state, "GeneratePdf");
   };
 
-  async function onError(event: FormErrorEvent) {
-    const element = document.getElementById(event.errors[0].id);
-    element?.focus();
-    element?.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  onMounted(async () => {
+  try {
+    const response = await customFetch<Product[]>(`Products/all`, { method: 'GET' });
+    availableProducts.value = response;
+    const invoicesResponse = await customFetch<Invoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+    pastInvoices.value = invoicesResponse;
+  } catch (error) {
+    console.error('Error fetching products:', error);
   }
+  });
 
   defineExpose({ validate, fetchCompanyNames, submitForm });
 </script>
@@ -385,5 +460,28 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+::-webkit-scrollbar {
+    width: 12px; /* Width of the vertical scrollbar */
+    height: 12px; /* Height of the horizontal scrollbar */
+}
+
+/* Style the track (the part the thumb slides on) */
+::-webkit-scrollbar-track {
+    background: #202121; /* Light gray background */
+    border-radius: 10px;
+}
+
+/* Style the draggable part of the scrollbar (the thumb) */
+::-webkit-scrollbar-thumb {
+    background: #2f855a; /* Darker gray color for thumb */
+    border-radius: 10px;
+    border: 3px solid #f1f1f1; /* Creates a padding around the thumb */
+}
+
+/* Style when hovering over the thumb */
+::-webkit-scrollbar-thumb:hover {
+    background: #33bd45; /* Darker shade when hovering */
 }
 </style>

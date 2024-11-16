@@ -37,20 +37,15 @@ import { onMounted, ref } from 'vue';
 import { useApi } from '../composables/useApi';
 import type { Product } from "../types/product";
 import type { Company } from "../types/company";
+import { useProductStore } from '../stores/productStores';
 
 const router = useRouter();
 const products = ref<Product[]>([]);
 const companies = ref<Company[]>([]);
 const selectedCompanyId = ref<number>();
 const { customFetch } = useApi();
+const { navigateToAddProduct, navigateToEditProduct } = useProductStore();
 
-const navigateToAddProduct = () => {
-  router.push('/products/add');
-};
-
-const navigateToEditProduct = (productId: number) => {
-  router.push(`/products/edit/${productId}`);
-};
 
 const fetchProducts = async () => {
   if (selectedCompanyId.value) {
@@ -78,7 +73,7 @@ const onCompanyChange = () => {
 
 const deleteProduct = async (id: number) => {
   try {
-    const response = await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
+    await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
     products.value = products.value.filter(product => product.productId !== id);
     fetchProducts();
   } catch (error) {

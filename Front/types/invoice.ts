@@ -1,4 +1,7 @@
 export type Invoice = {
+    invoiceId: number
+    clientRegNr: string;
+    clientKMKR: string;
     title: string
     address: string
     city: string
@@ -9,4 +12,7 @@ export type Invoice = {
     dateDue: Date
     condition: string
     delayFine: string
+    font: string
+    products: Product[]
+    productsAndQuantities: Record<number, number>
 }

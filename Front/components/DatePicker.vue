@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
+// @ts-ignore
 import type { DatePickerDate, DatePickerRangeObject } from 'v-calendar/dist/types/src/use/datePicker'
 import 'v-calendar/dist/style.css'
+import { format } from 'date-fns'
+
+defineOptions({
+  inheritAttrs: false
+})
 
 const props = defineProps({
   modelValue: {
@@ -15,23 +21,32 @@ const emit = defineEmits(['update:model-value', 'close'])
 const date = computed({
   get: () => props.modelValue,
   set: (value) => {
-    emit('update:model-value', value)
+    emit('update:model-value', value ? format(value, 'dd/MM/yyyy') : '')
     emit('close')
   }
 })
 
+
 const attrs = {
-  transparent: true,
-  borderless: true,
-  color: 'primary',
+  'transparent': true,
+  'borderless': true,
+  'color': 'primary',
   'is-dark': { selector: 'html', darkClass: 'dark' },
-  'first-day-of-week': 2,
+  'first-day-of-week': 2
+}
+
+function onDayClick(_: any, event: MouseEvent): void {
+  const target = event.target as HTMLElement
+  target.blur()
 }
 </script>
 
 <template>
-  <VCalendarDatePicker v-if="date && (typeof date === 'object')" v-model.range="date" :columns="2" v-bind="{ ...attrs, ...$attrs }" />
-  <VCalendarDatePicker v-else v-model="date" v-bind="{ ...attrs, ...$attrs }" />
+  <VCalendarDatePicker
+    v-model="date"
+    v-bind="{ ...attrs, ...$attrs }"
+    @dayclick="onDayClick"
+  />
 </template>
 
 <style>

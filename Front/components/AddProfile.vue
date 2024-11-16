@@ -1,32 +1,32 @@
 <template>
-    <div class="flex justify-center items-center pt-9">
-      <div class="w-96 p-6 flex flex-col h-auto">
-        <h2 class="text-2xl font-bold mb-4 text-center">Lisa kasutaja</h2>
-        <UForm
-          :validate="validate"
-          :state="state"
-          class="space-y-4"
-          @submit="onSubmit"
-          @error="onError"
-        >
-          <UFormGroup label="Kasutajanimi" name="username">
-            <UInput v-model="state.username" />
-          </UFormGroup>
-          <UFormGroup label="E-post" name="email">
-            <UInput v-model="state.email" type="email" />
-          </UFormGroup>
-          <UFormGroup label="Bio">
-            <UTextarea v-model="state.bio" />
-          </UFormGroup>
-          <UFormGroup label="Pildi link">
-            <UInput v-model="state.image" />
-          </UFormGroup>
-  
-          <UButton type="submit"> Lisa </UButton>
-        </UForm>
-      </div>
+  <div class="flex justify-center items-center pt-9">
+    <div class="w-96 p-6 flex flex-col h-auto">
+      <h2 class="text-2xl font-bold mb-4 text-center">Lisa kasutaja</h2>
+      <UForm
+        :validate="validate"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+        @error="onError"
+      >
+        <UFormGroup label="Kasutajanimi" name="username">
+          <UInput v-model="state.username" />
+        </UFormGroup>
+        
+        <UFormGroup label="E-post" name="email">
+          <UInput v-model="state.email" type="email" />
+        </UFormGroup>
+
+        <UFormGroup label="Pildi link">
+          <UInput v-model="state.image" />
+        </UFormGroup>
+
+        <UButton type="submit"> Lisa </UButton>
+      </UForm>
     </div>
-  </template>
+  </div>
+</template>
+
   <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
   import type { Profile } from "../types/profile";
@@ -39,7 +39,6 @@
     id: 0,
     username: '',
     email: '',
-    bio: '',
     image: '',
   });
   

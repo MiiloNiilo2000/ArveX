@@ -15,10 +15,9 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProfileController(ProfileRepo repo, ApplicationDbContext context) : ControllerBase()
+    public class ProfileController(ApplicationDbContext context) : ControllerBase()
     {
         private readonly ApplicationDbContext _context = context;
-        private readonly ProfileRepo repo = repo;
 
         [HttpGet("all")]
         public async Task<IActionResult> GetProfiles(){
@@ -32,7 +31,7 @@ namespace BackEnd.Controllers
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfilesById(int id){
-            var profiles = await _context.Profile.FindAsync(id);
+            var profiles = await _context.Profile.FindAsync(id.ToString());
 
             if(profiles == null){
             return NotFound();
@@ -46,13 +45,13 @@ namespace BackEnd.Controllers
             _context.Profile.Add(profile);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProfiles), new { id = profile.ProfileId }, profile);
+            return CreatedAtAction(nameof(GetProfiles), new { id = profile.Id }, profile);
         }
 
         [HttpDelete]
         [Route("{id}")]
         public IActionResult Delete([FromRoute] int id){
-            var profile = _context.Profile.FirstOrDefault(x => x.ProfileId == id);
+            var profile = _context.Profile.FirstOrDefault(x => x.Id == id.ToString());
 
             if (profile == null){
                 return NotFound();
@@ -69,7 +68,7 @@ namespace BackEnd.Controllers
         {
             var profile = _context.Profile!
                 .Include(x => x.Companies)
-                .FirstOrDefault(x => x.ProfileId == id);
+                .FirstOrDefault(x => x.Id == id.ToString());
 
             if (profile == null)
                 return NotFound();
@@ -80,20 +79,6 @@ namespace BackEnd.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] Profile profile){
             bool result = await _context.UpdateProfile(id, profile);
             return result ? NoContent() : NotFound();
-        }
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
-        {
-            var token = await repo.Login(loginRequest);
-
-            if (!string.IsNullOrEmpty(token))
-            {
-                return Ok(new { Token = token });
-            }
-            else
-            {
-                return Unauthorized();
-            }
         }
     }
 }

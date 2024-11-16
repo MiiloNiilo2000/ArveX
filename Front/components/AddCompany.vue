@@ -41,33 +41,39 @@
       </div>
     </div>
   </template>
+
   <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
   import type { Company } from "../types/company";
   import { reactive } from "vue";
-  import axios from "axios";
   import { useRouter } from "vue-router";
+  import { useApi } from '../composables/useApi';
   
   const router = useRouter();
+  const { customFetch } = useApi();
   
   const state = reactive<Company>({
-    id: 0,
+    companyId: 0,
     name: '',
-    registerCode: 0,
+    registerCode: '',
     vatNumber: '',
     address: '',
-    postalCode: 0,
+    postalCode: '',
     country: '',
     email: '',
     image: ''
   });
-  const addCompany = async (company) => {
-        try {
-            await axios.post('http://localhost:5176/Companies', company);
-        } catch (error) {
-            console.error("Error adding product:", error);
-        }
-    };
+
+  const addCompany = async (company: Company) => {
+  try {
+    await customFetch('Companies', {
+      method: 'POST',
+      body: company,
+    });
+  } catch (error) {
+    console.error("Error adding company:", error);
+  }
+};
   const validate = (state: any): FormError[] => {
     const errors = [];
     if (!state.name) errors.push({ path: "name", message: "Required" });

@@ -1,46 +1,52 @@
 <template>
-    <div class="flex justify-center items-center pt-9">
-      <div class="w-96 p-6 flex flex-col h-99">
-        <h2 class="text-2xl font-bold mb-4 text-center">Muuda toodet</h2>
-        <UForm
-          :validate="validate"
-          :state="state"
-          class="space-y-4"
-          @submit="onSubmit"
-          @error="onError"
-        >
-          <UFormGroup label="Toote nimi" name="name">
-            <UInput v-model="state.name" />
-          </UFormGroup>
-          <UFormGroup label="Kirjeldus" name="description">
-            <UInput v-model="state.description" />
-          </UFormGroup>
-          <UFormGroup label="Hind" name="price">
-            <UInput v-model="state.price" />
-          </UFormGroup>
-          <UFormGroup label="Maksuprotsent" name="taxPercent">
-            <UInput v-model="state.taxPercent" />
-          </UFormGroup>
-          <UFormGroup label="Firma" name="companyId">
-            <select v-model="state.companyId" class="w-full border p-2 rounded">
-            <option value="" disabled>Select a company</option>
-            <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
-              {{ company.name }}
-            </option>
-          </select>
-          </UFormGroup>
-          <UButton type="submit"> Salvesta </UButton>
-        </UForm>
-      </div>
+  <div class="flex justify-center items-center pt-9">
+    <div class="w-96 p-6 flex flex-col h-99">
+      <h2 class="text-2xl font-bold mb-4 text-center">Muuda toodet</h2>
+      <UForm
+        :validate="validate"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+        @error="onError"
+      >
+        <UFormGroup label="Toote nimi" name="name">
+          <UInput v-model="state.name" />
+        </UFormGroup>
+        <UFormGroup label="Kirjeldus" name="description">
+          <UInput v-model="state.description" />
+        </UFormGroup>
+        <UFormGroup label="Hind" name="price">
+          <UInput v-model="state.price" />
+        </UFormGroup>
+        <UFormGroup label="Maksuprotsent" name="taxPercent">
+          <UInput v-model="state.taxPercent" />
+        </UFormGroup>
+        <UFormGroup label="Firma" name="companyId">
+          <select v-model="state.companyId" class="w-full border p-2 rounded">
+          <option value="" disabled>Select a company</option>
+          <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
+            {{ company.name }}
+          </option>
+        </select>
+        </UFormGroup>
+        <UButton type="submit"> Salvesta </UButton>
+      </UForm>
     </div>
-  </template>
+  </div>
+</template>
 
 <script setup lang="ts">
   import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
   import type { Product } from "../types/product";
   import { reactive, onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import axios from "axios";
+  import { useApi } from '../composables/useApi';
+
+  const { customFetch } = useApi(); 
+  const companies = ref<{ companyId: number; name: string }[]>([]);
+  const route = useRoute();
+  const router = useRouter();
+  const productId = Number(route.params.id);
 
   const state = reactive<Product>({
       productId: 0,
@@ -51,13 +57,10 @@
       taxPercent: 0
   });
 
-  const companies = ref<{ companyId: number; name: string }[]>([]);
-
   const fetchCompanies = async () => {
     try {
-      const response = await axios.get('http://localhost:5176/Companies/all');
-      companies.value = response.data;
-      console.log('Fetched companies:', companies.value);
+      const response = await customFetch<Company[]>(`Companies/all`, { method: 'GET' });
+      companies.value = response;
     } catch (error) {
       console.error("Error fetching companies:", error);
     }
@@ -65,33 +68,21 @@
 
   const editProduct = async (product: Product) => {
     try {
-        console.log("Updating product:", product);
-        
-        const response = await axios.put(`http://localhost:5176/Products/${product.productId}`, product);
-
-        console.log("Product updated successfully:", response.data);
-        await router.push("/products");
+        await customFetch(`Products/${product.productId}`, {
+            method: 'PUT',
+            body: product,
+        });
+        await router.back();
     } catch (error) {
         console.error("Error updating product:", error);
 
-        if (error.response) {
-            console.error("Response data:", error.response.data);
-            console.error("Response status:", error.response.status);
-            console.error("Response headers:", error.response.headers);
-        } else {
-            console.error("Error message:", error.message);
-        }
     }
-};
-
-  const route = useRoute();
-  const router = useRouter();
-  const productId = Number(route.params.id);
+  };
 
   const fetchProduct = async (id: number) => {
     try {
-        const response = await axios.get(`http://localhost:5176/Products/${id}`);
-        const product = response.data;
+        const response = await customFetch<Product[]>(`Products/${id}`, { method: 'GET' })
+        const product = response;
         if (product) {
             Object.assign(state, product);
         }
@@ -99,11 +90,6 @@
         console.error("Error fetching product:", error);
     }
   };
-
-  onMounted(async () => {
-    await fetchProduct(productId);
-    await fetchCompanies();
-  });
 
   const validate = (state: any): FormError[] => {
     const errors = [];
@@ -126,4 +112,8 @@
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
+  onMounted(async () => {
+    await fetchProduct(productId);
+    await fetchCompanies();
+  });
 </script>
