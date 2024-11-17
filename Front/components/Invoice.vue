@@ -178,7 +178,7 @@
   <div class="w-1/2 h-auto">
   <UDivider label="Vali Tooted" class="h-10 mb-2" />
   <div class="flex items-center mb-4">
-      <UButton @click="navigateToAddProduct" icon="i-heroicons-plus" class="h-10 flex items-center mb-0 mr-4">Lisa uus toode</UButton>
+      <UButton @click="navigateToAddProduct" icon="i-heroicons-plus"  class="add-product-btn mr-4">Lisa uus toode</UButton>
       <input
       v-model="searchTerm"
       type="text"
@@ -460,7 +460,7 @@
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   width: auto;
-  height: 2.5rem; 
+  height: 2.4rem; 
   transition: border-color 0.2s ease-in-out;
   }
 
@@ -495,6 +495,34 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.add-product-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: emerald;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.add-product-btn i {
+  margin-right: 0.5rem; 
+  font-size: 1.25rem; 
+}
+
+.add-product-btn:hover {
+  background-color: #44b159; 
+}
+
+.add-product-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.1rem #357955; 
 }
 
 ::-webkit-scrollbar {

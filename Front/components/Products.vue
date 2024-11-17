@@ -14,7 +14,7 @@
     </div>
 
     <div class="flex items-center mb-6">
-      <UButton class="add-product-btn h-10 flex items-center" icon="i-heroicons-plus"  @click="navigateToAddProduct">
+      <UButton class="add-product-btn" icon="i-heroicons-plus"  @click="navigateToAddProduct">
       Lisa toode
     </UButton>
       <input
@@ -132,9 +132,37 @@ onMounted(async () => {
   transition: border-color 0.2s ease-in-out;
   }
 
-  .form-search:focus {
-    border-color: #38a169; 
-    outline: none;
-    box-shadow: 0 0 0 0.1rem #357955;
-  }
+.form-search:focus {
+  border-color: #38a169; 
+  outline: none;
+  box-shadow: 0 0 0 0.1rem #357955;
+}
+
+.add-product-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: emerald;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.add-product-btn i {
+  margin-right: 0.5rem; 
+  font-size: 1.25rem; 
+}
+
+.add-product-btn:hover {
+  background-color: #44b159; 
+}
+
+.add-product-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.1rem #357955; 
+}
 </style>
