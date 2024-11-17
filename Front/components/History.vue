@@ -1,6 +1,14 @@
 <template>
   <div>
-    <UTable :columns="columns" :rows="sortedInvoices">
+
+    <input 
+      type="text"
+      v-model="searchTerm"
+      placeholder="Otsi..."
+      class="form-search"
+      />
+
+    <UTable :columns="columns" :rows="filteredInvoices">
 
       <template #header="{ column }">
         <span @click="toggleSort(column)" :class="{ 'cursor-pointer': column.sortable }">
@@ -75,6 +83,26 @@
     { key: 'view', label: 'Laadi Alla' },
     { key: 'delete', label: 'Kustuta' },
   ]);
+
+  const searchTerm = ref('');
+
+  const filteredInvoices = computed(() => {
+    if (!searchTerm.value) return invoices.value;
+
+    const query = searchTerm.value.toLowerCase();
+    return invoices.value.filter(invoice => {
+      return (
+        invoice.title.toLowerCase().includes(query) ||
+        invoice.invoiceNumber.toString().includes(query) ||
+        invoice.clientKMKR.toLowerCase().includes(query) ||
+        invoice.clientRegNr.toLowerCase().includes(query) ||
+        invoice.country.toLowerCase().includes(query) ||
+        new Date(invoice.dateCreated).toLocaleDateString().includes(query) ||
+        new Date(invoice.dateDue).toLocaleDateString().includes(query)
+      );
+    });
+  });
+
 
   const sortState = ref<{ key: keyof Invoice | null; order: 'asc' | 'desc' }>({
     key: null,
@@ -162,3 +190,22 @@
   });
   </script>
   
+<style scoped>
+  .form-search {
+  border: 2px solid #38a169; 
+  background-color: #121212;
+  color: rgb(255, 255, 255);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  width: auto;
+  height: 2.5rem; 
+  transition: border-color 0.2s ease-in-out;
+  }
+
+  .form-search:focus {
+    border-color: #38a169; 
+    outline: none;
+    box-shadow: 0 0 0 0.1rem #357955;
+  }
+</style>
