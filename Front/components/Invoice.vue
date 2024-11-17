@@ -235,8 +235,8 @@
       <div class="w-1/2"> 
         <UDivider label="Kujunda Arvet" class="h-10 mb-2" />
 
-        <UFormGroup label="Font" name="font" class="h-20 ">
-          <select v-model="state.selectedFont">
+        <UFormGroup label="Font" name="font" class="h-20">
+          <select v-model="state.selectedFont" class="font-selector" :style="{ fontFamily: state.selectedFont }">
             <option v-for="font in fonts" :key="font" :value="font">
               {{ font }}
             </option>
@@ -247,6 +247,7 @@
   </div>
 
   </UForm>
+
 </template>
 
 <script setup lang="ts">
@@ -387,6 +388,11 @@
 </script>
 
 <style scoped>
+
+.font-selector {
+  font-family: "Arial", sans-serif; 
+  font-size: 16px;
+}
   .invoice-preview {
     max-width: 600px;
     background: #f9f9f9;
