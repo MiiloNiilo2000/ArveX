@@ -1,15 +1,16 @@
 <template>
   <div class="container">
-    <h1 class="text-3xl font-bold mb-6">{{ selectedCompanyId !== undefined ? getCompanyNameById(selectedCompanyId) : 'Select a company' }}</h1>
     <h1 class="text-2xl font-bold mb-6">Tooted / teenused</h1>
 
     <div class="mb-6">
       <label for="companySelect" class="block text-sm font-medium">Vali ettevõte:</label>
-      <select v-model="selectedCompanyId" id="companySelect" @change="onCompanyChange" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" style="width: 200px">
-        <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
-          {{ company.name }}
-        </option>
-      </select>
+    <div class="mt-1 w-1/3">
+      <USelect 
+        v-model="selectedCompanyId" 
+        :options="companyOptions" 
+        @change="onCompanyChange"
+      />
+      </div>
     </div>
 
     <div class="flex items-center mb-6">
@@ -20,7 +21,7 @@
         v-model="searchTerm"
         type="text"
         placeholder="Otsi toodet..."
-        class="border border-emerald-500 rounded-md px-3 py-2 shadow-sm ml-4 w-auto"
+        class="form-search ml-6"
       />
     </div>
 
@@ -56,6 +57,13 @@ const selectedCompanyId = ref<number>();
 const { customFetch } = useApi();
 const { navigateToAddProduct, navigateToEditProduct } = useProductStore();
 const searchTerm = ref<string>('');
+
+const companyOptions = computed(() => {
+  return companies.value.map(company => ({
+    label: company.name,
+    value: company.companyId,
+  }));
+});
 
 
 const fetchProducts = async () => {
@@ -110,3 +118,23 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style scoped>
+.form-search {
+  border: 2px solid #38a169; 
+  background-color: #121212;
+  color: rgb(255, 255, 255);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  width: auto;
+  height: 2.5rem; 
+  transition: border-color 0.2s ease-in-out;
+  }
+
+  .form-search:focus {
+    border-color: #38a169; 
+    outline: none;
+    box-shadow: 0 0 0 0.1rem #357955;
+  }
+</style>
