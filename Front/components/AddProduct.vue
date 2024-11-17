@@ -105,37 +105,6 @@ onMounted(fetchCompanies);
   });
 </script>
 
-<style scoped>
-select {
-  border: 1.5px solid #38a169; 
-  background-color:#111827; 
-  color: white; 
-  border-radius: 0.375rem; 
-  padding: 0.2rem 0.75rem; 
-  font-size: 1rem; 
-  transition: border-color 0.2s ease-in-out; 
-  }
-
-  select:focus {
-    border-color: #42ac4e; 
-    outline: none; 
-    box-shadow: 0 0 0 0.1rem rgba(66, 248, 56, 0.413); 
-  }
-  
-  .form-field {
-  border: 1px solid #38a169; 
-  background-color: #121212;
-  color: black;
-  border-radius: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  width: 100%;
-  height: 3rem; 
-  transition: border-color 0.2s ease-in-out;
-  }
-
-  .form-field:focus {
-    border-color: #2f855a; 
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
-  }</style>
+<style>
+  @import '../assetsFront/styles/main.css';
+</style>

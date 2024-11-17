@@ -178,7 +178,7 @@
   <div class="w-1/2 h-auto">
   <UDivider label="Vali Tooted" class="h-10 mb-2" />
   <div class="flex items-center mb-4">
-      <UButton @click="navigateToAddProduct" icon="i-heroicons-plus"  class="add-product-btn mr-4">Lisa uus toode</UButton>
+      <UButton @click="navigateToAddProduct" class="add-btn mr-4" icon="i-heroicons-plus">Lisa uus toode</UButton>
       <input
       v-model="searchTerm"
       type="text"
@@ -242,7 +242,7 @@
             </option>
           </select>
         </UFormGroup>
-        <UButton block type="submit" icon="i-heroicons-arrow-down-tray">Lae Arve Alla</UButton>
+        <UButton block type="submit" class="add-btn" icon="i-heroicons-arrow-down-tray">Lae Arve Alla</UButton>
     </div>
   </div>
 
@@ -387,167 +387,7 @@
   defineExpose({ validate, fetchCompanyNames, submitForm });
 </script>
 
-<style scoped>
 
-.font-selector {
-  font-family: "Arial", sans-serif; 
-  font-size: 16px;
-}
-  .invoice-preview {
-    max-width: 600px;
-    background: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  .invoice-header h1 {
-    font-size: 24px;
-  }
-  .client-details, .invoice-details {
-    margin-bottom: 20px;
-  }
-  .client-details h2, .invoice-details h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  p {
-    margin: 5px 0;
-  }
-  .label {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  .flex {
-    display: flex;
-  }
-  .mb-2 {
-    margin-bottom: 8px;
-  }
-
-  select {
-  border: 1.5px solid #38a169; 
-  background-color: #111827; 
-  color: white; 
-  border-radius: 0.375rem; 
-  padding: 0.2rem 0.75rem; 
-  font-size: 1rem; 
-  transition: border-color 0.2s ease-in-out; 
-  }
-
-  select:focus {
-    border-color: #42ac4e; 
-    outline: none; 
-    box-shadow: 0 0 0 0.1rem rgba(66, 248, 56, 0.413); 
-  }
-  
-  .form-field {
-  border: 1px solid #38a169; 
-  background-color: #121212;
-  color: black;
-  border-radius: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  width: 100%;
-  height: 3rem; 
-  transition: border-color 0.2s ease-in-out;
-  }
-
-  .form-field:focus {
-    border-color: #2f855a; 
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
-  }
-
-  .form-search {
-  border: 2px solid #38a169; 
-  background-color: #121212;
-  color: rgb(255, 255, 255);
-  border-radius: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  width: auto;
-  height: 2.4rem; 
-  transition: border-color 0.2s ease-in-out;
-  }
-
-  .form-search:focus {
-    border-color: #38a169; 
-    outline: none;
-    box-shadow: 0 0 0 0.1rem #357955;
-  }
-  
-
-  .custom-checkbox {
-  width: 16px;
-  height: 16px;
-  appearance: none; 
-  border: 2px solid #2f855a; 
-  border-radius: 4px; 
-  background-color: #121212; 
-  cursor: pointer;
-  position: relative;
-}
-
-.custom-checkbox:checked {
-  background-color: #42ac4e; 
-  border-color: #42ac4e;
-}
-
-.custom-checkbox:checked::before {
-  content: '✓';
-  color: white;
-  font-size: 14px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.add-product-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  background-color: emerald;
-  color: rgb(0, 0, 0);
-  border: none;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 1rem;
-}
-
-.add-product-btn i {
-  margin-right: 0.5rem; 
-  font-size: 1.25rem; 
-}
-
-.add-product-btn:hover {
-  background-color: #44b159; 
-}
-
-.add-product-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 0.1rem #357955; 
-}
-
-::-webkit-scrollbar {
-    width: 12px; 
-    height: 12px; 
-}
-
-::-webkit-scrollbar-track {
-    background: #202121;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #2f855a;
-    border-radius: 10px;
-    border: 3px solid #f1f1f1; 
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #33bd45;
-}
+<style>
+  @import '../assetsFront/styles/main.css';
 </style>

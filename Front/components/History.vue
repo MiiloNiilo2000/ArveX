@@ -190,22 +190,6 @@
   });
   </script>
   
-<style scoped>
-  .form-search {
-  border: 2px solid #38a169; 
-  background-color: #121212;
-  color: rgb(255, 255, 255);
-  border-radius: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  width: auto;
-  height: 2.5rem; 
-  transition: border-color 0.2s ease-in-out;
-  }
-
-  .form-search:focus {
-    border-color: #38a169; 
-    outline: none;
-    box-shadow: 0 0 0 0.1rem #357955;
-  }
+<style>
+  @import '../assetsFront/styles/main.css';
 </style>
