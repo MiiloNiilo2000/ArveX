@@ -1,22 +1,33 @@
 <template>
   <div class="container">
-    <h1 class="text-3xl font-bold mb-6">{{ selectedCompanyId !== undefined ? getCompanyNameById(selectedCompanyId) : 'Select a company' }}</h1>
     <h1 class="text-2xl font-bold mb-6">Tooted / teenused</h1>
 
     <div class="mb-6">
       <label for="companySelect" class="block text-sm font-medium">Vali ettevõte:</label>
-      <select v-model="selectedCompanyId" id="companySelect" @change="onCompanyChange" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" style="width: 200px">
-        <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
-          {{ company.name }}
-        </option>
-      </select>
+    <div class="mt-1 w-1/3">
+      <USelect 
+        v-model="selectedCompanyId" 
+        :options="companyOptions" 
+        @change="onCompanyChange"
+      />
+      </div>
     </div>
 
-    <UButton class="add-product-btn mb-6" @click="navigateToAddProduct">
+    <div class="flex items-center mb-6">
+      <UButton class="add-btn" icon="i-heroicons-plus"  @click="navigateToAddProduct">
       Lisa toode
     </UButton>
+      <input
+        v-model="searchTerm"
+        type="text"
+        placeholder="Otsi toodet..."
+        class="form-search ml-6"
+      />
+    </div>
 
-    <div v-for="(product, index) in products" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-1/3 mb-6">
+    
+
+    <div v-for="(product, index) in filteredProducts" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-1/3 mb-6">
       <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
       <p class="text-gray-600">{{ product.description }}</p>
       <p class="text-gray-600">Hind: {{ product.price }}€</p>
@@ -37,20 +48,23 @@ import { onMounted, ref } from 'vue';
 import { useApi } from '../composables/useApi';
 import type { Product } from "../types/product";
 import type { Company } from "../types/company";
+import { useProductStore } from '../stores/productStores';
 
 const router = useRouter();
 const products = ref<Product[]>([]);
 const companies = ref<Company[]>([]);
 const selectedCompanyId = ref<number>();
 const { customFetch } = useApi();
+const { navigateToAddProduct, navigateToEditProduct } = useProductStore();
+const searchTerm = ref<string>('');
 
-const navigateToAddProduct = () => {
-  router.push('/products/add');
-};
+const companyOptions = computed(() => {
+  return companies.value.map(company => ({
+    label: company.name,
+    value: company.companyId,
+  }));
+});
 
-const navigateToEditProduct = (productId: number) => {
-  router.push(`/products/edit/${productId}`);
-};
 
 const fetchProducts = async () => {
   if (selectedCompanyId.value) {
@@ -89,6 +103,12 @@ const getCompanyNameById = (companyId: number) => {
   const company = companies.value.find(c => c.companyId === companyId);
   return company ? company.name : 'Ettevõte ei leitud';
 };
+const filteredProducts = computed(() => {
+  return products.value.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+    product.description.toLowerCase().includes(searchTerm.value.toLowerCase())
+  );
+});
 
 onMounted(async () => {
   await fetchCompanies();
@@ -98,3 +118,7 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style>
+  @import '../assetsFront/styles/main.css';
+</style>

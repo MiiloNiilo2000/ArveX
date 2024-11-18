@@ -10,33 +10,33 @@
           @error="onError"
         >
           <UFormGroup label="Firma nimi" name="name">
-            <UInput v-model="state.name" />
+            <UInput v-model="state.name" color="emerald" class="bg-gray-900 rounded-md"/>
           </UFormGroup>
           <UFormGroup label="E-post" name="email">
-            <UInput v-model="state.email" type="email" />
+            <UInput v-model="state.email" type="email" color="emerald" class="bg-gray-900 rounded-md"/>
           </UFormGroup>
           <UFormGroup label="Registrikood" name="registerCode">
-            <UTextarea v-model="state.registerCode" />
+            <UInput v-model="state.registerCode" color="emerald" class="bg-gray-900 rounded-md"/>
           </UFormGroup>
           <UFormGroup label="Käibemaksukohuslase number" name="vatNumber">
-            <UInput v-model="state.vatNumber" />
+            <UInput v-model="state.vatNumber" color="emerald" class="bg-gray-900 rounded-md"/>
           </UFormGroup>
           <UFormGroup label="Aadress" name="address">
-            <UInput v-model="state.address" />
+            <UInput v-model="state.address" color="emerald" class="bg-gray-900 rounded-md"/>
           </UFormGroup>
           <UFormGroup label="Postiindex" name="postalCode">
-            <UInput v-model="state.postalCode" />
+            <UInput v-model="state.postalCode" color="emerald" class="bg-gray-900 rounded-md"/>
           </UFormGroup>
           <UFormGroup label="Riik" name="country">
-            <UInput v-model="state.country" />
+            <UInput v-model="state.country" color="emerald" class="bg-gray-900 rounded-md"/>
           </UFormGroup>
           <UFormGroup label="Pildi link">
-            <UInput v-model="state.image" />
+            <UInput v-model="state.image" color="emerald" />
           </UFormGroup>
   
           <div class="col-span-2 flex justify-center">
             <UButton type="submit">Lisa</UButton>
-            </div>
+          </div>
         </UForm>
       </div>
     </div>
@@ -100,3 +100,7 @@
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
   </script>
+
+<style>
+  @import '../assetsFront/styles/main.css';
+</style>

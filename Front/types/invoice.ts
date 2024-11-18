@@ -14,4 +14,5 @@ export type Invoice = {
     delayFine: string
     font: string
     products: Product[]
+    productsAndQuantities: Record<number, number>
 }

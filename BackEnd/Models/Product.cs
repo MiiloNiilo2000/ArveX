@@ -16,4 +16,5 @@ public class Product
     public Company company { get; set; } = null!;
     public Profile profile {get; set;} = null!;
     public double TaxPercent { get; set; }
+
 }

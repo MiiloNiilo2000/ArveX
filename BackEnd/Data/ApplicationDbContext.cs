@@ -62,7 +62,7 @@ namespace BackEnd.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {      
             base.OnModelCreating(modelBuilder); 
-            
+
             List<IdentityRole> roles = new List<IdentityRole>
             {
                 new IdentityRole
@@ -108,6 +108,60 @@ namespace BackEnd.Data
                 Name = "Product2",
                 Description = "Description2",
                 Price = 150,
+                CompanyId = 1,
+                TaxPercent = 22
+            },
+            new Product
+            {
+                ProductId = 3,
+                Name = "Product3",
+                Description = "Description3",
+                Price = 300,
+                CompanyId = 1,
+                TaxPercent = 22
+            },
+            new Product
+            {
+                ProductId = 4,
+                Name = "Product4",
+                Description = "Description4",
+                Price = 400,
+                CompanyId = 1,
+                TaxPercent = 22
+            },
+            new Product
+            {
+                ProductId = 5,
+                Name = "Product5",
+                Description = "Description5",
+                Price = 500,
+                CompanyId = 1,
+                TaxPercent = 22
+            },
+            new Product
+            {
+                ProductId = 6,
+                Name = "Product6",
+                Description = "Description6",
+                Price = 600,
+                CompanyId = 1,
+                TaxPercent = 22
+            },
+            new Product
+            {
+                ProductId = 7,
+                Name = "Product7",
+                Description = "Description7",
+                Price = 700,
+                CompanyId = 1,
+                TaxPercent = 22
+            },
+            new Product
+            {
+                ProductId = 8,
+                Name = "Product8",
+                Description = "Description9",
+                Price = 800,
                 CompanyId = 1,
                 TaxPercent = 22
             }

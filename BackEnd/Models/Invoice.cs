@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace BackEnd.Models
 {
@@ -21,7 +23,23 @@ namespace BackEnd.Models
         public required string ClientRegNr { get; set; }
         public required string ClientKMKR { get; set; }
         public required string Font { get; set; }
-        public required List<int> ProductIds { get; set; }
 
+        public string ProductsAndQuantitiesJson { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        [NotMapped]
+        public Dictionary<int, int> ProductsAndQuantities
+        {
+            get
+            {
+                return string.IsNullOrEmpty(ProductsAndQuantitiesJson)
+                    ? new Dictionary<int, int>()
+                    : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson);
+            }
+            set
+            {
+                ProductsAndQuantitiesJson = JsonConvert.SerializeObject(value);
+            }
+        }
     }
 }

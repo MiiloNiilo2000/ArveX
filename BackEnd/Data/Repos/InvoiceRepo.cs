@@ -4,44 +4,82 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BackEnd.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace BackEnd.Data.Repos
 {
-    public class InvoiceRepo(ApplicationDbContext context)
+    public class InvoiceRepo
     {
-        private readonly ApplicationDbContext context = context;
+        private readonly ApplicationDbContext context;
 
-        public async Task<List<Invoice>> GetAllInvoices(){
-            IQueryable<Invoice> queryable = context.Invoice.AsQueryable();
-
-            return await queryable.ToListAsync();
+        public InvoiceRepo(ApplicationDbContext context)
+        {
+            this.context = context;
         }
 
-        public async Task<Invoice> SaveInvoiceInDb(Invoice invoice){
+        public async Task<List<Invoice>> GetAllInvoices()
+        {
+            IQueryable<Invoice> queryable = context.Invoice.AsQueryable();
+
+            var invoices = await queryable.ToListAsync();
+            foreach (var invoice in invoices)
+            {
+                invoice.ProductsAndQuantities = invoice.ProductsAndQuantities;
+            }
+
+            return invoices;
+        }
+
+        public async Task<Invoice> SaveInvoiceInDb(Invoice invoice)
+        {
+            if (invoice.ProductsAndQuantities != null)
+            {
+                invoice.ProductsAndQuantitiesJson = JsonConvert.SerializeObject(invoice.ProductsAndQuantities);
+            }
+
             context.Add(invoice);
             await context.SaveChangesAsync();
             return invoice;
         }
 
-        public async Task<Invoice?> GetInvoicesById(int id) => await context.Invoice.FindAsync(id);
-        public async Task<bool> InvoiceExistsInDb(int id) => await context.Invoice.AnyAsync(x => x.InvoiceId == id);
-        public async Task<bool> DeleteInvoice(int id){
+        public async Task<Invoice?> GetInvoicesById(int id)
+        {
+            var invoice = await context.Invoice.FindAsync(id);
+
+            if (invoice != null)
+            {
+                invoice.ProductsAndQuantities = invoice.ProductsAndQuantities;
+            }
+
+            return invoice;
+        }
+
+        public async Task<bool> InvoiceExistsInDb(int id)
+        {
+            return await context.Invoice.AnyAsync(x => x.InvoiceId == id);
+        }
+
+        public async Task<bool> DeleteInvoice(int id)
+        {
             Invoice? invoiceInDb = await GetInvoicesById(id);
-            if(invoiceInDb == null){
+            if (invoiceInDb == null)
+            {
                 return false;
             }
-            else{
+            else
+            {
                 context.Remove(invoiceInDb);
                 int changesCount = await context.SaveChangesAsync();
                 return changesCount == 1;
             }
         }
 
-        public async Task<List<Product>> GetProductsById(Invoice invoice){
+        public async Task<List<Product>> GetProductsByIds(List<int> productIds)
+        {
             IQueryable<Product> query = context.Product.AsQueryable();
-            query = query.Where(p => invoice.ProductIds.Contains(p.ProductId));
+            query = query.Where(p => productIds.Contains(p.ProductId));
             return await query.ToListAsync();
         }
-
     }
 }

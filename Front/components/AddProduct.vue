@@ -10,27 +10,28 @@
       @error="onError"
     >
     <UFormGroup label="Toote nimi" name="name">
-        <UInput v-model="state.name" />
+        <UInput v-model="state.name" color="emerald" class="bg-gray-900 rounded-md"/>
       </UFormGroup>
       <UFormGroup label="Kirjeldus" name="description">
-        <UInput v-model="state.description" />
+        <UInput v-model="state.description" color="emerald" class="bg-gray-900 rounded-md"/>
       </UFormGroup>
       <UFormGroup label="Hind" name="price">
-        <UInput v-model="state.price" />
+        <UInput v-model="state.price" color="emerald" class="bg-gray-900 rounded-md"/>
       </UFormGroup>
       <UFormGroup label="Maksuprotsent" name="taxPercent">
-        <UInput v-model="state.taxPercent" />
+        <UInput v-model="state.taxPercent" color="emerald" class="bg-gray-900 rounded-md"/>
       </UFormGroup>
       <UFormGroup label="Firma" name="companyId">
-        <select v-model="state.companyId" class="w-full border p-2 rounded">
-            <option value="" disabled>Select a company</option>
+        <select v-model="state.companyId" class="w-full ">
+            <option value="" disabled>Vali ettevõte:</option>
             <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
               {{ company.name }}
             </option>
           </select>
       </UFormGroup>
-  
+      <div class="col-span-2 flex justify-center">
       <UButton type="submit"> Lisa </UButton>
+      </div>
     </UForm>
     </div>
   </div>
@@ -52,9 +53,9 @@ const state = reactive<Product>({
     productId: 0,
     name: '',
     description: '',
-    price: 0,
+    price: null,
     companyId: 0,
-    taxPercent: 0
+    taxPercent: null
   });
 
 const addProduct = async (product: Product) => {
@@ -89,7 +90,7 @@ const validate = (state: any): FormError[] => {
 
 async function onSubmit(event: FormSubmitEvent<any>) {
   addProduct({ ...state });
-  await router.push("/products");
+  await router.back();
 }
 
 async function onError(event: FormErrorEvent) {
@@ -103,3 +104,7 @@ onMounted(fetchCompanies);
     console.log('Selected companyId:', newVal);
   });
 </script>
+
+<style>
+  @import '../assetsFront/styles/main.css';
+</style>
