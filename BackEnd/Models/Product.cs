@@ -13,8 +13,7 @@ public class Product
     public string? Description { get; set; }
     public int Price { get; set; }
     public int? CompanyId { get; set; }
-    [JsonIgnore]
-    public virtual Company? company { get; set; } = null!;
-
+    public Company company { get; set; } = null!;
+    public Profile profile {get; set;} = null!;
     public double TaxPercent { get; set; }
 }

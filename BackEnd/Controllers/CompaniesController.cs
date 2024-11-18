@@ -1,6 +1,8 @@
 using BackEnd.Data;
+using BackEnd.Extensions;
 using BackEnd.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +13,10 @@ namespace BackEnd.Controllers
     public class CompaniesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public CompaniesController(ApplicationDbContext context){
+        private readonly UserManager<Profile> _userManager;
+        public CompaniesController(ApplicationDbContext context, UserManager<Profile> userManager){
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet("all")]
@@ -33,15 +37,6 @@ namespace BackEnd.Controllers
             return NotFound();
             }
             return Ok(companies);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> PostCompany([FromBody] Company company)
-        {
-            _context.Company.Add(company);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetCompanies), new { id = company.CompanyId }, company);
         }
 
         [HttpDelete]
@@ -76,5 +71,25 @@ namespace BackEnd.Controllers
             bool result = await _context.UpdateCompany(id, company);
             return result ? NoContent() : NotFound();
         }
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddCompanyForUser([FromBody] Company company)
+        {
+            var userId = _userManager.GetUserId(User);
+            
+            if (userId == null)
+            {
+                return Unauthorized("Kasutajat ei leitud");
+            }
+
+            company.ProfileId = userId;
+
+            _context.Company.Add(company);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetCompaniesById), new { id = company.CompanyId }, company);
+        }
+
     }
 }

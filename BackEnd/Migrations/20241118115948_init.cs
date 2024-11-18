@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -223,11 +223,17 @@ namespace backend.Migrations
                     Description = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<int>(type: "integer", nullable: false),
                     CompanyId = table.Column<int>(type: "integer", nullable: true),
+                    profileId = table.Column<string>(type: "text", nullable: true),
                     TaxPercent = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.ProductId);
+                    table.ForeignKey(
+                        name: "FK_Product_AspNetUsers_profileId",
+                        column: x => x.profileId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Product_Company_CompanyId",
                         column: x => x.CompanyId,
@@ -240,37 +246,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "e08b8e90-9ec5-4c32-91bf-1035a5794c7c", null, "Admin", "ADMIN" },
-                    { "ffd955c3-a40b-4879-abad-44aeabcfe104", null, "User", "USER" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "1", 0, "0ce7c772-77f8-4db4-a3f6-14cb7f25be65", "Profiil1@mail.ee", false, null, false, null, null, null, null, null, false, "550ace79-bb97-4c8e-8a03-d4ad21a9dcc6", false, null },
-                    { "2", 0, "12a361f4-1378-4e9d-8327-c5596ab17f27", "Profiil2@mail.ee", false, null, false, null, null, null, null, null, false, "e8e24e4b-e15c-498d-bfda-1e6d79e4397f", false, null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Company",
-                columns: new[] { "CompanyId", "Address", "Country", "Email", "Image", "Name", "PostalCode", "ProfileId", "RegisterCode", "VatNumber" },
-                values: new object[,]
-                {
-                    { 1, "Example Address", "Estonia", "example@company.com", null, "Example Company", 12345, "1", 12345, "EE123456789" },
-                    { 2, "Example Address 2", "Estonia", "example2@company.com", null, "Example Company 2", 12344, "2", 12344, "EE123456788" },
-                    { 3, "Example Address 3", "Estonia", "example3@company.com", null, "Example Company 3", 1234456, "1", 123446, "EE1234567889" },
-                    { 4, "Example Address 4", "Estonia", "example3@company.com", null, "Example Company 4", 556134, "2", 65432, "EE123457678" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Product",
-                columns: new[] { "ProductId", "CompanyId", "Description", "Name", "Price", "TaxPercent" },
-                values: new object[,]
-                {
-                    { 1, 1, "Description1", "Product1", 100, 22.0 },
-                    { 2, 1, "Description2", "Product2", 150, 22.0 }
+                    { "2c5d3af7-64c7-469f-8b28-90c6eb9e5582", null, "User", "USER" },
+                    { "72dba4cf-5a2e-492a-9d9d-a8cc7bca6644", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -319,6 +296,11 @@ namespace backend.Migrations
                 name: "IX_Product_CompanyId",
                 table: "Product",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_profileId",
+                table: "Product",
+                column: "profileId");
         }
 
         /// <inheritdoc />

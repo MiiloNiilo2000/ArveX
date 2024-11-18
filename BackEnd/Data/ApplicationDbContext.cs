@@ -78,62 +78,21 @@ namespace BackEnd.Data
             };
             modelBuilder.Entity<IdentityRole>().HasData(roles);
 
+            modelBuilder.Entity<Company>()
+                .HasKey(c => c.CompanyId);
+
+            modelBuilder.Entity<Company>()
+                .HasOne(c => c.profile)
+                .WithMany(p => p.Companies)
+                .HasForeignKey(c => c.ProfileId);
+
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.company)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CompanyId);
         
-            modelBuilder.Entity<Company>().HasData(
-            new Company
-            {
-                CompanyId = 1,
-                Name = "Example Company",
-                RegisterCode = 12345,
-                VatNumber = "EE123456789",
-                Address = "Example Address",
-                PostalCode = 12345,
-                Country = "Estonia",
-                Email = "example@company.com",
-                ProfileId = "1"
-            },
-            new Company
-            {
-                CompanyId = 2,
-                Name = "Example Company 2",
-                RegisterCode = 12344,
-                VatNumber = "EE123456788",
-                Address = "Example Address 2",
-                PostalCode = 12344,
-                Country = "Estonia",
-                Email = "example2@company.com",
-                ProfileId = "2",
-            },
-            new Company
-            {
-                CompanyId = 3,
-                Name = "Example Company 3",
-                RegisterCode = 123446,
-                VatNumber = "EE1234567889",
-                Address = "Example Address 3",
-                PostalCode = 1234456,
-                Country = "Estonia",
-                Email = "example3@company.com",
-                ProfileId = "1",
-            },
-            new Company
-            {
-                CompanyId = 4,
-                Name = "Example Company 4",
-                RegisterCode = 65432,
-                VatNumber = "EE123457678",
-                Address = "Example Address 4",
-                PostalCode = 556134,
-                Country = "Estonia",
-                Email = "example3@company.com",
-                ProfileId = "2",
-            }
-        );
-            modelBuilder.Entity<Product>().HasData(
+
+           modelBuilder.Entity<Product>().HasData(
             new Product
             {
                 ProductId = 1,
@@ -153,32 +112,20 @@ namespace BackEnd.Data
                 TaxPercent = 22
             }
         );
-        modelBuilder.Entity<Company>()
-            .HasOne(p => p.profile)
-            .WithMany(c => c.Companies)
-            .HasForeignKey(p => p.ProfileId);
-
-        modelBuilder.Entity<Profile>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-        });
-        
-        modelBuilder.Entity<Profile>().HasData(
-            new Profile
+            modelBuilder.Entity<Company>().HasData(
+            new Company
             {
-                Id = "1",
-                //Username = "Profiil1",
-               // Password = "9m3hoCPjb1UPf9Rtjv5k9Rd/Qe3eV03FWdj8gZ+CY8I=", //Password1
-                Email = "Profiil1@mail.ee",
-            },
-            new Profile
-            {
-                Id = "2",
-                //Username = "Profiil2",
-                //Password = "Nap22SGtaVHh4mEwqD9K/Ew/g7YFYYv8VxHOL5D3nO4=", //Password2
-                Email = "Profiil2@mail.ee",
+                CompanyId = 1,
+                Name = "Firma1",
+                RegisterCode = 12345,
+                VatNumber = "EE112",
+                Address = "Tänav1",
+                PostalCode = 5432,
+                Country = "Estonia",
+                Email = "email@email.com",
+                ProfileId = "9429539e-5abe-4acf-a932-e747be17b876",
             }
-        );
+         );     
         }
 
     }
