@@ -19,8 +19,8 @@ namespace BackEnd.Models
     public string? Image { get; set; }
     public string ProfileId { get; set; } = null!;
     [JsonIgnore]
-    public virtual Profile? profile { get; set; } = null!;
+    public Profile profile { get; set; } = null!;
     [JsonIgnore]
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public ICollection<Product> Products { get; set; } = null!;
     }
 }

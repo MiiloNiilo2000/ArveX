@@ -6,7 +6,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BackEnd.Data;
 using BackEnd.Data.Repos;
+using BackEnd.Extensions;
+using BackEnd.Interfaces;
 using BackEnd.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +19,11 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProfileController(ApplicationDbContext context) : ControllerBase()
+    public class ProfileController(ApplicationDbContext context, UserManager<Profile> userManager, ICompanyRepo companyRepo) : ControllerBase()
     {
         private readonly ApplicationDbContext _context = context;
+        private readonly UserManager<Profile> _userManager = userManager;
+        private readonly ICompanyRepo _companyRepo = companyRepo;
 
         [HttpGet("all")]
         public async Task<IActionResult> GetProfiles(){
@@ -63,17 +69,15 @@ namespace BackEnd.Controllers
 
             return NoContent();
         }
-        [HttpGet("{id}/companies")]
-        public ActionResult<IEnumerable<Profile>> GetProfileCompanies(int id)
+
+        [Authorize]
+        [HttpGet("Companies")]
+        public async Task<IActionResult> GetUserCompanies()
         {
-            var profile = _context.Profile!
-                .Include(x => x.Companies)
-                .FirstOrDefault(x => x.Id == id.ToString());
-
-            if (profile == null)
-                return NotFound();
-
-            return Ok(profile.Companies);
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+            var userCompanies= await _companyRepo.GetUserCompanies(appUser);
+            return Ok(userCompanies);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] Profile profile){

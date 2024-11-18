@@ -3,17 +3,25 @@ build_property.TargetFramework = net8.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
-build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = false
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = backend
 build_property.RootNamespace = backend
+<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\2004s\OneDrive\Töölaud\ISA3\itb2203_2024_arvex\backend\
+=======
+build_property.ProjectDir = C:\Users\37253\.vscode\itb2203_2024_arvex\BackEnd\
+>>>>>>> 383098fe6bb7f06dc5a7397401a90a0ca23d85b7
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+<<<<<<< HEAD
 build_property.MSBuildProjectDirectory = C:\Users\2004s\OneDrive\Töölaud\ISA3\itb2203_2024_arvex\backend
+=======
+build_property.MSBuildProjectDirectory = C:\Users\37253\.vscode\itb2203_2024_arvex\BackEnd
+>>>>>>> 383098fe6bb7f06dc5a7397401a90a0ca23d85b7
 build_property._RazorSourceGeneratorDebug = 
