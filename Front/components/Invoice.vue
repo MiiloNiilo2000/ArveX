@@ -32,7 +32,12 @@
               <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
             </div>
 
-            
+            <div class="flex justify-between">
+              <div class="client-details w-6/12">
+                <h2 class="text-lg font-semibold text-black">Klient:</h2>
+                <h2 class="text-lg font-semibold text-black">{{ state.title || 'Tallinn University of Technology' }}</h2>
+                
+              </div>
 
             <div class="invoice-details w-6/12 text-right">
               
