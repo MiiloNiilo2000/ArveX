@@ -26,6 +26,7 @@ namespace BackEnd.Models
 
         public string ProductsAndQuantitiesJson { get; set; }
 
+        [Newtonsoft.Json.JsonIgnore]
         [NotMapped]
         public Dictionary<int, int> ProductsAndQuantities
         {

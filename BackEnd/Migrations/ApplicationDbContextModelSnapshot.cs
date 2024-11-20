@@ -73,50 +73,14 @@ namespace backend.Migrations
                         new
                         {
                             CompanyId = 1,
-                            Address = "Example Address",
+                            Address = "Tänav1",
                             Country = "Estonia",
-                            Email = "example@company.com",
-                            Name = "Example Company",
-                            PostalCode = 12345,
-                            ProfileId = "1",
+                            Email = "email@email.com",
+                            Name = "Firma1",
+                            PostalCode = 5432,
+                            ProfileId = "9429539e-5abe-4acf-a932-e747be17b876",
                             RegisterCode = 12345,
-                            VatNumber = "EE123456789"
-                        },
-                        new
-                        {
-                            CompanyId = 2,
-                            Address = "Example Address 2",
-                            Country = "Estonia",
-                            Email = "example2@company.com",
-                            Name = "Example Company 2",
-                            PostalCode = 12344,
-                            ProfileId = "2",
-                            RegisterCode = 12344,
-                            VatNumber = "EE123456788"
-                        },
-                        new
-                        {
-                            CompanyId = 3,
-                            Address = "Example Address 3",
-                            Country = "Estonia",
-                            Email = "example3@company.com",
-                            Name = "Example Company 3",
-                            PostalCode = 1234456,
-                            ProfileId = "1",
-                            RegisterCode = 123446,
-                            VatNumber = "EE1234567889"
-                        },
-                        new
-                        {
-                            CompanyId = 4,
-                            Address = "Example Address 4",
-                            Country = "Estonia",
-                            Email = "example3@company.com",
-                            Name = "Example Company 4",
-                            PostalCode = 556134,
-                            ProfileId = "2",
-                            RegisterCode = 65432,
-                            VatNumber = "EE123457678"
+                            VatNumber = "EE112"
                         });
                 });
 
@@ -205,85 +169,16 @@ namespace backend.Migrations
                     b.Property<double>("TaxPercent")
                         .HasColumnType("double precision");
 
+                    b.Property<string>("profileId")
+                        .HasColumnType("text");
+
                     b.HasKey("ProductId");
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Product");
+                    b.HasIndex("profileId");
 
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            CompanyId = 1,
-                            Description = "Description1",
-                            Name = "Product1",
-                            Price = 100,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            CompanyId = 1,
-                            Description = "Description2",
-                            Name = "Product2",
-                            Price = 150,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 3,
-                            CompanyId = 1,
-                            Description = "Description3",
-                            Name = "Product3",
-                            Price = 300,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 4,
-                            CompanyId = 1,
-                            Description = "Description4",
-                            Name = "Product4",
-                            Price = 400,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 5,
-                            CompanyId = 1,
-                            Description = "Description5",
-                            Name = "Product5",
-                            Price = 500,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 6,
-                            CompanyId = 1,
-                            Description = "Description6",
-                            Name = "Product6",
-                            Price = 600,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 7,
-                            CompanyId = 1,
-                            Description = "Description7",
-                            Name = "Product7",
-                            Price = 700,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 8,
-                            CompanyId = 1,
-                            Description = "Description9",
-                            Name = "Product8",
-                            Price = 800,
-                            TaxPercent = 22.0
-                        });
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("BackEnd.Models.Profile", b =>
@@ -351,32 +246,6 @@ namespace backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "321946a0-3050-415a-bc2c-40e783474778",
-                            Email = "Profiil1@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "e03cea08-e73d-47ef-b312-46f432c7592c",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c814a15-8b53-4f49-bf30-d03a7083bbd1",
-                            Email = "Profiil2@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "00a3f6f8-49d2-46b7-96e6-2ef98e957284",
-                            TwoFactorEnabled = false
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -407,13 +276,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a7a0c021-853d-4516-9d0a-da930479b0f8",
+                            Id = "cb64f06c-8473-40ff-9d86-eeb20b9faf3d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9d608f48-1aeb-43c3-afd4-bc0921df7c7f",
+                            Id = "60d84b00-cee8-4606-81b7-7bf0c9d1ef54",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -542,7 +411,13 @@ namespace backend.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CompanyId");
 
+                    b.HasOne("BackEnd.Models.Profile", "profile")
+                        .WithMany()
+                        .HasForeignKey("profileId");
+
                     b.Navigation("company");
+
+                    b.Navigation("profile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

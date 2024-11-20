@@ -2,6 +2,7 @@
   <div class="flex justify-center items-center pt-9">
       <div class="w-96 p-6 flex flex-col h-99">
           <h2 class="text-2xl font-bold mb-4 text-center">Lisa toode</h2>
+          
     <UForm
       :validate="validate"
       :state="state"
@@ -10,27 +11,33 @@
       @error="onError"
     >
     <UFormGroup label="Toote nimi" name="name">
-        <UInput v-model="state.name" color="emerald" class="bg-gray-900 rounded-md"/>
+      <UInput v-model="state.name" color="emerald" class="bg-gray-900 rounded-md"/>
+    </UFormGroup>
+
+    <UFormGroup label="Kirjeldus" name="description">
+      <UInput v-model="state.description" color="emerald" class="bg-gray-900 rounded-md"/>
+    </UFormGroup>
+    
+    <UFormGroup label="Hind" name="price">
+      <UInput v-model="state.price" color="emerald" class="bg-gray-900 rounded-md"/>
+    </UFormGroup>
+
+    <UFormGroup label="Maksuprotsent" name="taxPercent">
+      <UInput v-model="state.taxPercent" color="emerald" class="bg-gray-900 rounded-md"/>
+    </UFormGroup>
+
+    <UFormGroup label="Firma" name="companyId">
+      <select v-model="state.companyId" class="w-full ">
+          <option value="" disabled>Vali ettevõte:</option>
+          <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
+            {{ company.name }}
+          </option>
+        </select>
       </UFormGroup>
-      <UFormGroup label="Kirjeldus" name="description">
-        <UInput v-model="state.description" color="emerald" class="bg-gray-900 rounded-md"/>
-      </UFormGroup>
-      <UFormGroup label="Hind" name="price">
-        <UInput v-model="state.price" color="emerald" class="bg-gray-900 rounded-md"/>
-      </UFormGroup>
-      <UFormGroup label="Maksuprotsent" name="taxPercent">
-        <UInput v-model="state.taxPercent" color="emerald" class="bg-gray-900 rounded-md"/>
-      </UFormGroup>
-      <UFormGroup label="Firma" name="companyId">
-        <select v-model="state.companyId" class="w-full ">
-            <option value="" disabled>Vali ettevõte:</option>
-            <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
-              {{ company.name }}
-            </option>
-          </select>
-      </UFormGroup>
+
       <div class="col-span-2 flex justify-center">
       <UButton type="submit"> Lisa </UButton>
+
       </div>
     </UForm>
     </div>
@@ -105,37 +112,6 @@ onMounted(fetchCompanies);
   });
 </script>
 
-<style scoped>
-select {
-  border: 1.5px solid #38a169; 
-  background-color:#111827; 
-  color: white; 
-  border-radius: 0.375rem; 
-  padding: 0.2rem 0.75rem; 
-  font-size: 1rem; 
-  transition: border-color 0.2s ease-in-out; 
-  }
-
-  select:focus {
-    border-color: #42ac4e; 
-    outline: none; 
-    box-shadow: 0 0 0 0.1rem rgba(66, 248, 56, 0.413); 
-  }
-  
-  .form-field {
-  border: 1px solid #38a169; 
-  background-color: #121212;
-  color: black;
-  border-radius: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  width: 100%;
-  height: 3rem; 
-  transition: border-color 0.2s ease-in-out;
-  }
-
-  .form-field:focus {
-    border-color: #2f855a; 
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
-  }</style>
+<style>
+  @import '../assetsFront/styles/main.css';
+</style>

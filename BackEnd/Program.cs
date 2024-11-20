@@ -24,17 +24,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 QuestPDF.Settings.License = LicenseType.Community;
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("MyPolicy", builder =>
-    {
-        builder.SetIsOriginAllowed(_ => true)
-            .AllowCredentials()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
@@ -42,7 +31,7 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "ArveX API", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -68,10 +57,21 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("http://localhost:5167","http://localhost:3000" )  // Allow only your frontend URL
+            .AllowCredentials()  // Allow credentials (cookies, headers)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+         });
+});
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")))
     .AddScoped<InvoiceRepo>()
-    .AddScoped<ITokenService, TokenService>();
+    .AddScoped<ITokenService, TokenService>()
+    .AddScoped<ICompanyRepo, CompanyRepo>();
 
 builder.Services.AddIdentity<Profile, IdentityRole>(options =>{
     options.Password.RequireDigit = true;
@@ -82,25 +82,35 @@ builder.Services.AddIdentity<Profile, IdentityRole>(options =>{
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(x =>
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme =
+    options.DefaultChallengeScheme =
+    options.DefaultForbidScheme =
+    options.DefaultScheme =
+    options.DefaultSignInScheme =
+    options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        x.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            ValidateLifetime = true,
             ValidateIssuer = true,
             ValidateAudience = true,
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-        };
-    });
+            ValidIssuer = "JwtIssuer",
+            ValidAudience = "JwtAudience",
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
+        )
+    };
+});
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
+
 
 
 var app = builder.Build();
@@ -120,11 +130,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowSpecificOrigin");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseCors("MyPolicy");
 
 app.Run();

@@ -1,13 +1,14 @@
 <template>
   <div class="relative max-w-screen-xl p-8">
     <div class="flex space-x-4 mb-6">
-      <button @click="addUser" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-        Lisa kasutaja
-      </button>
 
-      <button @click="addCompany" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-        Lisa ettevõte
-      </button>
+      <UButton class="add-btn" icon="i-heroicons-plus"  @click="addUser">
+      Lisa kasutaja
+    </UButton>
+      <UButton class="add-btn" icon="i-heroicons-plus"  @click="addCompany">
+      Lisa ettevõte
+    </UButton>
+
     </div>
 
     <div class="flex space-x-6 mt-6">
@@ -127,8 +128,6 @@ const addCompany = () => {
 };
 </script>
 
-<style scoped>
-body {
-  background-color: #f3f4f6;
-}
+<style>
+  @import '../assetsFront/styles/main.css';
 </style>

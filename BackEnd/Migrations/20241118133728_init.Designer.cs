@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241116130158_Init")]
-    partial class Init
+    [Migration("20241118133728_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,50 +76,14 @@ namespace backend.Migrations
                         new
                         {
                             CompanyId = 1,
-                            Address = "Example Address",
+                            Address = "Tänav1",
                             Country = "Estonia",
-                            Email = "example@company.com",
-                            Name = "Example Company",
-                            PostalCode = 12345,
-                            ProfileId = "1",
+                            Email = "email@email.com",
+                            Name = "Firma1",
+                            PostalCode = 5432,
+                            ProfileId = "9429539e-5abe-4acf-a932-e747be17b876",
                             RegisterCode = 12345,
-                            VatNumber = "EE123456789"
-                        },
-                        new
-                        {
-                            CompanyId = 2,
-                            Address = "Example Address 2",
-                            Country = "Estonia",
-                            Email = "example2@company.com",
-                            Name = "Example Company 2",
-                            PostalCode = 12344,
-                            ProfileId = "2",
-                            RegisterCode = 12344,
-                            VatNumber = "EE123456788"
-                        },
-                        new
-                        {
-                            CompanyId = 3,
-                            Address = "Example Address 3",
-                            Country = "Estonia",
-                            Email = "example3@company.com",
-                            Name = "Example Company 3",
-                            PostalCode = 1234456,
-                            ProfileId = "1",
-                            RegisterCode = 123446,
-                            VatNumber = "EE1234567889"
-                        },
-                        new
-                        {
-                            CompanyId = 4,
-                            Address = "Example Address 4",
-                            Country = "Estonia",
-                            Email = "example3@company.com",
-                            Name = "Example Company 4",
-                            PostalCode = 556134,
-                            ProfileId = "2",
-                            RegisterCode = 65432,
-                            VatNumber = "EE123457678"
+                            VatNumber = "EE112"
                         });
                 });
 
@@ -208,31 +172,16 @@ namespace backend.Migrations
                     b.Property<double>("TaxPercent")
                         .HasColumnType("double precision");
 
+                    b.Property<string>("profileId")
+                        .HasColumnType("text");
+
                     b.HasKey("ProductId");
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Product");
+                    b.HasIndex("profileId");
 
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            CompanyId = 1,
-                            Description = "Description1",
-                            Name = "Product1",
-                            Price = 100,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            CompanyId = 1,
-                            Description = "Description2",
-                            Name = "Product2",
-                            Price = 150,
-                            TaxPercent = 22.0
-                        });
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("BackEnd.Models.Profile", b =>
@@ -300,32 +249,6 @@ namespace backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "f5d8595c-559f-4310-8899-1a9873790967",
-                            Email = "Profiil1@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "0f9b1927-a704-444e-920b-de25f1e0998a",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb43543d-bcb9-4a2e-af7f-6f459de5c477",
-                            Email = "Profiil2@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "fb588fb2-c899-466b-a070-5e774cfeb524",
-                            TwoFactorEnabled = false
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -356,13 +279,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "287e0719-c4b9-4a16-8fac-c2dfb6e99474",
+                            Id = "cb64f06c-8473-40ff-9d86-eeb20b9faf3d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3774a0d6-4b87-4795-9cd1-9f51ec29eaff",
+                            Id = "60d84b00-cee8-4606-81b7-7bf0c9d1ef54",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -491,7 +414,13 @@ namespace backend.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CompanyId");
 
+                    b.HasOne("BackEnd.Models.Profile", "profile")
+                        .WithMany()
+                        .HasForeignKey("profileId");
+
                     b.Navigation("company");
+
+                    b.Navigation("profile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

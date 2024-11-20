@@ -100,3 +100,7 @@
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
   </script>
+
+<style>
+  @import '../assetsFront/styles/main.css';
+</style>
