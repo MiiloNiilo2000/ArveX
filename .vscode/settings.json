@@ -1,5 +1,25 @@
 {
     "dotnetAcquisitionExtension.existingDotnetPath": [
         
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#032f50",
+        "activityBar.background": "#032f50",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#b8076c",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#032f50",
+        "statusBar.background": "#01121f",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#032f50",
+        "statusBarItem.remoteBackground": "#01121f",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#01121f",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#01121f99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#01121f"
 }

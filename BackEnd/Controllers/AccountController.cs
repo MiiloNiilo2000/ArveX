@@ -66,6 +66,7 @@ namespace BackEnd.Controllers
                 return StatusCode(500, e);
             }
         }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {

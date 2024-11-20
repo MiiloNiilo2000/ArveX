@@ -27,21 +27,21 @@
 
       <UFormGroup label="Firma nimi" name="title">
         <UInput
-        v-model="state.title"
-        @input="fetchCompanyNames"
-        class="w-full bg-gray-900 rounded-md mb-4"
-        color="emerald"
-        placeholder="Sisesta firma nimi"
-        list="company-suggestions"
-      />
-      <datalist id="company-suggestions">
-        <option 
-          v-for="company in companySuggestions" 
-          :key="company.company_id" 
-          :value="company.name">
-          {{ company.name }}
-        </option>
-      </datalist>
+          v-model="state.title"
+          @input="fetchCompanyNames"
+          class="w-full bg-gray-900 rounded-md mb-4"
+          color="emerald"
+          placeholder="Sisesta firma nimi"
+          list="company-suggestions"
+        />
+        <datalist id="company-suggestions">
+          <option 
+            v-for="company in companySuggestions" 
+            :key="company.company_id" 
+            :value="company.name">
+            {{ company.name }}
+          </option>
+        </datalist>
       </UFormGroup>
 
       <UFormGroup label="Registrikood" name="clientRegNr">
@@ -286,7 +286,7 @@
     legal_address: string;
     zip_code: string;    
   }
-
+  
   interface Product {
     productId: number;
     name: string;

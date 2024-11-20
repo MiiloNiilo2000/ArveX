@@ -19,6 +19,7 @@ namespace BackEnd.Controllers
             _userManager = userManager;
         }
 
+        [Authorize]
         [HttpGet("all")]
         public async Task<IActionResult> GetCompanies(){
             var companies = await _context.Company.ToListAsync();
@@ -54,6 +55,7 @@ namespace BackEnd.Controllers
 
             return NoContent();
         }
+
         [HttpGet("{id}/products")]
         public ActionResult<IEnumerable<Product>> GetCompanyProducts(int id)
         {
@@ -66,6 +68,7 @@ namespace BackEnd.Controllers
 
             return Ok(company.Products);
         }
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] Company company){
             bool result = await _context.UpdateCompany(id, company);

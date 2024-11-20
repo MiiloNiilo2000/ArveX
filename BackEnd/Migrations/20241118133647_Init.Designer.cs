@@ -12,13 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:BackEnd/Migrations/20241118115948_init.Designer.cs
-    [Migration("20241118115948_init")]
-    partial class init
-========
-    [Migration("20241116130158_Init")]
+    [Migration("20241118133647_Init")]
     partial class Init
->>>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6:BackEnd/Migrations/20241116130158_Init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -240,35 +235,6 @@ namespace backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-<<<<<<<< HEAD:BackEnd/Migrations/20241118115948_init.Designer.cs
-========
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "f5d8595c-559f-4310-8899-1a9873790967",
-                            Email = "Profiil1@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "0f9b1927-a704-444e-920b-de25f1e0998a",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb43543d-bcb9-4a2e-af7f-6f459de5c477",
-                            Email = "Profiil2@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "fb588fb2-c899-466b-a070-5e774cfeb524",
-                            TwoFactorEnabled = false
-                        });
->>>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6:BackEnd/Migrations/20241116130158_Init.Designer.cs
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -299,21 +265,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241118115948_init.Designer.cs
-                            Id = "72dba4cf-5a2e-492a-9d9d-a8cc7bca6644",
-========
-                            Id = "287e0719-c4b9-4a16-8fac-c2dfb6e99474",
->>>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6:BackEnd/Migrations/20241116130158_Init.Designer.cs
+                            Id = "579d8b81-acb4-48a3-a9cb-0d430e30773c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241118115948_init.Designer.cs
-                            Id = "2c5d3af7-64c7-469f-8b28-90c6eb9e5582",
-========
-                            Id = "3774a0d6-4b87-4795-9cd1-9f51ec29eaff",
->>>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6:BackEnd/Migrations/20241116130158_Init.Designer.cs
+                            Id = "5fe3c1d3-aa66-440f-9d4e-c157991ff11e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
