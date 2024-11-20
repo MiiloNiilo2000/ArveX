@@ -21,7 +21,7 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CreateInvoiceController(InvoiceRepo repo) : ControllerBase
+    public class CreateInvoiceController(CompanyInvoicesRepo repo) : ControllerBase
     {
         protected double _totalPrice;
         protected double _taxPercent;

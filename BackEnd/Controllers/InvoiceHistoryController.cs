@@ -13,9 +13,9 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class InvoiceHistoryController(InvoiceRepo repo) : ControllerBase
+    public class InvoiceHistoryController(CompanyInvoicesRepo repo) : ControllerBase
     {
-        private readonly InvoiceRepo repo = repo;
+        private readonly CompanyInvoicesRepo repo = repo;
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAllInvoices(){

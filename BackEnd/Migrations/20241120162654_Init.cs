@@ -55,30 +55,6 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CompanyInvoice",
-                columns: table => new
-                {
-                    CompanyInvoiceId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    ZipCode = table.Column<string>(type: "text", nullable: false),
-                    Country = table.Column<string>(type: "text", nullable: false),
-                    InvoiceNumber = table.Column<int>(type: "integer", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateDue = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Condition = table.Column<string>(type: "text", nullable: false),
-                    DelayFine = table.Column<string>(type: "text", nullable: false),
-                    ClientRegNr = table.Column<string>(type: "text", nullable: false),
-                    ClientKMKR = table.Column<string>(type: "text", nullable: false),
-                    Font = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompanyInvoice", x => x.CompanyInvoiceId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PrivatePersonInvoice",
                 columns: table => new
                 {
@@ -90,7 +66,14 @@ namespace backend.Migrations
                     DateDue = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Condition = table.Column<string>(type: "text", nullable: false),
                     DelayFine = table.Column<string>(type: "text", nullable: false),
-                    Font = table.Column<string>(type: "text", nullable: false)
+                    Font = table.Column<string>(type: "text", nullable: false),
+                    Discriminator = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
+                    CompanyInvoiceId = table.Column<int>(type: "integer", nullable: true),
+                    Address = table.Column<string>(type: "text", nullable: true),
+                    ZipCode = table.Column<string>(type: "text", nullable: true),
+                    Country = table.Column<string>(type: "text", nullable: true),
+                    ClientRegNr = table.Column<string>(type: "text", nullable: true),
+                    ClientKMKR = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -263,8 +246,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "392f63fc-ea87-4cfa-a9a1-97770c1bdc8e", null, "Admin", "ADMIN" },
-                    { "b70e301f-d6b4-4d09-b8cc-f05d3128f1ab", null, "User", "USER" }
+                    { "00ee2af7-884e-4b6f-b9a6-9e3f34406648", null, "User", "USER" },
+                    { "d4f4cfb7-2af7-4c14-8b02-2a7427b8abbc", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -337,9 +320,6 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "CompanyInvoice");
 
             migrationBuilder.DropTable(
                 name: "PrivatePersonInvoice");

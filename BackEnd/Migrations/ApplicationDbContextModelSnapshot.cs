@@ -70,64 +70,6 @@ namespace backend.Migrations
                     b.ToTable("Company");
                 });
 
-            modelBuilder.Entity("BackEnd.Models.CompanyInvoice", b =>
-                {
-                    b.Property<int>("CompanyInvoiceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CompanyInvoiceId"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClientKMKR")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClientRegNr")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Condition")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DateDue")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DelayFine")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Font")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("InvoiceNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("CompanyInvoiceId");
-
-                    b.ToTable("CompanyInvoice");
-                });
-
             modelBuilder.Entity("BackEnd.Models.PrivatePersonInvoice", b =>
                 {
                     b.Property<int>("PrivatePersonInvoiceId")
@@ -150,6 +92,11 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("character varying(21)");
+
                     b.Property<string>("Font")
                         .IsRequired()
                         .HasColumnType("text");
@@ -164,6 +111,10 @@ namespace backend.Migrations
                     b.HasKey("PrivatePersonInvoiceId");
 
                     b.ToTable("PrivatePersonInvoice");
+
+                    b.HasDiscriminator().HasValue("PrivatePersonInvoice");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("BackEnd.Models.Product", b =>
@@ -296,13 +247,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "392f63fc-ea87-4cfa-a9a1-97770c1bdc8e",
+                            Id = "d4f4cfb7-2af7-4c14-8b02-2a7427b8abbc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b70e301f-d6b4-4d09-b8cc-f05d3128f1ab",
+                            Id = "00ee2af7-884e-4b6f-b9a6-9e3f34406648",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -412,6 +363,36 @@ namespace backend.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BackEnd.Models.CompanyInvoice", b =>
+                {
+                    b.HasBaseType("BackEnd.Models.PrivatePersonInvoice");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClientKMKR")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClientRegNr")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("CompanyInvoiceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("CompanyInvoice");
                 });
 
             modelBuilder.Entity("BackEnd.Models.Company", b =>

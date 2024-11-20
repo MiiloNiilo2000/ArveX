@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 
 namespace BackEnd.Data.Repos
 {
-    public class PrivatePersonInvoicesRepo : InvoicesRepoBase<PrivatePersonInvoice>
+    public class CompanyInvoicesRepo : InvoicesRepoBase<CompanyInvoice>
     {
-        public PrivatePersonInvoicesRepo(ApplicationDbContext context) : base(context) { }
+        public CompanyInvoicesRepo(ApplicationDbContext context) : base(context) { }
 
         // public async Task<List<Product>> GetProductsByIds(List<int> productIds)
         // {
