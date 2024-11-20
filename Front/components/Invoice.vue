@@ -11,7 +11,7 @@
     <div class="w-1/2">
       <UDivider label="Vali arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
-        <select v-model="state.invoiceType">
+        <select v-model="state.invoiceType" @change="onInvoiceTypeChange">
           <option value="company">Ettevõte</option>
           <option value="privatePerson">Eraisik</option>
         </select>
@@ -302,7 +302,8 @@
           formatInvoiceOption,
           onError, 
           state, 
-          fonts,} 
+          fonts,
+        } 
         = useInvoiceStore();
 
   interface Company {
@@ -318,6 +319,10 @@
     name: string;
     price: number;
   }  
+
+  function onInvoiceTypeChange(){
+    state.title = '';
+  }
 
   const fetchCompanyNames = async () => {
     if (state.title.length < 3) return; 
@@ -394,8 +399,12 @@
         console.warn('Invalid product detected:', product);
       }
     });
-
-    generateCompanyInvoicePDF(state, "GeneratePdf");
+    if (state.invoiceType == 'company'){
+      generateCompanyInvoicePDF(state, "GeneratePdf");
+    }
+    else if (state.invoiceType == 'privatePerson'){
+      generatePrivatePersonInvoicePDF(state, "GeneratePdf");
+    }
   };
 
 

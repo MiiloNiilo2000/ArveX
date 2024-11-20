@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241120151735_Init")]
+    [Migration("20241120155720_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -160,7 +160,7 @@ namespace backend.Migrations
                     b.Property<int>("InvoiceNumber")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -299,13 +299,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e747e6e8-8ddb-449b-8ba0-59d2ac0bed26",
+                            Id = "392f63fc-ea87-4cfa-a9a1-97770c1bdc8e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "db782746-6c2b-4176-a592-6f30ce31f743",
+                            Id = "b70e301f-d6b4-4d09-b8cc-f05d3128f1ab",
                             Name = "User",
                             NormalizedName = "USER"
                         });

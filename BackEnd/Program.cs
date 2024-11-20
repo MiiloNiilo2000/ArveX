@@ -70,6 +70,7 @@ builder.Services.AddCors(options =>
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")))
     .AddScoped<InvoiceRepo>()
+    .AddScoped<PrivatePersonInvoicesRepo>()
     .AddScoped<ITokenService, TokenService>()
     .AddScoped<ICompanyRepo, CompanyRepo>();
 

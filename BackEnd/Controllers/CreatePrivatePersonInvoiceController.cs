@@ -56,7 +56,7 @@ namespace BackEnd.Controllers
             Console.WriteLine("Received Invoice Data: " + data);
 
             var document = CreateDocument(
-                data.Name,
+                data.Title,
                 data.InvoiceNumber,
                 data.DateCreated,
                 data.DateDue,
@@ -68,14 +68,14 @@ namespace BackEnd.Controllers
             );
 
             var pdf = document.GeneratePdf();
-            var sanitizedTitle = string.Join("_", data.Name.Split(Path.GetInvalidFileNameChars()));
+            var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
             string fileName = $"{data.InvoiceNumber}";
 
             return Results.File(pdf, "application/pdf", fileName);
         }
         
         QuestPDF.Infrastructure.IDocument CreateDocument(
-            string name,
+            string title,
             int invoiceNumber,
             DateTime dateCreated,
             DateTime dateDue,
@@ -165,7 +165,7 @@ namespace BackEnd.Controllers
 
                                     innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Klient").FontSize(14);
                                     innerTable.Cell().Row(2).Column(1).Padding(2);
-                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(name).FontSize(16).Bold();
+                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(title).FontSize(16).Bold();
                                 });
                                     
 

@@ -46,7 +46,7 @@ export async function generatePrivatePersonInvoicePDF(state: any, routeName: str
   try {
     console.log("Products and Quantities in util", state.productsAndQuantities);
     const payload = {
-      name: state.title,
+      title: state.title,
       invoiceNumber: parseInt(state.invoiceNumber),
       dateCreated: new Date(state.dateCreated).toISOString(),
       dateDue: new Date(state.dateDue).toISOString(),

@@ -12,7 +12,7 @@ namespace BackEnd.Models
     public class PrivatePersonInvoice
     {
         public int PrivatePersonInvoiceId { get; set; }
-        public required string Name { get; set; }
+        public required string Title { get; set; }
         public required int InvoiceNumber { get; set; }
         public required DateTime DateCreated { get; set; }
         public required DateTime DateDue { get; set; }

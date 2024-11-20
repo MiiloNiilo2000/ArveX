@@ -84,7 +84,7 @@ namespace backend.Migrations
                 {
                     PrivatePersonInvoiceId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
                     InvoiceNumber = table.Column<int>(type: "integer", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateDue = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -263,8 +263,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "db782746-6c2b-4176-a592-6f30ce31f743", null, "User", "USER" },
-                    { "e747e6e8-8ddb-449b-8ba0-59d2ac0bed26", null, "Admin", "ADMIN" }
+                    { "392f63fc-ea87-4cfa-a9a1-97770c1bdc8e", null, "Admin", "ADMIN" },
+                    { "b70e301f-d6b4-4d09-b8cc-f05d3128f1ab", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
