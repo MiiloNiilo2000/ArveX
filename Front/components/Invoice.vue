@@ -6,13 +6,25 @@
     @submit.prevent="submitForm"
     @error="onError"
   >
+
+  <div class="flex w-full gap-20">
+    <div class="w-1/2">
+      <UDivider label="Vali arve tüüp" class="h-10 mb-2" />
+      <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
+        <select v-model="state.invoiceType">
+          <option value="company">Ettevõte</option>
+          <option value="privatePerson">Eraisik</option>
+        </select>
+      </UFormGroup>
+    </div>
+  </div>
   <div class="flex w-full gap-20"> 
     <div class="w-1/2"> 
       <UDivider label="Kopeeri varasema arve andmed" class="h-10 mb-2" />
       <UFormGroup name="pastInvoice" class="flex justify-center h-16">
         <select v-model="state.pastInvoice">
           <option value="" disabled>Vali varasem arve:</option>
-          <option v-for="invoice in pastInvoices" :key="invoice.invoiceId" :value="invoice.invoiceId">
+          <option v-for="invoice in pastCompanyInvoices" :key="invoice.invoiceId" :value="invoice.invoiceId">
             {{ formatInvoiceOption(invoice) }}
           </option>
         </select>
@@ -23,7 +35,7 @@
 
   <div class="flex w-full gap-20"> 
 
-    <div class="w-1/4"> 
+    <div v-if="state.invoiceType === 'company'" class="w-1/4"> 
 
       <UFormGroup label="Firma nimi" name="title">
         <UInput
@@ -85,6 +97,18 @@
       </UFormGroup>
 
       
+    </div>
+    
+    <div v-if="state.invoiceType === 'privatePerson'" class="w-1/4">
+      <UFormGroup label="Kliendi nimi" name="title">
+        <UInput
+          v-model="state.title"
+          class="w-full bg-gray-900 rounded-md mb-4"
+          color="emerald"
+          placeholder="Sisesta kliendi nimi"
+        />
+      </UFormGroup>
+
     </div>
 
     <div class="w-1/5"> 
@@ -253,9 +277,10 @@
 <script setup lang="ts">
   import { ref, watch, defineExpose, onMounted } from 'vue';
   import type { FormErrorEvent } from "#ui/types";
-  import { generateInvoicePDF } from '../stores/invoiceStores';
+  import { generateCompanyInvoicePDF } from '../stores/invoiceStores';
   import { useApi } from '../composables/useApi';
-  import type { Invoice } from '../types/invoice'
+  import type { CompanyInvoice } from '../types/companyInvoice'
+  import type { PrivatePersonInvoice } from '../types/privatePersonInvoice'
   import { useProductStore } from '../stores/productStores';
   import { useInvoiceStore } from '../stores/invoiceStores';
 
@@ -264,7 +289,8 @@
   const { customFetch } = useApi();
   const availableProducts = ref<Product[]>([]);
   const companySuggestions = ref<Company[]>([]);
-  const pastInvoices = ref<Invoice[]>([]);
+  const pastCompanyInvoices = ref<CompanyInvoice[]>([]);
+  const pastPrivatePersonInvoices = ref<PrivatePersonInvoice[]>([]);
   const searchTerm = ref<string>('');
   const { navigateToAddProduct } = useProductStore();
   const { 
@@ -326,7 +352,7 @@
   watch(() => state.pastInvoice, (selectedInvoiceId) => {
     if (!selectedInvoiceId) return;
 
-    const selectedInvoice = pastInvoices.value.find(invoice => invoice.invoiceId === selectedInvoiceId);
+    const selectedInvoice = pastCompanyInvoices.value.find(invoice => invoice.invoiceId === selectedInvoiceId);
 
     if (selectedInvoice) {
       state.title = selectedInvoice.title || '';
@@ -369,7 +395,7 @@
       }
     });
 
-    generateInvoicePDF(state, "GeneratePdf");
+    generateCompanyInvoicePDF(state, "GeneratePdf");
   };
 
 
@@ -377,8 +403,10 @@
   try {
     const response = await customFetch<Product[]>(`Products/all`, { method: 'GET' });
     availableProducts.value = response;
-    const invoicesResponse = await customFetch<Invoice[]>(`InvoiceHistory/all`, { method: 'GET' });
-    pastInvoices.value = invoicesResponse;
+    const companyInvoicesResponse = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+    pastCompanyInvoices.value = companyInvoicesResponse;
+    const privatePersonInvoicesResponse = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+    pastPrivatePersonInvoices.value = privatePersonInvoicesResponse;
   } catch (error) {
     console.error('Error fetching products:', error);
   }

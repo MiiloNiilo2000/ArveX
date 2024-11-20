@@ -17,49 +17,46 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
+
+
 namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CreateInvoiceController(InvoiceRepo repo) : ControllerBase
+    public class CreatePrivatePersonInvoiceController(PrivatePersonInvoicesRepo repo) : ControllerBase
     {
         protected double _totalPrice;
         protected double _taxPercent;
         protected double _priceWithoutTax;
 
         [HttpPost("GeneratePdf")]
-        public async Task<IResult> GeneratePdf([FromBody] CompanyInvoice data)
+        public async Task<IResult> GeneratePdf([FromBody] PrivatePersonInvoice data)
         {
             var invoice = await repo.SaveInvoiceInDb(data);
 
             // var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
             // return await GeneratePdfResponse(invoice, products);
-            return await GeneratePdfResponse(invoice);
+             return await GeneratePdfResponse(invoice);
         }
 
         [HttpPost("GeneratePdfWithoutSaving")]
-        public async Task<IResult> GeneratePdfWithoutSaving([FromBody] CompanyInvoice data)
+        public async Task<IResult> GeneratePdfWithoutSaving([FromBody] PrivatePersonInvoice data)
         {
 
             // var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
             // return await GeneratePdfResponse(data, products);
-             return await GeneratePdfResponse(data);
+            return await GeneratePdfResponse(data);
         }
 
-        // private async Task<IResult> GeneratePdfResponse(CompanyInvoice data, List<Product> products)
-        private async Task<IResult> GeneratePdfResponse(CompanyInvoice data)
+        // private async Task<IResult> GeneratePdfResponse(PrivatePersonInvoice data, List<Product> products)
+        private async Task<IResult> GeneratePdfResponse(PrivatePersonInvoice data)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
             var document = CreateDocument(
-                data.Title,
-                data.ClientRegNr,
-                data.ClientKMKR,
-                data.Address,
-                data.ZipCode,
-                data.Country,
+                data.Name,
                 data.InvoiceNumber,
                 data.DateCreated,
                 data.DateDue,
@@ -71,19 +68,14 @@ namespace BackEnd.Controllers
             );
 
             var pdf = document.GeneratePdf();
-            var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
+            var sanitizedTitle = string.Join("_", data.Name.Split(Path.GetInvalidFileNameChars()));
             string fileName = $"{data.InvoiceNumber}";
 
             return Results.File(pdf, "application/pdf", fileName);
         }
         
         QuestPDF.Infrastructure.IDocument CreateDocument(
-            string title,
-            string clientRegNr,
-            string clientKMKR,
-            string address,
-            string zipCode,
-            string country,
+            string name,
             int invoiceNumber,
             DateTime dateCreated,
             DateTime dateDue,
@@ -91,7 +83,7 @@ namespace BackEnd.Controllers
             string delayFine,
             string font,
             // List<Product> products,
-            CompanyInvoice data
+            PrivatePersonInvoice data
             )
         {
            return Document.Create(container =>
@@ -169,21 +161,11 @@ namespace BackEnd.Controllers
                                     {
                                         innerColumns.RelativeColumn();
                                     });
-                                   
-                                    var parts = address.Split(',', 3); 
 
-                                    string firstLine = parts.Length > 2 ? $"{parts[0]}, {parts[1]}" : address;
-                                    string secondLine = parts.Length > 2 ? parts[2] : "";
 
                                     innerTable.Cell().Row(1).Column(1).AlignLeft().Text("Klient").FontSize(14);
                                     innerTable.Cell().Row(2).Column(1).Padding(2);
-                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(title).FontSize(16).Bold();
-                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Reg. nr.: " + clientRegNr).FontSize(11);
-                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("KMKR: " + clientKMKR).FontSize(11);
-                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text(secondLine.Trim()).FontSize(11);
-                                    innerTable.Cell().Row(7).Column(1).AlignLeft().Text(firstLine).FontSize(11);
-                                    innerTable.Cell().Row(8).Column(1).AlignLeft().Text(zipCode).FontSize(11);
-                                    innerTable.Cell().Row(9).Column(1).AlignLeft().Text(country).FontSize(11);
+                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(name).FontSize(16).Bold();
                                 });
                                     
 

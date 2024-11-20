@@ -84,5 +84,26 @@ namespace BackEnd.Controllers
             bool result = await _context.UpdateProfile(id, profile);
             return result ? NoContent() : NotFound();
         }
+
+        [Authorize]
+        [HttpGet("Me")]
+        public async Task<IActionResult> GetLoggedInUserDetails()
+        {
+            var username = User.GetUsername();
+            
+            var appUser = await _userManager.FindByNameAsync(username);
+            if (appUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var userDetails = new
+            {
+                Id = appUser.Id,
+                Username = appUser.UserName,
+                Email = appUser.Email
+            };
+            return Ok(userDetails);
+        }
     }
 }

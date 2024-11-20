@@ -55,10 +55,10 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoice",
+                name: "CompanyInvoice",
                 columns: table => new
                 {
-                    InvoiceId = table.Column<int>(type: "integer", nullable: false)
+                    CompanyInvoiceId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
@@ -71,12 +71,30 @@ namespace backend.Migrations
                     DelayFine = table.Column<string>(type: "text", nullable: false),
                     ClientRegNr = table.Column<string>(type: "text", nullable: false),
                     ClientKMKR = table.Column<string>(type: "text", nullable: false),
-                    Font = table.Column<string>(type: "text", nullable: false),
-                    ProductsAndQuantitiesJson = table.Column<string>(type: "text", nullable: false)
+                    Font = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invoice", x => x.InvoiceId);
+                    table.PrimaryKey("PK_CompanyInvoice", x => x.CompanyInvoiceId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrivatePersonInvoice",
+                columns: table => new
+                {
+                    PrivatePersonInvoiceId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    InvoiceNumber = table.Column<int>(type: "integer", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateDue = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Condition = table.Column<string>(type: "text", nullable: false),
+                    DelayFine = table.Column<string>(type: "text", nullable: false),
+                    Font = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrivatePersonInvoice", x => x.PrivatePersonInvoiceId);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,20 +263,9 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:BackEnd/Migrations/20241118133647_Init.cs
-                    { "579d8b81-acb4-48a3-a9cb-0d430e30773c", null, "Admin", "ADMIN" },
-                    { "5fe3c1d3-aa66-440f-9d4e-c157991ff11e", null, "User", "USER" }
+                    { "db782746-6c2b-4176-a592-6f30ce31f743", null, "User", "USER" },
+                    { "e747e6e8-8ddb-449b-8ba0-59d2ac0bed26", null, "Admin", "ADMIN" }
                 });
-========
-                    { "60d84b00-cee8-4606-81b7-7bf0c9d1ef54", null, "User", "USER" },
-                    { "cb64f06c-8473-40ff-9d86-eeb20b9faf3d", null, "Admin", "ADMIN" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Company",
-                columns: new[] { "CompanyId", "Address", "Country", "Email", "Image", "Name", "PostalCode", "ProfileId", "RegisterCode", "VatNumber" },
-                values: new object[] { 1, "Tänav1", "Estonia", "email@email.com", null, "Firma1", 5432, "9429539e-5abe-4acf-a932-e747be17b876", 12345, "EE112" });
->>>>>>>> ebf19bc41385e2319ae3dc00a957beec1ae4d542:BackEnd/Migrations/20241118133728_init.cs
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -332,7 +339,10 @@ namespace backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Invoice");
+                name: "CompanyInvoice");
+
+            migrationBuilder.DropTable(
+                name: "PrivatePersonInvoice");
 
             migrationBuilder.DropTable(
                 name: "Product");

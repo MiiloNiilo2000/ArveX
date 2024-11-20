@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 
 namespace BackEnd.Models
 {
-    public class Invoice
+    public class CompanyInvoice
     {
-        public int InvoiceId { get; set; }
+        public int CompanyInvoiceId { get; set; }
         public required string Title { get; set; }
         public required string Address { get; set; }
         public required string ZipCode { get; set; }
@@ -24,22 +24,22 @@ namespace BackEnd.Models
         public required string ClientKMKR { get; set; }
         public required string Font { get; set; }
 
-        public string ProductsAndQuantitiesJson { get; set; }
+        // public string ProductsAndQuantitiesJson { get; set; }
 
-        [Newtonsoft.Json.JsonIgnore]
-        [NotMapped]
-        public Dictionary<int, int> ProductsAndQuantities
-        {
-            get
-            {
-                return string.IsNullOrEmpty(ProductsAndQuantitiesJson)
-                    ? new Dictionary<int, int>()
-                    : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson);
-            }
-            set
-            {
-                ProductsAndQuantitiesJson = JsonConvert.SerializeObject(value);
-            }
-        }
+        // [Newtonsoft.Json.JsonIgnore]
+        // [NotMapped]
+        // public Dictionary<int, int> ProductsAndQuantities
+        // {
+        //     get
+        //     {
+        //         return string.IsNullOrEmpty(ProductsAndQuantitiesJson)
+        //             ? new Dictionary<int, int>()
+        //             : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson);
+        //     }
+        //     set
+        //     {
+        //         ProductsAndQuantitiesJson = JsonConvert.SerializeObject(value);
+        //     }
+        // }
     }
 }

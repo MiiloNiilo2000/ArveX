@@ -1,7 +1,7 @@
 import type { FormError, FormErrorEvent } from "#ui/types";
 import { useApi } from '../composables/useApi';
 
-export async function generateInvoicePDF(state: any, routeName: string) {
+export async function generateCompanyInvoicePDF(state: any, routeName: string) {
   const { customFetch } = useApi();
   try {
     console.log("Products and Quantities in util", state.productsAndQuantities);
@@ -18,10 +18,45 @@ export async function generateInvoicePDF(state: any, routeName: string) {
       condition: state.condition || "",
       delayFine: state.delayFine || "",
       font: state.selectedFont,
-      productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+      // productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
     };
 
     const response = await customFetch<Blob>(`/CreateInvoice/${routeName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const url = window.URL.createObjectURL(new Blob([response]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'invoice.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } catch (error) {
+      console.error("Error message:", error);
+  }
+}
+
+export async function generatePrivatePersonInvoicePDF(state: any, routeName: string) {
+  const { customFetch } = useApi();
+  try {
+    console.log("Products and Quantities in util", state.productsAndQuantities);
+    const payload = {
+      name: state.title,
+      invoiceNumber: parseInt(state.invoiceNumber),
+      dateCreated: new Date(state.dateCreated).toISOString(),
+      dateDue: new Date(state.dateDue).toISOString(),
+      condition: state.condition || "",
+      delayFine: state.delayFine || "",
+      font: state.selectedFont,
+      // productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+    };
+
+    const response = await customFetch<Blob>(`/CreatePrivatePersonInvoice/${routeName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +81,7 @@ export const useInvoiceStore = defineStore('invoice', () => {
   const selectedProducts = ref<Product[]>([]);
   const availableProducts = ref<Product[]>([]);
   const companySuggestions = ref<Company[]>([]);
-  const pastInvoices = ref<Invoice[]>([]);
+  const pastInvoices = ref<CompanyInvoice[]>([]);
   const { navigateToEditProduct } = useProductStore();
 
   interface Company {
@@ -79,6 +114,7 @@ export const useInvoiceStore = defineStore('invoice', () => {
     footerImage: null,
     productsAndQuantities: {} as Record<number, number>,
     pastInvoice: null,
+    invoiceType: 'company',
   });
 
   const toggleProductSelection = (productId: number) => {
@@ -117,22 +153,26 @@ export const useInvoiceStore = defineStore('invoice', () => {
     return date.toISOString().split('T')[0]; 
   }
 
-  function formatInvoiceOption(invoice: Invoice): string {
+  function formatInvoiceOption(invoice: CompanyInvoice): string {
     const dateCreated = new Date(invoice.dateCreated).toISOString().split('T')[0]; 
     return `${invoice.title} - Nr: ${invoice.invoiceNumber} (${dateCreated})`;
   }
 
   const validate = (state: any): FormError[] => {
     const errors = [];
-    const zipString = state.zipCode.toString();
+    if (state.invoiceType == 'company'){
+      const zipString = state.zipCode.toString();
+      if (!state.clientKMKR) errors.push({ path: "clientKMKR", message: "Required" });
+      if (!state.clientRegNr) errors.push({ path: "clientRegNr", message: "Required" });
+      if (!state.address) errors.push({ path: "address", message: "Required" });
+      if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
+      if (zipString.length < 5 || zipString.length > 5) errors.push({ path: "zipCode", message: "Postiindeks peab olema 5-kohaline number" });
+    }
     if (!state.title) errors.push({ path: "title", message: "Required" });
-    if (!state.address) errors.push({ path: "address", message: "Required" });
-    if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
-    if (zipString.length < 5 || zipString.length > 5) errors.push({ path: "zipCode", message: "Postiindeks peab olema 5-kohaline number" });
     if (!state.invoiceNumber) errors.push({ path: "invoiceNr", message: "Required" });
     if (!state.dateCreated) errors.push({ path: "dateCreated", message: "Required" });
-    if (!state.dateDue) errors.push({ path: "dateDue", message: "Required" });
-
+    if (!state.dateDue) errors.push({ path: "dateDue", message: "Required" });  
+  
     return errors;
   };
 

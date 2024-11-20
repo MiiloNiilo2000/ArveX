@@ -9,18 +9,18 @@ using Newtonsoft.Json;
 
 namespace BackEnd.Data.Repos
 {
-    public class InvoiceRepo
+    public class PrivatePersonInvoicesRepo
     {
         private readonly ApplicationDbContext context;
 
-        public InvoiceRepo(ApplicationDbContext context)
+        public PrivatePersonInvoicesRepo(ApplicationDbContext context)
         {
             this.context = context;
         }
 
-        public async Task<List<CompanyInvoice>> GetAllInvoices()
+        public async Task<List<PrivatePersonInvoice>> GetAllInvoices()
         {
-            IQueryable<CompanyInvoice> queryable = context.CompanyInvoice.AsQueryable();
+            IQueryable<PrivatePersonInvoice> queryable = context.PrivatePersonInvoice.AsQueryable();
 
             var invoices = await queryable.ToListAsync();
             // foreach (var invoice in invoices)
@@ -31,7 +31,7 @@ namespace BackEnd.Data.Repos
             return invoices;
         }
 
-        public async Task<CompanyInvoice> SaveInvoiceInDb(CompanyInvoice invoice)
+        public async Task<PrivatePersonInvoice> SaveInvoiceInDb(PrivatePersonInvoice invoice)
         {
             // if (invoice.ProductsAndQuantities != null)
             // {
@@ -43,9 +43,9 @@ namespace BackEnd.Data.Repos
             return invoice;
         }
 
-        public async Task<CompanyInvoice?> GetInvoicesById(int id)
+        public async Task<PrivatePersonInvoice?> GetInvoicesById(int id)
         {
-            var invoice = await context.CompanyInvoice.FindAsync(id);
+            var invoice = await context.PrivatePersonInvoice.FindAsync(id);
 
             // if (invoice != null)
             // {
@@ -57,12 +57,12 @@ namespace BackEnd.Data.Repos
 
         public async Task<bool> InvoiceExistsInDb(int id)
         {
-            return await context.CompanyInvoice.AnyAsync(x => x.CompanyInvoiceId == id);
+            return await context.PrivatePersonInvoice.AnyAsync(x => x.PrivatePersonInvoiceId == id);
         }
 
         public async Task<bool> DeleteInvoice(int id)
         {
-            CompanyInvoice? invoiceInDb = await GetInvoicesById(id);
+            PrivatePersonInvoice? invoiceInDb = await GetInvoicesById(id);
             if (invoiceInDb == null)
             {
                 return false;

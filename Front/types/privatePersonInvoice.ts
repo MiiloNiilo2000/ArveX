@@ -1,12 +1,6 @@
-export type Invoice = {
+export type PrivatePersonInvoice = {
     invoiceId: number
-    clientRegNr: string;
-    clientKMKR: string;
-    title: string
-    address: string
-    city: string
-    zipCode: number
-    country: string
+    name: string
     invoiceNumber: number
     dateCreated: Date
     dateDue: Date

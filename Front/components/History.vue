@@ -68,11 +68,11 @@
   
 <script setup lang="ts">
   import { ref, onMounted, computed } from 'vue';
-  import { generateInvoicePDF } from '../stores/invoiceStores'; 
-  import type { Invoice } from "../types/invoice";
+  import { generateCompanyInvoicePDF } from '../stores/invoiceStores'; 
+  import type { CompanyInvoice } from "../types/companyInvoice";
   import { useApi } from '../composables/useApi';
 
-  const invoices = ref<Invoice[]>([]);
+  const invoices = ref<CompanyInvoice[]>([]);
     const { customFetch } = useApi();
 
   const columns = ref([
@@ -104,13 +104,13 @@
   });
 
 
-  const sortState = ref<{ key: keyof Invoice | null; order: 'asc' | 'desc' }>({
+  const sortState = ref<{ key: keyof CompanyInvoice | null; order: 'asc' | 'desc' }>({
     key: null,
     order: 'asc',
   });
 
   type Column = {
-    key: keyof Invoice | string;
+    key: keyof CompanyInvoice | string;
     label: string;
     sortable?: boolean;
   }
@@ -137,7 +137,7 @@
     if (sortState.value.key === column.key) {
       sortState.value.order = sortState.value.order === 'asc' ? 'desc' : 'asc';
     } else {
-      sortState.value.key = column.key as keyof Invoice;
+      sortState.value.key = column.key as keyof CompanyInvoice;
       sortState.value.order = 'asc';
     }
   };
@@ -148,7 +148,7 @@
 
   const fetchInvoices = async () => {
     try {
-      const response = await customFetch<Invoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      const response = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
       invoices.value = response; 
     } catch (error) {
       console.error("Error fetching invoices:", error);
@@ -157,7 +157,7 @@
 
   const deleteInvoice = async (id: number) => {
     try {
-      await customFetch<Invoice[]>(`InvoiceHistory/${id}`, { method: 'DELETE' });
+      await customFetch<CompanyInvoice[]>(`InvoiceHistory/${id}`, { method: 'DELETE' });
       invoices.value = invoices.value.filter(invoice => invoice.invoiceId !== id);
     } 
     catch (error) {
@@ -182,7 +182,7 @@
       productsAndQuantities: row.productsAndQuantities 
     };
 
-    generateInvoicePDF(state, "GeneratePdfWithoutSaving");
+    generateCompanyInvoicePDF(state, "GeneratePdfWithoutSaving");
   };
 
   onMounted(() => {

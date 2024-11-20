@@ -12,13 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:BackEnd/Migrations/20241118133647_Init.Designer.cs
-    [Migration("20241118133647_Init")]
+    [Migration("20241120151735_Init")]
     partial class Init
-========
-    [Migration("20241118133728_init")]
-    partial class init
->>>>>>>> ebf19bc41385e2319ae3dc00a957beec1ae4d542:BackEnd/Migrations/20241118133728_init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,29 +71,15 @@ namespace backend.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Company");
-
-                    b.HasData(
-                        new
-                        {
-                            CompanyId = 1,
-                            Address = "Tänav1",
-                            Country = "Estonia",
-                            Email = "email@email.com",
-                            Name = "Firma1",
-                            PostalCode = 5432,
-                            ProfileId = "9429539e-5abe-4acf-a932-e747be17b876",
-                            RegisterCode = 12345,
-                            VatNumber = "EE112"
-                        });
                 });
 
-            modelBuilder.Entity("BackEnd.Models.Invoice", b =>
+            modelBuilder.Entity("BackEnd.Models.CompanyInvoice", b =>
                 {
-                    b.Property<int>("InvoiceId")
+                    b.Property<int>("CompanyInvoiceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InvoiceId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CompanyInvoiceId"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -137,10 +118,6 @@ namespace backend.Migrations
                     b.Property<int>("InvoiceNumber")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ProductsAndQuantitiesJson")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -149,9 +126,47 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("InvoiceId");
+                    b.HasKey("CompanyInvoiceId");
 
-                    b.ToTable("Invoice");
+                    b.ToTable("CompanyInvoice");
+                });
+
+            modelBuilder.Entity("BackEnd.Models.PrivatePersonInvoice", b =>
+                {
+                    b.Property<int>("PrivatePersonInvoiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PrivatePersonInvoiceId"));
+
+                    b.Property<string>("Condition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateDue")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DelayFine")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Font")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("InvoiceNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("PrivatePersonInvoiceId");
+
+                    b.ToTable("PrivatePersonInvoice");
                 });
 
             modelBuilder.Entity("BackEnd.Models.Product", b =>
@@ -284,21 +299,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241118133647_Init.Designer.cs
-                            Id = "579d8b81-acb4-48a3-a9cb-0d430e30773c",
-========
-                            Id = "cb64f06c-8473-40ff-9d86-eeb20b9faf3d",
->>>>>>>> ebf19bc41385e2319ae3dc00a957beec1ae4d542:BackEnd/Migrations/20241118133728_init.Designer.cs
+                            Id = "e747e6e8-8ddb-449b-8ba0-59d2ac0bed26",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241118133647_Init.Designer.cs
-                            Id = "5fe3c1d3-aa66-440f-9d4e-c157991ff11e",
-========
-                            Id = "60d84b00-cee8-4606-81b7-7bf0c9d1ef54",
->>>>>>>> ebf19bc41385e2319ae3dc00a957beec1ae4d542:BackEnd/Migrations/20241118133728_init.Designer.cs
+                            Id = "db782746-6c2b-4176-a592-6f30ce31f743",
                             Name = "User",
                             NormalizedName = "USER"
                         });
