@@ -1,8 +1,10 @@
-import type { UseLinkOptions } from "vue-router"
-
-export type Profile = {
-    id: number
-    username: string
-    email: string
-    image: string
-}
+export type UserProfileToken = {
+    userName: string;
+    email: string;
+    token: string;
+  };
+  
+  export type Profile = {
+    userName: string;
+    email: string;
+  };

@@ -57,7 +57,7 @@
   
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:5176/Profile/login', {
+      const response = await axios.post('http://localhost:5176/Account/login', {
         username: username.value,
         password: password.value,
       });
@@ -67,6 +67,7 @@
       if (response.status === 200) {
         const token = response.data;
         localStorage.setItem('token', token);
+        axios.defaults.headers['Authorization'] = `Bearer ${token}`;
         router.push('/profiles');
       } 
     } 

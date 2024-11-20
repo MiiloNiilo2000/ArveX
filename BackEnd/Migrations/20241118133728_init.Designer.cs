@@ -12,13 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:BackEnd/Migrations/20241118115948_init.Designer.cs
-    [Migration("20241118115948_init")]
+    [Migration("20241118133728_init")]
     partial class init
-========
-    [Migration("20241116130158_Init")]
-    partial class Init
->>>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6:BackEnd/Migrations/20241116130158_Init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +71,20 @@ namespace backend.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Company");
+
+                    b.HasData(
+                        new
+                        {
+                            CompanyId = 1,
+                            Address = "Tänav1",
+                            Country = "Estonia",
+                            Email = "email@email.com",
+                            Name = "Firma1",
+                            PostalCode = 5432,
+                            ProfileId = "9429539e-5abe-4acf-a932-e747be17b876",
+                            RegisterCode = 12345,
+                            VatNumber = "EE112"
+                        });
                 });
 
             modelBuilder.Entity("BackEnd.Models.Invoice", b =>
@@ -240,35 +249,6 @@ namespace backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-<<<<<<<< HEAD:BackEnd/Migrations/20241118115948_init.Designer.cs
-========
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "f5d8595c-559f-4310-8899-1a9873790967",
-                            Email = "Profiil1@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "0f9b1927-a704-444e-920b-de25f1e0998a",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb43543d-bcb9-4a2e-af7f-6f459de5c477",
-                            Email = "Profiil2@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "fb588fb2-c899-466b-a070-5e774cfeb524",
-                            TwoFactorEnabled = false
-                        });
->>>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6:BackEnd/Migrations/20241116130158_Init.Designer.cs
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -299,21 +279,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241118115948_init.Designer.cs
-                            Id = "72dba4cf-5a2e-492a-9d9d-a8cc7bca6644",
-========
-                            Id = "287e0719-c4b9-4a16-8fac-c2dfb6e99474",
->>>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6:BackEnd/Migrations/20241116130158_Init.Designer.cs
+                            Id = "cb64f06c-8473-40ff-9d86-eeb20b9faf3d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241118115948_init.Designer.cs
-                            Id = "2c5d3af7-64c7-469f-8b28-90c6eb9e5582",
-========
-                            Id = "3774a0d6-4b87-4795-9cd1-9f51ec29eaff",
->>>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6:BackEnd/Migrations/20241116130158_Init.Designer.cs
+                            Id = "60d84b00-cee8-4606-81b7-7bf0c9d1ef54",
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -68,6 +68,20 @@ namespace backend.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Company");
+
+                    b.HasData(
+                        new
+                        {
+                            CompanyId = 1,
+                            Address = "Tänav1",
+                            Country = "Estonia",
+                            Email = "email@email.com",
+                            Name = "Firma1",
+                            PostalCode = 5432,
+                            ProfileId = "9429539e-5abe-4acf-a932-e747be17b876",
+                            RegisterCode = 12345,
+                            VatNumber = "EE112"
+                        });
                 });
 
             modelBuilder.Entity("BackEnd.Models.Invoice", b =>
@@ -164,83 +178,7 @@ namespace backend.Migrations
 
                     b.HasIndex("profileId");
 
-<<<<<<< HEAD
                     b.ToTable("Product");
-=======
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            CompanyId = 1,
-                            Description = "Description1",
-                            Name = "Product1",
-                            Price = 100,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            CompanyId = 1,
-                            Description = "Description2",
-                            Name = "Product2",
-                            Price = 150,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 3,
-                            CompanyId = 1,
-                            Description = "Description3",
-                            Name = "Product3",
-                            Price = 300,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 4,
-                            CompanyId = 1,
-                            Description = "Description4",
-                            Name = "Product4",
-                            Price = 400,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 5,
-                            CompanyId = 1,
-                            Description = "Description5",
-                            Name = "Product5",
-                            Price = 500,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 6,
-                            CompanyId = 1,
-                            Description = "Description6",
-                            Name = "Product6",
-                            Price = 600,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 7,
-                            CompanyId = 1,
-                            Description = "Description7",
-                            Name = "Product7",
-                            Price = 700,
-                            TaxPercent = 22.0
-                        },
-                        new
-                        {
-                            ProductId = 8,
-                            CompanyId = 1,
-                            Description = "Description9",
-                            Name = "Product8",
-                            Price = 800,
-                            TaxPercent = 22.0
-                        });
->>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6
                 });
 
             modelBuilder.Entity("BackEnd.Models.Profile", b =>
@@ -308,35 +246,6 @@ namespace backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-<<<<<<< HEAD
-=======
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "321946a0-3050-415a-bc2c-40e783474778",
-                            Email = "Profiil1@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "e03cea08-e73d-47ef-b312-46f432c7592c",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c814a15-8b53-4f49-bf30-d03a7083bbd1",
-                            Email = "Profiil2@mail.ee",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "00a3f6f8-49d2-46b7-96e6-2ef98e957284",
-                            TwoFactorEnabled = false
-                        });
->>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -367,21 +276,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<< HEAD
-                            Id = "72dba4cf-5a2e-492a-9d9d-a8cc7bca6644",
-=======
-                            Id = "a7a0c021-853d-4516-9d0a-da930479b0f8",
->>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6
+                            Id = "cb64f06c-8473-40ff-9d86-eeb20b9faf3d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = "2c5d3af7-64c7-469f-8b28-90c6eb9e5582",
-=======
-                            Id = "9d608f48-1aeb-43c3-afd4-bc0921df7c7f",
->>>>>>> 368df554ebb9e18de036cf079448542ab8ab87d6
+                            Id = "60d84b00-cee8-4606-81b7-7bf0c9d1ef54",
                             Name = "User",
                             NormalizedName = "USER"
                         });

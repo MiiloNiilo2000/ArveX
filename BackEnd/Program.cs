@@ -57,6 +57,16 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("http://localhost:5167","http://localhost:3000" )  // Allow only your frontend URL
+            .AllowCredentials()  // Allow credentials (cookies, headers)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+         });
+});
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")))
     .AddScoped<InvoiceRepo>()
@@ -102,6 +112,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 });
 
 
+
 var app = builder.Build();
 
 using (var scope = ((IApplicationBuilder)app).ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -119,11 +130,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(x => x
-     .AllowAnyMethod()
-     .AllowAnyHeader()
-     .AllowCredentials()
-      .SetIsOriginAllowed(origin => true));
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
