@@ -90,6 +90,7 @@ namespace BackEnd.Data
                 .HasOne(p => p.company)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CompanyId);
+<<<<<<< HEAD
         
 
         //    modelBuilder.Entity<Product>().HasData(
@@ -180,6 +181,9 @@ namespace BackEnd.Data
         //         ProfileId = "9429539e-5abe-4acf-a932-e747be17b876",
         //     }
         //  );     
+=======
+           
+>>>>>>> ebf19bc41385e2319ae3dc00a957beec1ae4d542
         }
 
     }

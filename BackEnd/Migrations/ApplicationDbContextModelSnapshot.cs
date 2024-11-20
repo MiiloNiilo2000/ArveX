@@ -68,6 +68,20 @@ namespace backend.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Company");
+
+                    b.HasData(
+                        new
+                        {
+                            CompanyId = 1,
+                            Address = "Tänav1",
+                            Country = "Estonia",
+                            Email = "email@email.com",
+                            Name = "Firma1",
+                            PostalCode = 5432,
+                            ProfileId = "9429539e-5abe-4acf-a932-e747be17b876",
+                            RegisterCode = 12345,
+                            VatNumber = "EE112"
+                        });
                 });
 
             modelBuilder.Entity("BackEnd.Models.Invoice", b =>
@@ -262,13 +276,21 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
+<<<<<<< HEAD
                             Id = "579d8b81-acb4-48a3-a9cb-0d430e30773c",
+=======
+                            Id = "cb64f06c-8473-40ff-9d86-eeb20b9faf3d",
+>>>>>>> ebf19bc41385e2319ae3dc00a957beec1ae4d542
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
+<<<<<<< HEAD
                             Id = "5fe3c1d3-aa66-440f-9d4e-c157991ff11e",
+=======
+                            Id = "60d84b00-cee8-4606-81b7-7bf0c9d1ef54",
+>>>>>>> ebf19bc41385e2319ae3dc00a957beec1ae4d542
                             Name = "User",
                             NormalizedName = "USER"
                         });
