@@ -15,7 +15,7 @@
     "@pinia/nuxt": "^0.5.5",
     "axios": "^1.7.7",
     "date-fns": "^2.30.0",
-    "nuxt": "^3.13.0",
+    "nuxt": "^3.13.2",
     "pinia": "^2.2.4",
     "v-calendar": "^3.1.2",
     "vue": "latest",

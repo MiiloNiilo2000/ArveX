@@ -55,27 +55,37 @@
   const password = ref('');
   const router = useRouter();
   
-  const handleSubmit = async () => {
-    try {
-      const response = await axios.post('http://localhost:5176/Account/login', {
-        username: username.value,
-        password: password.value,
-      });
-      console.log('Username: ',username.value)
-      console.log('Password: ',password.value)
-      console.log('Response.data: ',response.data)
-      if (response.status === 200) {
-        const token = response.data;
-        localStorage.setItem('token', token);
-        axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-        router.push('/profiles');
-      } 
-    } 
-    catch (error) {
-      console.error('Sisselogimine ebaõnnestus', error);
-      alert('Vale kasutajanimi või parool!');
+const handleSubmit = async () => {
+  try {
+    const response = await axios.post('http://localhost:5176/Account/login', {
+      username: username.value,
+      password: password.value,
+    });
+    
+    console.log('Serveri vastus:', response.data);
+
+    if (response.status === 200) {
+      const token = response.data.token; // Oletame, et token on response.data.token
+      if (!token) {
+        throw new Error("Token puudub serveri vastuses!");
+      }
+      
+      // Salvestame tokeni stringina
+      localStorage.setItem('token', token);
+
+      // Seadistame Axios globaalse päise
+      axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+      // Suuname kasutaja profiililehele
+      router.push('/profiles');
     }
-  };
+  } 
+  catch (error) {
+    console.error('Sisselogimine ebaõnnestus:', error);
+    alert('Vale kasutajanimi või parool!');
+  }
+};
+
   </script>
   
   <style scoped>
