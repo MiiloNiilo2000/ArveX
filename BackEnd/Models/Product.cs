@@ -13,8 +13,10 @@ public class Product
     public string? Description { get; set; }
     public int Price { get; set; }
     public int? CompanyId { get; set; }
-    public Company company { get; set; } = null!;
-    public Profile profile {get; set;} = null!;
+    [JsonIgnore]
+    public Company? company { get; set; } = null!;
+    [JsonIgnore]
+    public Profile? profile {get; set;} = null!;
     public double TaxPercent { get; set; }
 
 }
