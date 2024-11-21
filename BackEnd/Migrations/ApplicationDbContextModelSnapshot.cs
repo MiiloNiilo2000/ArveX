@@ -247,13 +247,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d4f4cfb7-2af7-4c14-8b02-2a7427b8abbc",
+                            Id = "67f47cec-1796-4713-affd-01f3c9c6ccb3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "00ee2af7-884e-4b6f-b9a6-9e3f34406648",
+                            Id = "ff6e33de-c953-4b82-9073-1873c2290d89",
                             Name = "User",
                             NormalizedName = "USER"
                         });

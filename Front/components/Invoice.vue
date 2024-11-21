@@ -277,7 +277,7 @@
 <script setup lang="ts">
   import { ref, watch, defineExpose, onMounted } from 'vue';
   import type { FormErrorEvent } from "#ui/types";
-  import { generateCompanyInvoicePDF } from '../stores/invoiceStores';
+  import { generateInvoicePDF } from '../stores/invoiceStores';
   import { useApi } from '../composables/useApi';
   import type { CompanyInvoice } from '../types/companyInvoice'
   import type { PrivatePersonInvoice } from '../types/privatePersonInvoice'
@@ -320,8 +320,17 @@
     price: number;
   }  
 
-  function onInvoiceTypeChange(){
-    state.title = '';
+  function onInvoiceTypeChange() {
+    if (state.invoiceType === 'privatePerson') {
+      state.title = '';
+      state.clientRegNr = '';
+      state.clientKMKR = '';
+      state.address = '';
+      state.zipCode = '';
+      state.country = '';
+    } else if (state.invoiceType === 'company') {
+      state.title = '';
+    }
   }
 
   const fetchCompanyNames = async () => {
@@ -399,14 +408,10 @@
         console.warn('Invalid product detected:', product);
       }
     });
-    if (state.invoiceType == 'company'){
-      generateCompanyInvoicePDF(state, "GeneratePdf");
-    }
-    else if (state.invoiceType == 'privatePerson'){
-      generatePrivatePersonInvoicePDF(state, "GeneratePdf");
-    }
-  };
+    const route = state.invoiceType === "privatePerson" ? "privatePerson" : "company";
+    generateInvoicePDF(state, route);
 
+  };
 
   onMounted(async () => {
   try {
@@ -423,7 +428,6 @@
 
   defineExpose({ validate, fetchCompanyNames, submitForm });
 </script>
-
 
 <style>
   @import '../assetsFront/styles/main.css';
