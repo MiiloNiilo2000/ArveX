@@ -1,23 +1,16 @@
 <template>
-  <div class="flex justify-start items-center border-b border-gray-200 dark:border-gray-800">
+  <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
     <UHorizontalNavigation
       :links="links"
       class="flex"
     />
+    
     <NuxtLink
       v-if="!isLoggedIn"
       to="/login"
       class="bg-blue-500 text-white px-8 py-2 rounded-lg shadow-md font-semibold hover:bg-blue-600"
     >
       Sisselogimine
-    </NuxtLink>
-    
-    <NuxtLink
-      v-else
-      to="/profiles"
-      class="bg-blue-500 text-white px-8 py-2 rounded-lg shadow-md font-semibold hover:bg-blue-600"
-    >
-      Profiil
     </NuxtLink>
 
     <button
@@ -37,6 +30,7 @@ import axios from 'axios';
 
 const isLoggedIn = ref(false);
 const router = useRouter();
+
 const links = [
   {
     label: "Avaleht",
@@ -86,13 +80,11 @@ watch(() => localStorage.getItem('token'), (newToken) => {
   }
 });
 
+// Väljalogimise funktsioon
 const handleLogout = () => {
   localStorage.removeItem('token');
-  
   delete axios.defaults.headers['Authorization'];
-
   isLoggedIn.value = false;
-
   router.push('/login');
 };
 
