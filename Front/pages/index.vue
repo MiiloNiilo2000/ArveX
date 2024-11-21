@@ -13,15 +13,6 @@
       </div>
     </section>
 
-    <div class="absolute top-20 right-6">
-      <NuxtLink
-        to="/login"
-        class="bg-white text-blue-600 px-6 py-3 rounded-lg shadow-md font-semibold hover:bg-gray-100"
-      >
-        Logi sisse
-      </NuxtLink>
-    </div>
-
     <section class="container mx-auto px-6 py-16 text-gray-700">
       <h2 class="text-3xl font-bold text-center mb-12">Miks valida ArveX?</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
