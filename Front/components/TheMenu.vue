@@ -11,6 +11,7 @@
     >
       Sisselogimine
     </NuxtLink>
+    
     <NuxtLink
       v-else
       to="/profiles"
@@ -18,19 +19,24 @@
     >
       Profiil
     </NuxtLink>
+
+    <button
+      v-if="isLoggedIn"
+      @click="handleLogout"
+      class="bg-red-500 text-white px-8 py-2 rounded-lg shadow-md font-semibold hover:bg-red-600 ml-4"
+    >
+      Väljalogimine
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import { ref, computed } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 
-const isLoggedIn = computed(() => {
-  return localStorage.getItem('token') !== null;
-});
-
-const route = useRoute();
-
+const isLoggedIn = ref(false);
+const router = useRouter();
 const links = [
   {
     label: "Avaleht",
@@ -57,4 +63,45 @@ const links = [
     to: "/test-home",
   }
 ];
+
+const checkLoginStatus = () => {
+  if (localStorage.getItem('token')) {
+    isLoggedIn.value = true;
+    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+  } else {
+    isLoggedIn.value = false;
+  }
+};
+
+onMounted(() => {
+  checkLoginStatus();
+});
+
+watch(() => localStorage.getItem('token'), (newToken) => {
+  if (newToken) {
+    isLoggedIn.value = true;
+    axios.defaults.headers['Authorization'] = `Bearer ${newToken}`;
+  } else {
+    isLoggedIn.value = false;
+  }
+});
+
+const handleLogout = () => {
+  localStorage.removeItem('token');
+  
+  delete axios.defaults.headers['Authorization'];
+
+  isLoggedIn.value = false;
+
+  router.push('/login');
+};
+
+const handleLogin = async (token: string) => {
+  localStorage.setItem('token', token);
+  axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+  isLoggedIn.value = true;
+};
 </script>
+
+<style scoped>
+</style>
