@@ -17,10 +17,24 @@
         <UserProfile :profile="profile" :editProfile="editProfile" />
       </div>
 
-      <!-- Ettevõtte info -->
-      <div v-if="company" class="flex-1">
-        <!-- Siin kasutame CompanyProfile komponenti -->
-        <CompanyProfile :company="company" :editCompany="editCompany" />
+      <!-- Ettevõtte info ja dropdown -->
+      <div class="flex-1">
+        <!-- Ettevõtte valiku dropdown -->
+        <div v-if="companies.length > 1" class="mb-4">
+          <label for="companySelect" class="block text-sm font-medium text-gray-700">
+            Vali ettevõte:
+          </label>
+          <select v-model="selectedCompany" @change="onCompanyChange" id="companySelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            <option v-for="company in companies" :key="company.companyId" :value="company">
+              {{ company.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Ettevõtte info kuvamine -->
+        <div v-if="selectedCompany">
+          <CompanyProfile :company="selectedCompany" :editCompany="editCompany" />
+        </div>
       </div>
     </div>
 
@@ -30,7 +44,7 @@
     </div>
 
     <!-- Kui ettevõtet ei leitud -->
-    <div v-if="profile && !company">
+    <div v-if="profile && !companies.length">
       <p>Ettevõtte andmeid ei leitud.</p>
     </div>
   </div>
@@ -39,12 +53,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import UserProfile from '../components/UserProfile.vue';
-import CompanyProfile from '../components/CompanyProfile.vue'; // Lisa see komponent
+import CompanyProfile from '../components/CompanyProfile.vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 const profile = ref<any>(null);
-const company = ref<any>(null);
+const companies = ref<any[]>([]);
+const selectedCompany = ref<any>(null);
 const router = useRouter();
 
 // Funktsioon kasutaja profiili toomiseks
@@ -59,15 +74,15 @@ const fetchLoggedInUserProfile = async () => {
     // Kui profiil leiti, salvestame selle
     if (response.data) {
       profile.value = response.data;
-      await fetchUserCompany();  // Kui profiil on saadud, lae ka ettevõtte info
+      await fetchUserCompanies();  // Kui profiil on saadud, lae ka ettevõtted
     }
   } catch (error) {
     console.error("Error fetching logged-in user profile:", error);
   }
 };
 
-// Funktsioon kasutaja seotud ettevõtte toomiseks
-const fetchUserCompany = async () => {
+// Funktsioon kasutaja seotud ettevõtete toomiseks
+const fetchUserCompanies = async () => {
   try {
     const response = await axios.get('http://localhost:5176/Profile/Companies', {
       headers: {
@@ -75,12 +90,13 @@ const fetchUserCompany = async () => {
       }
     });
 
-    // Kui ettevõte leiti, salvestame selle
+    // Kui ettevõtted leiti, salvestame need
     if (response.data && response.data.length > 0) {
-      company.value = response.data[0]; // Kui ettevõte on üks, siis võta esimene
+      companies.value = response.data;
+      selectedCompany.value = companies.value[0]; // Eelmäärame esimese ettevõtte
     }
   } catch (error) {
-    console.error("Error fetching user company:", error);
+    console.error("Error fetching user companies:", error);
   }
 };
 
@@ -92,6 +108,11 @@ const editProfile = () => {
 // Funktsioon ettevõtte redigeerimiseks
 const editCompany = () => {
   alert('Company editing not implemented yet!');
+};
+
+// Funktsioon ettevõtte vahetamiseks
+const onCompanyChange = () => {
+  console.log('Selected company:', selectedCompany.value);
 };
 
 // Funktsioon kasutaja lisamiseks
