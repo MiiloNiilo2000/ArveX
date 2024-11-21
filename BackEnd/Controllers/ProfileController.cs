@@ -28,6 +28,7 @@ namespace BackEnd.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetProfiles(){
             var profiles = await _context.Profile.ToListAsync();
+            
 
             if(!profiles.Any()){
                 return NotFound();

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -246,8 +246,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "00ee2af7-884e-4b6f-b9a6-9e3f34406648", null, "User", "USER" },
-                    { "d4f4cfb7-2af7-4c14-8b02-2a7427b8abbc", null, "Admin", "ADMIN" }
+                    { "435e4393-74a8-48ba-b061-ada6c08964bf", null, "Admin", "ADMIN" },
+                    { "da21c749-404a-4978-89f1-4f29cdd326e6", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
