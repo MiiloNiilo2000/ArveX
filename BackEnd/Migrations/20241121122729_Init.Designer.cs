@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241120173744_Init")]
+    [Migration("20241121122729_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -75,11 +75,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("BackEnd.Models.PrivatePersonInvoice", b =>
                 {
-                    b.Property<int>("PrivatePersonInvoiceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PrivatePersonInvoiceId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Condition")
                         .IsRequired()
@@ -107,11 +107,15 @@ namespace backend.Migrations
                     b.Property<int>("InvoiceNumber")
                         .HasColumnType("integer");
 
+                    b.Property<string>("InvoiceType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("PrivatePersonInvoiceId");
+                    b.HasKey("Id");
 
                     b.ToTable("PrivatePersonInvoice");
 
@@ -250,13 +254,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "67f47cec-1796-4713-affd-01f3c9c6ccb3",
+                            Id = "cee4781c-d442-4d01-81ba-a47232702be5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ff6e33de-c953-4b82-9073-1873c2290d89",
+                            Id = "18ac56c8-0839-4638-b1a7-9c0abf3cc57f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -383,9 +387,6 @@ namespace backend.Migrations
                     b.Property<string>("ClientRegNr")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("CompanyInvoiceId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Country")
                         .IsRequired()

@@ -19,6 +19,7 @@ export async function generateInvoicePDF(state: any, routeName: string) {
         condition: state.condition || "",
         delayFine: state.delayFine || "",
         font: state.selectedFont,
+        invoiceType: state.invoiceType,
         // productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
       };
     }
@@ -31,6 +32,7 @@ export async function generateInvoicePDF(state: any, routeName: string) {
         condition: state.condition || "",
         delayFine: state.delayFine || "",
         font: state.selectedFont,
+        invoiceType: state.invoiceType,
         // productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
       };
     }

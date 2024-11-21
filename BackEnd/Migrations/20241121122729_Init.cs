@@ -58,7 +58,7 @@ namespace backend.Migrations
                 name: "PrivatePersonInvoice",
                 columns: table => new
                 {
-                    PrivatePersonInvoiceId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: false),
                     InvoiceNumber = table.Column<int>(type: "integer", nullable: false),
@@ -67,8 +67,8 @@ namespace backend.Migrations
                     Condition = table.Column<string>(type: "text", nullable: false),
                     DelayFine = table.Column<string>(type: "text", nullable: false),
                     Font = table.Column<string>(type: "text", nullable: false),
+                    InvoiceType = table.Column<string>(type: "text", nullable: false),
                     Discriminator = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
-                    CompanyInvoiceId = table.Column<int>(type: "integer", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: true),
                     ZipCode = table.Column<string>(type: "text", nullable: true),
                     Country = table.Column<string>(type: "text", nullable: true),
@@ -77,7 +77,7 @@ namespace backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrivatePersonInvoice", x => x.PrivatePersonInvoiceId);
+                    table.PrimaryKey("PK_PrivatePersonInvoice", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,8 +246,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "67f47cec-1796-4713-affd-01f3c9c6ccb3", null, "Admin", "ADMIN" },
-                    { "ff6e33de-c953-4b82-9073-1873c2290d89", null, "User", "USER" }
+                    { "18ac56c8-0839-4638-b1a7-9c0abf3cc57f", null, "User", "USER" },
+                    { "cee4781c-d442-4d01-81ba-a47232702be5", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -10,7 +10,6 @@ namespace BackEnd.Models
 {
     public class CompanyInvoice : PrivatePersonInvoice
     {
-        public int CompanyInvoiceId { get; set; }
         public required string Address { get; set; }
         public required string ZipCode { get; set; }
         public required string Country { get; set; }

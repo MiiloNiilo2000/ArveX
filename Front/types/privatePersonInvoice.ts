@@ -1,6 +1,6 @@
 export type PrivatePersonInvoice = {
     invoiceId: number
-    name: string
+    title: string
     invoiceNumber: number
     dateCreated: Date
     dateDue: Date
@@ -9,4 +9,5 @@ export type PrivatePersonInvoice = {
     font: string
     products: Product[]
     productsAndQuantities: Record<number, number>
-}
+    invoiceType: "privatePerson"
+};
