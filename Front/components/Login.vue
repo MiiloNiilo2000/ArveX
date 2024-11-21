@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 min-h-screen flex items-center justify-center pt-16">
+  <div class="bg-gray-100 min-h-screen flex items-center justify-center pt-0">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Logi sisse</h2>
       
@@ -65,18 +65,15 @@ const handleSubmit = async () => {
     console.log('Serveri vastus:', response.data);
 
     if (response.status === 200) {
-      const token = response.data.token; // Oletame, et token on response.data.token
+      const token = response.data.token;
       if (!token) {
         throw new Error("Token puudub serveri vastuses!");
       }
       
-      // Salvestame tokeni stringina
       localStorage.setItem('token', token);
 
-      // Seadistame Axios globaalse päise
       axios.defaults.headers['Authorization'] = `Bearer ${token}`;
 
-      // Suuname kasutaja profiililehele
       router.push('/profiles');
     }
   } 
@@ -86,8 +83,7 @@ const handleSubmit = async () => {
   }
 };
 
-  </script>
+</script>
   
-  <style scoped>
-  </style>
-  
+<style scoped>
+</style>

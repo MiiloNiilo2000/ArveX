@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 min-h-screen flex items-center justify-center pt-16">
+  <div class="bg-gray-100 min-h-screen flex items-center justify-center pt-0">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Registreeri konto</h2>
       
