@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 min-h-screen flex items-center justify-center pt-16">
+  <div class="bg-gray-100 min-h-screen flex items-center justify-center pt-0">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Logi sisse</h2>
       
@@ -55,29 +55,35 @@
   const password = ref('');
   const router = useRouter();
   
-  const handleSubmit = async () => {
-    try {
-      const response = await axios.post('http://localhost:5176/Account/login', {
-        username: username.value,
-        password: password.value,
-      });
-      console.log('Username: ',username.value)
-      console.log('Password: ',password.value)
-      console.log('Response.data: ',response.data)
-      if (response.status === 200) {
-        const token = response.data;
-        localStorage.setItem('token', token);
-        axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-        router.push('/profiles');
-      } 
-    } 
-    catch (error) {
-      console.error('Sisselogimine ebaõnnestus', error);
-      alert('Vale kasutajanimi või parool!');
+const handleSubmit = async () => {
+  try {
+    const response = await axios.post('http://localhost:5176/Account/login', {
+      username: username.value,
+      password: password.value,
+    });
+    
+    console.log('Serveri vastus:', response.data);
+
+    if (response.status === 200) {
+      const token = response.data.token;
+      if (!token) {
+        throw new Error("Token puudub serveri vastuses!");
+      }
+      
+      localStorage.setItem('token', token);
+
+      axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+      router.push('/profiles');
     }
-  };
-  </script>
+  } 
+  catch (error) {
+    console.error('Sisselogimine ebaõnnestus:', error);
+    alert('Vale kasutajanimi või parool!');
+  }
+};
+
+</script>
   
-  <style scoped>
-  </style>
-  
+<style scoped>
+</style>
