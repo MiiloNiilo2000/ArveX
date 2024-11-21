@@ -1,9 +1,6 @@
 <template>
   <div class="relative max-w-screen-xl p-8">
     <div class="flex space-x-4 mb-6">
-      <button @click="addUser" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-        Lisa kasutaja
-      </button>
       <button @click="addCompany" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
         Lisa ettevõte
       </button>
@@ -33,11 +30,11 @@
     </div>
 
     <div v-else>
-      <p>Profiili andmeid ei leitud.</p>
+      <p>Sa pole veel profiili loonud.</p>
     </div>
 
     <div v-if="profile && !companies.length">
-      <p>Ettevõtte andmeid ei leitud.</p>
+      <p>Sul pole veel ühtegi ettevõtet lisatud.</p>
     </div>
   </div>
 </template>
@@ -101,7 +98,7 @@ const onCompanyChange = () => {
 };
 
 const addUser = () => {
-  router.push('/add-profile');
+  router.push('/signup');
 };
 
 const addCompany = () => {
