@@ -12,13 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:BackEnd/Migrations/20241121122729_Init.Designer.cs
-    [Migration("20241121122729_Init")]
+    [Migration("20241122092823_Init")]
     partial class Init
-========
-    [Migration("20241121164610_init")]
-    partial class init
->>>>>>>> 9a2a72bbe0a4aa436e49e24e7a1a25b8dd68d8db:BackEnd/Migrations/20241121164610_init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -259,21 +254,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241121122729_Init.Designer.cs
-                            Id = "cee4781c-d442-4d01-81ba-a47232702be5",
-========
-                            Id = "11c039d9-00c7-42aa-a341-18b386aba427",
->>>>>>>> 9a2a72bbe0a4aa436e49e24e7a1a25b8dd68d8db:BackEnd/Migrations/20241121164610_init.Designer.cs
+                            Id = "68f9430f-abeb-4395-830a-9a544afeca30",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241121122729_Init.Designer.cs
-                            Id = "18ac56c8-0839-4638-b1a7-9c0abf3cc57f",
-========
-                            Id = "0bfb9abb-6de0-439f-a197-39c90c3e85f8",
->>>>>>>> 9a2a72bbe0a4aa436e49e24e7a1a25b8dd68d8db:BackEnd/Migrations/20241121164610_init.Designer.cs
+                            Id = "c42cf674-46be-4cda-a9dc-a91d98a22385",
                             Name = "User",
                             NormalizedName = "USER"
                         });
