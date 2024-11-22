@@ -34,14 +34,16 @@ namespace BackEnd.Controllers
             if (string.IsNullOrEmpty(invoiceType)){
                 var companyInvoices = await _companyInvoicesRepo.GetAllInvoices();
                 var privatePersonInvoices = await _privatePersonInvoicesRepo.GetAllInvoices();
-                invoices = companyInvoices.Cast<PrivatePersonInvoice>().Concat(privatePersonInvoices);
+                invoices = companyInvoices.Cast<PrivatePersonInvoice>()
+                                            .Concat(privatePersonInvoices)
+                                            .GroupBy(i => i.Id)
+                                            .Select(global => global.First());
             }
             else if (invoiceType.ToLower() == "company"){
                 var companyInvoices = await _companyInvoicesRepo.GetAllInvoices();
                 invoices = companyInvoices.Cast<PrivatePersonInvoice>(); 
             }
             else if (invoiceType.ToLower() == "privateperson"){
-                // Fetch private person invoices only
                 var privatePersonInvoices = await _privatePersonInvoicesRepo.GetAllInvoices();
                 invoices = privatePersonInvoices;
             }
@@ -57,48 +59,41 @@ namespace BackEnd.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetInvoicesById(int id, [FromQuery] string? invoiceType)
+        public async Task<IActionResult> GetInvoicesById(int id)
         {
-            if (string.IsNullOrEmpty(invoiceType)){
-                return BadRequest("Invoice type is required.");
+            var companyInvoice = await _companyInvoicesRepo.GetInvoicesById(id);
+            if (companyInvoice != null) {
+                return Ok(companyInvoice);  
             }
 
-            PrivatePersonInvoice invoice;
-
-            if (invoiceType.ToLower() == "company"){
-                // Fetch company invoice and cast it to PrivatePersonInvoice
-                invoice = await _companyInvoicesRepo.GetInvoicesById(id);
-            }
-            else if (invoiceType.ToLower() == "privateperson"){
-                invoice = await _privatePersonInvoicesRepo.GetInvoicesById(id);
-            }
-            else{
-                return BadRequest("Invalid invoice type.");
+            var privatePersonInvoice = await _privatePersonInvoicesRepo.GetInvoicesById(id);
+            if (privatePersonInvoice != null) {
+                return Ok(privatePersonInvoice);
             }
 
-            if (invoice == null){
-                return NotFound("Invoice not found.");
-            }
-
-            return Ok(invoice);
+            return NotFound("Invoice not found.");
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id, [FromQuery] string? invoiceType)
+        public async Task<IActionResult> Delete(int id)
         {
             bool result;
 
-            if (invoiceType.ToLower() == "company"){
+            var companyInvoice = await _companyInvoicesRepo.GetInvoicesById(id);
+            if (companyInvoice != null)
+            {
                 result = await _companyInvoicesRepo.DeleteInvoice(id);
-            }
-            else if (invoiceType.ToLower() == "privateperson"){
-                result = await _privatePersonInvoicesRepo.DeleteInvoice(id);
-            }
-            else{
-                return BadRequest("Invalid invoice type.");
+                return result ? NoContent() : NotFound();
             }
 
-            return result ? NoContent() : NotFound();
+            var privatePersonInvoice = await _privatePersonInvoicesRepo.GetInvoicesById(id);
+            if (privatePersonInvoice != null)
+            {
+                result = await _privatePersonInvoicesRepo.DeleteInvoice(id);
+                return result ? NoContent() : NotFound();
+            }
+
+            return NotFound("Invoice not found.");
         }
     }
 }

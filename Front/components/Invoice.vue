@@ -24,7 +24,12 @@
       <UFormGroup name="pastInvoice" class="flex justify-center h-16">
         <select v-model="state.pastInvoice">
           <option value="" disabled>Vali varasem arve:</option>
-          <option v-for="invoice in pastCompanyInvoices" :key="invoice.invoiceId" :value="invoice.invoiceId">
+          <!-- Company invoices -->
+          <option v-for="invoice in pastCompanyInvoices" :key="invoice.id" :value="invoice.id">
+            {{ formatInvoiceOption(invoice) }}
+          </option>
+          <!-- Private person invoices -->
+          <option v-for="invoice in pastPrivatePersonInvoices" :key="invoice.id" :value="invoice.id">
             {{ formatInvoiceOption(invoice) }}
           </option>
         </select>
@@ -328,8 +333,14 @@
       state.address = '';
       state.zipCode = '';
       state.country = '';
+      state.pastInvoice = null;
+      pastCompanyInvoices.value = [];
+      loadPastPrivatePersonInvoices();
     } else if (state.invoiceType === 'company') {
       state.title = '';
+      state.pastInvoice = null;
+      pastPrivatePersonInvoices.value = [];
+      loadPastCompanyInvoices();
     }
   }
 
@@ -362,19 +373,40 @@
     }
   });
 
+  const loadPastCompanyInvoices = async () => {
+    try {
+      const response = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      pastCompanyInvoices.value = response.filter(invoice => invoice.invoiceType === 'company');
+      console.log('Company Invoices:', pastCompanyInvoices.value);
+    } catch (error) {
+      console.error('Error fetching company invoices:', error);
+    }
+  };
+
+  const loadPastPrivatePersonInvoices = async () => {
+    try {
+      const response = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      pastPrivatePersonInvoices.value = response.filter(invoice => invoice.invoiceType === 'privatePerson');
+    } catch (error) {
+      console.error('Error fetching private person invoices:', error);
+    }
+  };
 
   watch(() => state.pastInvoice, (selectedInvoiceId) => {
     if (!selectedInvoiceId) return;
 
-    const selectedInvoice = pastCompanyInvoices.value.find(invoice => invoice.invoiceId === selectedInvoiceId);
+    let selectedInvoice;
+
+
+    if (state.invoiceType === 'company') {
+      selectedInvoice = pastCompanyInvoices.value.find(invoice => invoice.id === selectedInvoiceId);
+    } else if (state.invoiceType === 'privatePerson') {
+      selectedInvoice = pastPrivatePersonInvoices.value.find(invoice => invoice.id === selectedInvoiceId);
+    }
 
     if (selectedInvoice) {
       state.title = selectedInvoice.title || '';
-      state.clientRegNr = selectedInvoice.clientRegNr || '';
-      state.clientKMKR = selectedInvoice.clientKMKR || '';
-      state.address = selectedInvoice.address || '';
-      state.zipCode = String(selectedInvoice.zipCode);
-      state.country = selectedInvoice.country || 'Eesti';
+
       state.invoiceNumber = String(selectedInvoice.invoiceNumber);
       state.dateCreated = formatDate(selectedInvoice.dateCreated || '');
       state.dateDue = formatDate(selectedInvoice.dateDue || '');
@@ -382,19 +414,27 @@
       state.delayFine = selectedInvoice.delayFine || '';
       state.selectedFont = selectedInvoice.font || '';
 
-      state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
+      if (state.invoiceType === 'company' && 'clientRegNr' in selectedInvoice) {
+      state.clientRegNr = selectedInvoice.clientRegNr || '';
+      state.clientKMKR = selectedInvoice.clientKMKR || '';
+      state.address = selectedInvoice.address || '';
+      state.zipCode = String(selectedInvoice.zipCode);
+      state.country = selectedInvoice.country || 'Eesti';
+    }
 
-      const missingProducts = Object.keys(state.productsAndQuantities).filter(productId => {
-      return !availableProducts.value.some(product => product.productId === parseInt(productId));
-      });
+      // state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
 
-      if (missingProducts.length > 0) {
-        window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
-      }
-      // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
-      selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
-        return availableProducts.value.find(product => product.productId === parseInt(productId));
-        }).filter(product => product !== undefined) as Product[];
+      // const missingProducts = Object.keys(state.productsAndQuantities).filter(productId => {
+      // return !availableProducts.value.some(product => product.productId === parseInt(productId));
+      // });
+
+      // if (missingProducts.length > 0) {
+      //   window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
+      // }
+      // // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
+      // selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
+      //   return availableProducts.value.find(product => product.productId === parseInt(productId));
+      //   }).filter(product => product !== undefined) as Product[];
       }
   });
 
@@ -413,14 +453,23 @@
 
   };
 
+  const fetchPastInvoices = async () => {
+    try {
+      const companyInvoicesResponse = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      pastCompanyInvoices.value = companyInvoicesResponse;
+
+      const privatePersonInvoicesResponse = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      pastPrivatePersonInvoices.value = privatePersonInvoicesResponse;
+    } catch (error) {
+      console.error('Error fetching past invoices:', error);
+    }
+  };
+
   onMounted(async () => {
   try {
     const response = await customFetch<Product[]>(`Products/all`, { method: 'GET' });
     availableProducts.value = response;
-    const companyInvoicesResponse = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
-    pastCompanyInvoices.value = companyInvoicesResponse;
-    const privatePersonInvoicesResponse = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
-    pastPrivatePersonInvoices.value = privatePersonInvoicesResponse;
+    await fetchPastInvoices();
   } catch (error) {
     console.error('Error fetching products:', error);
   }

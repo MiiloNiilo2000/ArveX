@@ -139,7 +139,7 @@ export const useInvoiceStore = defineStore('invoice', () => {
     return date.toISOString().split('T')[0]; 
   }
 
-  function formatInvoiceOption(invoice: CompanyInvoice): string {
+  function formatInvoiceOption(invoice: CompanyInvoice | PrivatePersonInvoice): string {
     const dateCreated = new Date(invoice.dateCreated).toISOString().split('T')[0]; 
     return `${invoice.title} - Nr: ${invoice.invoiceNumber} (${dateCreated})`;
   }

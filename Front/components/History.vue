@@ -54,7 +54,7 @@
 
       <template #delete-data="{ row }">
         <UButton 
-          @click="deleteInvoice(row.invoiceId)" 
+          @click="deleteInvoice(row.id)" 
           color="gray" 
           variant="ghost" 
           icon="i-heroicons-trash" 
@@ -157,10 +157,11 @@
   const fetchInvoices = async () => {
     try {
       if (invoiceType.value === 'all') {
-        const companyInvoicesResponse = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`);
-        const privatePersonInvoicesResponse = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`);
-        companyInvoices.value = companyInvoicesResponse;
-        privatePersonInvoices.value = privatePersonInvoicesResponse;
+        const allInvoices = await customFetch<(CompanyInvoice | PrivatePersonInvoice)[]>(`InvoiceHistory/all`);
+        companyInvoices.value = allInvoices
+                                      .filter(inv => inv.invoiceType === 'company') as CompanyInvoice[];
+        privatePersonInvoices.value = allInvoices
+                                      .filter(inv => inv.invoiceType === 'privatePerson') as PrivatePersonInvoice[];
       } else {
         const response = await customFetch<CompanyInvoice[] | PrivatePersonInvoice[]>(`InvoiceHistory/all?invoiceType=${invoiceType.value}`);
 
@@ -176,20 +177,29 @@
   };
 
   const deleteInvoice = async (id: number) => {
-    try {
-      if (invoiceType.value === 'company') {
-        await customFetch<CompanyInvoice[]>(`InvoiceHistory/${id}`, { method: 'DELETE' });
-        companyInvoices.value = companyInvoices.value.filter(invoice => invoice.invoiceId !== id);
-      } else if (invoiceType.value === 'privateperson') {
-        await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/${id}`, { method: 'DELETE' });
-        privatePersonInvoices.value = privatePersonInvoices.value.filter(invoice => invoice.invoiceId !== id);
-      } else {
-        console.error("Invalid invoice type for deletion");
+  try {
+    const invoiceToDeleteFromCompany = companyInvoices.value.find(invoice => invoice.id === id);  
+    const invoiceToDeleteFromPrivatePerson = privatePersonInvoices.value.find(invoice => invoice.id === id); 
+
+    if (invoiceToDeleteFromCompany || invoiceToDeleteFromPrivatePerson) {
+
+      const url = `InvoiceHistory/${id}`;
+
+      const response = await customFetch(url, { method: 'DELETE' });
+
+      if (invoiceToDeleteFromCompany) {
+        companyInvoices.value = companyInvoices.value.filter(invoice => invoice.id !== id); 
       }
-    } catch (error) {
-      console.error("Error deleting invoice:", error);
+      if (invoiceToDeleteFromPrivatePerson) {
+        privatePersonInvoices.value = privatePersonInvoices.value.filter(invoice => invoice.id !== id); 
+      }
+    } else {
+      console.error(`Invoice with ID ${id} not found for deletion.`);
     }
-  };
+  } catch (error) {
+    console.error("Error deleting invoice:", error);
+  }
+};
 
   const viewInvoice = async (row: any) => {
     const state = {

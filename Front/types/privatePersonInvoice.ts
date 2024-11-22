@@ -1,5 +1,5 @@
 export type PrivatePersonInvoice = {
-    invoiceId: number
+    id: number
     title: string
     invoiceNumber: number
     dateCreated: Date
