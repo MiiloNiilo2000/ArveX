@@ -78,7 +78,6 @@ namespace BackEnd.Controllers
         }
         
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AddCompanyForUser([FromBody] Company company)
         {
             var username = User.GetUsername();

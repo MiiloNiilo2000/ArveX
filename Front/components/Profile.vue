@@ -97,10 +97,6 @@ const onCompanyChange = () => {
   console.log('Selected company:', selectedCompany.value);
 };
 
-const addUser = () => {
-  router.push('/signup');
-};
-
 const addCompany = () => {
   router.push('/add-company');
 };
