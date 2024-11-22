@@ -7,7 +7,7 @@
     @error="onError"
   >
 
-  <div class="flex w-full gap-20">
+  <div class="flex w-full gap-20 h-24">
     <div class="w-1/2">
       <UDivider label="Vali arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
@@ -17,6 +17,46 @@
         </select>
       </UFormGroup>
     </div>
+    <div class="w-100">
+        <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
+          <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
+            <div class="invoice-header text-center mb-6">
+              <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
+            </div>
+
+            <div class="flex justify-between">
+              <div class="client-details w-6/12">
+                <h2 class="text-lg font-semibold text-black">Klient:</h2>
+                <h2 class="text-lg font-semibold text-black">{{ state.title || 'Tallinn University of Technology' }}</h2>
+                <p class="text-black">
+                  {{ state.address || 'Pärnu mnt 62/1, Kesklinna linnaosa' }}<br>
+                  {{ state.zipCode || '10135' }}<br>
+                  {{ state.country || 'Estonia' }}
+                </p>
+              </div>
+
+            <div class="invoice-details w-6/12 text-right">
+              
+              <div class="flex justify-between mb-2">
+                <div class="w-1/2 text-left">
+                  <h3 class="text-lg font-semibold text-black">Arve number:</h3>
+                  <p class="text-black"><span class="label">Kuupäev:</span></p>
+                  <p class="text-black"><span class="label">Tingimused:</span></p>
+                  <p class="text-black"><span class="label">Maksetähtaeg:</span></p>
+                  <p class="text-black"><span class="label">Viivis:</span></p>
+                </div>
+                <div class="w-1/2 text-left">
+                  <p class="text-lg font-semibold text-black"><span>{{ state.invoiceNumber  || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.dateCreated || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.condition || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.dateDue || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.delayFine || '' }}</span></p>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+      </div>
   </div>
   <div class="flex w-full gap-20"> 
     <div class="w-1/2"> 
@@ -38,9 +78,9 @@
     </div>
   </div>
 
-  <div class="flex w-full gap-20"> 
+  <div class="flex gap-20 w-1/2"> 
 
-    <div v-if="state.invoiceType === 'company'" class="w-1/4"> 
+    <div v-if="state.invoiceType === 'company'" class="w-1/2"> 
 
       <UFormGroup label="Firma nimi" name="title">
         <UInput
@@ -116,7 +156,7 @@
 
     </div>
 
-    <div class="w-1/5"> 
+    <div class="w-1/2"> 
 
       <UFormGroup label="Arve Number" name="invoiceNr">
         <UInput 
@@ -162,50 +202,11 @@
       </UFormGroup>  
     </div>
 
-      <div class="w-100">
-        <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
-          <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
-            <div class="invoice-header text-center mb-6">
-              <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
-            </div>
-
-            <div class="flex justify-between">
-              <div class="client-details w-6/12">
-                <h2 class="text-lg font-semibold text-black">Klient:</h2>
-                <h2 class="text-lg font-semibold text-black">{{ state.title || 'Tallinn University of Technology' }}</h2>
-                <p class="text-black">
-                  {{ state.address || 'Pärnu mnt 62/1, Kesklinna linnaosa' }}<br>
-                  {{ state.zipCode || '10135' }}<br>
-                  {{ state.country || 'Estonia' }}
-                </p>
-              </div>
-
-            <div class="invoice-details w-6/12 text-right">
-              
-              <div class="flex justify-between mb-2">
-                <div class="w-1/2 text-left">
-                  <h3 class="text-lg font-semibold text-black">Arve number:</h3>
-                  <p class="text-black"><span class="label">Kuupäev:</span></p>
-                  <p class="text-black"><span class="label">Tingimused:</span></p>
-                  <p class="text-black"><span class="label">Maksetähtaeg:</span></p>
-                  <p class="text-black"><span class="label">Viivis:</span></p>
-                </div>
-                <div class="w-1/2 text-left">
-                  <p class="text-lg font-semibold text-black"><span>{{ state.invoiceNumber  || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.dateCreated || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.condition || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.dateDue || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.delayFine || '' }}</span></p>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
-      </div>
+      
   </div>
 
   <div class="w-1/2 h-auto">
-  <UDivider label="Vali Tooted" class="h-10 mb-2" />
+  <UDivider label="Vali tooted" class="h-10 mb-2" />
   <div class="flex items-center mb-4">
       <UButton @click="navigateToAddProduct" class="add-btn mr-4" icon="i-heroicons-plus">Lisa uus toode</UButton>
       <input
@@ -467,9 +468,10 @@
 
   onMounted(async () => {
   try {
+    state.invoiceType = 'company';
+    await loadPastCompanyInvoices();
     const response = await customFetch<Product[]>(`Products/all`, { method: 'GET' });
     availableProducts.value = response;
-    await fetchPastInvoices();
   } catch (error) {
     console.error('Error fetching products:', error);
   }
