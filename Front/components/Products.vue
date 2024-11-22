@@ -116,7 +116,7 @@ const deleteProduct = async (id: number) => {
 };
 const getCompanyNameById = (companyId: number) => {
   const company = companies.value.find(c => c.companyId === companyId);
-  return company ? company.name : 'Ettevõte ei leitud';
+  return company ? company.name : 'Ettevõtet ei leitud';
 };
 const filteredProducts = computed(() => {
   return products.value.filter(product =>

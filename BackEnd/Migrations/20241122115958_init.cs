@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -200,7 +200,7 @@ namespace backend.Migrations
                     Country = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
-                    ProfileId = table.Column<string>(type: "text", nullable: false)
+                    ProfileId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,8 +209,7 @@ namespace backend.Migrations
                         name: "FK_Company_AspNetUsers_ProfileId",
                         column: x => x.ProfileId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -246,8 +245,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "68f9430f-abeb-4395-830a-9a544afeca30", null, "Admin", "ADMIN" },
-                    { "c42cf674-46be-4cda-a9dc-a91d98a22385", null, "User", "USER" }
+                    { "0d941b49-a546-472c-a10d-9335c2e77b13", null, "Admin", "ADMIN" },
+                    { "dd9598d7-d302-4e9c-9427-1a69117e3d8b", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
