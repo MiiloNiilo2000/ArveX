@@ -86,10 +86,6 @@ namespace BackEnd.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, [FromQuery] string? invoiceType)
         {
-            if (string.IsNullOrEmpty(invoiceType)){
-                return BadRequest("Invoice type is required.");
-            }
-
             bool result;
 
             if (invoiceType.ToLower() == "company"){
