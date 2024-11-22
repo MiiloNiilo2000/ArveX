@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -200,7 +200,7 @@ namespace backend.Migrations
                     Country = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
-                    ProfileId = table.Column<string>(type: "text", nullable: false)
+                    ProfileId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,8 +209,7 @@ namespace backend.Migrations
                         name: "FK_Company_AspNetUsers_ProfileId",
                         column: x => x.ProfileId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -246,13 +245,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:BackEnd/Migrations/20241121183303_init.cs
-                    { "630c935f-406a-42fa-897c-efef5174d256", null, "User", "USER" },
-                    { "ff639734-dcdc-4bcd-8131-5b8261d2b7af", null, "Admin", "ADMIN" }
-========
-                    { "68f9430f-abeb-4395-830a-9a544afeca30", null, "Admin", "ADMIN" },
-                    { "c42cf674-46be-4cda-a9dc-a91d98a22385", null, "User", "USER" }
->>>>>>>> 4406e696ed384de2c5c858a03eb94d9e82a0a898:BackEnd/Migrations/20241122092823_Init.cs
+                    { "0d941b49-a546-472c-a10d-9335c2e77b13", null, "Admin", "ADMIN" },
+                    { "dd9598d7-d302-4e9c-9427-1a69117e3d8b", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

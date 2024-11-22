@@ -47,7 +47,6 @@ import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
 import type { Company } from "../types/company";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
 import { useApi } from '../composables/useApi';
 
 const router = useRouter();
@@ -55,7 +54,7 @@ const { customFetch } = useApi();
 
 const state = reactive<Company>({
   name: '',
-  registerCode: 0,
+  registerCode: null,
   vatNumber: '',
   address: '',
   postalCode: 0,

@@ -12,13 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:BackEnd/Migrations/20241121183303_init.Designer.cs
-    [Migration("20241121183303_init")]
+    [Migration("20241122115958_init")]
     partial class init
-========
-    [Migration("20241122092823_Init")]
-    partial class Init
->>>>>>>> 4406e696ed384de2c5c858a03eb94d9e82a0a898:BackEnd/Migrations/20241122092823_Init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +56,6 @@ namespace backend.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ProfileId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("RegisterCode")
@@ -259,21 +253,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241121183303_init.Designer.cs
-                            Id = "ff639734-dcdc-4bcd-8131-5b8261d2b7af",
-========
-                            Id = "68f9430f-abeb-4395-830a-9a544afeca30",
->>>>>>>> 4406e696ed384de2c5c858a03eb94d9e82a0a898:BackEnd/Migrations/20241122092823_Init.Designer.cs
+                            Id = "0d941b49-a546-472c-a10d-9335c2e77b13",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-<<<<<<<< HEAD:BackEnd/Migrations/20241121183303_init.Designer.cs
-                            Id = "630c935f-406a-42fa-897c-efef5174d256",
-========
-                            Id = "c42cf674-46be-4cda-a9dc-a91d98a22385",
->>>>>>>> 4406e696ed384de2c5c858a03eb94d9e82a0a898:BackEnd/Migrations/20241122092823_Init.Designer.cs
+                            Id = "dd9598d7-d302-4e9c-9427-1a69117e3d8b",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -416,9 +402,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("BackEnd.Models.Profile", "profile")
                         .WithMany("Companies")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProfileId");
 
                     b.Navigation("profile");
                 });
