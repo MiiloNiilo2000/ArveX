@@ -55,18 +55,20 @@ namespace BackEnd.Controllers
 
             return NoContent();
         }
-
+        [Authorize]
         [HttpGet("{id}/products")]
-        public ActionResult<IEnumerable<Product>> GetCompanyProducts(int id)
+        public async Task<IActionResult> GetCompanyProducts(int id)
         {
-            var company = _context.Company!
-                .Include(x => x.Products)
-                .FirstOrDefault(x => x.CompanyId == id);
+           var products = await _context.Product
+                                  .Where(p => p.CompanyId == id)
+                                  .ToListAsync();
 
-            if (company == null)
-                return NotFound();
+            if (!products.Any())
+            {
+                return NotFound("No products found for this company.");
+            }
 
-            return Ok(company.Products);
+            return Ok(products);
         }
         
         [HttpPut("{id}")]
@@ -79,14 +81,16 @@ namespace BackEnd.Controllers
         [Authorize]
         public async Task<IActionResult> AddCompanyForUser([FromBody] Company company)
         {
-            var userId = _userManager.GetUserId(User);
+            var username = User.GetUsername();
             
-            if (userId == null)
+            var user = await _userManager.FindByNameAsync(username);
+            
+            if (user == null)
             {
                 return Unauthorized("Kasutajat ei leitud");
             }
 
-            company.ProfileId = userId;
+            company.ProfileId = user.Id;
 
             _context.Company.Add(company);
             await _context.SaveChangesAsync();
