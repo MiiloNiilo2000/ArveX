@@ -11,7 +11,7 @@ namespace BackEnd.Models
 {
     public class PrivatePersonInvoice
     {
-        public int PrivatePersonInvoiceId { get; set; }
+        public int Id { get; set; }
         public required string Title { get; set; }
         public required int InvoiceNumber { get; set; }
         public required DateTime DateCreated { get; set; }
@@ -19,6 +19,7 @@ namespace BackEnd.Models
         public required string Condition { get; set; }
         public required string DelayFine { get; set; }
         public required string Font { get; set; }
+        public required string InvoiceType { get; set; }
 
         // public string ProductsAndQuantitiesJson { get; set; }
 

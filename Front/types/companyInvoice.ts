@@ -1,5 +1,5 @@
 export type CompanyInvoice = {
-    invoiceId: number
+    id: number
     clientRegNr: string;
     clientKMKR: string;
     title: string
@@ -15,4 +15,5 @@ export type CompanyInvoice = {
     font: string
     products: Product[]
     productsAndQuantities: Record<number, number>
+    invoiceType: 'company'
 }

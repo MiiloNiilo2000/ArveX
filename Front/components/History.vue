@@ -54,7 +54,7 @@
 
       <template #delete-data="{ row }">
         <UButton 
-          @click="deleteInvoice(row.invoiceId)" 
+          @click="deleteInvoice(row.id)" 
           color="gray" 
           variant="ghost" 
           icon="i-heroicons-trash" 
@@ -68,15 +68,17 @@
   
 <script setup lang="ts">
   import { ref, onMounted, computed } from 'vue';
-  import { generateCompanyInvoicePDF } from '../stores/invoiceStores'; 
+  import { generateInvoicePDF } from '../stores/invoiceStores'; 
   import type { CompanyInvoice } from "../types/companyInvoice";
+  import type { PrivatePersonInvoice } from "../types/privatePersonInvoice";
   import { useApi } from '../composables/useApi';
 
-  const invoices = ref<CompanyInvoice[]>([]);
-    const { customFetch } = useApi();
+  const companyInvoices = ref<CompanyInvoice[]>([]);
+  const privatePersonInvoices = ref<PrivatePersonInvoice[]>([]);
+  const { customFetch } = useApi();
 
   const columns = ref([
-    { key: 'title', label: 'Firma Nimi', sortable: true },
+    { key: 'title', label: 'Nimi', sortable: true },
     { key: 'invoiceNumber', label: 'Arve Number', sortable: true },
     { key: 'dateCreated', label: 'Loomiskuupäev', sortable: true },
     { key: 'dateDue', label: 'Tähtaeg', sortable: true },
@@ -85,18 +87,21 @@
   ]);
 
   const searchTerm = ref('');
+  const invoiceType = ref<'company' | 'privateperson' | 'all'>('all');
 
   const filteredInvoices = computed(() => {
-    if (!searchTerm.value) return invoices.value;
+    let allInvoices = [...companyInvoices.value, ...privatePersonInvoices.value];
+
+    if (!searchTerm.value) return allInvoices;
 
     const query = searchTerm.value.toLowerCase();
-    return invoices.value.filter(invoice => {
+    return allInvoices.filter(invoice => {
       return (
         invoice.title.toLowerCase().includes(query) ||
         invoice.invoiceNumber.toString().includes(query) ||
-        invoice.clientKMKR.toLowerCase().includes(query) ||
-        invoice.clientRegNr.toLowerCase().includes(query) ||
-        invoice.country.toLowerCase().includes(query) ||
+        (invoice as any).clientKMKR?.toLowerCase().includes(query) ||
+        (invoice as any).clientRegNr?.toLowerCase().includes(query) ||
+        (invoice as any).country?.toLowerCase().includes(query) ||
         new Date(invoice.dateCreated).toLocaleDateString().includes(query) ||
         new Date(invoice.dateDue).toLocaleDateString().includes(query)
       );
@@ -110,18 +115,20 @@
   });
 
   type Column = {
-    key: keyof CompanyInvoice | string;
+    key: keyof CompanyInvoice | keyof PrivatePersonInvoice | string;
     label: string;
     sortable?: boolean;
   }
 
   const sortedInvoices = computed(() => {
-    if (!sortState.value.key) return  invoices.value;
-     
-    const key = sortState.value.key;
+    if (!sortState.value.key) return invoiceType.value === 'company' ? companyInvoices.value : privatePersonInvoices.value;
+
+    const key = sortState.value.key as keyof (CompanyInvoice | PrivatePersonInvoice);
     const order = sortState.value.order === 'asc' ? 1 : -1;
 
-    return [...invoices.value].sort((a, b) => {
+    const invoices = invoiceType.value === 'company' ? companyInvoices.value : privatePersonInvoices.value;
+
+    return [...invoices].sort((a, b) => {
       const aValue = a[key];
       const bValue = b[key];
 
@@ -130,6 +137,7 @@
       return 0;
     });
   });
+
 
   const toggleSort = (column: Column) => {
     if (!column.sortable) return;
@@ -148,22 +156,50 @@
 
   const fetchInvoices = async () => {
     try {
-      const response = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
-      invoices.value = response; 
+      if (invoiceType.value === 'all') {
+        const allInvoices = await customFetch<(CompanyInvoice | PrivatePersonInvoice)[]>(`InvoiceHistory/all`);
+        companyInvoices.value = allInvoices
+                                      .filter(inv => inv.invoiceType === 'company') as CompanyInvoice[];
+        privatePersonInvoices.value = allInvoices
+                                      .filter(inv => inv.invoiceType === 'privatePerson') as PrivatePersonInvoice[];
+      } else {
+        const response = await customFetch<CompanyInvoice[] | PrivatePersonInvoice[]>(`InvoiceHistory/all?invoiceType=${invoiceType.value}`);
+
+        if (invoiceType.value === 'company') {
+          companyInvoices.value = response as CompanyInvoice[];
+        } else {
+          privatePersonInvoices.value = response as PrivatePersonInvoice[];
+        }
+      }
     } catch (error) {
       console.error("Error fetching invoices:", error);
     }
   };
 
   const deleteInvoice = async (id: number) => {
-    try {
-      await customFetch<CompanyInvoice[]>(`InvoiceHistory/${id}`, { method: 'DELETE' });
-      invoices.value = invoices.value.filter(invoice => invoice.invoiceId !== id);
-    } 
-    catch (error) {
-      console.error("Error deleting invoice:", error);
+  try {
+    const invoiceToDeleteFromCompany = companyInvoices.value.find(invoice => invoice.id === id);  
+    const invoiceToDeleteFromPrivatePerson = privatePersonInvoices.value.find(invoice => invoice.id === id); 
+
+    if (invoiceToDeleteFromCompany || invoiceToDeleteFromPrivatePerson) {
+
+      const url = `InvoiceHistory/${id}`;
+
+      const response = await customFetch(url, { method: 'DELETE' });
+
+      if (invoiceToDeleteFromCompany) {
+        companyInvoices.value = companyInvoices.value.filter(invoice => invoice.id !== id); 
+      }
+      if (invoiceToDeleteFromPrivatePerson) {
+        privatePersonInvoices.value = privatePersonInvoices.value.filter(invoice => invoice.id !== id); 
+      }
+    } else {
+      console.error(`Invoice with ID ${id} not found for deletion.`);
     }
-  };
+  } catch (error) {
+    console.error("Error deleting invoice:", error);
+  }
+};
 
   const viewInvoice = async (row: any) => {
     const state = {
@@ -179,10 +215,11 @@
       condition: row.condition,
       delayFine: row.delayFine,
       selectedFont: row.font,
-      productsAndQuantities: row.productsAndQuantities 
+      productsAndQuantities: row.productsAndQuantities, 
+      invoiceType: row.invoiceType,
     };
-
-    generateCompanyInvoicePDF(state, "GeneratePdfWithoutSaving");
+    const route = state.invoiceType === "privatePerson" ? "privatePerson" : "company";
+    generateInvoicePDF(state, route);
   };
 
   onMounted(() => {
