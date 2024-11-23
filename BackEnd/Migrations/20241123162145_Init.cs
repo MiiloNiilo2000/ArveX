@@ -60,6 +60,7 @@ namespace backend.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProfileId = table.Column<string>(type: "text", nullable: true),
                     Title = table.Column<string>(type: "text", nullable: false),
                     InvoiceNumber = table.Column<int>(type: "integer", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -246,8 +247,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "382864dd-c04e-46cf-bc8b-2aa88ee23772", null, "User", "USER" },
-                    { "b5d7ef46-8e49-438b-ab23-19428c30444d", null, "Admin", "ADMIN" }
+                    { "08fab7b4-f8f8-46df-80f6-50f35a9d597d", null, "Admin", "ADMIN" },
+                    { "0932229d-10ea-441f-8517-4b2615629499", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

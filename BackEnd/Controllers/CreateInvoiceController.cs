@@ -16,55 +16,87 @@ using QuestPDF.Previewer;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using BackEnd.Extensions;
 
 namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CreateInvoiceController(CompanyInvoicesRepo companyRepo, PrivatePersonInvoicesRepo privatePersonRepo) : ControllerBase
+    public class CreateInvoiceController : ControllerBase
     {
+        private readonly CompanyInvoicesRepo _companyRepo;
+        private readonly PrivatePersonInvoicesRepo _privatePersonRepo;
+        private readonly UserManager<Profile> _userManager;
         protected double _totalPrice;
         protected double _taxPercent;
         protected double _priceWithoutTax;
 
-        [HttpPost("GeneratePdfcompany")]
-        public async Task<IResult> GeneratePdf([FromBody] CompanyInvoice data)
+        public CreateInvoiceController(CompanyInvoicesRepo companyRepo, PrivatePersonInvoicesRepo privatePersonRepo, UserManager<Profile> userManager)
         {
-            
-            var invoice = await companyRepo.SaveInvoiceInDb(data);
+            _companyRepo = companyRepo;
+            _privatePersonRepo = privatePersonRepo;
+            _userManager = userManager;
+        }
 
-            var products = await companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
+        [Authorize]
+        [HttpPost("GeneratePdfcompany")]
+        public async Task<IActionResult> GeneratePdf([FromBody] CompanyInvoice data)
+        {
+            var username = User.GetUsername();
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null){
+                return Unauthorized("User not found.");
+            }
+
+            data.ProfileId = user.Id;
+
+            var invoice = await _companyRepo.SaveInvoiceInDb(data);
+
+            var products = await _companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
             return await GeneratePdfResponse(invoice, products);
         }
 
+        [Authorize]
         [HttpPost("GeneratePdfprivatePerson")]
-        public async Task<IResult> GeneratePdf([FromBody] PrivatePersonInvoice data)
+        public async Task<IActionResult> GeneratePdf([FromBody] PrivatePersonInvoice data)
         {
-            var invoice = await privatePersonRepo.SaveInvoiceInDb(data);
+            var username = User.GetUsername();
+            var user = await _userManager.FindByNameAsync(username);
 
-            var products = await privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
+            if (user == null){
+                return Unauthorized("User not found.");
+            }
+
+            data.ProfileId = user.Id;
+
+            var invoice = await _privatePersonRepo.SaveInvoiceInDb(data);
+
+            var products = await _privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
             return await GeneratePrivatePersonPdfResponse(invoice, products);
         }
 
         [HttpPost("GeneratePdfcompanyWithoutSaving")]
-        public async Task<IResult> GeneratePdfWithoutSaving([FromBody] CompanyInvoice data)
+        public async Task<IActionResult> GeneratePdfWithoutSaving([FromBody] CompanyInvoice data)
         {
-            var products = await companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
+            var products = await _companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
             return await GeneratePdfResponse(data, products);
         }
 
         [HttpPost("GeneratePdfprivatePersonWithoutSaving")]
-        public async Task<IResult> GeneratePdfWithoutSaving([FromBody] PrivatePersonInvoice data)
+        public async Task<IActionResult> GeneratePdfWithoutSaving([FromBody] PrivatePersonInvoice data)
         {
-            var products = await privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
+            var products = await _privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
             return await GeneratePrivatePersonPdfResponse(data, products);
         }
 
-        private async Task<IResult> GeneratePdfResponse(CompanyInvoice data, List<Product> products)
+        private async Task<IActionResult> GeneratePdfResponse(CompanyInvoice data, List<Product> products)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
@@ -89,10 +121,10 @@ namespace BackEnd.Controllers
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
             string fileName = $"{data.InvoiceNumber}";
 
-            return Results.File(pdf, "application/pdf", fileName);
+            return File(pdf, "application/pdf", fileName);
         }
 
-        private async Task<IResult> GeneratePrivatePersonPdfResponse(PrivatePersonInvoice data, List<Product> products)
+        private async Task<IActionResult> GeneratePrivatePersonPdfResponse(PrivatePersonInvoice data, List<Product> products)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
@@ -112,7 +144,7 @@ namespace BackEnd.Controllers
             var sanitizedTitle = string.Join("_", data.Title.Split(Path.GetInvalidFileNameChars()));
             string fileName = $"{data.InvoiceNumber}";
 
-            return Results.File(pdf, "application/pdf", fileName);
+            return File(pdf, "application/pdf", fileName);
         }
         
         QuestPDF.Infrastructure.IDocument CreateDocument(
