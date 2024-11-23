@@ -12,6 +12,7 @@ namespace BackEnd.Models
     public class PrivatePersonInvoice
     {
         public int Id { get; set; }
+        public string? ProfileId { get; set; } = null!;
         public required string Title { get; set; }
         public required int InvoiceNumber { get; set; }
         public required DateTime DateCreated { get; set; }

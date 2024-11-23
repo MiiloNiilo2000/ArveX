@@ -55,6 +55,7 @@ namespace BackEnd.Controllers
 
             return NoContent();
         }
+
         [Authorize]
         [HttpGet("{id}/products")]
         public async Task<IActionResult> GetCompanyProducts(int id)
@@ -96,6 +97,5 @@ namespace BackEnd.Controllers
 
             return CreatedAtAction(nameof(GetCompaniesById), new { id = company.CompanyId }, company);
         }
-
     }
 }

@@ -72,13 +72,11 @@
   import type { CompanyInvoice } from "../types/companyInvoice";
   import type { PrivatePersonInvoice } from "../types/privatePersonInvoice";
   import { useApi } from '../composables/useApi';
-  import { useApiForRik } from '../composables/useApiForRik';
   import { RefSymbol } from '@vue/reactivity';
 
   const companyInvoices = ref<CompanyInvoice[]>([]);
   const privatePersonInvoices = ref<PrivatePersonInvoice[]>([]);
   const { customFetch } = useApi();
-  const { customFetchForRik } = useApiForRik();
 
   const columns = ref([
     { key: 'title', label: 'Nimi', sortable: true },
@@ -160,13 +158,13 @@
   const fetchInvoices = async () => {
     try {
       if (invoiceType.value === 'all') {
-        const allInvoices = await customFetchForRik<(CompanyInvoice | PrivatePersonInvoice)[]>(`InvoiceHistory/all`);
+        const allInvoices = await customFetch<(CompanyInvoice | PrivatePersonInvoice)[]>(`InvoiceHistory/all`);
         companyInvoices.value = allInvoices
                                       .filter(inv => inv.invoiceType === 'company') as CompanyInvoice[];
         privatePersonInvoices.value = allInvoices
                                       .filter(inv => inv.invoiceType === 'privatePerson') as PrivatePersonInvoice[];
       } else {
-        const response = await customFetchForRik<CompanyInvoice[] | PrivatePersonInvoice[]>(`InvoiceHistory/all?invoiceType=${invoiceType.value}`);
+        const response = await customFetch<CompanyInvoice[] | PrivatePersonInvoice[]>(`InvoiceHistory/all?invoiceType=${invoiceType.value}`);
 
         if (invoiceType.value === 'company') {
           companyInvoices.value = response as CompanyInvoice[];
@@ -188,7 +186,7 @@
 
       const url = `InvoiceHistory/${id}`;
 
-      await customFetchForRik(url, { method: 'DELETE' });
+      await customFetch(url, { method: 'DELETE' });
 
       if (invoiceToDeleteFromCompany) {
         companyInvoices.value = companyInvoices.value.filter(invoice => invoice.id !== id); 
