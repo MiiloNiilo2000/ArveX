@@ -7,7 +7,7 @@
     @error="onError"
   >
 
-  <div class="flex w-full gap-20">
+  <div class="flex w-full gap-20 h-24">
     <div class="w-1/2">
       <UDivider label="Vali arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
@@ -17,6 +17,46 @@
         </select>
       </UFormGroup>
     </div>
+    <div class="w-100">
+        <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
+          <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
+            <div class="invoice-header text-center mb-6">
+              <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
+            </div>
+
+            <div class="flex justify-between">
+              <div class="client-details w-6/12">
+                <h2 class="text-lg font-semibold text-black">Klient:</h2>
+                <h2 class="text-lg font-semibold text-black">{{ state.title || 'Tallinn University of Technology' }}</h2>
+                <p class="text-black">
+                  {{ state.address || 'Pärnu mnt 62/1, Kesklinna linnaosa' }}<br>
+                  {{ state.zipCode || '10135' }}<br>
+                  {{ state.country || 'Estonia' }}
+                </p>
+              </div>
+
+            <div class="invoice-details w-6/12 text-right">
+              
+              <div class="flex justify-between mb-2">
+                <div class="w-1/2 text-left">
+                  <h3 class="text-lg font-semibold text-black">Arve number:</h3>
+                  <p class="text-black"><span class="label">Kuupäev:</span></p>
+                  <p class="text-black"><span class="label">Tingimused:</span></p>
+                  <p class="text-black"><span class="label">Maksetähtaeg:</span></p>
+                  <p class="text-black"><span class="label">Viivis:</span></p>
+                </div>
+                <div class="w-1/2 text-left">
+                  <p class="text-lg font-semibold text-black"><span>{{ state.invoiceNumber  || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.dateCreated || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.condition || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.dateDue || '' }}</span></p>
+                  <p class="text-black"><span>{{ state.delayFine || '' }}</span></p>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+      </div>
   </div>
   <div class="flex w-full gap-20"> 
     <div class="w-1/2"> 
@@ -24,7 +64,12 @@
       <UFormGroup name="pastInvoice" class="flex justify-center h-16">
         <select v-model="state.pastInvoice">
           <option value="" disabled>Vali varasem arve:</option>
-          <option v-for="invoice in pastCompanyInvoices" :key="invoice.invoiceId" :value="invoice.invoiceId">
+          <!-- Company invoices -->
+          <option v-for="invoice in pastCompanyInvoices" :key="invoice.id" :value="invoice.id">
+            {{ formatInvoiceOption(invoice) }}
+          </option>
+          <!-- Private person invoices -->
+          <option v-for="invoice in pastPrivatePersonInvoices" :key="invoice.id" :value="invoice.id">
             {{ formatInvoiceOption(invoice) }}
           </option>
         </select>
@@ -33,9 +78,9 @@
     </div>
   </div>
 
-  <div class="flex w-full gap-20"> 
+  <div class="flex gap-20 w-1/2"> 
 
-    <div v-if="state.invoiceType === 'company'" class="w-1/4"> 
+    <div v-if="state.invoiceType === 'company'" class="w-1/2"> 
 
       <UFormGroup label="Firma nimi" name="title">
         <UInput
@@ -111,7 +156,7 @@
 
     </div>
 
-    <div class="w-1/5"> 
+    <div class="w-1/2"> 
 
       <UFormGroup label="Arve Number" name="invoiceNr">
         <UInput 
@@ -157,50 +202,11 @@
       </UFormGroup>  
     </div>
 
-      <div class="w-100">
-        <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
-          <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
-            <div class="invoice-header text-center mb-6">
-              <h1 class="text-2xl font-bold text-black">{{ state.title || 'Tallinn University of Technology' }}</h1>
-            </div>
-
-            <div class="flex justify-between">
-              <div class="client-details w-6/12">
-                <h2 class="text-lg font-semibold text-black">Klient:</h2>
-                <h2 class="text-lg font-semibold text-black">{{ state.title || 'Tallinn University of Technology' }}</h2>
-                <p class="text-black">
-                  {{ state.address || 'Pärnu mnt 62/1, Kesklinna linnaosa' }}<br>
-                  {{ state.zipCode || '10135' }}<br>
-                  {{ state.country || 'Estonia' }}
-                </p>
-              </div>
-
-            <div class="invoice-details w-6/12 text-right">
-              
-              <div class="flex justify-between mb-2">
-                <div class="w-1/2 text-left">
-                  <h3 class="text-lg font-semibold text-black">Arve number:</h3>
-                  <p class="text-black"><span class="label">Kuupäev:</span></p>
-                  <p class="text-black"><span class="label">Tingimused:</span></p>
-                  <p class="text-black"><span class="label">Maksetähtaeg:</span></p>
-                  <p class="text-black"><span class="label">Viivis:</span></p>
-                </div>
-                <div class="w-1/2 text-left">
-                  <p class="text-lg font-semibold text-black"><span>{{ state.invoiceNumber  || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.dateCreated || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.condition || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.dateDue || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.delayFine || '' }}</span></p>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
-      </div>
+      
   </div>
 
   <div class="w-1/2 h-auto">
-  <UDivider label="Vali Tooted" class="h-10 mb-2" />
+  <UDivider label="Vali tooted" class="h-10 mb-2" />
   <div class="flex items-center mb-4">
       <UButton @click="navigateToAddProduct" class="add-btn mr-4" icon="i-heroicons-plus">Lisa uus toode</UButton>
       <input
@@ -277,8 +283,9 @@
 <script setup lang="ts">
   import { ref, watch, defineExpose, onMounted } from 'vue';
   import type { FormErrorEvent } from "#ui/types";
-  import { generateCompanyInvoicePDF } from '../stores/invoiceStores';
+  import { generateInvoicePDF } from '../stores/invoiceStores';
   import { useApi } from '../composables/useApi';
+  import { useApiForRik } from '../composables/useApiForRik';
   import type { CompanyInvoice } from '../types/companyInvoice'
   import type { PrivatePersonInvoice } from '../types/privatePersonInvoice'
   import { useProductStore } from '../stores/productStores';
@@ -287,6 +294,7 @@
   const date = ref(new Date())
   const selectedProducts = ref<Product[]>([]);
   const { customFetch } = useApi();
+  const { customFetchForRik } = useApiForRik();
   const availableProducts = ref<Product[]>([]);
   const companySuggestions = ref<Company[]>([]);
   const pastCompanyInvoices = ref<CompanyInvoice[]>([]);
@@ -320,15 +328,30 @@
     price: number;
   }  
 
-  function onInvoiceTypeChange(){
-    state.title = '';
+  function onInvoiceTypeChange() {
+    if (state.invoiceType === 'privatePerson') {
+      state.title = '';
+      state.clientRegNr = '';
+      state.clientKMKR = '';
+      state.address = '';
+      state.zipCode = '';
+      state.country = '';
+      state.pastInvoice = null;
+      pastCompanyInvoices.value = [];
+      loadPastPrivatePersonInvoices();
+    } else if (state.invoiceType === 'company') {
+      state.title = '';
+      state.pastInvoice = null;
+      pastPrivatePersonInvoices.value = [];
+      loadPastCompanyInvoices();
+    }
   }
 
   const fetchCompanyNames = async () => {
     if (state.title.length < 3) return; 
 
     try {
-      const response = await customFetch<any>(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`, { method: 'GET' })
+      const response = await customFetchForRik<any>(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`, { method: 'GET' })
       companySuggestions.value = response.data;
     } catch (error) {
       console.error('Error fetching company names:', error);
@@ -353,25 +376,54 @@
     }
   });
 
+  const loadPastCompanyInvoices = async () => {
+    try {
+      const response = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      pastCompanyInvoices.value = response.filter(invoice => invoice.invoiceType === 'company');
+      console.log('Company Invoices:', pastCompanyInvoices.value);
+    } catch (error) {
+      console.error('Error fetching company invoices:', error);
+    }
+  };
+
+  const loadPastPrivatePersonInvoices = async () => {
+    try {
+      const response = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      pastPrivatePersonInvoices.value = response.filter(invoice => invoice.invoiceType === 'privatePerson');
+    } catch (error) {
+      console.error('Error fetching private person invoices:', error);
+    }
+  };
 
   watch(() => state.pastInvoice, (selectedInvoiceId) => {
     if (!selectedInvoiceId) return;
 
-    const selectedInvoice = pastCompanyInvoices.value.find(invoice => invoice.invoiceId === selectedInvoiceId);
+    let selectedInvoice;
+
+
+    if (state.invoiceType === 'company') {
+      selectedInvoice = pastCompanyInvoices.value.find(invoice => invoice.id === selectedInvoiceId);
+    } else if (state.invoiceType === 'privatePerson') {
+      selectedInvoice = pastPrivatePersonInvoices.value.find(invoice => invoice.id === selectedInvoiceId);
+    }
 
     if (selectedInvoice) {
       state.title = selectedInvoice.title || '';
-      state.clientRegNr = selectedInvoice.clientRegNr || '';
-      state.clientKMKR = selectedInvoice.clientKMKR || '';
-      state.address = selectedInvoice.address || '';
-      state.zipCode = String(selectedInvoice.zipCode);
-      state.country = selectedInvoice.country || 'Eesti';
+
       state.invoiceNumber = String(selectedInvoice.invoiceNumber);
       state.dateCreated = formatDate(selectedInvoice.dateCreated || '');
       state.dateDue = formatDate(selectedInvoice.dateDue || '');
       state.condition = selectedInvoice.condition || '';
       state.delayFine = selectedInvoice.delayFine || '';
       state.selectedFont = selectedInvoice.font || '';
+
+      if (state.invoiceType === 'company' && 'clientRegNr' in selectedInvoice) {
+      state.clientRegNr = selectedInvoice.clientRegNr || '';
+      state.clientKMKR = selectedInvoice.clientKMKR || '';
+      state.address = selectedInvoice.address || '';
+      state.zipCode = String(selectedInvoice.zipCode);
+      state.country = selectedInvoice.country || 'Eesti';
+    }
 
       state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
 
@@ -399,23 +451,29 @@
         console.warn('Invalid product detected:', product);
       }
     });
-    if (state.invoiceType == 'company'){
-      generateCompanyInvoicePDF(state, "GeneratePdf");
-    }
-    else if (state.invoiceType == 'privatePerson'){
-      generatePrivatePersonInvoicePDF(state, "GeneratePdf");
+    const route = state.invoiceType === "privatePerson" ? "privatePerson" : "company";
+    generateInvoicePDF(state, route);
+
+  };
+
+  const fetchPastInvoices = async () => {
+    try {
+      const companyInvoicesResponse = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      pastCompanyInvoices.value = companyInvoicesResponse;
+
+      const privatePersonInvoicesResponse = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
+      pastPrivatePersonInvoices.value = privatePersonInvoicesResponse;
+    } catch (error) {
+      console.error('Error fetching past invoices:', error);
     }
   };
 
-
   onMounted(async () => {
   try {
+    state.invoiceType = 'company';
+    await loadPastCompanyInvoices();
     const response = await customFetch<Product[]>(`Products/all`, { method: 'GET' });
     availableProducts.value = response;
-    const companyInvoicesResponse = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
-    pastCompanyInvoices.value = companyInvoicesResponse;
-    const privatePersonInvoicesResponse = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
-    pastPrivatePersonInvoices.value = privatePersonInvoicesResponse;
   } catch (error) {
     console.error('Error fetching products:', error);
   }
@@ -423,7 +481,6 @@
 
   defineExpose({ validate, fetchCompanyNames, submitForm });
 </script>
-
 
 <style>
   @import '../assetsFront/styles/main.css';

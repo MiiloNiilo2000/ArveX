@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241121164610_init")]
-    partial class init
+    [Migration("20241123112835_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,6 @@ namespace backend.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ProfileId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("RegisterCode")
@@ -75,11 +74,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("BackEnd.Models.PrivatePersonInvoice", b =>
                 {
-                    b.Property<int>("PrivatePersonInvoiceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PrivatePersonInvoiceId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Condition")
                         .IsRequired()
@@ -107,11 +106,19 @@ namespace backend.Migrations
                     b.Property<int>("InvoiceNumber")
                         .HasColumnType("integer");
 
+                    b.Property<string>("InvoiceType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProductsAndQuantitiesJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("PrivatePersonInvoiceId");
+                    b.HasKey("Id");
 
                     b.ToTable("PrivatePersonInvoice");
 
@@ -250,13 +257,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "11c039d9-00c7-42aa-a341-18b386aba427",
+                            Id = "b5d7ef46-8e49-438b-ab23-19428c30444d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0bfb9abb-6de0-439f-a197-39c90c3e85f8",
+                            Id = "382864dd-c04e-46cf-bc8b-2aa88ee23772",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -384,9 +391,6 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("CompanyInvoiceId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("text");
@@ -402,9 +406,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("BackEnd.Models.Profile", "profile")
                         .WithMany("Companies")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProfileId");
 
                     b.Navigation("profile");
                 });

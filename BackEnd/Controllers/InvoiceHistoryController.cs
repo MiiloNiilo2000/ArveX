@@ -13,36 +13,87 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class InvoiceHistoryController(CompanyInvoicesRepo repo) : ControllerBase
+    public class InvoiceHistoryController : ControllerBase
     {
-        private readonly CompanyInvoicesRepo repo = repo;
+        private readonly InvoicesRepoBase<PrivatePersonInvoice> _privatePersonInvoicesRepo;
+        private readonly InvoicesRepoBase<CompanyInvoice> _companyInvoicesRepo;
+
+        public InvoiceHistoryController(
+            InvoicesRepoBase<PrivatePersonInvoice> privatePersonInvoicesRepo,
+            InvoicesRepoBase<CompanyInvoice> companyInvoicesRepo)
+        {
+            _privatePersonInvoicesRepo = privatePersonInvoicesRepo;
+            _companyInvoicesRepo = companyInvoicesRepo;
+        }
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllInvoices(){
-            var invoices = await repo.GetAllInvoices();
+        public async Task<IActionResult> GetAllInvoices([FromQuery] string? invoiceType)
+        {
+            IEnumerable<PrivatePersonInvoice> invoices = new List<PrivatePersonInvoice>();
 
-            if(invoices == null || !invoices.Any()){
-                return NotFound("Ühtki varasemat arvet ei leitud.");
+            if (string.IsNullOrEmpty(invoiceType)){
+                var companyInvoices = await _companyInvoicesRepo.GetAllInvoices();
+                var privatePersonInvoices = await _privatePersonInvoicesRepo.GetAllInvoices();
+                invoices = companyInvoices.Cast<PrivatePersonInvoice>()
+                                            .Concat(privatePersonInvoices)
+                                            .GroupBy(i => i.Id)
+                                            .Select(global => global.First());
             }
+            else if (invoiceType.ToLower() == "company"){
+                var companyInvoices = await _companyInvoicesRepo.GetAllInvoices();
+                invoices = companyInvoices.Cast<PrivatePersonInvoice>(); 
+            }
+            else if (invoiceType.ToLower() == "privateperson"){
+                var privatePersonInvoices = await _privatePersonInvoicesRepo.GetAllInvoices();
+                invoices = privatePersonInvoices;
+            }
+            else{
+                return BadRequest("Invalid invoice type.");
+            }
+
+            if (invoices == null || !invoices.Any()){
+                return NotFound("No invoices found.");
+            }
+
             return Ok(invoices);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetInvoicesById(int id){
-            var invoice = await repo.GetInvoicesById(id);
-
-            if(invoice == null){
-                return NotFound("Ühtki varasemat arvet ei leitud.");
+        public async Task<IActionResult> GetInvoicesById(int id)
+        {
+            var companyInvoice = await _companyInvoicesRepo.GetInvoicesById(id);
+            if (companyInvoice != null) {
+                return Ok(companyInvoice);  
             }
 
-            return Ok(invoice);
+            var privatePersonInvoice = await _privatePersonInvoicesRepo.GetInvoicesById(id);
+            if (privatePersonInvoice != null) {
+                return Ok(privatePersonInvoice);
+            }
+
+            return NotFound("Invoice not found.");
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id){
-            bool result = await repo.DeleteInvoice(id);
+        public async Task<IActionResult> Delete(int id)
+        {
+            bool result;
 
-            return result ? NoContent() : NotFound();
+            var companyInvoice = await _companyInvoicesRepo.GetInvoicesById(id);
+            if (companyInvoice != null)
+            {
+                result = await _companyInvoicesRepo.DeleteInvoice(id);
+                return result ? NoContent() : NotFound();
+            }
+
+            var privatePersonInvoice = await _privatePersonInvoicesRepo.GetInvoicesById(id);
+            if (privatePersonInvoice != null)
+            {
+                result = await _privatePersonInvoicesRepo.DeleteInvoice(id);
+                return result ? NoContent() : NotFound();
+            }
+
+            return NotFound("Invoice not found.");
         }
     }
 }

@@ -1,27 +1,48 @@
 import type { FormError, FormErrorEvent } from "#ui/types";
-import { useApi } from '../composables/useApi';
+import { useApiForRik } from '../composables/useApiForRik';
 
-export async function generateCompanyInvoicePDF(state: any, routeName: string) {
-  const { customFetch } = useApi();
+export async function generateInvoicePDF(state: any, routeName: string) {
+  const { customFetchForRik } = useApiForRik();
   try {
-    console.log("Products and Quantities in util", state.productsAndQuantities);
-    const payload = {
-      title: state.title,
-      clientRegNr: state.clientRegNr.toString(),
-      clientKMKR: state.clientKMKR,
-      address: state.address,
-      zipCode: state.zipCode.toString(),
-      country: state.country,
-      invoiceNumber: parseInt(state.invoiceNumber),
-      dateCreated: new Date(state.dateCreated).toISOString(),
-      dateDue: new Date(state.dateDue).toISOString(),
-      condition: state.condition || "",
-      delayFine: state.delayFine || "",
-      font: state.selectedFont,
-      // productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
-    };
+    let payload;
+    if(routeName === "company" || routeName === "companyWithoutSaving"){
+      payload = {
+        title: state.title,
+        clientRegNr: state.clientRegNr.toString(),
+        clientKMKR: state.clientKMKR,
+        address: state.address,
+        zipCode: state.zipCode.toString(),
+        country: state.country,
+        invoiceNumber: parseInt(state.invoiceNumber),
+        dateCreated: new Date(state.dateCreated).toISOString(),
+        dateDue: new Date(state.dateDue).toISOString(),
+        condition: state.condition || "",
+        delayFine: state.delayFine || "",
+        font: state.selectedFont,
+        invoiceType: state.invoiceType,
+        productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+      };
+    }
+    else {
+      payload = {
+        title: state.title,
+        invoiceNumber: parseInt(state.invoiceNumber),
+        dateCreated: new Date(state.dateCreated).toISOString(),
+        dateDue: new Date(state.dateDue).toISOString(),
+        condition: state.condition || "",
+        delayFine: state.delayFine || "",
+        font: state.selectedFont,
+        invoiceType: state.invoiceType,
+        productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+      };
+    }
+    console.log('Payload:', payload);
 
-    const response = await customFetch<Blob>(`/CreateInvoice/${routeName}`, {
+    if(!payload) {
+      throw new Error("Invalid routeName or missing data for payload.");
+    }
+    
+    const response = await customFetchForRik<Blob>(`/CreateInvoice/GeneratePdf${routeName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,47 +55,13 @@ export async function generateCompanyInvoicePDF(state: any, routeName: string) {
     link.href = url;
     link.setAttribute('download', 'invoice.pdf');
     document.body.appendChild(link);
-    link.click();
+    link.click(); 
     link.remove();
   } catch (error) {
       console.error("Error message:", error);
   }
 }
 
-export async function generatePrivatePersonInvoicePDF(state: any, routeName: string) {
-  const { customFetch } = useApi();
-  try {
-    console.log("Products and Quantities in util", state.productsAndQuantities);
-    const payload = {
-      title: state.title,
-      invoiceNumber: parseInt(state.invoiceNumber),
-      dateCreated: new Date(state.dateCreated).toISOString(),
-      dateDue: new Date(state.dateDue).toISOString(),
-      condition: state.condition || "",
-      delayFine: state.delayFine || "",
-      font: state.selectedFont,
-      // productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
-    };
-
-    const response = await customFetch<Blob>(`/CreatePrivatePersonInvoice/${routeName}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const url = window.URL.createObjectURL(new Blob([response]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'invoice.pdf');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  } catch (error) {
-      console.error("Error message:", error);
-  }
-}
 
 export const useInvoiceStore = defineStore('invoice', () => {
 
@@ -114,7 +101,7 @@ export const useInvoiceStore = defineStore('invoice', () => {
     footerImage: null,
     productsAndQuantities: {} as Record<number, number>,
     pastInvoice: null,
-    invoiceType: 'company',
+    invoiceType: '',
   });
 
   const toggleProductSelection = (productId: number) => {
@@ -153,7 +140,7 @@ export const useInvoiceStore = defineStore('invoice', () => {
     return date.toISOString().split('T')[0]; 
   }
 
-  function formatInvoiceOption(invoice: CompanyInvoice): string {
+  function formatInvoiceOption(invoice: CompanyInvoice | PrivatePersonInvoice): string {
     const dateCreated = new Date(invoice.dateCreated).toISOString().split('T')[0]; 
     return `${invoice.title} - Nr: ${invoice.invoiceNumber} (${dateCreated})`;
   }

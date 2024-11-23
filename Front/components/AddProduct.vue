@@ -69,7 +69,7 @@ const addProduct = async (product: Product) => {
   try {
     await customFetch('Products', {
       method: 'POST',
-      body: product,
+      body: product,     
     });
   } catch (error) {
     console.error("Error adding company:", error);

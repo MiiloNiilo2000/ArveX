@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,7 @@ namespace backend.Migrations
                 name: "PrivatePersonInvoice",
                 columns: table => new
                 {
-                    PrivatePersonInvoiceId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: false),
                     InvoiceNumber = table.Column<int>(type: "integer", nullable: false),
@@ -67,8 +67,9 @@ namespace backend.Migrations
                     Condition = table.Column<string>(type: "text", nullable: false),
                     DelayFine = table.Column<string>(type: "text", nullable: false),
                     Font = table.Column<string>(type: "text", nullable: false),
+                    InvoiceType = table.Column<string>(type: "text", nullable: false),
+                    ProductsAndQuantitiesJson = table.Column<string>(type: "text", nullable: false),
                     Discriminator = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
-                    CompanyInvoiceId = table.Column<int>(type: "integer", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: true),
                     ZipCode = table.Column<string>(type: "text", nullable: true),
                     Country = table.Column<string>(type: "text", nullable: true),
@@ -77,7 +78,7 @@ namespace backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrivatePersonInvoice", x => x.PrivatePersonInvoiceId);
+                    table.PrimaryKey("PK_PrivatePersonInvoice", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,7 +201,7 @@ namespace backend.Migrations
                     Country = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
-                    ProfileId = table.Column<string>(type: "text", nullable: false)
+                    ProfileId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,8 +210,7 @@ namespace backend.Migrations
                         name: "FK_Company_AspNetUsers_ProfileId",
                         column: x => x.ProfileId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -246,8 +246,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0bfb9abb-6de0-439f-a197-39c90c3e85f8", null, "User", "USER" },
-                    { "11c039d9-00c7-42aa-a341-18b386aba427", null, "Admin", "ADMIN" }
+                    { "382864dd-c04e-46cf-bc8b-2aa88ee23772", null, "User", "USER" },
+                    { "b5d7ef46-8e49-438b-ab23-19428c30444d", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
