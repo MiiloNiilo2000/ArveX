@@ -21,22 +21,22 @@ namespace BackEnd.Models
         public required string Font { get; set; }
         public required string InvoiceType { get; set; }
 
-        // public string ProductsAndQuantitiesJson { get; set; }
+        public string ProductsAndQuantitiesJson { get; set; }
 
-        // [Newtonsoft.Json.JsonIgnore]
-        // [NotMapped]
-        // public Dictionary<int, int> ProductsAndQuantities
-        // {
-        //     get
-        //     {
-        //         return string.IsNullOrEmpty(ProductsAndQuantitiesJson)
-        //             ? new Dictionary<int, int>()
-        //             : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson);
-        //     }
-        //     set
-        //     {
-        //         ProductsAndQuantitiesJson = JsonConvert.SerializeObject(value);
-        //     }
-        // }
+        [Newtonsoft.Json.JsonIgnore]
+        [NotMapped]
+        public Dictionary<int, int> ProductsAndQuantities
+        {
+            get
+            {
+                return string.IsNullOrEmpty(ProductsAndQuantitiesJson)
+                    ? new Dictionary<int, int>()
+                    : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson);
+            }
+            set
+            {
+                ProductsAndQuantitiesJson = JsonConvert.SerializeObject(value);
+            }
+        }
     }
 }

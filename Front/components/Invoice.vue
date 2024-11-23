@@ -285,6 +285,7 @@
   import type { FormErrorEvent } from "#ui/types";
   import { generateInvoicePDF } from '../stores/invoiceStores';
   import { useApi } from '../composables/useApi';
+  import { useApiForRik } from '../composables/useApiForRik';
   import type { CompanyInvoice } from '../types/companyInvoice'
   import type { PrivatePersonInvoice } from '../types/privatePersonInvoice'
   import { useProductStore } from '../stores/productStores';
@@ -293,6 +294,7 @@
   const date = ref(new Date())
   const selectedProducts = ref<Product[]>([]);
   const { customFetch } = useApi();
+  const { customFetchForRik } = useApiForRik();
   const availableProducts = ref<Product[]>([]);
   const companySuggestions = ref<Company[]>([]);
   const pastCompanyInvoices = ref<CompanyInvoice[]>([]);
@@ -349,7 +351,7 @@
     if (state.title.length < 3) return; 
 
     try {
-      const response = await customFetch<any>(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`, { method: 'GET' })
+      const response = await customFetchForRik<any>(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.title}`, { method: 'GET' })
       companySuggestions.value = response.data;
     } catch (error) {
       console.error('Error fetching company names:', error);
@@ -423,19 +425,19 @@
       state.country = selectedInvoice.country || 'Eesti';
     }
 
-      // state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
+      state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
 
-      // const missingProducts = Object.keys(state.productsAndQuantities).filter(productId => {
-      // return !availableProducts.value.some(product => product.productId === parseInt(productId));
-      // });
+      const missingProducts = Object.keys(state.productsAndQuantities).filter(productId => {
+      return !availableProducts.value.some(product => product.productId === parseInt(productId));
+      });
 
-      // if (missingProducts.length > 0) {
-      //   window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
-      // }
-      // // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
-      // selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
-      //   return availableProducts.value.find(product => product.productId === parseInt(productId));
-      //   }).filter(product => product !== undefined) as Product[];
+      if (missingProducts.length > 0) {
+        window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
+      }
+      // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
+      selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
+        return availableProducts.value.find(product => product.productId === parseInt(productId));
+        }).filter(product => product !== undefined) as Product[];
       }
   });
 

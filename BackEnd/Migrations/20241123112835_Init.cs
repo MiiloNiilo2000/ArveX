@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,6 +68,7 @@ namespace backend.Migrations
                     DelayFine = table.Column<string>(type: "text", nullable: false),
                     Font = table.Column<string>(type: "text", nullable: false),
                     InvoiceType = table.Column<string>(type: "text", nullable: false),
+                    ProductsAndQuantitiesJson = table.Column<string>(type: "text", nullable: false),
                     Discriminator = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
                     Address = table.Column<string>(type: "text", nullable: true),
                     ZipCode = table.Column<string>(type: "text", nullable: true),
@@ -245,8 +246,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0d941b49-a546-472c-a10d-9335c2e77b13", null, "Admin", "ADMIN" },
-                    { "dd9598d7-d302-4e9c-9427-1a69117e3d8b", null, "User", "USER" }
+                    { "382864dd-c04e-46cf-bc8b-2aa88ee23772", null, "User", "USER" },
+                    { "b5d7ef46-8e49-438b-ab23-19428c30444d", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

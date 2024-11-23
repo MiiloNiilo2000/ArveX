@@ -72,10 +72,13 @@
   import type { CompanyInvoice } from "../types/companyInvoice";
   import type { PrivatePersonInvoice } from "../types/privatePersonInvoice";
   import { useApi } from '../composables/useApi';
+  import { useApiForRik } from '../composables/useApiForRik';
+  import { RefSymbol } from '@vue/reactivity';
 
   const companyInvoices = ref<CompanyInvoice[]>([]);
   const privatePersonInvoices = ref<PrivatePersonInvoice[]>([]);
   const { customFetch } = useApi();
+  const { customFetchForRik } = useApiForRik();
 
   const columns = ref([
     { key: 'title', label: 'Nimi', sortable: true },
@@ -157,13 +160,13 @@
   const fetchInvoices = async () => {
     try {
       if (invoiceType.value === 'all') {
-        const allInvoices = await customFetch<(CompanyInvoice | PrivatePersonInvoice)[]>(`InvoiceHistory/all`);
+        const allInvoices = await customFetchForRik<(CompanyInvoice | PrivatePersonInvoice)[]>(`InvoiceHistory/all`);
         companyInvoices.value = allInvoices
                                       .filter(inv => inv.invoiceType === 'company') as CompanyInvoice[];
         privatePersonInvoices.value = allInvoices
                                       .filter(inv => inv.invoiceType === 'privatePerson') as PrivatePersonInvoice[];
       } else {
-        const response = await customFetch<CompanyInvoice[] | PrivatePersonInvoice[]>(`InvoiceHistory/all?invoiceType=${invoiceType.value}`);
+        const response = await customFetchForRik<CompanyInvoice[] | PrivatePersonInvoice[]>(`InvoiceHistory/all?invoiceType=${invoiceType.value}`);
 
         if (invoiceType.value === 'company') {
           companyInvoices.value = response as CompanyInvoice[];
@@ -185,7 +188,7 @@
 
       const url = `InvoiceHistory/${id}`;
 
-      const response = await customFetch(url, { method: 'DELETE' });
+      await customFetchForRik(url, { method: 'DELETE' });
 
       if (invoiceToDeleteFromCompany) {
         companyInvoices.value = companyInvoices.value.filter(invoice => invoice.id !== id); 
@@ -202,6 +205,13 @@
 };
 
   const viewInvoice = async (row: any) => {
+    let productsAndQuantities = {};
+    try {
+      productsAndQuantities = row.productsAndQuantitiesJson ? JSON.parse(row.productsAndQuantitiesJson) : {};
+    } catch (error) {
+      console.error("Error parsing productsAndQuantitiesJson:", error);
+    }
+
     const state = {
       title: row.title,
       clientRegNr: row.clientRegNr,
@@ -215,11 +225,13 @@
       condition: row.condition,
       delayFine: row.delayFine,
       selectedFont: row.font,
-      productsAndQuantities: row.productsAndQuantities, 
       invoiceType: row.invoiceType,
+      productsAndQuantities: productsAndQuantities,
     };
+
     const route = state.invoiceType === "privatePerson" ? "privatePerson" : "company";
-    generateInvoicePDF(state, route);
+    const routeToSend = route + "WithoutSaving"
+    generateInvoicePDF(state, routeToSend);
   };
 
   onMounted(() => {

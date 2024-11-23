@@ -61,7 +61,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
     {
-        builder.WithOrigins("http://localhost:5167","http://localhost:3000" )  // Allow only your frontend URL
+        builder.WithOrigins("http://localhost:5167","http://localhost:3000", "https://ariregister.rik.ee" )  // Allow only your frontend URL
             .AllowCredentials()  // Allow credentials (cookies, headers)
             .AllowAnyHeader()
             .AllowAnyMethod();

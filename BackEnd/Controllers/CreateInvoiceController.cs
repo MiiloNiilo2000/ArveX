@@ -30,12 +30,12 @@ namespace BackEnd.Controllers
         [HttpPost("GeneratePdfcompany")]
         public async Task<IResult> GeneratePdf([FromBody] CompanyInvoice data)
         {
+            
             var invoice = await companyRepo.SaveInvoiceInDb(data);
 
-            // var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
+            var products = await companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            // return await GeneratePdfResponse(invoice, products);
-            return await GeneratePdfResponse(invoice);
+            return await GeneratePdfResponse(invoice, products);
         }
 
         [HttpPost("GeneratePdfprivatePerson")]
@@ -43,24 +43,28 @@ namespace BackEnd.Controllers
         {
             var invoice = await privatePersonRepo.SaveInvoiceInDb(data);
 
-            // var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
+            var products = await privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            // return await GeneratePdfResponse(invoice, products);
-            return await GeneratePrivatePersonPdfResponse(invoice);
+            return await GeneratePrivatePersonPdfResponse(invoice, products);
         }
 
-        [HttpPost("GeneratePdfWithoutSaving")]
+        [HttpPost("GeneratePdfcompanyWithoutSaving")]
         public async Task<IResult> GeneratePdfWithoutSaving([FromBody] CompanyInvoice data)
         {
+            var products = await companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            // var products = await repo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
-
-            // return await GeneratePdfResponse(data, products);
-             return await GeneratePdfResponse(data);
+            return await GeneratePdfResponse(data, products);
         }
 
-        // private async Task<IResult> GeneratePdfResponse(CompanyInvoice data, List<Product> products)
-        private async Task<IResult> GeneratePdfResponse(CompanyInvoice data)
+        [HttpPost("GeneratePdfprivatePersonWithoutSaving")]
+        public async Task<IResult> GeneratePdfWithoutSaving([FromBody] PrivatePersonInvoice data)
+        {
+            var products = await privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
+
+            return await GeneratePrivatePersonPdfResponse(data, products);
+        }
+
+        private async Task<IResult> GeneratePdfResponse(CompanyInvoice data, List<Product> products)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
@@ -77,7 +81,7 @@ namespace BackEnd.Controllers
                 data.Condition,
                 data.DelayFine,
                 data.Font,
-                // products,
+                products,
                 data
             );
 
@@ -88,7 +92,7 @@ namespace BackEnd.Controllers
             return Results.File(pdf, "application/pdf", fileName);
         }
 
-        private async Task<IResult> GeneratePrivatePersonPdfResponse(PrivatePersonInvoice data)
+        private async Task<IResult> GeneratePrivatePersonPdfResponse(PrivatePersonInvoice data, List<Product> products)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
@@ -100,7 +104,7 @@ namespace BackEnd.Controllers
                 data.Condition,
                 data.DelayFine,
                 data.Font,
-                // products,
+                products,
                 data
             );
 
@@ -124,7 +128,7 @@ namespace BackEnd.Controllers
             string condition,
             string delayFine,
             string font,
-            // List<Product> products,
+            List<Product> products,
             CompanyInvoice data
             )
         {
@@ -280,23 +284,23 @@ namespace BackEnd.Controllers
                                 productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
 
-                                // foreach (var product in products)
-                                // {
-                                //     int quantity = data.ProductsAndQuantities.ContainsKey(product.ProductId) 
-                                //         ? data.ProductsAndQuantities[product.ProductId] 
-                                //         : 1; 
+                                foreach (var product in products)
+                                {
+                                    int quantity = data.ProductsAndQuantities.ContainsKey(product.ProductId) 
+                                        ? data.ProductsAndQuantities[product.ProductId] 
+                                        : 1; 
 
-                                //     _taxPercent = product.TaxPercent;
-                                //     double priceWithTax = product.Price * quantity + (product.Price * quantity * (_taxPercent / 100));
-                                //     _totalPrice += priceWithTax;
-                                //     _priceWithoutTax += product.Price * quantity;
+                                    _taxPercent = product.TaxPercent;
+                                    double priceWithTax = product.Price * quantity + (product.Price * quantity * (_taxPercent / 100));
+                                    _totalPrice += priceWithTax;
+                                    _priceWithoutTax += product.Price * quantity;
 
-                                //     productTable.Cell().Text(product.Name).FontSize(14);
-                                //     productTable.Cell().Text(quantity.ToString()).FontSize(14);
-                                //     productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
-                                //     productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
-                                //     productTable.Cell().AlignRight().Text(_taxPercent.ToString()).FontSize(14);
-                                // }
+                                    productTable.Cell().Text(product.Name).FontSize(14);
+                                    productTable.Cell().Text(quantity.ToString()).FontSize(14);
+                                    productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
+                                    productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
+                                    productTable.Cell().AlignRight().Text(_taxPercent.ToString()).FontSize(14);
+                                }
                             });
 
                             col.Item().PaddingVertical(10).LineHorizontal(1);
@@ -333,7 +337,7 @@ namespace BackEnd.Controllers
             string condition,
             string delayFine,
             string font,
-            // List<Product> products,
+            List<Product> products,
             PrivatePersonInvoice data
             )
         {
@@ -478,23 +482,23 @@ namespace BackEnd.Controllers
                                 productTable.Cell().Padding(5);
                                 productTable.Cell().Padding(5);
 
-                                // foreach (var product in products)
-                                // {
-                                //     int quantity = data.ProductsAndQuantities.ContainsKey(product.ProductId) 
-                                //         ? data.ProductsAndQuantities[product.ProductId] 
-                                //         : 1; 
+                                foreach (var product in products)
+                                {
+                                    int quantity = data.ProductsAndQuantities.ContainsKey(product.ProductId) 
+                                        ? data.ProductsAndQuantities[product.ProductId] 
+                                        : 1; 
 
-                                //     _taxPercent = product.TaxPercent;
-                                //     double priceWithTax = product.Price * quantity + (product.Price * quantity * (_taxPercent / 100));
-                                //     _totalPrice += priceWithTax;
-                                //     _priceWithoutTax += product.Price * quantity;
+                                    _taxPercent = product.TaxPercent;
+                                    double priceWithTax = product.Price * quantity + (product.Price * quantity * (_taxPercent / 100));
+                                    _totalPrice += priceWithTax;
+                                    _priceWithoutTax += product.Price * quantity;
 
-                                //     productTable.Cell().Text(product.Name).FontSize(14);
-                                //     productTable.Cell().Text(quantity.ToString()).FontSize(14);
-                                //     productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
-                                //     productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
-                                //     productTable.Cell().AlignRight().Text(_taxPercent.ToString()).FontSize(14);
-                                // }
+                                    productTable.Cell().Text(product.Name).FontSize(14);
+                                    productTable.Cell().Text(quantity.ToString()).FontSize(14);
+                                    productTable.Cell().Text(product.Price.ToString("C")).FontSize(14);
+                                    productTable.Cell().Text(priceWithTax.ToString("C")).FontSize(14);
+                                    productTable.Cell().AlignRight().Text(_taxPercent.ToString()).FontSize(14);
+                                }
                             });
 
                             col.Item().PaddingVertical(10).LineHorizontal(1);

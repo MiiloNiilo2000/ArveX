@@ -107,6 +107,10 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ProductsAndQuantitiesJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -250,13 +254,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0d941b49-a546-472c-a10d-9335c2e77b13",
+                            Id = "b5d7ef46-8e49-438b-ab23-19428c30444d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "dd9598d7-d302-4e9c-9427-1a69117e3d8b",
+                            Id = "382864dd-c04e-46cf-bc8b-2aa88ee23772",
                             Name = "User",
                             NormalizedName = "USER"
                         });

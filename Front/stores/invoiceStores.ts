@@ -1,11 +1,11 @@
 import type { FormError, FormErrorEvent } from "#ui/types";
-import { useApi } from '../composables/useApi';
+import { useApiForRik } from '../composables/useApiForRik';
 
 export async function generateInvoicePDF(state: any, routeName: string) {
-  const { customFetch } = useApi();
+  const { customFetchForRik } = useApiForRik();
   try {
     let payload;
-    if(routeName === "company"){
+    if(routeName === "company" || routeName === "companyWithoutSaving"){
       payload = {
         title: state.title,
         clientRegNr: state.clientRegNr.toString(),
@@ -20,7 +20,7 @@ export async function generateInvoicePDF(state: any, routeName: string) {
         delayFine: state.delayFine || "",
         font: state.selectedFont,
         invoiceType: state.invoiceType,
-        // productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+        productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
       };
     }
     else {
@@ -33,15 +33,16 @@ export async function generateInvoicePDF(state: any, routeName: string) {
         delayFine: state.delayFine || "",
         font: state.selectedFont,
         invoiceType: state.invoiceType,
-        // productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+        productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
       };
     }
+    console.log('Payload:', payload);
 
     if(!payload) {
       throw new Error("Invalid routeName or missing data for payload.");
     }
     
-    const response = await customFetch<Blob>(`/CreateInvoice/GeneratePdf${routeName}`, {
+    const response = await customFetchForRik<Blob>(`/CreateInvoice/GeneratePdf${routeName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
