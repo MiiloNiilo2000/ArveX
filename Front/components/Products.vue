@@ -4,12 +4,12 @@
 
     <div class="mb-6">
       <label for="companySelect" class="block text-sm font-medium">Vali ettevõte:</label>
-    <div class="mt-1 w-1/3 bg-gray-900">
+    <div class="mt-1 w-1/3">
       <USelect 
         v-model="selectedCompanyId" 
         :options="companyOptions" 
         @change="onCompanyChange"
-        color="emerald"
+         class="border-2 border-green-600 rounded-md"
       />
       </div>
     </div>
@@ -23,6 +23,7 @@
         type="text"
         placeholder="Otsi toodet..."
         class="form-search ml-6"
+        color="emerald"
       />
     </div>
 

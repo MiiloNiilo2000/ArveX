@@ -79,8 +79,6 @@ watch(() => localStorage.getItem('token'), (newToken) => {
     isLoggedIn.value = false;
   }
 });
-
-// Väljalogimise funktsioon
 const handleLogout = () => {
   localStorage.removeItem('token');
   delete axios.defaults.headers['Authorization'];
