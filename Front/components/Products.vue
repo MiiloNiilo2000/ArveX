@@ -4,11 +4,12 @@
 
     <div class="mb-6">
       <label for="companySelect" class="block text-sm font-medium">Vali ettevõte:</label>
-    <div class="mt-1 w-1/3">
+    <div class="mt-1 w-1/3 bg-gray-900">
       <USelect 
         v-model="selectedCompanyId" 
         :options="companyOptions" 
         @change="onCompanyChange"
+        color="emerald"
       />
       </div>
     </div>
