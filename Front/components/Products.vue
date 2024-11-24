@@ -9,6 +9,7 @@
         v-model="selectedCompanyId" 
         :options="companyOptions" 
         @change="onCompanyChange"
+         class="border-2 border-green-600 rounded-md"
       />
       </div>
     </div>
@@ -22,6 +23,7 @@
         type="text"
         placeholder="Otsi toodet..."
         class="form-search ml-6"
+        color="emerald"
       />
     </div>
 
@@ -66,6 +68,7 @@ const companyOptions = computed(() => {
 });
 
 const fetchProducts = async () => {
+  products.value = [];
   if (selectedCompanyId.value) {
     try {
       const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/Products`, { method: 'GET' });

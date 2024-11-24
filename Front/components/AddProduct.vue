@@ -78,7 +78,7 @@ const addProduct = async (product: Product) => {
 
 const fetchCompanies = async () => {
     try {
-      const response = await customFetch<Company[]>(`Companies/all`, { method: 'GET' });
+      const response = await customFetch<Company[]>(`Profile/Companies`, { method: 'GET' });
       companies.value = response;
     } catch (error) {
       console.error("Error fetching companies:", error);
