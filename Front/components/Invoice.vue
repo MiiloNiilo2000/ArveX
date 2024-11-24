@@ -9,14 +9,22 @@
 
   <div class="flex w-full gap-20 h-24">
     <div class="w-1/2">
-      <UDivider label="Vali arve tüüp" class="h-10 mb-2" />
+      <UDivider label="Vali enda ettevõte ning arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
-        <select v-model="state.invoiceType" @change="onInvoiceTypeChange">
+        <label for="companySelect">Ettevõte:</label>
+        <select v-model="selectedCompanyId" @change="onCompanyChange" id="companySelect" class="ml-1">
+          <option v-for="company in companyOptions" :key="company.value" :value="company.value">
+            {{ company.label }}
+          </option>
+        </select>
+        <label for="invoiceTypeSelect" class="ml-6">Arve tüüp:</label>
+        <select v-model="state.invoiceType" @change="onInvoiceTypeChange" id="invoiceTypeSelect" class="ml-1">
           <option value="company">Ettevõte</option>
           <option value="privatePerson">Eraisik</option>
         </select>
       </UFormGroup>
     </div>
+
     <div class="w-100">
         <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
           <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
@@ -293,10 +301,12 @@
 
   const date = ref(new Date())
   const selectedProducts = ref<Product[]>([]);
+  const selectedCompanyId = ref<number>();
+  const companies = ref<Company[]>([]);
   const { customFetch } = useApi();
   const { customFetchForRik } = useApiForRik();
   const availableProducts = ref<Product[]>([]);
-  const companySuggestions = ref<Company[]>([]);
+  const companySuggestions = ref<CompanySuggestion[]>([]);
   const pastCompanyInvoices = ref<CompanyInvoice[]>([]);
   const pastPrivatePersonInvoices = ref<PrivatePersonInvoice[]>([]);
   const searchTerm = ref<string>('');
@@ -314,7 +324,7 @@
         } 
         = useInvoiceStore();
 
-  interface Company {
+  interface CompanySuggestion {
     company_id: string;
     reg_code: string;
     name: string;
@@ -327,6 +337,43 @@
     name: string;
     price: number;
   }  
+
+  const companyOptions = computed(() => {
+    return companies.value.map(company => ({
+      label: company.name,
+      value: company.companyId
+    }));
+  });
+
+  const fetchProducts = async () => {
+    if (selectedCompanyId.value) {
+      try {
+        const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/Products`, { method: 'GET' });
+        availableProducts.value = response;
+      } catch (error) {
+        console.error("Error fetching companies:", error);
+      }
+    }
+  }
+
+  const fetchCompanies = async () => {
+    try {
+      const response = await customFetch<Company[]>(`Profile/Companies`, { method: 'GET' });
+      companies.value = response;
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+    }
+  }; 
+
+  const onCompanyChange = async () => {
+    if (selectedCompanyId.value) {
+      try {
+        await fetchProducts(); // Fetch products specific to the selected company
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+  };
 
   function onInvoiceTypeChange() {
     if (state.invoiceType === 'privatePerson') {
@@ -473,7 +520,11 @@
     state.invoiceType = 'company';
     await loadPastCompanyInvoices();
     const response = await customFetch<Product[]>(`Products/all`, { method: 'GET' });
-    availableProducts.value = response;
+    await fetchCompanies();
+    if (companies.value.length > 0) {
+      selectedCompanyId.value = companies.value[0].companyId;
+      fetchProducts();
+    }
   } catch (error) {
     console.error('Error fetching products:', error);
   }
