@@ -66,6 +66,7 @@ const companyOptions = computed(() => {
 });
 
 const fetchProducts = async () => {
+  products.value = [];
   if (selectedCompanyId.value) {
     try {
       const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/Products`, { method: 'GET' });
