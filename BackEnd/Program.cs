@@ -72,6 +72,7 @@ builder.Services
     .AddScoped(typeof(InvoicesRepoBase<>), typeof(InvoicesRepoBase<>))
     .AddScoped<CompanyInvoicesRepo>()
     .AddScoped<PrivatePersonInvoicesRepo>()
+    .AddScoped<ProductsRepo>()
     .AddScoped<ITokenService, TokenService>()
     .AddScoped<ICompanyRepo, CompanyRepo>();
 

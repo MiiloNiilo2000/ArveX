@@ -13,7 +13,7 @@ namespace BackEnd.Controllers{
         public ProductsController(ApplicationDbContext context){
             _context = context;
         }
-
+    
         [HttpGet("all")]
         public async Task<IActionResult> GetProducts(){
             var products = await _context.Product.ToListAsync();

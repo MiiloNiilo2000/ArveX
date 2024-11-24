@@ -147,17 +147,17 @@ namespace backend.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ProfileId")
+                        .HasColumnType("text");
+
                     b.Property<double>("TaxPercent")
                         .HasColumnType("double precision");
-
-                    b.Property<string>("profileId")
-                        .HasColumnType("text");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("profileId");
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Product");
                 });
@@ -257,13 +257,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "08fab7b4-f8f8-46df-80f6-50f35a9d597d",
+                            Id = "ca8435bc-c85d-48e7-95bd-d0700aa7d67e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0932229d-10ea-441f-8517-4b2615629499",
+                            Id = "6ec0eee0-70ba-4814-8a74-2ee573a235bf",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -419,7 +419,7 @@ namespace backend.Migrations
 
                     b.HasOne("BackEnd.Models.Profile", "profile")
                         .WithMany()
-                        .HasForeignKey("profileId");
+                        .HasForeignKey("ProfileId");
 
                     b.Navigation("company");
 

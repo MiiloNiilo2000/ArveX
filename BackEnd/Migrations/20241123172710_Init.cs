@@ -223,16 +223,16 @@ namespace backend.Migrations
                     Name = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<int>(type: "integer", nullable: false),
+                    ProfileId = table.Column<string>(type: "text", nullable: true),
                     CompanyId = table.Column<int>(type: "integer", nullable: true),
-                    profileId = table.Column<string>(type: "text", nullable: true),
                     TaxPercent = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.ProductId);
                     table.ForeignKey(
-                        name: "FK_Product_AspNetUsers_profileId",
-                        column: x => x.profileId,
+                        name: "FK_Product_AspNetUsers_ProfileId",
+                        column: x => x.ProfileId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -247,8 +247,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "08fab7b4-f8f8-46df-80f6-50f35a9d597d", null, "Admin", "ADMIN" },
-                    { "0932229d-10ea-441f-8517-4b2615629499", null, "User", "USER" }
+                    { "6ec0eee0-70ba-4814-8a74-2ee573a235bf", null, "User", "USER" },
+                    { "ca8435bc-c85d-48e7-95bd-d0700aa7d67e", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -299,9 +299,9 @@ namespace backend.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_profileId",
+                name: "IX_Product_ProfileId",
                 table: "Product",
-                column: "profileId");
+                column: "ProfileId");
         }
 
         /// <inheritdoc />
