@@ -336,6 +336,7 @@
     productId: number;
     name: string;
     price: number;
+    quantity: number;
   }  
 
   const companyOptions = computed(() => {
@@ -385,11 +386,13 @@
       state.country = '';
       state.pastInvoice = null;
       pastCompanyInvoices.value = [];
+      state.productsAndQuantities = [];
       loadPastPrivatePersonInvoices();
     } else if (state.invoiceType === 'company') {
       state.title = '';
       state.pastInvoice = null;
       pastPrivatePersonInvoices.value = [];
+      state.productsAndQuantities = [];
       loadPastCompanyInvoices();
     }
   }
@@ -441,8 +444,8 @@
       console.error('Error fetching private person invoices:', error);
     }
   };
-
-  watch(() => state.pastInvoice, (selectedInvoiceId) => {
+  
+  watch(() => state.pastInvoice, async (selectedInvoiceId) => {
     if (!selectedInvoiceId) return;
 
     let selectedInvoice;
@@ -453,6 +456,7 @@
     } else if (state.invoiceType === 'privatePerson') {
       selectedInvoice = pastPrivatePersonInvoices.value.find(invoice => invoice.id === selectedInvoiceId);
     }
+    
 
     if (selectedInvoice) {
       state.title = selectedInvoice.title || '';
@@ -465,15 +469,26 @@
       state.selectedFont = selectedInvoice.font || '';
 
       if (state.invoiceType === 'company' && 'clientRegNr' in selectedInvoice) {
-      state.clientRegNr = selectedInvoice.clientRegNr || '';
-      state.clientKMKR = selectedInvoice.clientKMKR || '';
-      state.address = selectedInvoice.address || '';
-      state.zipCode = String(selectedInvoice.zipCode);
-      state.country = selectedInvoice.country || 'Eesti';
-    }
+        state.clientRegNr = selectedInvoice.clientRegNr || '';
+        state.clientKMKR = selectedInvoice.clientKMKR || '';
+        state.address = selectedInvoice.address || '';
+        state.zipCode = String(selectedInvoice.zipCode);
+        state.country = selectedInvoice.country || 'Eesti';
+      }
 
-      state.productsAndQuantities = selectedInvoice.productsAndQuantities || {};
 
+      
+      // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
+      const invoiceProducts = await fetchProductsForInvoice(selectedInvoiceId);
+      selectedProducts.value = invoiceProducts;
+
+      state.productsAndQuantities = selectedProducts.value.reduce<{ [key: number]: number }>((acc, product) => {
+        if (product.productId && product.quantity) {
+          acc[product.productId] = product.quantity;
+        }
+        return acc;
+      }, {});
+      
       const missingProducts = Object.keys(state.productsAndQuantities).filter(productId => {
       return !availableProducts.value.some(product => product.productId === parseInt(productId));
       });
@@ -481,12 +496,20 @@
       if (missingProducts.length > 0) {
         window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
       }
-      // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
-      selectedProducts.value = Object.keys(state.productsAndQuantities).map(productId => {
-        return availableProducts.value.find(product => product.productId === parseInt(productId));
-        }).filter(product => product !== undefined) as Product[];
+      console.log(state.productsAndQuantities);
+      console.log('Invoice Type:', state.invoiceType);
       }
   });
+
+  const fetchProductsForInvoice = async (invoiceId: number) => {
+    try {
+      const response = await customFetch<Product[]>(`InvoiceHistory/${invoiceId}/products`, { method: 'GET' });
+      return response; // Returns the products associated with the selected invoice
+    } catch (error) {
+      console.error("Error fetching products for past invoice:", error);
+      return [];
+    }
+  };
 
   const submitForm = () => {
 
