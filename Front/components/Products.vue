@@ -49,7 +49,6 @@ import { useApi } from '../composables/useApi';
 import type { Product } from "../types/product";
 import type { Company } from "../types/company";
 import { useProductStore } from '../stores/productStores';
-import axios from 'axios';
 
 const router = useRouter();
 const products = ref<Product[]>([]);
@@ -66,39 +65,24 @@ const companyOptions = computed(() => {
   }));
 });
 
-
 const fetchProducts = async () => {
   if (selectedCompanyId.value) {
     try {
-    const response = await axios.get(`http://localhost:5176/Companies/${selectedCompanyId.value}/Products`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    });
-
-    if (response.data && response.data.length > 0) {
-      products.value = response.data;
+      const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/Products`, { method: 'GET' });
+      products.value = response;
+    } catch (error) {
+      console.error("Error fetching companies:", error);
     }
-  } catch (error) {
-    console.error("Error fetching user products:", error);
-  }
   }
 };
 
 const fetchCompanies = async () => {
-  try {
-    const response = await axios.get('http://localhost:5176/Profile/Companies', {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    });
-
-    if (response.data && response.data.length > 0) {
-      companies.value = response.data;
+    try {
+      const response = await customFetch<Company[]>(`Profile/Companies`, { method: 'GET' });
+      companies.value = response;
+    } catch (error) {
+      console.error("Error fetching companies:", error);
     }
-  } catch (error) {
-    console.error("Error fetching user companies:", error);
-  }
 };
 
 const onCompanyChange = () => {

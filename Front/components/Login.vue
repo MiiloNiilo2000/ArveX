@@ -54,30 +54,30 @@
   const username = ref('');
   const password = ref('');
   const router = useRouter();
+  const { customFetch } = useApi();
   
-const handleSubmit = async () => {
+  const handleSubmit = async () => {
   try {
-    const response = await axios.post('http://localhost:5176/Account/login', {
-      username: username.value,
-      password: password.value,
+    const response = await customFetch<{ token: string }>('Account/login', {
+      method: 'POST',
+      body: {
+        username: username.value,
+        password: password.value,
+      },
     });
-    
-    console.log('Serveri vastus:', response.data);
 
-    if (response.status === 200) {
-      const token = response.data.token;
-      if (!token) {
-        throw new Error("Token puudub serveri vastuses!");
-      }
-      
+    console.log('Serveri vastus:', response);
+
+    if (response?.token) {
+      const token = response.token;
+
       localStorage.setItem('token', token);
 
-      axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-
       router.push('/profiles');
+    } else {
+      throw new Error('Token puudub serveri vastuses!');
     }
-  } 
-  catch (error) {
+  } catch (error: any) {
     console.error('Sisselogimine ebaõnnestus:', error);
     alert('Vale kasutajanimi või parool!');
   }
