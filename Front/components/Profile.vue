@@ -34,9 +34,6 @@
       <p>Sa pole veel profiili loonud.</p>
     </div>
 
-    <div v-if="profile && !companies.length">
-      <p>Sul pole veel ühtegi ettevõtet lisatud.</p>
-    </div>
   </div>
 </template>
 

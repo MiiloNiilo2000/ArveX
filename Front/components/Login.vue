@@ -47,16 +47,23 @@
 </template>
   
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import axios from 'axios';
-  
-  const username = ref('');
-  const password = ref('');
-  const router = useRouter();
-  const { customFetch } = useApi();
-  
-  const handleSubmit = async () => {
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const username = ref('');
+const password = ref('');
+const router = useRouter();
+const { customFetch } = useApi();
+
+// Kontrolli, kas kasutaja on juba sisselogitud
+onMounted(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    router.push('/profiles');
+  }
+});
+
+const handleSubmit = async () => {
   try {
     const response = await customFetch<{ token: string }>('Account/login', {
       method: 'POST',
@@ -73,7 +80,10 @@
 
       localStorage.setItem('token', token);
 
-      router.push('/profiles');
+      setTimeout(() => {
+        router.push('/profiles');
+        location.reload();
+      }, 100);
     } else {
       throw new Error('Token puudub serveri vastuses!');
     }
@@ -82,7 +92,6 @@
     alert('Vale kasutajanimi või parool!');
   }
 };
-
 </script>
   
 <style scoped>
