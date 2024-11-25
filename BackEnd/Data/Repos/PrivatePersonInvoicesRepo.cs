@@ -13,11 +13,11 @@ namespace BackEnd.Data.Repos
     {
         public PrivatePersonInvoicesRepo(ApplicationDbContext context) : base(context) { }
 
-        // public async Task<List<Product>> GetProductsByIds(List<int> productIds)
-        // {
-        //     IQueryable<Product> query = context.Product.AsQueryable();
-        //     query = query.Where(p => productIds.Contains(p.ProductId));
-        //     return await query.ToListAsync();
-        // }
+        public async Task<List<Product>> GetProductsByIds(List<int> productIds)
+        {
+            IQueryable<Product> query = context.Product.AsQueryable();
+            query = query.Where(p => productIds.Contains(p.ProductId));
+            return await query.ToListAsync();
+        }
     }
 }

@@ -107,6 +107,13 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ProductsAndQuantitiesJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfileId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -140,17 +147,17 @@ namespace backend.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ProfileId")
+                        .HasColumnType("text");
+
                     b.Property<double>("TaxPercent")
                         .HasColumnType("double precision");
-
-                    b.Property<string>("profileId")
-                        .HasColumnType("text");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("profileId");
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Product");
                 });
@@ -250,13 +257,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0d941b49-a546-472c-a10d-9335c2e77b13",
+                            Id = "ca8435bc-c85d-48e7-95bd-d0700aa7d67e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "dd9598d7-d302-4e9c-9427-1a69117e3d8b",
+                            Id = "6ec0eee0-70ba-4814-8a74-2ee573a235bf",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -412,7 +419,7 @@ namespace backend.Migrations
 
                     b.HasOne("BackEnd.Models.Profile", "profile")
                         .WithMany()
-                        .HasForeignKey("profileId");
+                        .HasForeignKey("ProfileId");
 
                     b.Navigation("company");
 

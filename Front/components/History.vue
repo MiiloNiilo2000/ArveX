@@ -72,6 +72,7 @@
   import type { CompanyInvoice } from "../types/companyInvoice";
   import type { PrivatePersonInvoice } from "../types/privatePersonInvoice";
   import { useApi } from '../composables/useApi';
+  import { RefSymbol } from '@vue/reactivity';
 
   const companyInvoices = ref<CompanyInvoice[]>([]);
   const privatePersonInvoices = ref<PrivatePersonInvoice[]>([]);
@@ -185,7 +186,7 @@
 
       const url = `InvoiceHistory/${id}`;
 
-      const response = await customFetch(url, { method: 'DELETE' });
+      await customFetch(url, { method: 'DELETE' });
 
       if (invoiceToDeleteFromCompany) {
         companyInvoices.value = companyInvoices.value.filter(invoice => invoice.id !== id); 
@@ -202,6 +203,13 @@
 };
 
   const viewInvoice = async (row: any) => {
+    let productsAndQuantities = {};
+    try {
+      productsAndQuantities = row.productsAndQuantitiesJson ? JSON.parse(row.productsAndQuantitiesJson) : {};
+    } catch (error) {
+      console.error("Error parsing productsAndQuantitiesJson:", error);
+    }
+
     const state = {
       title: row.title,
       clientRegNr: row.clientRegNr,
@@ -215,11 +223,13 @@
       condition: row.condition,
       delayFine: row.delayFine,
       selectedFont: row.font,
-      productsAndQuantities: row.productsAndQuantities, 
       invoiceType: row.invoiceType,
+      productsAndQuantities: productsAndQuantities,
     };
+
     const route = state.invoiceType === "privatePerson" ? "privatePerson" : "company";
-    generateInvoicePDF(state, route);
+    const routeToSend = route + "WithoutSaving"
+    generateInvoicePDF(state, routeToSend);
   };
 
   onMounted(() => {

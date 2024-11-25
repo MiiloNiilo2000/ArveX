@@ -81,6 +81,7 @@
   const password = ref('');
   const confirmPassword = ref('');
   const router = useRouter();
+  const { customFetch } = useApi();
 
   const isFormValid = computed(() => {
     return username.value && email.value && password.value && password.value === confirmPassword.value;
@@ -88,22 +89,24 @@
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('http://localhost:5176/Account/register', {
+    const response = await customFetch('Account/register', {
+      method: 'POST',
+      body: {
         username: username.value,
         email: email.value,
         password: password.value,
-      });
-
-      if (response.status === 200) {
-        router.push('/login');
-        alert('Registreerimine õnnestus!');
-      } else {
-        alert('Registreerimine ebaõnnestus: ' + (response.data.message || 'Tundmatu viga'));
+      },
+    });
+      if (response) {
+          router.push('/login');
+          alert('Registreerimine õnnestus!');
+        } else {
+          alert('Registreerimine ebaõnnestus: Tundmatu viga');
+        }
+      } catch (error: any) {
+        console.error('Registreerimine ebaõnnestus', error);
+        alert('Esines viga registreerimisel:' + (error?.data?.message || 'Tundmatu viga'));
       }
-    } catch (error) {
-      console.error('Registreerimine ebaõnnestus', error);
-      alert('Esines viga registreerimisel.');
-    }
   };
 </script>
 

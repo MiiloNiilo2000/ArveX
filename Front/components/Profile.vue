@@ -13,10 +13,11 @@
 
       <div class="flex-1">
         <div v-if="companies.length > 1" class="mb-4">
-          <label for="companySelect" class="block text-sm font-medium text-gray-700">
+          <label for="companySelect" class="block text-sm font-medium">
             Vali ettevõte:
           </label>
-          <select v-model="selectedCompany" @change="onCompanyChange" id="companySelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+          <select v-model="selectedCompany" @change="onCompanyChange" id="companySelect" class="mt-1 block w-full border-emerald rounded-md shadow-sm">
+            <option :value="null" disabled>Ettevõtted puuduvad</option>
             <option v-for="company in companies" :key="company.companyId" :value="company">
               {{ company.name }}
             </option>
@@ -43,46 +44,34 @@
 import { ref, onMounted } from 'vue';
 import UserProfile from '../components/UserProfile.vue';
 import CompanyProfile from '../components/CompanyProfile.vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 const profile = ref<any>(null);
 const companies = ref<any[]>([]);
 const selectedCompany = ref<any>(null);
 const router = useRouter();
+const { customFetch } = useApi();
 
 const fetchLoggedInUserProfile = async () => {
   try {
-    const response = await axios.get('http://localhost:5176/Profile/Me', {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    });
-
-    if (response.data) {
-      profile.value = response.data;
-      await fetchUserCompanies(); 
+      const response = await customFetch<Profile[]>(`Profile/Me`, { method: 'GET' });
+      profile.value = response;
+      await fetchCompanies();
+    } catch (error) {
+      console.error("Error fetching profile:", error);
     }
-  } catch (error) {
-    console.error("Error fetching logged-in user profile:", error);
-  }
 };
 
-const fetchUserCompanies = async () => {
-  try {
-    const response = await axios.get('http://localhost:5176/Profile/Companies', {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    });
-
-    if (response.data && response.data.length > 0) {
-      companies.value = response.data;
+const fetchCompanies = async () => {
+    try {
+      const response = await customFetch<Company[]>(`Profile/Companies`, { method: 'GET' });
+      companies.value = response;
+      if (companies.value.length > 0) {
       selectedCompany.value = companies.value[0];
+      }
+    } catch (error) {
+      console.error("Error fetching companies:", error);
     }
-  } catch (error) {
-    console.error("Error fetching user companies:", error);
-  }
 };
 
 const editProfile = () => {
