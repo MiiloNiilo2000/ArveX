@@ -13,10 +13,10 @@
 
       <div class="flex-1">
         <div v-if="companies.length > 1" class="mb-4">
-          <label for="companySelect" class="block text-sm font-medium text-gray-700">
+          <label for="companySelect" class="block text-sm font-medium">
             Vali ettevõte:
           </label>
-          <select v-model="selectedCompany" @change="onCompanyChange" id="companySelect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+          <select v-model="selectedCompany" @change="onCompanyChange" id="companySelect" class="mt-1 block w-full border-emerald rounded-md shadow-sm">
             <option :value="null" disabled>Ettevõtted puuduvad</option>
             <option v-for="company in companies" :key="company.companyId" :value="company">
               {{ company.name }}
