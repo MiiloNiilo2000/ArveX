@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-full p-8">
-    <h1 class="text-3xl font-bold mb-6">{{ title }}</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">{{ title }}</h1>
 
     <div class="bg-green-100 shadow-md rounded-lg p-6 relative">
       <img
@@ -17,9 +17,12 @@
       <p class="text-gray-600">Postiindeks: {{ company.postalCode }}</p>
       <p class="text-gray-600">E-mail: {{ company.email }}</p>
 
-      <div class="mt-6">
-        <UButton @click="editCompany" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-          Muuda ettevõtet
+      <div class="mt-6 grid grid-cols-1 grid-cols-2 gap-8">
+        <UButton @click="editCompany" class="add-btn">
+          Muuda
+        </UButton>
+        <UButton @click="deleteCompany(company.companyId)" class="add-btn">
+          Kustuta
         </UButton>
       </div>
     </div>
@@ -29,11 +32,17 @@
 <script setup lang="ts">
   
   import { defineProps } from 'vue';
+  import type { Company } from "../types/company";
+  import { useApi } from '../composables/useApi';
 
+  const { customFetch } = useApi();
   const title = 'Ettevõtte profiil'
+  const companies = ref<Company[]>([]);
+  const emit = defineEmits(['company-deleted']);
   
   const props = defineProps<{
     company: {
+      companyId: number;
       name: string;
       vatNumber: string;
       address: string;
@@ -46,4 +55,18 @@
     editCompany: () => void;
   }>();
 
+  const deleteCompany = async (id: number) => {
+  try {
+    await customFetch<Company[]>(`Companies/${id}`, { method: 'DELETE' });
+    companies.value = companies.value.filter(company => company.companyId !== id);
+    emit('company-deleted');
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  }
+};
+
 </script>
+
+<style>
+  @import '../assetsFront/styles/main.css';
+</style>

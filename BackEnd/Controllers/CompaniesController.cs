@@ -78,6 +78,21 @@ namespace BackEnd.Controllers
             return result ? NoContent() : NotFound();
         }
         
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id){
+            var company = _context.Company.FirstOrDefault(x => x.CompanyId == id);
+
+            if (company == null){
+                return NotFound();
+            }
+            _context.Company.Remove(company);
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddCompanyForUser([FromBody] Company company)
         {
