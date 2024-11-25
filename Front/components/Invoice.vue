@@ -386,13 +386,11 @@
       state.country = '';
       state.pastInvoice = null;
       pastCompanyInvoices.value = [];
-      state.productsAndQuantities = [];
       loadPastPrivatePersonInvoices();
     } else if (state.invoiceType === 'company') {
       state.title = '';
       state.pastInvoice = null;
       pastPrivatePersonInvoices.value = [];
-      state.productsAndQuantities = [];
       loadPastCompanyInvoices();
     }
   }
@@ -500,7 +498,7 @@
   const fetchProductsForInvoice = async (invoiceId: number) => {
     try {
       const response = await customFetch<Product[]>(`InvoiceHistory/${invoiceId}/products`, { method: 'GET' });
-      return response; // Returns the products associated with the selected invoice
+      return response;
     } catch (error) {
       console.error("Error fetching products for past invoice:", error);
       return [];

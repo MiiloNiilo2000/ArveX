@@ -11,7 +11,7 @@
               v-model="selectedCompany"
               @change="onCompanyChange"
               id="companySelect"
-              class="mt-1 block w-full border-emerald rounded-md shadow-sm"
+              class="mt-1 block w-full border-emerald rounded-md"
             >
               <option v-for="company in companies" :key="company.companyId" :value="company">
                 {{ company.name }}
