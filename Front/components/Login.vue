@@ -55,7 +55,6 @@ const password = ref('');
 const router = useRouter();
 const { customFetch } = useApi();
 
-// Kontrolli, kas kasutaja on juba sisselogitud
 onMounted(() => {
   const token = localStorage.getItem('token');
   if (token) {
