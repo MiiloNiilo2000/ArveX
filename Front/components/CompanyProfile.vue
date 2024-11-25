@@ -18,10 +18,10 @@
       <p class="text-gray-600">E-mail: {{ company.email }}</p>
 
       <div class="mt-6 grid grid-cols-1 grid-cols-2 gap-8">
-        <UButton @click="editCompany" class="add-btn">
+        <UButton @click="editCompany" class="add-btn" icon="i-heroicons-pencil">
           Muuda
         </UButton>
-        <UButton @click="deleteCompany(company.companyId)" class="add-btn">
+        <UButton @click="deleteCompany(company.companyId)" class="add-btn" icon="i-heroicons-trash">
           Kustuta
         </UButton>
       </div>

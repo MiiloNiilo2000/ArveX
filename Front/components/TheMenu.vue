@@ -37,7 +37,7 @@ const links = [
     to: "/",
   },
   {
-    label: "Profiil",
+    label: "Ettevõtted",
     to: "/profiles",
     requiresAuth: true,
   },
@@ -52,6 +52,10 @@ const links = [
   {
     label: "Ajalugu",
     to: "/view-history",
+  },
+  {
+    label: "Profiil",
+    to: "/user-profile"
   }
 ];
 

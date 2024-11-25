@@ -35,7 +35,7 @@
         </UFormGroup>
 
         <div class="col-span-2 flex justify-center">
-          <UButton type="submit">Lisa</UButton>
+          <UButton type="submit" class="add-btn w-1/3" icon="i-heroicons-plus">Lisa</UButton>
         </div>
       </UForm>
     </div>

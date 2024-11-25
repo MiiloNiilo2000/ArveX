@@ -7,7 +7,7 @@
     @error="onError"
   >
 
-  <div class="flex w-full gap-20 h-24">
+  <div class="flex w-full gap-20 h-24 mt-2">
     <div class="w-1/2">
       <UDivider label="Vali enda ettevõte ning arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
