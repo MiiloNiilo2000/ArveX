@@ -1,15 +1,12 @@
 <template>
   <div class="relative max-w-screen-2xl p-4">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Kasutaja profiil -->
       <div class="bg-white shadow-md rounded-md p-6">
         <UserProfile :profile="profile" :editProfile="editProfile" />
       </div>
 
-      <!-- Ettevõtte profiil või sõnum, kui ettevõtteid pole -->
       <div class="bg-white shadow-md rounded-md p-1">
         <div v-if="companies.length > 0">
-          <!-- Ettevõtte valimine, kui ettevõtteid on -->
           <div v-if="companies.length > 1" class="mb-4">
             <label for="companySelect" class="block text-sm font-medium">
               Vali ettevõte:
@@ -30,14 +27,12 @@
             <CompanyProfile :company="selectedCompany" :editCompany="editCompany" />
           </div>
         </div>
-        <!-- Kui ettevõtteid pole, kuvatakse tekst -->
         <div v-else class="text-center text-black py-12 text-xl font-bold">
           Siia ilmuvad teie ettevõtted
         </div>
       </div>
 
       <div class="bg-white shadow-md rounded-md p-6">
-        <h3 class="text-lg font-bold mb-4">Lisa uus ettevõte</h3>
         <AddCompany @company-added="onCompanyAdded" />
       </div>
     </div>
