@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
     <UHorizontalNavigation
-      :links="links"
+      :links="filteredLinks"
       class="flex"
     />
     
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -39,6 +39,7 @@ const links = [
   {
     label: "Profiil",
     to: "/profiles",
+    requiresAuth: true,
   },
   {
     label: "Tooted",
@@ -53,6 +54,10 @@ const links = [
     to: "/view-history",
   }
 ];
+
+const filteredLinks = computed(() =>
+  links.filter((link) => !link.requiresAuth || isLoggedIn.value)
+);
 
 const checkLoginStatus = () => {
   if (localStorage.getItem('token')) {
@@ -75,6 +80,7 @@ watch(() => localStorage.getItem('token'), (newToken) => {
     isLoggedIn.value = false;
   }
 });
+
 const handleLogout = () => {
   localStorage.removeItem('token');
   delete axios.defaults.headers['Authorization'];
