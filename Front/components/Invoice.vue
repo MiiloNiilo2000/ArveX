@@ -53,7 +53,7 @@
                   <p class="text-black"><span class="label">Kuupäev:</span></p>
                   <p class="text-black"><span class="label">Tingimused:</span></p>
                   <p class="text-black"><span class="label">Maksetähtaeg:</span></p>
-                  <p class="text-black"><span class="label">Viivis:</span></p>
+                  
                 </div>
                 <div class="w-1/2 text-left">
                   <p class="text-lg font-semibold text-black"><span>{{ state.invoiceNumber  || '' }}</span></p>
