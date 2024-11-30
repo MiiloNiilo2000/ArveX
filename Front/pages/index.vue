@@ -1,10 +1,10 @@
 <template>
   <div class="min-h-screen">
 
-    <section class="bg-green-500 text-white py-20">
+    <section class="bg-gradient-to-b from-green-600 text-white py-20 ">
       <div class="container mx-auto px-6 text-center">
         <h1 class="text-4xl font-bold mb-4">ArveX</h1>
-        <p class="text-lg mb-8">Loo arveid kiiresti ja mugavalt</p>
+        <p class="text-lg mb-8">Loo arveid kiiresti ja mugavalt.</p>
         <NuxtLink
           to="/create-invoice"
           class="bg-white text-black px-6 py-3 rounded-lg shadow-md font-semibold hover:bg-gray-100"
@@ -62,9 +62,9 @@
       </div>
     </section>
 
-    <section class="bg-green-500 text-white py-16">
+    <section class="bg-gradient-to-t from-green-600 text-white py-16">
       <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl font-bold mb-6">Loo arveid juba täna</h2>
+        <h2 class="text-3xl font-bold mb-6">Loo arveid juba täna!</h2>
         <p class="text-lg mb-8">Registreeru ja loo arveid nagu professionaal.</p>
         <NuxtLink
           to="/signup"
@@ -93,4 +93,5 @@ section {
 .absolute {
   position: absolute;
 }
+
 </style>

@@ -7,7 +7,7 @@
     @error="onError"
   >
 
-  <div class="flex w-full gap-20 h-24">
+  <div class="flex w-full gap-20 h-24 mt-2">
     <div class="w-1/2">
       <UDivider label="Vali enda ettevõte ning arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
@@ -256,13 +256,13 @@
                   min="1" 
                   @input="updateQuantity(product.productId)"
                 />
-                  <div class="ml-6 mt-3">
+                  <!-- <div class="ml-6 mt-3">
                     <div>
                       <UDropdown :items="productDropdownItems(product.productId)" :popper="{ offsetDistance: 4, placement: 'right-start' }">
                         <UButton class="mr-2" size="md" color="emerald" variant="ghost" :padded="false" trailing-icon="i-heroicons-ellipsis-horizontal-circle" />
                       </UDropdown>
                     </div>
-                  </div>
+                  </div> -->
                 </div>   
               </div>
             </div>
@@ -299,7 +299,6 @@
   import { useProductStore } from '../stores/productStores';
   import { useInvoiceStore } from '../stores/invoiceStores';
 
-  const date = ref(new Date())
   const selectedProducts = ref<Product[]>([]);
   const selectedCompanyId = ref<number>();
   const companies = ref<Company[]>([]);
@@ -311,16 +310,16 @@
   const pastPrivatePersonInvoices = ref<PrivatePersonInvoice[]>([]);
   const searchTerm = ref<string>('');
   const { navigateToAddProduct } = useProductStore();
-  const { 
-          toggleProductSelection, 
-          updateQuantity, 
-          productDropdownItems, 
+  const {
           validate, 
           formatDate, 
           formatInvoiceOption,
           onError, 
           state, 
           fonts,
+          toggleProductSelection, 
+          updateQuantity, 
+          // productDropdownItems, 
         } 
         = useInvoiceStore();
 
@@ -387,13 +386,11 @@
       state.country = '';
       state.pastInvoice = null;
       pastCompanyInvoices.value = [];
-      state.productsAndQuantities = [];
       loadPastPrivatePersonInvoices();
     } else if (state.invoiceType === 'company') {
       state.title = '';
       state.pastInvoice = null;
       pastPrivatePersonInvoices.value = [];
-      state.productsAndQuantities = [];
       loadPastCompanyInvoices();
     }
   }
@@ -451,7 +448,6 @@
 
     let selectedInvoice;
 
-
     if (state.invoiceType === 'company') {
       selectedInvoice = pastCompanyInvoices.value.find(invoice => invoice.id === selectedInvoiceId);
     } else if (state.invoiceType === 'privatePerson') {
@@ -476,8 +472,6 @@
         state.zipCode = String(selectedInvoice.zipCode);
         state.country = selectedInvoice.country || 'Eesti';
       }
-
-
       
       // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
       const invoiceProducts = await fetchProductsForInvoice(selectedInvoiceId);
@@ -497,15 +491,14 @@
       if (missingProducts.length > 0) {
         window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
       }
-      console.log(state.productsAndQuantities);
-      console.log('Invoice Type:', state.invoiceType);
+
       }
   });
 
   const fetchProductsForInvoice = async (invoiceId: number) => {
     try {
       const response = await customFetch<Product[]>(`InvoiceHistory/${invoiceId}/products`, { method: 'GET' });
-      return response; // Returns the products associated with the selected invoice
+      return response;
     } catch (error) {
       console.error("Error fetching products for past invoice:", error);
       return [];
@@ -527,23 +520,11 @@
 
   };
 
-  const fetchPastInvoices = async () => {
-    try {
-      const companyInvoicesResponse = await customFetch<CompanyInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
-      pastCompanyInvoices.value = companyInvoicesResponse;
-
-      const privatePersonInvoicesResponse = await customFetch<PrivatePersonInvoice[]>(`InvoiceHistory/all`, { method: 'GET' });
-      pastPrivatePersonInvoices.value = privatePersonInvoicesResponse;
-    } catch (error) {
-      console.error('Error fetching past invoices:', error);
-    }
-  };
-
   onMounted(async () => {
   try {
     state.invoiceType = 'company';
     await loadPastCompanyInvoices();
-    const response = await customFetch<Product[]>(`Products/all`, { method: 'GET' });
+    await customFetch<Product[]>(`Products/all`, { method: 'GET' });
     await fetchCompanies();
     if (companies.value.length > 0) {
       selectedCompanyId.value = companies.value[0].companyId;

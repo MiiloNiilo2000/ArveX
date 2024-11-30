@@ -5,10 +5,10 @@
       type="text"
       v-model="searchTerm"
       placeholder="Otsi..."
-      class="form-search"
+      class="form-search mt-4"
       />
 
-    <UTable :columns="columns" :rows="filteredInvoices">
+    <UTable :columns="columns" :rows="filteredInvoices" class="mt-4">
 
       <template #header="{ column }">
         <span @click="toggleSort(column)" :class="{ 'cursor-pointer': column.sortable }">

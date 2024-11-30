@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-gray-100 min-h-screen flex items-center justify-center pt-0">
+  <div class="min-h-screen flex items-center justify-center pt-0">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-      <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Logi sisse</h2>
+      <h2 class="text-3xl font-bold text-center text-green-600 mb-6">Logi sisse</h2>
       
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <div>
@@ -31,7 +31,7 @@
         <div>
           <button
             type="submit"
-            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
             Logi sisse
           </button>
@@ -47,16 +47,22 @@
 </template>
   
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import axios from 'axios';
-  
-  const username = ref('');
-  const password = ref('');
-  const router = useRouter();
-  const { customFetch } = useApi();
-  
-  const handleSubmit = async () => {
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const username = ref('');
+const password = ref('');
+const router = useRouter();
+const { customFetch } = useApi();
+
+onMounted(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    router.push('/profiles');
+  }
+});
+
+const handleSubmit = async () => {
   try {
     const response = await customFetch<{ token: string }>('Account/login', {
       method: 'POST',
@@ -73,7 +79,10 @@
 
       localStorage.setItem('token', token);
 
-      router.push('/profiles');
+      setTimeout(() => {
+        router.push('/profiles');
+        location.reload();
+      }, 100);
     } else {
       throw new Error('Token puudub serveri vastuses!');
     }
@@ -82,7 +91,6 @@
     alert('Vale kasutajanimi või parool!');
   }
 };
-
 </script>
   
 <style scoped>

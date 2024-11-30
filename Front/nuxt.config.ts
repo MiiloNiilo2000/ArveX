@@ -6,5 +6,12 @@ export default defineNuxtConfig({
   imports: {dirs: ['types/*.ts']},
   runtimeConfig: {
     public: {apiUrl: "http://localhost:5176/"},
+  },
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ]
+    }
   }
 })

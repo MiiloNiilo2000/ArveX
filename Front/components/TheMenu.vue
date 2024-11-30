@@ -1,14 +1,14 @@
 <template>
-  <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
+  <div class="flex justify-between items-center border-b border-gray-200  dark:border-gray-800">
     <UHorizontalNavigation
-      :links="links"
+      :links="filteredLinks"
       class="flex"
     />
     
     <NuxtLink
       v-if="!isLoggedIn"
       to="/login"
-      class="bg-blue-500 text-white px-8 py-2 rounded-lg shadow-md font-semibold hover:bg-blue-600"
+      class="bg-green-500 text-white px-8 py-1.5 rounded-lg shadow-md font-semibold hover:bg-blue-600"
     >
       Sisselogimine
     </NuxtLink>
@@ -16,7 +16,7 @@
     <button
       v-if="isLoggedIn"
       @click="handleLogout"
-      class="bg-red-500 text-white px-8 py-2 rounded-lg shadow-md font-semibold hover:bg-red-600 ml-4"
+      class="bg-red-500 text-white px-8 py-1.5 rounded-lg shadow-md font-semibold hover:bg-red-600 mr-4"
     >
       Väljalogimine
     </button>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -37,8 +37,9 @@ const links = [
     to: "/",
   },
   {
-    label: "Profiil",
+    label: "Ettevõtted",
     to: "/profiles",
+    requiresAuth: true,
   },
   {
     label: "Tooted",
@@ -53,10 +54,14 @@ const links = [
     to: "/view-history",
   },
   {
-    label: "Test",
-    to: "/test-home",
+    label: "Profiil",
+    to: "/user-profile"
   }
 ];
+
+const filteredLinks = computed(() =>
+  links.filter((link) => !link.requiresAuth || isLoggedIn.value)
+);
 
 const checkLoginStatus = () => {
   if (localStorage.getItem('token')) {
@@ -79,6 +84,7 @@ watch(() => localStorage.getItem('token'), (newToken) => {
     isLoggedIn.value = false;
   }
 });
+
 const handleLogout = () => {
   localStorage.removeItem('token');
   delete axios.defaults.headers['Authorization'];

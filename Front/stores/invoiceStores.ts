@@ -102,12 +102,15 @@ export const useInvoiceStore = defineStore('invoice', () => {
 
   const toggleProductSelection = (productId: number) => {
     if (state.productsAndQuantities[productId] !== undefined) {
+
       delete state.productsAndQuantities[productId];
       selectedProducts.value = selectedProducts.value.filter(product => product.productId !== productId);
     } else {
       state.productsAndQuantities[productId] = 1;
+
       const product = availableProducts.value.find(p => p.productId === productId);
-      if (product) {
+
+      if (product && !selectedProducts.value.some(p => p.productId === productId)) {
         selectedProducts.value.push(product);
       }
     }
@@ -119,16 +122,16 @@ export const useInvoiceStore = defineStore('invoice', () => {
     }
   };
 
-  const productDropdownItems = (productId: number) => [
-    [ 
-      {
-        label: 'Muuda seda toodet',
-        click: () => {
-          navigateToEditProduct(productId);
-        },
-      },
-    ]
-  ];
+  // const productDropdownItems = (productId: number) => [
+  //   [ 
+  //     {
+  //       label: 'Muuda seda toodet',
+  //       click: () => {
+  //         navigateToEditProduct(productId);
+  //       },
+  //     },
+  //   ]
+  // ];
 
   function formatDate(dateInput: string | Date): string {
     const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
@@ -173,10 +176,8 @@ export const useInvoiceStore = defineStore('invoice', () => {
     'Verdana',
   ]
   
-  return {  toggleProductSelection, 
-            updateQuantity, 
-            productDropdownItems, 
-            validate, formatDate, 
+  return {  validate, 
+            formatDate, 
             formatInvoiceOption, 
             onError, 
             state, 
@@ -184,6 +185,9 @@ export const useInvoiceStore = defineStore('invoice', () => {
             availableProducts, 
             companySuggestions, 
             pastInvoices, 
-            fonts
+            fonts,
+            toggleProductSelection, 
+            updateQuantity, 
+            // productDropdownItems, 
           };
 });
