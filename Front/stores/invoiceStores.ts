@@ -98,6 +98,7 @@ export const useInvoiceStore = defineStore('invoice', () => {
     productsAndQuantities: {} as Record<number, number>,
     pastInvoice: null,
     invoiceType: '',
+    selectedCompanyId: '' as number | '',
   });
 
   const toggleProductSelection = (productId: number) => {

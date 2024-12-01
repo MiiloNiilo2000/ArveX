@@ -12,7 +12,7 @@
       <UDivider label="Vali enda ettevõte ning arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
         <label for="companySelect">Ettevõte:</label>
-        <select v-model="selectedCompanyId" @change="onCompanyChange" id="companySelect" class="ml-1">
+        <select v-model="state.selectedCompanyId" @change="onCompanyChange" id="companySelect" class="ml-1">
           <option v-for="company in companyOptions" :key="company.value" :value="company.value">
             {{ company.label }}
           </option>
@@ -347,9 +347,9 @@
 
   const fetchProducts = async () => {
     availableProducts.value = [];
-    if (selectedCompanyId.value) {
+    if (state.selectedCompanyId) {
       try {
-        const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/Products`, { method: 'GET' });
+        const response = await customFetch<Product[]>(`Companies/${state.selectedCompanyId}/Products`, { method: 'GET' });
         availableProducts.value = response;
       } catch (error) {
         console.error("Error fetching companies:", error);
@@ -367,7 +367,7 @@
   }; 
 
   const onCompanyChange = async () => {
-    if (selectedCompanyId.value) {
+    if (state.selectedCompanyId) {
       try {
         await fetchProducts(); // Fetch products specific to the selected company
       } catch (error) {
@@ -532,8 +532,10 @@
     if (!state.invoiceType){
       state.invoiceType = 'company';
     }
-    if (companies.value.length > 0) {
-      selectedCompanyId.value = companies.value[0].companyId;
+    if (state.selectedCompanyId) {
+      fetchProducts();
+    } else {
+      state.selectedCompanyId = companies.value[0].companyId;
       fetchProducts();
     }
   } catch (error) {
