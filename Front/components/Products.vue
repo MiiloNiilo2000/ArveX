@@ -1,14 +1,14 @@
 <template>
-  <div class="justify-center mt-8">
+  <div class="justify-center">
     <div class="grid grid-cols-1 sm:grid-cols-2">
       <!-- Left Side -->
-      <div class="shadow-md p-6 ml-64 mr-12">
-        <h1 class="text-3xl font-bold mb-6 text-center">Tooted / teenused</h1>
+      <div class="shadow-md p-6 ml-64 mr-12 mt-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">Tooted / Teenused</h1>
 
         <!-- Company Selection -->
         <div class="mb-6 flex justify-center">
           <div class="w-1/3">
-            <label for="companySelect" class="block text-sm font-medium text-center">Vali ettevõte:</label>
+            <label for="companySelect" class="block text-sm font-medium text-center mb-1">Vali ettevõte:</label>
             <USelect 
               v-model="selectedCompanyId" 
               :options="companyOptions" 
@@ -45,7 +45,7 @@
       </div>
 
       <!-- Right Side (Add Product) -->
-      <div class="ml-12 mr-64 mt-10">
+      <div class="ml-12 mr-64 mt-14">
         <AddProduct @product-added="onProductAdded"/>
       </div>
     </div>

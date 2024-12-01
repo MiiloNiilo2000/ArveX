@@ -69,7 +69,7 @@
   <div class="flex w-full gap-20"> 
     <div class="w-1/2"> 
       <UDivider label="Kopeeri varasema arve andmed" class="h-10 mb-2" />
-      <UFormGroup name="pastInvoice" class="flex justify-center h-16">
+      <UFormGroup name="pastInvoice" class="flex justify-center h-12">
         <select v-model="state.pastInvoice">
           <option value="" disabled>Vali varasem arve:</option>
           <!-- Company invoices -->
@@ -81,7 +81,14 @@
             {{ formatInvoiceOption(invoice) }}
           </option>
         </select>
-      </UFormGroup>
+
+      </UFormGroup>  
+      <div class="flex justify-center items-center h-12 mb-2">
+        <UButton @click="clearPastInvoice" size="xs" icon="i-heroicons-x-mark">
+          Tühjenda väljad
+        </UButton>
+      </div>
+      
       <UDivider label="Loo uus arve" />
     </div>
   </div>
@@ -400,6 +407,27 @@
     console.log("Type", state.invoiceType);
   }
 
+  function clearPastInvoice() {
+    clearState();
+  }
+
+  function clearState() {
+      state.title = '';
+      state.clientRegNr = '';
+      state.clientKMKR = '';
+      state.address = '';
+      state.zipCode = '';
+      state.country = '';
+      state.pastInvoice = null;
+      state.invoiceNumber = '';
+      state.dateCreated = new Date().toISOString().split('T')[0];
+      state.dateDue = '';
+      state.condition = '';
+      state.delayFine = '';
+      state.productsAndQuantities = {};
+      state.products = [];
+  }
+
   const fetchCompanyNames = async () => {
     if (state.title.length < 3) return; 
 
@@ -499,8 +527,7 @@
         state.productsAndQuantities = {};
         state.products = [];
       }
-
-      }
+    }
   });
 
   const fetchProductsForInvoice = async (invoiceId: number) => {
