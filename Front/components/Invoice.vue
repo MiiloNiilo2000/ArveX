@@ -385,14 +385,17 @@
       state.zipCode = '';
       state.country = '';
       state.pastInvoice = null;
+      state.invoiceType = 'privatePerson';
       pastCompanyInvoices.value = [];
       loadPastPrivatePersonInvoices();
     } else if (state.invoiceType === 'company') {
       state.title = '';
       state.pastInvoice = null;
       pastPrivatePersonInvoices.value = [];
+      state.invoiceType = 'company';
       loadPastCompanyInvoices();
     }
+    console.log("Type", state.invoiceType);
   }
 
   const fetchCompanyNames = async () => {
@@ -522,10 +525,13 @@
 
   onMounted(async () => {
   try {
-    state.invoiceType = 'company';
+
     await loadPastCompanyInvoices();
     await customFetch<Product[]>(`Products/all`, { method: 'GET' });
     await fetchCompanies();
+    if (!state.invoiceType){
+      state.invoiceType = 'company';
+    }
     if (companies.value.length > 0) {
       selectedCompanyId.value = companies.value[0].companyId;
       fetchProducts();
