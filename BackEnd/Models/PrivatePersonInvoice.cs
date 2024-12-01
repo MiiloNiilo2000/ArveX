@@ -27,7 +27,7 @@ namespace BackEnd.Models
         public required string SenderCompanyKMKRNumber { get; set; }
 
 
-        public string ProductsAndQuantitiesJson { get; set; }
+        public required string ProductsAndQuantitiesJson { get; set; }
 
         [Newtonsoft.Json.JsonIgnore]
         [NotMapped]
@@ -37,7 +37,7 @@ namespace BackEnd.Models
             {
                 return string.IsNullOrEmpty(ProductsAndQuantitiesJson)
                     ? new Dictionary<int, int>()
-                    : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson);
+                    : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson) ?? new Dictionary<int, int>();
             }
             set
             {

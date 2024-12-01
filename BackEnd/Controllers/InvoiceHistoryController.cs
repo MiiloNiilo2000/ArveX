@@ -126,8 +126,10 @@ namespace BackEnd.Controllers
                 return NotFound("Invoice not found.");
             }
 
-            // Use the ProductsAndQuantities property to get the products
-            Dictionary<int, int> productsAndQuantities = companyInvoice?.ProductsAndQuantities ?? privatePersonInvoice?.ProductsAndQuantities;
+            Dictionary<int, int> productsAndQuantities = 
+                companyInvoice?.ProductsAndQuantities ?? 
+                privatePersonInvoice?.ProductsAndQuantities ?? 
+                new Dictionary<int, int>();
 
             if (productsAndQuantities == null || !productsAndQuantities.Any())
             {

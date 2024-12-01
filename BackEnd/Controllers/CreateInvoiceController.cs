@@ -57,7 +57,7 @@ namespace BackEnd.Controllers
 
             var products = await _companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            return await GeneratePdfResponse(invoice, products);
+            return GeneratePdfResponse(invoice, products);
         }
 
         [Authorize]
@@ -77,7 +77,7 @@ namespace BackEnd.Controllers
 
             var products = await _privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            return await GeneratePrivatePersonPdfResponse(invoice, products);
+            return GeneratePrivatePersonPdfResponse(invoice, products);
         }
 
         [HttpPost("GeneratePdfcompanyWithoutSaving")]
@@ -85,7 +85,7 @@ namespace BackEnd.Controllers
         {
             var products = await _companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            return await GeneratePdfResponse(data, products);
+            return GeneratePdfResponse(data, products);
         }
 
         [HttpPost("GeneratePdfprivatePersonWithoutSaving")]
@@ -93,10 +93,10 @@ namespace BackEnd.Controllers
         {
             var products = await _privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            return await GeneratePrivatePersonPdfResponse(data, products);
+            return GeneratePrivatePersonPdfResponse(data, products);
         }
 
-        private async Task<IActionResult> GeneratePdfResponse(CompanyInvoice data, List<Product> products)
+        private IActionResult GeneratePdfResponse(CompanyInvoice data, List<Product> products)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
@@ -128,7 +128,7 @@ namespace BackEnd.Controllers
             return File(pdf, "application/pdf", fileName);
         }
 
-        private async Task<IActionResult> GeneratePrivatePersonPdfResponse(PrivatePersonInvoice data, List<Product> products)
+        private IActionResult GeneratePrivatePersonPdfResponse(PrivatePersonInvoice data, List<Product> products)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
