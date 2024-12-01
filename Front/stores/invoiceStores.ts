@@ -79,6 +79,7 @@ export const useInvoiceStore = defineStore('invoice', () => {
     productId: number;
     name: string;
     price: number;
+    quantity: number;
   }
 
   const state = reactive({
@@ -99,20 +100,21 @@ export const useInvoiceStore = defineStore('invoice', () => {
     pastInvoice: null,
     invoiceType: '',
     selectedCompanyId: '' as number | '',
+    products: ref<Product[]>([]),
   });
 
   const toggleProductSelection = (productId: number) => {
     if (state.productsAndQuantities[productId] !== undefined) {
 
       delete state.productsAndQuantities[productId];
-      selectedProducts.value = selectedProducts.value.filter(product => product.productId !== productId);
+      state.products = state.products.filter(product => product.productId !== productId);
     } else {
       state.productsAndQuantities[productId] = 1;
 
       const product = availableProducts.value.find(p => p.productId === productId);
 
-      if (product && !selectedProducts.value.some(p => p.productId === productId)) {
-        selectedProducts.value.push(product);
+      if (product && !state.products.some(p => p.productId === productId)) {
+        state.products.push(product);
       }
     }
   };

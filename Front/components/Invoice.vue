@@ -235,8 +235,8 @@
                 <input 
                   type="checkbox" 
                   :value="product" 
-                  :checked="selectedProducts.some(p => p.productId === product.productId)"
-                  v-model="selectedProducts" 
+                  :checked="state.products.some(p => p.productId === product.productId)"
+                  v-model="state.products" 
                   @change="toggleProductSelection(product.productId)" 
                   class="custom-checkbox mr-2 mt-2"
                 />
@@ -300,7 +300,6 @@
   import { useInvoiceStore } from '../stores/invoiceStores';
 
   const selectedProducts = ref<Product[]>([]);
-  const selectedCompanyId = ref<number>();
   const companies = ref<Company[]>([]);
   const { customFetch } = useApi();
   const { customFetchForRik } = useApiForRik();
@@ -369,7 +368,10 @@
   const onCompanyChange = async () => {
     if (state.selectedCompanyId) {
       try {
+        state.productsAndQuantities = {};
+        state.products = [];
         await fetchProducts(); // Fetch products specific to the selected company
+        console.log("products", state.productsAndQuantities)
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -467,6 +469,7 @@
       state.condition = selectedInvoice.condition || '';
       state.delayFine = selectedInvoice.delayFine || '';
       state.selectedFont = selectedInvoice.font || '';
+      
 
       if (state.invoiceType === 'company' && 'clientRegNr' in selectedInvoice) {
         state.clientRegNr = selectedInvoice.clientRegNr || '';
@@ -478,9 +481,9 @@
       
       // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
       const invoiceProducts = await fetchProductsForInvoice(selectedInvoiceId);
-      selectedProducts.value = invoiceProducts;
+      state.products = invoiceProducts;
 
-      state.productsAndQuantities = selectedProducts.value.reduce<{ [key: number]: number }>((acc, product) => {
+      state.productsAndQuantities = state.products.reduce<{ [key: number]: number }>((acc, product) => {
         if (product.productId && product.quantity) {
           acc[product.productId] = product.quantity;
         }
@@ -493,6 +496,8 @@
 
       if (missingProducts.length > 0) {
         window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
+        state.productsAndQuantities = {};
+        state.products = [];
       }
 
       }
@@ -510,7 +515,7 @@
 
   const submitForm = () => {
 
-    selectedProducts.value.forEach((product) => {
+    state.products.forEach((product) => {
       if (product.productId !== undefined) {
         const quantity = state.productsAndQuantities[product.productId] || 1;
         state.productsAndQuantities[product.productId] = quantity;
