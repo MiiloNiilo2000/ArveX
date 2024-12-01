@@ -1,44 +1,52 @@
 <template>
-  <div class="container">
-    <h1 class="text-2xl font-bold mb-6">Tooted / teenused</h1>
+  <div class="justify-center mt-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+      <!-- Left Side -->
+      <div class="shadow-md p-6 ml-64 mr-12">
+        <h1 class="text-3xl font-bold mb-6 text-center">Tooted / teenused</h1>
 
-    <div class="mb-6">
-      <label for="companySelect" class="block text-sm font-medium">Vali ettevõte:</label>
-    <div class="mt-1 w-1/3">
-      <USelect 
-        v-model="selectedCompanyId" 
-        :options="companyOptions" 
-        @change="onCompanyChange"
-         class="border-2 border-green-600 rounded-md"
-      />
+        <!-- Company Selection -->
+        <div class="mb-6 flex justify-center">
+          <div class="w-1/3">
+            <label for="companySelect" class="block text-sm font-medium text-center">Vali ettevõte:</label>
+            <USelect 
+              v-model="selectedCompanyId" 
+              :options="companyOptions" 
+              @change="onCompanyChange"
+              class="border-2 border-green-600 rounded-md w-full"
+            />
+          </div>
+        </div>
+
+        <!-- Product Search -->
+        <div class="mb-6 flex justify-center">
+            <input
+              v-model="searchTerm"
+              type="text"
+              placeholder="Otsi toodet..."
+              class="form-search"
+              color="emerald"
+            />
+        </div>
+
+        <!-- Display Products -->
+        <div v-for="(product, index) in filteredProducts" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-full mb-6">
+          <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
+          <p class="text-gray-600">{{ product.description }}</p>
+          <p class="text-gray-600">Hind: {{ product.price }}€</p>
+          <p class="text-gray-600">Maksuprotsent: {{ product.taxPercent }}%</p>
+          <p class="text-gray-600">{{ getCompanyNameById(product.companyId) }}</p>
+
+          <div class="flex justify-between mt-4">
+            <UButton @click="navigateToEditProduct(product.productId)" title="Muuda"><i class="edit-icon">✏️</i></UButton>
+            <UButton @click="deleteProduct(product.productId)" title="Kustuta"><Icon name="mdi-light:delete"/></UButton>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="flex items-center mb-6">
-      <UButton class="add-btn" icon="i-heroicons-plus"  @click="navigateToAddProduct">
-      Lisa toode
-    </UButton>
-      <input
-        v-model="searchTerm"
-        type="text"
-        placeholder="Otsi toodet..."
-        class="form-search ml-6"
-        color="emerald"
-      />
-    </div>
-
-    
-
-    <div v-for="(product, index) in filteredProducts" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-1/3 mb-6">
-      <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
-      <p class="text-gray-600">{{ product.description }}</p>
-      <p class="text-gray-600">Hind: {{ product.price }}€</p>
-      <p class="text-gray-600">Maksuprotsent: {{ product.taxPercent }}%</p>
-      <p class="text-gray-600">{{ getCompanyNameById(product.companyId) }}</p>
-
-      <div class="flex justify-between mt-4">
-        <UButton @click="navigateToEditProduct(product.productId)" title="Muuda"><i class="edit-icon">✏️</i></UButton>
-        <UButton @click="deleteProduct(product.productId)" title="Kustuta"><Icon name="mdi-light:delete"/></UButton>
+      <!-- Right Side (Add Product) -->
+      <div class="ml-12 mr-64 mt-10">
+        <AddProduct @product-added="onProductAdded"/>
       </div>
     </div>
   </div>
@@ -51,6 +59,7 @@ import { useApi } from '../composables/useApi';
 import type { Product } from "../types/product";
 import type { Company } from "../types/company";
 import { useProductStore } from '../stores/productStores';
+import AddProduct from './AddProduct.vue';
 
 const router = useRouter();
 const products = ref<Product[]>([]);
@@ -91,8 +100,14 @@ const fetchCompanies = async () => {
 const onCompanyChange = () => {
   fetchProducts();
 };
+const onProductAdded = async () => {
+  await fetchProducts();
+};
 
 const deleteProduct = async (id: number) => {
+  const confirmed = window.confirm("Kas olete kindel, et soovite toote kustutada?");
+  if (!confirmed) return;
+  
   try {
     await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
     products.value = products.value.filter(product => product.productId !== id);

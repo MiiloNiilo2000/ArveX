@@ -58,7 +58,7 @@ const state = reactive<Company>({
   registerCode: null,
   vatNumber: '',
   address: '',
-  postalCode: 0,
+  postalCode: null,
   country: '',
   email: '',
   image: '',

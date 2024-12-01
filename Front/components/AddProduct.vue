@@ -1,7 +1,7 @@
 <template>
-  <div class="flex justify-center items-center pt-9">
-      <div class="w-96 p-6 flex flex-col h-99">
-          <h2 class="text-2xl font-bold mb-4 text-center">Lisa toode</h2>
+  <div class="flex justify-center items-center">
+      <div class="w-96 flex flex-col">
+          <h2 class="text-3xl font-bold mb-6 text-center">Lisa toode</h2>
           
     <UForm
       :validate="validate"
@@ -55,6 +55,7 @@ const route = useRoute();
 const router = useRouter();
 const { customFetch } = useApi();
 const companies = ref<{ companyId: number; name: string }[]>([]);
+const emit = defineEmits(['product-added']);
 
 const state = reactive<Product>({
     productId: 0,
@@ -71,6 +72,7 @@ const addProduct = async (product: Product) => {
       method: 'POST',
       body: product,     
     });
+    emit('product-added');
   } catch (error) {
     console.error("Error adding company:", error);
   }
@@ -96,8 +98,13 @@ const validate = (state: any): FormError[] => {
 };
 
 async function onSubmit(event: FormSubmitEvent<any>) {
-  addProduct({ ...state });
-  await router.back();
+  await addProduct({ ...state });
+  await router.push("/products");
+  state.name = '';
+  state.description = '';
+  state.price = null;
+  state.taxPercent = null;
+  state.companyId = 0;
 }
 
 async function onError(event: FormErrorEvent) {
