@@ -20,6 +20,10 @@ export async function generateInvoicePDF(state: any, routeName: string) {
         font: state.selectedFont,
         invoiceType: state.invoiceType,
         productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+        senderCompanyName: state.senderCompanyName,
+        senderCompanyAddress: state.senderCompanyAddress,
+        senderCompanyRegistrationNumber: state.senderCompanyRegistrationNumber,
+        senderCompanyKMKRNumber: state.senderCompanyKMKRNumber,
       };
     }
     else {
@@ -33,6 +37,10 @@ export async function generateInvoicePDF(state: any, routeName: string) {
         font: state.selectedFont,
         invoiceType: state.invoiceType,
         productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+        senderCompanyName: state.senderCompanyName,
+        senderCompanyAddress: state.senderCompanyAddress,
+        senderCompanyRegistrationNumber: state.senderCompanyRegistrationNumber,
+        senderCompanyKMKRNumber: state.senderCompanyKMKRNumber,
       };
     }
     console.log('Payload:', payload);
@@ -57,7 +65,6 @@ export async function generateInvoicePDF(state: any, routeName: string) {
       console.error("Error message:", error);
   }
 }
-
 
 export const useInvoiceStore = defineStore('invoice', () => {
 
@@ -101,6 +108,10 @@ export const useInvoiceStore = defineStore('invoice', () => {
     invoiceType: '',
     selectedCompanyId: '' as number | '',
     products: ref<Product[]>([]),
+    senderCompanyName: '',
+    senderCompanyAddress: '',
+    senderCompanyRegistrationNumber: 0,
+    senderCompanyKMKRNumber: '',
   });
 
   const toggleProductSelection = (productId: number) => {

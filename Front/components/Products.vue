@@ -1,11 +1,9 @@
 <template>
   <div class="justify-center">
     <div class="grid grid-cols-1 sm:grid-cols-2">
-      <!-- Left Side -->
-      <div class="shadow-md p-6 ml-64 mr-12 mt-8">
+      <div class="p-6 ml-64 mr-12 mt-8">
         <h1 class="text-3xl font-bold mb-6 text-center">Tooted / Teenused</h1>
 
-        <!-- Company Selection -->
         <div class="mb-6 flex justify-center">
           <div class="w-1/3">
             <label for="companySelect" class="block text-sm font-medium text-center mb-1">Vali ettevõte:</label>
@@ -18,7 +16,6 @@
           </div>
         </div>
 
-        <!-- Product Search -->
         <div class="mb-6 flex justify-center">
             <input
               v-model="searchTerm"
@@ -29,7 +26,6 @@
             />
         </div>
 
-        <!-- Display Products -->
         <div v-for="(product, index) in filteredProducts" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-full mb-6">
           <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
           <p class="text-gray-600">{{ product.description }}</p>
@@ -44,7 +40,6 @@
         </div>
       </div>
 
-      <!-- Right Side (Add Product) -->
       <div class="ml-12 mr-64 mt-14">
         <AddProduct @product-added="onProductAdded"/>
       </div>

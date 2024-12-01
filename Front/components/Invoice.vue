@@ -372,13 +372,20 @@
     }
   }; 
 
+
   const onCompanyChange = async () => {
     if (state.selectedCompanyId) {
       try {
         state.productsAndQuantities = {};
         state.products = [];
-        await fetchProducts(); // Fetch products specific to the selected company
-        console.log("products", state.productsAndQuantities)
+        await fetchProducts();
+        const selectedCompany = companies.value.find(c => c.companyId === state.selectedCompanyId);
+        if (selectedCompany){
+          state.senderCompanyName = selectedCompany.name;
+          state.senderCompanyAddress = selectedCompany.address;
+          state.senderCompanyRegistrationNumber = selectedCompany.registerCode;
+          state.senderCompanyKMKRNumber = selectedCompany.vatNumber;
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       }

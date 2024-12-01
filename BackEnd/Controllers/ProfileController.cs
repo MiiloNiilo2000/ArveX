@@ -77,7 +77,12 @@ namespace BackEnd.Controllers
         {
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
-            var userCompanies= await _companyRepo.GetUserCompanies(appUser);
+            
+            if (appUser == null)
+            {
+                return NotFound("User not found.");
+            }
+            var userCompanies = await _companyRepo.GetUserCompanies(appUser);
             return Ok(userCompanies);
         }
         [HttpPut("{id}")]
