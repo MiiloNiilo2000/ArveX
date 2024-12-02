@@ -93,15 +93,17 @@ const validate = (state: any): FormError[] => {
   if (!state.taxPercent) errors.push({ path: "taxPercent", message: "Required" });
   return errors;
 };
-
-async function onSubmit(event: FormSubmitEvent<any>) {
-  await addProduct({ ...state });
-  await router.push("/products");
+function resetForm() {
   state.name = '';
   state.description = '';
   state.price = null;
   state.taxPercent = null;
-  state.companyId = 0;
+}
+
+async function onSubmit(event: FormSubmitEvent<any>) {
+  state.companyId = props.selectedCompanyId;
+  await addProduct({ ...state });
+  resetForm();
 }
 
 async function onError(event: FormErrorEvent) {
@@ -111,9 +113,7 @@ async function onError(event: FormErrorEvent) {
 }
 
 watch(() => props.selectedCompanyId, (newVal) => {
-  if (!state.companyId) {
-    state.companyId = newVal;
-  }
+  state.companyId = newVal;
 });
 
 onMounted(() => {

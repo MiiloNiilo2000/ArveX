@@ -26,6 +26,7 @@
             />
         </div>
 
+       <div v-if="state.products.length > 0">
         <div v-for="(product, index) in filteredProducts" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-full mb-6">
           <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
           <p class="text-gray-600">{{ product.description }}</p>
@@ -38,6 +39,10 @@
             <UButton @click="deleteProduct(product.productId)" title="Kustuta"><Icon name="mdi-light:delete"/></UButton>
           </div>
         </div>
+       </div>
+       <div v-else class="text-center mt-6">
+          <p>Valitud ettevõttel ei ole ühtegi toodet.</p>
+      </div>
       </div>
 
       <div class="ml-12 mr-64 mt-14">
@@ -57,13 +62,12 @@ import { useProductStore } from '../stores/productStores';
 import AddProduct from './AddProduct.vue';
 
 const router = useRouter();
-const companies = ref<Company[]>([]);
 const { customFetch } = useApi();
-const { navigateToEditProduct, state } = useProductStore();
+const { navigateToEditProduct, state, getCompanyNameById} = useProductStore();
 const searchTerm = ref<string>('');
 
 const companyOptions = computed(() => {
-  return companies.value.map(company => ({
+  return state.companies.map(company => ({
     label: company.name,
     value: company.companyId,
   }));
@@ -84,7 +88,7 @@ const fetchProducts = async () => {
 const fetchCompanies = async () => {
     try {
       const response = await customFetch<Company[]>(`Profile/Companies`, { method: 'GET' });
-      companies.value = response;
+        state.companies = response;
     } catch (error) {
       console.error("Error fetching companies:", error);
     }
@@ -109,10 +113,6 @@ const deleteProduct = async (id: number) => {
     console.error("Error deleting product:", error);
   }
 };
-const getCompanyNameById = (companyId: number) => {
-  const company = companies.value.find(c => c.companyId === companyId);
-  return company ? company.name : 'Ettevõtet ei leitud';
-};
 const filteredProducts = computed(() => {
   return state.products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
@@ -125,7 +125,7 @@ onMounted(async () => {
   if (state.selectedCompanyId) {
       fetchProducts();
     } else {
-      state.selectedCompanyId = companies.value[0].companyId;
+      state.selectedCompanyId = state.companies[0].companyId;
       fetchProducts();
     }
 });

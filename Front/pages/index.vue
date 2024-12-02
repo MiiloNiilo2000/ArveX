@@ -17,23 +17,24 @@
     <section class="container mx-auto px-6 py-16 text-gray-700 dark:text-white bg-inherit">
       <h2 class="text-3xl font-bold text-center mb-12">Miks valida ArveX?</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="p-6 rounded-lg shadow-md bg-white dark:bg-gray-700">
+
+        <NuxtLink to="/create-invoice" class="p-6 rounded-lg shadow-md bg-white dark:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105">
           <div class="text-green-600 text-4xl mb-4 text-center">📑</div>
           <h3 class="text-xl font-semibold mb-2 text-center">Lihtne luua</h3>
           <p class="text-gray-600 dark:text-gray-300 text-center">Loo ja kohanda arveid vaid mõne klikiga.</p>
-        </div>
+        </NuxtLink>
 
-        <div class="p-6 rounded-lg shadow-md bg-white dark:bg-gray-700">
+        <NuxtLink to="/view-history" class="p-6 rounded-lg shadow-md bg-white dark:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105">
           <div class="text-green-600 text-4xl mb-4 text-center">📈</div>
           <h3 class="text-xl font-semibold mb-2 text-center">Jälgi arveid</h3>
           <p class="text-gray-600 dark:text-gray-300 text-center">Loodud arved salvestuvad, et saaksid neid hiljem hallata.</p>
-        </div>
+        </NuxtLink>
 
-        <div class="p-6 rounded-lg shadow-md bg-white dark:bg-gray-700">
+        <NuxtLink to="/products" class="p-6 rounded-lg shadow-md bg-white dark:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105">
           <div class="text-green-600 text-4xl mb-4 text-center">💼</div>
           <h3 class="text-xl font-semibold mb-2 text-center">Toote- / teenusebaasi lisamine</h3>
           <p class="text-gray-600 dark:text-gray-300 text-center">Loo oma toodetest ja / või teenustest loend ning lisa neid hõlbsalt arvele.</p>
-        </div>
+        </NuxtLink>
       </div>
     </section>
 
