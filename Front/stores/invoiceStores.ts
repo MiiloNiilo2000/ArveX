@@ -20,6 +20,10 @@ export async function generateInvoicePDF(state: any, routeName: string) {
         font: state.selectedFont,
         invoiceType: state.invoiceType,
         productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+        senderCompanyName: state.senderCompanyName,
+        senderCompanyAddress: state.senderCompanyAddress,
+        senderCompanyRegistrationNumber: state.senderCompanyRegistrationNumber,
+        senderCompanyKMKRNumber: state.senderCompanyKMKRNumber,
       };
     }
     else {
@@ -33,6 +37,10 @@ export async function generateInvoicePDF(state: any, routeName: string) {
         font: state.selectedFont,
         invoiceType: state.invoiceType,
         productsAndQuantitiesJson: JSON.stringify(state.productsAndQuantities),
+        senderCompanyName: state.senderCompanyName,
+        senderCompanyAddress: state.senderCompanyAddress,
+        senderCompanyRegistrationNumber: state.senderCompanyRegistrationNumber,
+        senderCompanyKMKRNumber: state.senderCompanyKMKRNumber,
       };
     }
     console.log('Payload:', payload);
@@ -58,7 +66,6 @@ export async function generateInvoicePDF(state: any, routeName: string) {
   }
 }
 
-
 export const useInvoiceStore = defineStore('invoice', () => {
 
   const selectedProducts = ref<Product[]>([]);
@@ -79,6 +86,7 @@ export const useInvoiceStore = defineStore('invoice', () => {
     productId: number;
     name: string;
     price: number;
+    quantity: number;
   }
 
   const state = reactive({
@@ -98,20 +106,26 @@ export const useInvoiceStore = defineStore('invoice', () => {
     productsAndQuantities: {} as Record<number, number>,
     pastInvoice: null,
     invoiceType: '',
+    selectedCompanyId: '' as number | '',
+    products: ref<Product[]>([]),
+    senderCompanyName: '',
+    senderCompanyAddress: '',
+    senderCompanyRegistrationNumber: 0,
+    senderCompanyKMKRNumber: '',
   });
 
   const toggleProductSelection = (productId: number) => {
     if (state.productsAndQuantities[productId] !== undefined) {
 
       delete state.productsAndQuantities[productId];
-      selectedProducts.value = selectedProducts.value.filter(product => product.productId !== productId);
+      state.products = state.products.filter(product => product.productId !== productId);
     } else {
       state.productsAndQuantities[productId] = 1;
 
       const product = availableProducts.value.find(p => p.productId === productId);
 
-      if (product && !selectedProducts.value.some(p => p.productId === productId)) {
-        selectedProducts.value.push(product);
+      if (product && !state.products.some(p => p.productId === productId)) {
+        state.products.push(product);
       }
     }
   };

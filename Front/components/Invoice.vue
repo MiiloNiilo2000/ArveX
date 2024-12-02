@@ -12,7 +12,7 @@
       <UDivider label="Vali enda ettevõte ning arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
         <label for="companySelect">Ettevõte:</label>
-        <select v-model="selectedCompanyId" @change="onCompanyChange" id="companySelect" class="ml-1">
+        <select v-model="state.selectedCompanyId" @change="onCompanyChange" id="companySelect" class="ml-1">
           <option v-for="company in companyOptions" :key="company.value" :value="company.value">
             {{ company.label }}
           </option>
@@ -69,7 +69,7 @@
   <div class="flex w-full gap-20"> 
     <div class="w-1/2"> 
       <UDivider label="Kopeeri varasema arve andmed" class="h-10 mb-2" />
-      <UFormGroup name="pastInvoice" class="flex justify-center h-16">
+      <UFormGroup name="pastInvoice" class="flex justify-center h-12">
         <select v-model="state.pastInvoice">
           <option value="" disabled>Vali varasem arve:</option>
           <!-- Company invoices -->
@@ -81,7 +81,14 @@
             {{ formatInvoiceOption(invoice) }}
           </option>
         </select>
-      </UFormGroup>
+
+      </UFormGroup>  
+      <div class="flex justify-center items-center h-12 mb-2">
+        <UButton @click="clearPastInvoice" size="xs" icon="i-heroicons-x-mark">
+          Tühjenda väljad
+        </UButton>
+      </div>
+      
       <UDivider label="Loo uus arve" />
     </div>
   </div>
@@ -235,8 +242,8 @@
                 <input 
                   type="checkbox" 
                   :value="product" 
-                  :checked="selectedProducts.some(p => p.productId === product.productId)"
-                  v-model="selectedProducts" 
+                  :checked="state.products.some(p => p.productId === product.productId)"
+                  v-model="state.products" 
                   @change="toggleProductSelection(product.productId)" 
                   class="custom-checkbox mr-2 mt-2"
                 />
@@ -300,7 +307,6 @@
   import { useInvoiceStore } from '../stores/invoiceStores';
 
   const selectedProducts = ref<Product[]>([]);
-  const selectedCompanyId = ref<number>();
   const companies = ref<Company[]>([]);
   const { customFetch } = useApi();
   const { customFetchForRik } = useApiForRik();
@@ -347,9 +353,9 @@
 
   const fetchProducts = async () => {
     availableProducts.value = [];
-    if (selectedCompanyId.value) {
+    if (state.selectedCompanyId) {
       try {
-        const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/Products`, { method: 'GET' });
+        const response = await customFetch<Product[]>(`Companies/${state.selectedCompanyId}/Products`, { method: 'GET' });
         availableProducts.value = response;
       } catch (error) {
         console.error("Error fetching companies:", error);
@@ -366,10 +372,20 @@
     }
   }; 
 
+
   const onCompanyChange = async () => {
-    if (selectedCompanyId.value) {
+    if (state.selectedCompanyId) {
       try {
-        await fetchProducts(); // Fetch products specific to the selected company
+        state.productsAndQuantities = {};
+        state.products = [];
+        await fetchProducts();
+        const selectedCompany = companies.value.find(c => c.companyId === state.selectedCompanyId);
+        if (selectedCompany){
+          state.senderCompanyName = selectedCompany.name;
+          state.senderCompanyAddress = selectedCompany.address;
+          state.senderCompanyRegistrationNumber = selectedCompany.registerCode;
+          state.senderCompanyKMKRNumber = selectedCompany.vatNumber;
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -385,14 +401,38 @@
       state.zipCode = '';
       state.country = '';
       state.pastInvoice = null;
+      state.invoiceType = 'privatePerson';
       pastCompanyInvoices.value = [];
       loadPastPrivatePersonInvoices();
     } else if (state.invoiceType === 'company') {
       state.title = '';
       state.pastInvoice = null;
       pastPrivatePersonInvoices.value = [];
+      state.invoiceType = 'company';
       loadPastCompanyInvoices();
     }
+    console.log("Type", state.invoiceType);
+  }
+
+  function clearPastInvoice() {
+    clearState();
+  }
+
+  function clearState() {
+      state.title = '';
+      state.clientRegNr = '';
+      state.clientKMKR = '';
+      state.address = '';
+      state.zipCode = '';
+      state.country = '';
+      state.pastInvoice = null;
+      state.invoiceNumber = '';
+      state.dateCreated = new Date().toISOString().split('T')[0];
+      state.dateDue = '';
+      state.condition = '';
+      state.delayFine = '';
+      state.productsAndQuantities = {};
+      state.products = [];
   }
 
   const fetchCompanyNames = async () => {
@@ -464,6 +504,7 @@
       state.condition = selectedInvoice.condition || '';
       state.delayFine = selectedInvoice.delayFine || '';
       state.selectedFont = selectedInvoice.font || '';
+      
 
       if (state.invoiceType === 'company' && 'clientRegNr' in selectedInvoice) {
         state.clientRegNr = selectedInvoice.clientRegNr || '';
@@ -475,9 +516,9 @@
       
       // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
       const invoiceProducts = await fetchProductsForInvoice(selectedInvoiceId);
-      selectedProducts.value = invoiceProducts;
+      state.products = invoiceProducts;
 
-      state.productsAndQuantities = selectedProducts.value.reduce<{ [key: number]: number }>((acc, product) => {
+      state.productsAndQuantities = state.products.reduce<{ [key: number]: number }>((acc, product) => {
         if (product.productId && product.quantity) {
           acc[product.productId] = product.quantity;
         }
@@ -490,9 +531,10 @@
 
       if (missingProducts.length > 0) {
         window.alert('Hoiatus: Sellel arvel on tooted, mis ei ole enam tootebaasis. Kontrollige soovitud tooted üle.');
+        state.productsAndQuantities = {};
+        state.products = [];
       }
-
-      }
+    }
   });
 
   const fetchProductsForInvoice = async (invoiceId: number) => {
@@ -507,7 +549,7 @@
 
   const submitForm = () => {
 
-    selectedProducts.value.forEach((product) => {
+    state.products.forEach((product) => {
       if (product.productId !== undefined) {
         const quantity = state.productsAndQuantities[product.productId] || 1;
         state.productsAndQuantities[product.productId] = quantity;
@@ -522,12 +564,17 @@
 
   onMounted(async () => {
   try {
-    state.invoiceType = 'company';
+
     await loadPastCompanyInvoices();
     await customFetch<Product[]>(`Products/all`, { method: 'GET' });
     await fetchCompanies();
-    if (companies.value.length > 0) {
-      selectedCompanyId.value = companies.value[0].companyId;
+    if (!state.invoiceType){
+      state.invoiceType = 'company';
+    }
+    if (state.selectedCompanyId) {
+      fetchProducts();
+    } else {
+      state.selectedCompanyId = companies.value[0].companyId;
       fetchProducts();
     }
   } catch (error) {

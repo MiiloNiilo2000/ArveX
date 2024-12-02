@@ -8,7 +8,7 @@
     <NuxtLink
       v-if="!isLoggedIn"
       to="/login"
-      class="bg-green-500 text-white px-8 py-1.5 rounded-lg shadow-md font-semibold hover:bg-blue-600"
+      class="bg-green-500 text-white px-8 py-1.5 rounded-lg shadow-md font-semibold mt-1 hover:bg-green-600"
     >
       Sisselogimine
     </NuxtLink>
@@ -16,7 +16,7 @@
     <button
       v-if="isLoggedIn"
       @click="handleLogout"
-      class="bg-red-500 text-white px-8 py-1.5 rounded-lg shadow-md font-semibold hover:bg-red-600 mr-4"
+      class="bg-red-500 text-white px-8 py-1.5 rounded-lg shadow-md font-semibold mt-1 hover:bg-red-600 mr-4"
     >
       Väljalogimine
     </button>

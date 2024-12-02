@@ -57,7 +57,7 @@ namespace BackEnd.Controllers
 
             var products = await _companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            return await GeneratePdfResponse(invoice, products);
+            return GeneratePdfResponse(invoice, products);
         }
 
         [Authorize]
@@ -77,7 +77,7 @@ namespace BackEnd.Controllers
 
             var products = await _privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            return await GeneratePrivatePersonPdfResponse(invoice, products);
+            return GeneratePrivatePersonPdfResponse(invoice, products);
         }
 
         [HttpPost("GeneratePdfcompanyWithoutSaving")]
@@ -85,7 +85,7 @@ namespace BackEnd.Controllers
         {
             var products = await _companyRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            return await GeneratePdfResponse(data, products);
+            return GeneratePdfResponse(data, products);
         }
 
         [HttpPost("GeneratePdfprivatePersonWithoutSaving")]
@@ -93,10 +93,10 @@ namespace BackEnd.Controllers
         {
             var products = await _privatePersonRepo.GetProductsByIds(data.ProductsAndQuantities.Keys.ToList());
 
-            return await GeneratePrivatePersonPdfResponse(data, products);
+            return GeneratePrivatePersonPdfResponse(data, products);
         }
 
-        private async Task<IActionResult> GeneratePdfResponse(CompanyInvoice data, List<Product> products)
+        private IActionResult GeneratePdfResponse(CompanyInvoice data, List<Product> products)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
@@ -113,6 +113,10 @@ namespace BackEnd.Controllers
                 data.Condition,
                 data.DelayFine,
                 data.Font,
+                data.SenderCompanyName,
+                data.SenderCompanyAddress,
+                data.SenderCompanyRegistrationNumber,
+                data.SenderCompanyKMKRNumber,
                 products,
                 data
             );
@@ -124,7 +128,7 @@ namespace BackEnd.Controllers
             return File(pdf, "application/pdf", fileName);
         }
 
-        private async Task<IActionResult> GeneratePrivatePersonPdfResponse(PrivatePersonInvoice data, List<Product> products)
+        private IActionResult GeneratePrivatePersonPdfResponse(PrivatePersonInvoice data, List<Product> products)
         {
             Console.WriteLine("Received Invoice Data: " + data);
 
@@ -136,6 +140,10 @@ namespace BackEnd.Controllers
                 data.Condition,
                 data.DelayFine,
                 data.Font,
+                data.SenderCompanyName,
+                data.SenderCompanyAddress,
+                data.SenderCompanyRegistrationNumber,
+                data.SenderCompanyKMKRNumber,
                 products,
                 data
             );
@@ -160,6 +168,10 @@ namespace BackEnd.Controllers
             string condition,
             string delayFine,
             string font,
+            string senderCompanyName,
+            string senderCompanyAddress,
+            int senderCompanyRegistrationNumber,
+            string senderCompanyKMKRNumber,
             List<Product> products,
             CompanyInvoice data
             )
@@ -265,16 +277,21 @@ namespace BackEnd.Controllers
                                         innerColumns.RelativeColumn();
                                     });
 
-                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text("ArveX").FontSize(15).Bold();
+                                    var parts = senderCompanyAddress.Split(',', 3); 
+
+                                    string firstLine = parts.Length > 2 ? $"{parts[0]}, {parts[1]}" : senderCompanyAddress;
+                                    string secondLine = parts.Length > 2 ? parts[2] : "";
+
+                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text(senderCompanyName).FontSize(15).Bold();
                                     innerTable.Cell().Row(2).Column(1).Padding(2);
                                     
-                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text("[Aadress]").FontSize(11);
+                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(secondLine.Trim()).FontSize(11);
+                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text(firstLine).FontSize(11);
                                     
-                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Reg. nr.: 12345").FontSize(11);
+                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("Reg.Nr.: " + senderCompanyRegistrationNumber).FontSize(11);
                                     
 
-                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("KMKR: EE98765").FontSize(11);
-                                    
+                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text("KMKR: " + senderCompanyKMKRNumber).FontSize(11);
 
                                 });
                             });
@@ -369,6 +386,10 @@ namespace BackEnd.Controllers
             string condition,
             string delayFine,
             string font,
+            string senderCompanyName,
+            string senderCompanyAddress,
+            int senderCompanyRegistrationNumber,
+            string senderCompanyKMKRNumber,
             List<Product> products,
             PrivatePersonInvoice data
             )
@@ -463,16 +484,21 @@ namespace BackEnd.Controllers
                                         innerColumns.RelativeColumn();
                                     });
 
-                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text("ArveX").FontSize(15).Bold();
+                                    var parts = senderCompanyAddress.Split(',', 3); 
+
+                                    string firstLine = parts.Length > 2 ? $"{parts[0]}, {parts[1]}" : senderCompanyAddress;
+                                    string secondLine = parts.Length > 2 ? parts[2] : "";
+
+                                    innerTable.Cell().Row(1).Column(1).AlignLeft().Text(senderCompanyName).FontSize(15).Bold();
                                     innerTable.Cell().Row(2).Column(1).Padding(2);
                                     
-                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text("[Aadress]").FontSize(11);
+                                    innerTable.Cell().Row(3).Column(1).AlignLeft().Text(secondLine.Trim()).FontSize(11);
+                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text(firstLine).FontSize(11);
                                     
-                                    innerTable.Cell().Row(4).Column(1).AlignLeft().Text("Reg. nr.: 12345").FontSize(11);
+                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("Reg.Nr.: " + senderCompanyRegistrationNumber).FontSize(11);
                                     
 
-                                    innerTable.Cell().Row(5).Column(1).AlignLeft().Text("KMKR: EE98765").FontSize(11);
-                                    
+                                    innerTable.Cell().Row(6).Column(1).AlignLeft().Text("KMKR: " + senderCompanyKMKRNumber).FontSize(11);
 
                                 });
                             });

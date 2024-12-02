@@ -23,7 +23,7 @@
             <CompanyProfile :company="selectedCompany" :editCompany="editCompany" @company-deleted="onCompanyAdded"/>
           </div>
         </div>
-        <div v-else class="text-center text-black py-12 text-xl font-bold">
+        <div v-else class="text-center text-white py-12 text-xl font-bold">
           Siia ilmuvad teie ettevõtted
         </div>
       </div>
