@@ -26,15 +26,6 @@
       <UInput v-model="state.taxPercent" color="emerald" class="bg-gray-900 rounded-md"/>
     </UFormGroup>
 
-    <UFormGroup label="Firma" name="companyId">
-      <select v-model="state.companyId" class="w-full ">
-          <option value="" disabled>Vali ettevõte:</option>
-          <option v-for="company in companies" :key="company.companyId" :value="company.companyId">
-            {{ company.name }}
-          </option>
-        </select>
-      </UFormGroup>
-
       <div class="col-span-2 flex justify-center">
       <UButton type="submit"> Lisa </UButton>
 
@@ -56,6 +47,13 @@ const router = useRouter();
 const { customFetch } = useApi();
 const companies = ref<{ companyId: number; name: string }[]>([]);
 const emit = defineEmits(['product-added']);
+const props = defineProps({
+  selectedCompanyId: {
+    type: Number,
+    required: true
+  }
+});
+
 
 const state = reactive<Product>({
     productId: 0,
@@ -93,7 +91,6 @@ const validate = (state: any): FormError[] => {
   if (!state.description) errors.push({ path: "description", message: "Required" });
   if (!state.price) errors.push({ path: "price", message: "Required" });
   if (!state.taxPercent) errors.push({ path: "taxPercent", message: "Required" });
-  if (!state.companyId) errors.push({ path: "companyId", message: "Required" });
   return errors;
 };
 
@@ -113,10 +110,15 @@ async function onError(event: FormErrorEvent) {
   element?.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-onMounted(fetchCompanies);
-  watch(() => state.companyId, (newVal) => {
-    console.log('Selected companyId:', newVal);
-  });
+watch(() => props.selectedCompanyId, (newVal) => {
+  if (!state.companyId) {
+    state.companyId = newVal;
+  }
+});
+
+onMounted(() => {
+  state.companyId = props.selectedCompanyId;
+});
 </script>
 
 <style>

@@ -8,7 +8,7 @@
           <div class="w-1/3">
             <label for="companySelect" class="block text-sm font-medium text-center mb-1">Vali ettevõte:</label>
             <USelect 
-              v-model="selectedCompanyId" 
+              v-model="state.selectedCompanyId" 
               :options="companyOptions" 
               @change="onCompanyChange"
               class="border-2 border-green-600 rounded-md w-full"
@@ -41,7 +41,7 @@
       </div>
 
       <div class="ml-12 mr-64 mt-14">
-        <AddProduct @product-added="onProductAdded"/>
+        <AddProduct :selected-company-id="state.selectedCompanyId" @product-added="onProductAdded"/>
       </div>
     </div>
   </div>
@@ -57,11 +57,9 @@ import { useProductStore } from '../stores/productStores';
 import AddProduct from './AddProduct.vue';
 
 const router = useRouter();
-const products = ref<Product[]>([]);
 const companies = ref<Company[]>([]);
-const selectedCompanyId = ref<number>();
 const { customFetch } = useApi();
-const { navigateToAddProduct, navigateToEditProduct } = useProductStore();
+const { navigateToEditProduct, state } = useProductStore();
 const searchTerm = ref<string>('');
 
 const companyOptions = computed(() => {
@@ -72,11 +70,11 @@ const companyOptions = computed(() => {
 });
 
 const fetchProducts = async () => {
-  products.value = [];
-  if (selectedCompanyId.value) {
+  state.products = [];
+  if (state.selectedCompanyId) {
     try {
-      const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/Products`, { method: 'GET' });
-      products.value = response;
+      const response = await customFetch<Product[]>(`Companies/${state.selectedCompanyId}/Products`, { method: 'GET' });
+      state.products = response;
     } catch (error) {
       console.error("Error fetching companies:", error);
     }
@@ -105,7 +103,7 @@ const deleteProduct = async (id: number) => {
   
   try {
     await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
-    products.value = products.value.filter(product => product.productId !== id);
+    state.products = state.products.filter(product => product.productId !== id);
     fetchProducts();
   } catch (error) {
     console.error("Error deleting product:", error);
@@ -116,7 +114,7 @@ const getCompanyNameById = (companyId: number) => {
   return company ? company.name : 'Ettevõtet ei leitud';
 };
 const filteredProducts = computed(() => {
-  return products.value.filter(product =>
+  return state.products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
     product.description.toLowerCase().includes(searchTerm.value.toLowerCase())
   );
@@ -124,10 +122,12 @@ const filteredProducts = computed(() => {
 
 onMounted(async () => {
   await fetchCompanies();
-  if (companies.value.length > 0) {
-    selectedCompanyId.value = companies.value[0].companyId;
-    fetchProducts();
-  }
+  if (state.selectedCompanyId) {
+      fetchProducts();
+    } else {
+      state.selectedCompanyId = companies.value[0].companyId;
+      fetchProducts();
+    }
 });
 </script>
 
