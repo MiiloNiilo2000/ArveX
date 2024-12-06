@@ -55,13 +55,7 @@
                   <p class="text-black"><span class="label">Maksetähtaeg:</span></p>
                   
                 </div>
-                <div class="w-1/2 text-left">
-                  <p class="text-lg font-semibold text-black"><span>{{ state.invoiceNumber  || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.dateCreated || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.condition || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.dateDue || '' }}</span></p>
-                  <p class="text-black"><span>{{ state.delayFine || '' }}</span></p>
-                </div>
+              
               </div>
             </div>
             </div>
