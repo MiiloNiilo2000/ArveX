@@ -513,8 +513,7 @@
         state.zipCode = String(selectedInvoice.zipCode);
         state.country = selectedInvoice.country || 'Eesti';
       }
-      
-      // lisab ka kustutatud tooted kuhugi listi, kopeerides arvet, mis loodi hoiatusega, annab samuti hoiatuse, kuigi tooted on olemas
+
       const invoiceProducts = await fetchProductsForInvoice(selectedInvoiceId);
       state.products = invoiceProducts;
 
