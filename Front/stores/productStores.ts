@@ -7,28 +7,38 @@ import { defineStore } from 'pinia';
 
 export const useProductStore = defineStore('product', () => {
 
-    const products = ref<Product[]>([]);
     const router = useRouter();
+    const state = reactive({
+        products: ref<Product[]>([]),
+        companies: ref<Company[]>([]),
+        selectedCompanyId: 0
+      });
        
     const editProduct = (updatedProduct: Product) => {
-        const index = products.value.findIndex((product) => product.productId === updatedProduct.productId);
+        const index = state.products.findIndex((product) => product.productId === updatedProduct.productId);
         if (index !== -1) {
-            products.value[index] = { ...updatedProduct };
+            state.products[index] = { ...updatedProduct };
         }
     };
-
-    const navigateToAddProduct = () => {
-        router.push('/products/add');
-      };
       
     const navigateToEditProduct = (productId: number) => {
     router.push(`/products/edit/${productId}`);
     };
-    
-
+    const navigateToAddProduct = () => {
+        router.push(`/products`);
+    };
+    const getCompanyNameById = (companyId: number) => {
+        const company = state.companies.find(c => c.companyId === companyId);
+        return company ? company.name : 'Ettevõtet ei leitud';
+    };
     const getProductById = (id: number): Product | undefined => {
-        return products.value.find(product => product.productId === id);
+        return state.products.find(product => product.productId === id);
     };
     
-    return { products,  editProduct, navigateToAddProduct, navigateToEditProduct, getProductById };
+    return { editProduct,
+             navigateToAddProduct,
+             navigateToEditProduct, 
+             getProductById, 
+             getCompanyNameById, 
+            };
 });

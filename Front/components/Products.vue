@@ -8,7 +8,7 @@
           <div class="w-1/3">
             <label for="companySelect" class="block text-sm font-medium text-center mb-1">Vali ettevõte:</label>
             <USelect 
-              v-model="selectedCompanyId" 
+              v-model="state.selectedCompanyId" 
               :options="companyOptions" 
               @change="onCompanyChange"
               class="border-2 border-green-600 rounded-md w-full"
@@ -26,6 +26,7 @@
             />
         </div>
 
+       <div v-if="state.products.length > 0">
         <div v-for="(product, index) in filteredProducts" :key="index" class="bg-green-100 shadow-md rounded-lg p-3 w-full mb-6">
           <h2 class="text-black text-xl font-semibold">{{ product.name }}</h2>
           <p class="text-gray-600">{{ product.description }}</p>
@@ -38,10 +39,14 @@
             <UButton @click="deleteProduct(product.productId)" title="Kustuta"><Icon name="mdi-light:delete"/></UButton>
           </div>
         </div>
+       </div>
+       <div v-else class="text-center mt-6">
+          <p>Valitud ettevõttel ei ole ühtegi toodet.</p>
+      </div>
       </div>
 
       <div class="ml-12 mr-64 mt-14">
-        <AddProduct @product-added="onProductAdded"/>
+        <AddProduct :selected-company-id="state.selectedCompanyId" @product-added="onProductAdded"/>
       </div>
     </div>
   </div>
@@ -57,26 +62,23 @@ import { useProductStore } from '../stores/productStores';
 import AddProduct from './AddProduct.vue';
 
 const router = useRouter();
-const products = ref<Product[]>([]);
-const companies = ref<Company[]>([]);
-const selectedCompanyId = ref<number>();
 const { customFetch } = useApi();
-const { navigateToAddProduct, navigateToEditProduct } = useProductStore();
+const { navigateToEditProduct, state, getCompanyNameById} = useProductStore();
 const searchTerm = ref<string>('');
 
 const companyOptions = computed(() => {
-  return companies.value.map(company => ({
+  return state.companies.map(company => ({
     label: company.name,
     value: company.companyId,
   }));
 });
 
 const fetchProducts = async () => {
-  products.value = [];
-  if (selectedCompanyId.value) {
+  state.products = [];
+  if (state.selectedCompanyId) {
     try {
-      const response = await customFetch<Product[]>(`Companies/${selectedCompanyId.value}/Products`, { method: 'GET' });
-      products.value = response;
+      const response = await customFetch<Product[]>(`Companies/${state.selectedCompanyId}/Products`, { method: 'GET' });
+      state.products = response;
     } catch (error) {
       console.error("Error fetching companies:", error);
     }
@@ -86,7 +88,7 @@ const fetchProducts = async () => {
 const fetchCompanies = async () => {
     try {
       const response = await customFetch<Company[]>(`Profile/Companies`, { method: 'GET' });
-      companies.value = response;
+        state.companies = response;
     } catch (error) {
       console.error("Error fetching companies:", error);
     }
@@ -105,18 +107,14 @@ const deleteProduct = async (id: number) => {
   
   try {
     await customFetch<Product[]>(`Products/${id}`, { method: 'DELETE' });
-    products.value = products.value.filter(product => product.productId !== id);
+    state.products = state.products.filter(product => product.productId !== id);
     fetchProducts();
   } catch (error) {
     console.error("Error deleting product:", error);
   }
 };
-const getCompanyNameById = (companyId: number) => {
-  const company = companies.value.find(c => c.companyId === companyId);
-  return company ? company.name : 'Ettevõtet ei leitud';
-};
 const filteredProducts = computed(() => {
-  return products.value.filter(product =>
+  return state.products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
     product.description.toLowerCase().includes(searchTerm.value.toLowerCase())
   );
@@ -124,10 +122,12 @@ const filteredProducts = computed(() => {
 
 onMounted(async () => {
   await fetchCompanies();
-  if (companies.value.length > 0) {
-    selectedCompanyId.value = companies.value[0].companyId;
-    fetchProducts();
-  }
+  if (state.selectedCompanyId) {
+      fetchProducts();
+    } else {
+      state.selectedCompanyId = state.companies[0].companyId;
+      fetchProducts();
+    }
 });
 </script>
 
