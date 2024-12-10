@@ -39,7 +39,6 @@
       </div>
     </div>
 
-    <!-- Kui firmasid pole, keskel ja laiem vorm -->
     <div
       v-else
       class="flex justify-center items-center h-[50vh]"
