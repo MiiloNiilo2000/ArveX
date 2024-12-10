@@ -21,8 +21,13 @@ namespace BackEnd.Models
         public required string DelayFine { get; set; }
         public required string Font { get; set; }
         public required string InvoiceType { get; set; }
+        public required string SenderCompanyName { get; set; }
+        public required string SenderCompanyAddress { get; set; }
+        public required int SenderCompanyRegistrationNumber { get; set; }
+        public required string SenderCompanyKMKRNumber { get; set; }
 
-        public string ProductsAndQuantitiesJson { get; set; }
+
+        public required string ProductsAndQuantitiesJson { get; set; }
 
         [Newtonsoft.Json.JsonIgnore]
         [NotMapped]
@@ -32,7 +37,7 @@ namespace BackEnd.Models
             {
                 return string.IsNullOrEmpty(ProductsAndQuantitiesJson)
                     ? new Dictionary<int, int>()
-                    : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson);
+                    : JsonConvert.DeserializeObject<Dictionary<int, int>>(ProductsAndQuantitiesJson) ?? new Dictionary<int, int>();
             }
             set
             {

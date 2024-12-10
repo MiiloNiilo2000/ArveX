@@ -19,7 +19,9 @@ namespace BackEnd.Services
         public TokenService(IConfiguration config)
         {
             _config = config;
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
+            _key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_config["JWT:SigningKey"] ?? throw new ArgumentNullException("JWT:SigningKey configuration is missing"))
+            );
         }
         public string CreateToken(Profile profile) 
         {

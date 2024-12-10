@@ -1,21 +1,17 @@
 <template>
-  <div class="relative max-w-screen-2xl p-4">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div class="bg-white shadow-md rounded-md p-6">
-        <UserProfile :profile="profile" :editProfile="editProfile" />
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-1">
+  <div class="justify-center mt-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+      <div class="shadow-md p-1 ml-64 mr-12">
         <div v-if="companies.length > 0">
-          <div v-if="companies.length > 1" class="mb-4">
-            <label for="companySelect" class="block text-sm font-medium">
+          <div v-if="companies.length > 1" class="w-full max-w-xs mx-auto">
+            <label for="companySelect" class="text-sm font-medium">
               Vali ettevõte:
             </label>
             <select
               v-model="selectedCompany"
               @change="onCompanyChange"
               id="companySelect"
-              class="mt-1 block w-full border-emerald rounded-md shadow-sm"
+              class="mt-1 block w-full border-emerald rounded-md"
             >
               <option v-for="company in companies" :key="company.companyId" :value="company">
                 {{ company.name }}
@@ -23,24 +19,27 @@
             </select>
           </div>
 
-          <div v-if="selectedCompany" class="bg-white shadow-md rounded-md p-6">
-            <CompanyProfile :company="selectedCompany" :editCompany="editCompany" />
+          <div v-if="selectedCompany">
+            <CompanyProfile :company="selectedCompany" :editCompany="editCompany" @company-deleted="onCompanyAdded"/>
           </div>
         </div>
-        <div v-else class="text-center text-black py-12 text-xl font-bold">
+        <div v-else class="text-center text-white py-12 text-xl font-bold">
           Siia ilmuvad teie ettevõtted
         </div>
       </div>
 
-      <div class="bg-white shadow-md rounded-md p-6">
+      <div class="ml-12 mr-64 mt-10">
         <AddCompany @company-added="onCompanyAdded" />
       </div>
     </div>
+    <!-- <div class="bg-red shadow-md rounded-md p-6">
+        <UserProfile :profile="profile" :editProfile="editProfile" />
+      </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import UserProfile from '../components/UserProfile.vue';
 import CompanyProfile from '../components/CompanyProfile.vue';
 import AddCompany from '../components/AddCompany.vue';

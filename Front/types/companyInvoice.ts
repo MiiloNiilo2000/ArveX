@@ -15,5 +15,6 @@ export type CompanyInvoice = {
     font: string
     products: Product[]
     productsAndQuantities: Record<number, number>
-    invoiceType: 'company'
+    invoiceType: "company"
+    selectedCompanyId: number
 }

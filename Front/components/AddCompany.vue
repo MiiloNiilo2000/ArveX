@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center items-center pt-9">
     <div class="w-full max-w-4xl p-6 flex flex-col h-auto">
-      <h2 class="text-2xl font-bold mb-4 text-center">Lisa ettevõte</h2>
+      <h2 class="text-3xl font-bold mb-6 text-center">Lisa ettevõte</h2>
       <UForm
         :validate="validate"
         :state="state"
@@ -31,11 +31,11 @@
           <UInput v-model="state.country" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
         <UFormGroup label="Pildi link">
-          <UInput v-model="state.image" color="emerald" />
+          <UInput v-model="state.image" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
 
         <div class="col-span-2 flex justify-center">
-          <UButton type="submit">Lisa</UButton>
+          <UButton type="submit" class="add-btn w-1/3" icon="i-heroicons-plus">Lisa</UButton>
         </div>
       </UForm>
     </div>
@@ -51,13 +51,14 @@ import { useApi } from '../composables/useApi';
 
 const router = useRouter();
 const { customFetch } = useApi();
+const emit = defineEmits(['company-added']);
 
 const state = reactive<Company>({
   name: '',
   registerCode: null,
   vatNumber: '',
   address: '',
-  postalCode: 0,
+  postalCode: null,
   country: '',
   email: '',
   image: '',
@@ -71,6 +72,7 @@ const addCompany = async (company: Omit<Company, 'CompanyId' | 'ProfileId'>) => 
       body: company
     });
     console.log("Ettevõte lisatud edukalt!");
+    emit('company-added');
   } catch (error: any) {
     console.error("Server tagastas vea:", error?.data || error);
     alert("Validaatori vead: " + JSON.stringify(error?.data?.errors));

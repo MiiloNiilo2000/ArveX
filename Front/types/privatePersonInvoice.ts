@@ -10,4 +10,5 @@ export type PrivatePersonInvoice = {
     products: Product[]
     productsAndQuantities: Record<number, number>
     invoiceType: "privatePerson"
+    selectedCompanyId: number
 };
