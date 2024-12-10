@@ -1,30 +1,36 @@
 <template>
   <div class="justify-center mt-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2">
+    <div
+      v-if="companies.length > 0"
+      class="grid grid-cols-1 sm:grid-cols-2"
+    >
       <div class="shadow-md p-1 ml-64 mr-12">
-        <div v-if="companies.length > 0">
-          <div v-if="companies.length > 1" class="w-full max-w-xs mx-auto">
-            <label for="companySelect" class="text-sm font-medium">
-              Vali ettevõte:
-            </label>
-            <select
-              v-model="selectedCompany"
-              @change="onCompanyChange"
-              id="companySelect"
-              class="mt-1 block w-full border-emerald rounded-md"
+        <div v-if="companies.length > 1" class="w-full max-w-xs mx-auto">
+          <label for="companySelect" class="text-sm font-medium">
+            Vali ettevõte:
+          </label>
+          <select
+            v-model="selectedCompany"
+            @change="onCompanyChange"
+            id="companySelect"
+            class="mt-1 block w-full border-emerald rounded-md"
+          >
+            <option
+              v-for="company in companies"
+              :key="company.companyId"
+              :value="company"
             >
-              <option v-for="company in companies" :key="company.companyId" :value="company">
-                {{ company.name }}
-              </option>
-            </select>
-          </div>
-
-          <div v-if="selectedCompany">
-            <CompanyProfile :company="selectedCompany" :editCompany="editCompany" @company-deleted="onCompanyAdded"/>
-          </div>
+              {{ company.name }}
+            </option>
+          </select>
         </div>
-        <div v-else class="text-center text-white py-12 text-xl font-bold">
-          Siia ilmuvad teie ettevõtted
+
+        <div v-if="selectedCompany">
+          <CompanyProfile
+            :company="selectedCompany"
+            :editCompany="editCompany"
+            @company-deleted="onCompanyAdded"
+          />
         </div>
       </div>
 
@@ -32,9 +38,16 @@
         <AddCompany @company-added="onCompanyAdded" />
       </div>
     </div>
-    <!-- <div class="bg-red shadow-md rounded-md p-6">
-        <UserProfile :profile="profile" :editProfile="editProfile" />
-      </div> -->
+
+    <!-- Kui firmasid pole, keskel ja laiem vorm -->
+    <div
+      v-else
+      class="flex justify-center items-center h-[50vh]"
+    >
+      <div class="w-full max-w-2xl p-8 shadow-md bg-white rounded-lg">
+        <AddCompany @company-added="onCompanyAdded" />
+      </div>
+    </div>
   </div>
 </template>
 
