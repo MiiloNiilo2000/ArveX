@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BackEnd.Data;
 using BackEnd.Data.Repos;
+using BackEnd.Dtos;
 using BackEnd.Extensions;
 using BackEnd.Interfaces;
 using BackEnd.Models;
@@ -110,6 +111,34 @@ namespace BackEnd.Controllers
                 Email = appUser.Email
             };
             return Ok(userDetails);
+        }
+        [Authorize]
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto updateDto)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+            
+            if (appUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            appUser.UserName = updateDto.UserName;
+            appUser.Email = updateDto.Email;
+
+            var result = await _userManager.UpdateAsync(appUser);
+
+            if (result.Succeeded)
+            {
+                return Ok(new
+                {
+                    userName = appUser.UserName,
+                    email = appUser.Email
+                });
+            }
+            
+            return BadRequest(result.Errors); 
         }
     }
 }

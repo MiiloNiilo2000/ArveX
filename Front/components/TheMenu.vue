@@ -14,6 +14,7 @@
         />
       </button>
 
+      <!-- Dropdown menu -->
       <div
         v-if="showDropdown"
         class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10"
@@ -27,10 +28,18 @@
         <ul>
           <li>
             <button
+              @click="navigateToEditProfile"
+              class="w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
+            >
+              Muuda profiili
+            </button>
+          </li>
+          <li>
+            <button
               @click="handleLogout"
               class="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50"
             >
-              Väljalogimine
+              Logi välja
             </button>
           </li>
         </ul>
@@ -93,6 +102,7 @@ const profile = ref<{
 const filteredLinks = computed(() =>
   links.filter((link) => !link.requiresAuth || isLoggedIn.value)
 );
+
 const { customFetch } = useApi();
 
 const checkLoginStatus = async () => {
@@ -146,6 +156,11 @@ const handleLogout = () => {
 
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
+};
+
+const navigateToEditProfile = () => {
+  showDropdown.value = false;
+  router.push("/edit-profile");
 };
 </script>
 
