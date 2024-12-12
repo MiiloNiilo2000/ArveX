@@ -5,7 +5,7 @@
       class="flex"
     />
     
-    <div v-if="isLoggedIn" class="relative">
+    <div v-if="isLoggedIn" class="relative" ref="profileMenuContainer">
       <button @click="toggleDropdown" class="focus:outline-none">
         <img
           :src="profile?.image || defaultProfileImage"
@@ -13,8 +13,6 @@
           class="w-10 h-10 rounded-full border-2 border-gray-300"
         />
       </button>
-
-      <!-- Dropdown menu -->
       <div
         v-if="showDropdown"
         class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10"
@@ -57,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -104,6 +102,7 @@ const filteredLinks = computed(() =>
 );
 
 const { customFetch } = useApi();
+const profileMenuContainer = ref<HTMLElement | null>(null);
 
 const checkLoginStatus = async () => {
   if (localStorage.getItem("token")) {
@@ -134,16 +133,11 @@ const fetchUserProfile = async () => {
 
 onMounted(() => {
   checkLoginStatus();
+  document.addEventListener('click', handleClickOutside);
 });
 
-watch(() => localStorage.getItem("token"), async (newToken) => {
-  if (newToken) {
-    isLoggedIn.value = true;
-    axios.defaults.headers["Authorization"] = `Bearer ${newToken}`;
-    await fetchUserProfile();
-  } else {
-    isLoggedIn.value = false;
-  }
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
 });
 
 const handleLogout = () => {
@@ -156,6 +150,12 @@ const handleLogout = () => {
 
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
+};
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (profileMenuContainer.value && !profileMenuContainer.value.contains(event.target as Node)) {
+    showDropdown.value = false;
+  }
 };
 
 const navigateToEditProfile = () => {
