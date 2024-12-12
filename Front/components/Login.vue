@@ -72,8 +72,6 @@ const handleSubmit = async () => {
       },
     });
 
-    console.log('Serveri vastus:', response);
-
     if (response?.token) {
       const token = response.token;
 

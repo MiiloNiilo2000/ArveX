@@ -56,6 +56,8 @@ import UserProfile from '../components/UserProfile.vue';
 import CompanyProfile from '../components/CompanyProfile.vue';
 import AddCompany from '../components/AddCompany.vue';
 import { useRouter } from 'vue-router';
+import { useApi } from '../composables/useApi';
+import { useApiForRik } from '../composables/useApiForRik';
 
 const profile = ref<any>(null);
 const companies = ref<any[]>([]);
@@ -84,6 +86,7 @@ const fetchCompanies = async () => {
     console.error("Error fetching companies:", error);
   }
 };
+
 
 const onCompanyAdded = async () => {
   await fetchCompanies();
