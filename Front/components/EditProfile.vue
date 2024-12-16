@@ -22,8 +22,10 @@
             class="bg-gray-900 rounded-md"
           />
         </UFormGroup>
-        <div class="col-span-2 flex justify-center">
+
+        <div class="flex justify-around mt-4">
           <UButton type="submit"> Salvesta </UButton>
+          <UButton @click="goToChangePasswordPage">Muuda parooli</UButton>
         </div>
       </UForm>
 
@@ -63,6 +65,10 @@
   } | null>(null);
   
   const showModal = ref(false);
+
+  const goToChangePasswordPage = () => {
+  router.push('/edit-password');
+};
   
   const loadProfileData = async () => {
     try {

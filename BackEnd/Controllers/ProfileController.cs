@@ -140,5 +140,31 @@ namespace BackEnd.Controllers
             
             return BadRequest(result.Errors); 
         }
+        [Authorize]
+        [HttpPut("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto updatePasswordDto)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+            
+            if (appUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var checkPasswordResult = await _userManager.CheckPasswordAsync(appUser, updatePasswordDto.OldPassword);
+            if (!checkPasswordResult)
+            {
+                return BadRequest("Old password is incorrect.");
+            }
+
+            var result = await _userManager.ChangePasswordAsync(appUser, updatePasswordDto.OldPassword, updatePasswordDto.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok("Password updated successfully.");
+            }
+
+            return BadRequest(result.Errors);
+        }
     }
 }
