@@ -31,8 +31,8 @@
 
       <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-xl font-semibold">Tähelepanu</h3>
-          <p class="mt-2">Pärast profiili muutmist tuleb teil uuesti sisse logida. Kas soovite jätkata?</p>
+          <h3 class="text-xl font-semibold" style="color:black">Tähelepanu</h3>
+          <p class="mt-2" style="color:black">Pärast profiili muutmist tuleb teil uuesti sisse logida. Kas soovite jätkata?</p>
           <div class="mt-4 flex justify-end">
             <UButton @click="updateProfile" class="mr-2" color="green">Jah, logi välja</UButton>
             <UButton @click="cancelLogout" color="red">Ei, jää sisse</UButton>
