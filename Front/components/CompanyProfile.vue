@@ -53,7 +53,6 @@
       email: string;
       image: string;
     };
-    editCompany: () => void;
   }>();
 
   const editCompany = () => {
