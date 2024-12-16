@@ -1,57 +1,45 @@
 <template>
-    <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 class="text-2xl font-semibold mb-4">Muuda profiili</h2>
-  
-      <div v-if="message" :class="messageType === 'success' ? 'text-green-600' : 'text-red-600'" class="mb-4">
-        {{ message }}
-      </div>
-  
-      <form @submit.prevent="prepareUpdateProfile" class="space-y-4">
-        <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">Kasutajanimi</label>
-          <input
-            id="username"
+  <div class="flex justify-center items-center pt-9">
+    <div class="w-96 p-6 flex flex-col h-99">
+      <h2 class="text-2xl font-bold mb-4 text-center">Muuda profiili</h2>
+      <UForm
+        :state="form"
+        class="space-y-4"
+        @submit="prepareUpdateProfile"
+        @error="onError"
+      >
+        <UFormGroup label="Kasutajanimi" name="username">
+          <UInput
             v-model="form.username"
-            type="text"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            :disabled="loading"
+            color="emerald"
+            class="bg-gray-900 rounded-md"
           />
-        </div>
-  
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">E-post</label>
-          <input
-            id="email"
+        </UFormGroup>
+        <UFormGroup label="E-post" name="email">
+          <UInput
             v-model="form.email"
-            type="email"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            :disabled="loading"
+            color="emerald"
+            class="bg-gray-900 rounded-md"
           />
+        </UFormGroup>
+        <div class="col-span-2 flex justify-center">
+          <UButton type="submit"> Salvesta </UButton>
         </div>
-  
-        <div class="flex justify-center mt-4">
-          <button
-            type="submit"
-            class="px-6 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 disabled:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            :disabled="loading"
-          >
-            {{ loading ? 'Salvestamine...' : 'Salvesta muudatused' }}
-          </button>
-        </div>
-      </form>
-  
+      </UForm>
+
       <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-lg shadow-lg">
           <h3 class="text-xl font-semibold">Tähelepanu</h3>
           <p class="mt-2">Pärast profiili muutmist tuleb teil uuesti sisse logida. Kas soovite jätkata?</p>
           <div class="mt-4 flex justify-end">
-            <button @click="updateProfile" class="bg-green-600 text-white py-2 px-4 rounded mr-2 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">Jah, logi välja</button>
-            <button @click="cancelLogout" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">Ei, jää sisse</button>
+            <UButton @click="updateProfile" class="mr-2" color="green">Jah, logi välja</UButton>
+            <UButton @click="cancelLogout" color="red">Ei, jää sisse</UButton>
           </div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup lang="ts">
   import { ref, onMounted } from 'vue';
@@ -63,7 +51,6 @@
     email: ''
   });
   
-  const loading = ref(false);
   const message = ref('');
   const messageType = ref('');
   const router = useRouter();
@@ -104,16 +91,13 @@
   };
   
   const updateProfile = async () => {
-    loading.value = true;
     message.value = '';
-  
     try {
       const token = localStorage.getItem('token');
   
       if (!token) {
         message.value = 'Palun logige sisse!';
         messageType.value = 'error';
-        loading.value = false;
         return;
       }
       const response = await axios.put('http://localhost:5176/Profile/Update', {
@@ -140,9 +124,7 @@
       console.error('Profiili uuendamise viga:', error);
       message.value = 'Profiili uuendamine ebaõnnestus!';
       messageType.value = 'error';
-    } finally {
-      loading.value = false;
-    }
+    } 
   };
   const cancelLogout = () => {
     showModal.value = false;
@@ -150,36 +132,47 @@
   onMounted(() => {
     loadProfileData();
   });
+  
+  function onError(event: ErrorEvent) {
+  const element = document.getElementById(event.error[0].id);
+  element?.focus();
+  element?.scrollIntoView({ behavior: "smooth", block: "center" });
+}
   </script>
   
   <style scoped>
-  form {
-    width: 100%;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-  }
-  
-  button {
-    width: auto;
-    background-color: #1D4ED8;
+  select {
+    border: 1.5px solid #38a169;
+    background-color: #111827;
     color: white;
+    border-radius: 0.375rem;
+    padding: 0.2rem 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out;
   }
   
-  button:disabled {
-    background-color: #d1d5db;
-    color: #6b7280;
-  }
-  
-  button:hover {
-    background-color: #2563eb;
-  }
-  
-  button:focus {
+  select:focus {
+    border-color: #42ac4e;
     outline: none;
-    box-shadow: 0 0 0 4px rgba(37,99,235,0.4);
+    box-shadow: 0 0 0 0.1rem rgba(66, 248, 56, 0.413);
+  }
+  
+  .form-field {
+    border: 1px solid #38a169;
+    background-color: #121212;
+    color: black;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    width: 100%;
+    height: 3rem;
+    transition: border-color 0.2s ease-in-out;
+  }
+  
+  .form-field:focus {
+    border-color: #2f855a;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
   }
   </style>
   
