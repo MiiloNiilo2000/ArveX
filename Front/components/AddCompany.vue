@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center pt-9">
-    <div class="w-full max-w-4xl p-6 flex flex-col h-auto">
+    <div class="w-full max-w-4xl p-6 flex flex-col h-auto bg-transparent">
       <h2 class="text-3xl font-bold mb-6 text-center">Lisa ettevõte</h2>
       <UForm
         :validate="validate"
