@@ -9,9 +9,24 @@
         @submit="onSubmit"
         @error="onError"
       >
-        <UFormGroup label="Firma nimi" name="name">
-          <UInput v-model="state.name" color="emerald" class="bg-gray-900 rounded-md"/>
-        </UFormGroup>
+      <UFormGroup label="Firma nimi" name="name">
+      <div class="relative">
+        <UInput 
+          v-model="state.name" 
+          color="emerald" 
+          class="bg-gray-900 rounded-md" 
+          @input="fetchCompanyNames"
+          list="company-suggestions"
+           />
+           <datalist id="company-suggestions">
+          <option
+            v-for="suggestion in companySuggestions"
+            :key="suggestion.company_id"
+            :value="suggestion.name"
+          />
+        </datalist>
+      </div>
+</UFormGroup>
         <UFormGroup label="E-post" name="email">
           <UInput v-model="state.email" type="email" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
@@ -48,12 +63,26 @@ import type { Company } from "../types/company";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useApi } from '../composables/useApi';
+import { useApiForRik } from '../composables/useApiForRik';
 
 const router = useRouter();
 const { customFetch } = useApi();
 const emit = defineEmits(['company-added']);
+const companySuggestions = ref<CompanySuggestion[]>([]);
+const { customFetchForRik } = useApiForRik();
 
-const state = reactive<Company>({
+interface CompanyForRik {
+    name: string,
+    registerCode: string,
+    vatNumber: string,
+    address: string,
+    postalCode: string,
+    country: string,
+    email: string,
+    image: string,
+  }
+
+const state = reactive<CompanyForRik>({
   name: '',
   registerCode: null,
   vatNumber: '',
@@ -63,6 +92,35 @@ const state = reactive<Company>({
   email: '',
   image: '',
   companyId: 0
+});
+
+
+interface CompanySuggestion {
+    company_id: string;
+    reg_code: string;
+    name: string;
+    legal_address: string;
+    zip_code: string;    
+  }
+
+const fetchCompanyNames = async () => {
+    if (state.name.length < 3) return; 
+
+    try {
+      const response = await customFetchForRik<any>(`https://ariregister.rik.ee/est/api/autocomplete?q=${state.name}`, { method: 'GET' })
+      companySuggestions.value = response.data;
+    } catch (error) {
+      console.error('Error fetching company names:', error);
+    }
+  };
+
+watch(() => state.name, (newTitle) => {
+  const selectedCompany = companySuggestions.value.find(company => company.name === newTitle);
+  if (selectedCompany) {
+    state.registerCode = selectedCompany.reg_code;
+    state.address = selectedCompany.legal_address;
+    state.postalCode = selectedCompany.zip_code;
+  }
 });
 
 const addCompany = async (company: Omit<Company, 'CompanyId' | 'ProfileId'>) => {
