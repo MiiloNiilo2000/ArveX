@@ -39,6 +39,7 @@
   const title = 'Ettevõtte profiil'
   const companies = ref<Company[]>([]);
   const emit = defineEmits(['company-deleted']);
+  const router = useRouter();
   
   const props = defineProps<{
     company: {
@@ -52,10 +53,14 @@
       email: string;
       image: string;
     };
-    editCompany: () => void;
   }>();
 
+  const editCompany = () => {
+  router.push(`/companies/edit/${props.company.companyId}`);
+};
   const deleteCompany = async (id: number) => {
+    const confirmed = window.confirm("Kas olete kindel, et soovite ettevõtte kustutada?");
+    if (!confirmed) return;
   try {
     await customFetch<Company[]>(`Companies/${id}`, { method: 'DELETE' });
     companies.value = companies.value.filter(company => company.companyId !== id);

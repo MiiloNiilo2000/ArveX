@@ -53,7 +53,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { useApi } from '../composables/useApi';
 import type { Product } from "../types/product";
@@ -61,7 +60,6 @@ import type { Company } from "../types/company";
 import { useProductStore } from '../stores/productStores';
 import AddProduct from './AddProduct.vue';
 
-const router = useRouter();
 const { customFetch } = useApi();
 const { navigateToEditProduct, state, getCompanyNameById} = useProductStore();
 const searchTerm = ref<string>('');

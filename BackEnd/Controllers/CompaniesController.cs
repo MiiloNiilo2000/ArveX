@@ -29,7 +29,7 @@ namespace BackEnd.Controllers
             }
             return Ok(companies);
         }
-
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompaniesById(int id){
             var companies = await _context.Company.FindAsync(id);
@@ -55,7 +55,7 @@ namespace BackEnd.Controllers
 
             return Ok(products);
         }
-        
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] Company company){
             bool result = await _context.UpdateCompany(id, company);

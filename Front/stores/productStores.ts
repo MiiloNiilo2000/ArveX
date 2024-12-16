@@ -39,6 +39,7 @@ export const useProductStore = defineStore('product', () => {
              navigateToAddProduct,
              navigateToEditProduct, 
              getProductById, 
-             getCompanyNameById, 
+             getCompanyNameById,
+             state
             };
 });
