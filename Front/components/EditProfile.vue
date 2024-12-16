@@ -5,7 +5,7 @@
       <UForm
         :state="form"
         class="space-y-4"
-        @submit="prepareUpdateProfile"
+        @submit="onSubmit"
         @error="onError"
       >
         <UFormGroup label="Kasutajanimi" name="username">
@@ -86,7 +86,7 @@
     }
   };
   
-  const prepareUpdateProfile = () => {
+  const onSubmit = () => {
     showModal.value = true;
   };
   
@@ -116,6 +116,7 @@
         form.value.email = response.data.email;
   
         localStorage.removeItem('token');
+        location.reload();
         router.push('/login');
       } else {
         throw new Error('Profiili uuendamine ebaõnnestus!');
@@ -130,9 +131,14 @@
     showModal.value = false;
   };
   onMounted(() => {
-    loadProfileData();
-  });
-  
+  const token = localStorage.getItem('token');
+  if (!token) {
+    router.push('/login');
+    return;
+  }
+  loadProfileData();
+});
+
   function onError(event: ErrorEvent) {
   const element = document.getElementById(event.error[0].id);
   element?.focus();
