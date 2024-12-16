@@ -46,18 +46,18 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="p-6 rounded-lg shadow-md text-center bg-white dark:bg-gray-700">
             <div class="text-green-600 text-4xl mb-4">1️⃣</div>
-            <h3 class="text-xl font-semibold mb-2">Loo mall</h3>
-            <p class="text-gray-600 dark:text-gray-300">Kui sulle ei meeldi meie pakutud arve kujundus, saad selle teha täpselt selliseks nagu soovid.</p>
+            <h3 class="text-xl font-semibold mb-2">Loo oma ettevõtte profiil</h3>
+            <p class="text-gray-600 dark:text-gray-300">Lisa oma ettevõtte nimi ja muud andmed, et neid automaatselt arvele kuvada.</p>
           </div>
           <div class="p-6 rounded-lg shadow-md text-center bg-white dark:bg-gray-700">
             <div class="text-green-600 text-4xl mb-4">2️⃣</div>
-            <h3 class="text-xl font-semibold mb-2">Lisa firma ja tooted</h3>
-            <p class="text-gray-600 dark:text-gray-300">Lisa arvele oma tooted ja teenused. Kui teed arvet firmale, pead sisestama vaid firma nime, ülejäänu jäta meie hooleks.</p>
+            <h3 class="text-xl font-semibold mb-2">Lisa tooted</h3>
+            <p class="text-gray-600 dark:text-gray-300">Lisa tootebaasi enda firma pakutavad tooted ja teenused.</p>
           </div>
           <div class="p-6 rounded-lg shadow-md text-center bg-white dark:bg-gray-700">
             <div class="text-green-600 text-4xl mb-4">3️⃣</div>
-            <h3 class="text-xl font-semibold mb-2">Salvesta ja lae alla</h3>
-            <p class="text-gray-600 dark:text-gray-300">Lae oma koostatud arve alla ja ongi valmis. Lisaks salvestuvad sinu koostatud arved sinu profiilile.</p>
+            <h3 class="text-xl font-semibold mb-2">Loo arve ning lae alla</h3>
+            <p class="text-gray-600 dark:text-gray-300">Arvel loomisel saad Eesti ettevõtte puhul kliendi andmed täita automaatselt, lisa vaid tooted ning kujundused ja ongi valmis!</p>
           </div>
         </div>
       </div>
