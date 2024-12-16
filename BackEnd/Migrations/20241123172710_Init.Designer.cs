@@ -148,7 +148,7 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("Price")
-                        .HasColumnType("integer");
+                        .HasColumnType("double precision");
 
                     b.Property<string>("ProfileId")
                         .HasColumnType("text");
