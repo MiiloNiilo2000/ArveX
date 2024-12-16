@@ -15,6 +15,9 @@ namespace BackEnd.Models
     public string Address { get; set; } = null!;
     public int PostalCode { get; set; }
     public string Country { get; set; } = null!;
+    public string? Bank { get; set; } 
+    public string? IBAN { get; set; } 
+    public string? SWIFT { get; set; } 
     public string Email { get; set; } = null!;
     public string? Image { get; set; }
     public string? ProfileId { get; set; } = null!;
