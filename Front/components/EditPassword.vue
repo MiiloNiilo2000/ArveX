@@ -39,8 +39,8 @@
           </div>
   
           <div v-if="passwordForm.newPassword" class="space-y-2 text-sm mt-4">
-            <div :class="passwordRequirements.isValid ? 'text-green-500' : 'text-red-500'">
-              <span v-if="passwordRequirements.isValid">✔</span>
+            <div :class="isPasswordLengthValid ? 'text-green-500' : 'text-red-500'">
+              <span v-if="isPasswordLengthValid">✔</span>
               Parool peab olema vähemalt 8 tähemärki pikk.
             </div>
             <div :class="hasDigit ? 'text-green-500' : 'text-red-500'">
