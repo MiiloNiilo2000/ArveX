@@ -58,6 +58,13 @@
             class="bg-gray-900 rounded-md"
           />
         </UFormGroup>
+        <UFormGroup label="Pildi link" name="image">
+          <UInput
+            v-model="state.image"
+            color="emerald"
+            class="bg-gray-900 rounded-md"
+          />
+        </UFormGroup>
         <div class="col-span-2 flex justify-center">
           <UButton type="submit"> Salvesta </UButton>
         </div>
