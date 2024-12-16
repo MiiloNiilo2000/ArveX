@@ -5718,23 +5718,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mjara\\.nuget\\packages\\": {},
+    "C:\\Users\\2004s\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
+      "projectUniqueName": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\itb2203_2024_arvex\\backend\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\backend.csproj",
-      "packagesPath": "C:\\Users\\mjara\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mjara\\.vscode\\itb2203_2024_arvex\\BackEnd\\obj\\",
+      "projectPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\itb2203_2024_arvex\\backend\\backend.csproj",
+      "packagesPath": "C:\\Users\\2004s\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\2004s\\OneDrive\\Töölaud\\ISA3\\itb2203_2024_arvex\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\mjara\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\2004s\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -5743,6 +5743,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
