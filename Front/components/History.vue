@@ -178,6 +178,9 @@
   };
 
   const deleteInvoice = async (id: number) => {
+  const confirmed = window.confirm("Kas olete kindel, et soovite arve kustutada?")
+  if (!confirmed) return;
+
   try {
     const invoiceToDeleteFromCompany = companyInvoices.value.find(invoice => invoice.id === id);  
     const invoiceToDeleteFromPrivatePerson = privatePersonInvoices.value.find(invoice => invoice.id === id); 
@@ -224,6 +227,10 @@
       delayFine: row.delayFine,
       selectedFont: row.font,
       invoiceType: row.invoiceType,
+      senderCompanyName: row.senderCompanyName,
+      senderCompanyAddress: row.senderCompanyAddress,
+      senderCompanyRegistrationNumber: row.senderCompanyRegistrationNumber,
+      senderCompanyKMKRNumber: row.senderCompanyKMKRNumber,
       productsAndQuantities: productsAndQuantities,
     };
 

@@ -573,9 +573,10 @@
     if (state.selectedCompanyId) {
       fetchProducts();
     } else {
-      state.selectedCompanyId = companies.value[0].companyId;
+      state.selectedCompanyId = 0;
       fetchProducts();
     }
+
   } catch (error) {
     console.error('Error fetching products:', error);
   }

@@ -17,7 +17,7 @@ namespace BackEnd.Controllers{
         [HttpGet("all")]
         public async Task<IActionResult> GetProducts(){
             var products = await _context.Product.ToListAsync();
-
+            
             if(!products.Any()){
                 return NotFound();
             }

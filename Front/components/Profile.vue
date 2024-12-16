@@ -32,7 +32,7 @@
     </div>
 
     <div v-else class="flex justify-center items-center h-[50vh]">
-      <div class="w-full max-w-2xl p-8 shadow-md bg-white rounded-lg">
+      <div class="w-full max-w-2xl p-8 shadow-md bg-transparent rounded-lg">
         <AddCompany @company-added="onCompanyAdded" />
       </div>
     </div>
