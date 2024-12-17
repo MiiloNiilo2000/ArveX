@@ -88,6 +88,9 @@ interface CompanyForRik {
     postalCode: string,
     country: string,
     email: string,
+    bank: string,
+    iban: string,
+    swift: string,
     image: string,
   }
 
@@ -99,6 +102,9 @@ const state = reactive<CompanyForRik>({
   postalCode: null,
   country: '',
   email: '',
+  bank: "",
+  iban: "",
+  swift:"",
   image: '',
   companyId: 0
 });
