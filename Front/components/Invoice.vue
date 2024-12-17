@@ -280,7 +280,7 @@
       <div class="flex-auto"> 
         <UDivider label="Kujunda Arvet" class="h-10 mb-2" />
 
-        <UFormGroup label="Font" name="font" class="h-20 p-1">
+        <UFormGroup label="Font" name="font" class="h-20 ">
           <select v-model="state.selectedFont" class="font-selector" :style="{ fontFamily: state.selectedFont }">
             <option v-for="font in fonts" :key="font" :value="font">
               {{ font }}
