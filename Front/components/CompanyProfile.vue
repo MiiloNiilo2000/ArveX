@@ -7,7 +7,7 @@
         v-if="company.image"
         :src="company.image"
         alt="Ettevõtte pilt"
-        class="absolute top-2 right-0 rounded-full w-24 h-24 mr-6"
+        class="absolute top-4 right-0 rounded-full w-24 h-24 mr-6"
       />
       <h2 class="text-xl text-black font-semibold">{{ company.name }}</h2>
       <p class="text-gray-600">KMKN: {{ company.vatNumber }}</p>
