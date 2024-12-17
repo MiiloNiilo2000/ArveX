@@ -7,7 +7,7 @@
     @error="onError"
   >
 
-  <div class="flex w-full gap-20 h-24 mt-2">
+  <div class="flex justify-center w-full gap-20 h-24 mt-2">
     <div class="w-1/2">
       <UDivider label="Vali enda ettevõte ning arve tüüp" class="h-10 mb-2" />
       <UFormGroup name="invoiceType" class="w-2/2 flex justify-center h-16" >
@@ -25,7 +25,7 @@
       </UFormGroup>
     </div>
 
-    <div class="w-100">
+    <!-- <div class="w-100">
         <h1 class="text-2xl font-bold">{{ 'Arve eelvaade' }}</h1>
           <div class="invoice-preview mt-10 p-6 bg-gray-100 shadow-md border rounded-lg">
             <div class="invoice-header text-center mb-6">
@@ -64,9 +64,9 @@
             </div>
             </div>
           </div>
-      </div>
+      </div> -->
   </div>
-  <div class="flex w-full gap-20"> 
+  <div class="flex justify-center w-full gap-20"> 
     <div class="w-1/2"> 
       <UDivider label="Kopeeri varasema arve andmed" class="h-10 mb-2" />
       <UFormGroup name="pastInvoice" class="flex justify-center h-12">
@@ -93,7 +93,7 @@
     </div>
   </div>
 
-  <div class="flex gap-20 w-1/2"> 
+  <div class="flex justify-center gap-20 p-20 "> 
 
     <div v-if="state.invoiceType === 'company'" class="w-1/2"> 
 
@@ -171,7 +171,7 @@
 
     </div>
 
-    <div class="w-1/2"> 
+    <div class="w-1/2 justify-center"> 
 
       <UFormGroup label="Arve Number" name="invoiceNr">
         <UInput 
@@ -220,9 +220,9 @@
       
   </div>
 
-  <div class="w-1/2 h-auto">
-  <UDivider label="Vali tooted" class="h-10 mb-2" />
-  <div class="flex items-center mb-4">
+  <div class=" justify-center h-auto">
+  <UDivider label="Vali tooted" class=" mb-2" />
+  <div class="flex items-center p-10 mb-4">
       <UButton @click="navigateToAddProduct" class="add-btn mr-4" icon="i-heroicons-plus">Lisa uus toode</UButton>
       <input
       v-model="searchTerm"
@@ -232,7 +232,7 @@
     />
   </div>
 
-      <UFormGroup name="products" class="h-64 overflow-y-auto">
+      <UFormGroup name="products" class="h-20 overflow-y-auto mx-7  ">
             <div class="product-selection">
               <div 
                 v-for="product in filteredProducts" 
@@ -277,10 +277,10 @@
       </div>
 
     <div class="flex w-full gap-20"> 
-      <div class="w-1/2"> 
+      <div class="flex-auto"> 
         <UDivider label="Kujunda Arvet" class="h-10 mb-2" />
 
-        <UFormGroup label="Font" name="font" class="h-20">
+        <UFormGroup label="Font" name="font" class="h-20 p-1">
           <select v-model="state.selectedFont" class="font-selector" :style="{ fontFamily: state.selectedFont }">
             <option v-for="font in fonts" :key="font" :value="font">
               {{ font }}

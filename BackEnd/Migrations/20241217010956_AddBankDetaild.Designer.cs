@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241123172710_Init")]
-    partial class Init
+    [Migration("20241217010956_AddBankDetaild")]
+    partial class AddBankDetaild
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,12 +37,18 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Bank")
+                        .HasColumnType("text");
+
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IBAN")
                         .HasColumnType("text");
 
                     b.Property<string>("Image")
@@ -60,6 +66,9 @@ namespace backend.Migrations
 
                     b.Property<int>("RegisterCode")
                         .HasColumnType("integer");
+
+                    b.Property<string>("SWIFT")
+                        .HasColumnType("text");
 
                     b.Property<string>("VatNumber")
                         .IsRequired()
@@ -117,6 +126,21 @@ namespace backend.Migrations
                     b.Property<string>("ProfileId")
                         .HasColumnType("text");
 
+                    b.Property<string>("SenderCompanyAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SenderCompanyKMKRNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SenderCompanyName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("SenderCompanyRegistrationNumber")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -147,20 +171,20 @@ namespace backend.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProfileId")
-                        .HasColumnType("text");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<double>("TaxPercent")
                         .HasColumnType("double precision");
+
+                    b.Property<string>("profileId")
+                        .HasColumnType("text");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("ProfileId");
+                    b.HasIndex("profileId");
 
                     b.ToTable("Product");
                 });
@@ -260,13 +284,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ca8435bc-c85d-48e7-95bd-d0700aa7d67e",
+                            Id = "5c7083ed-5448-4e70-9af7-8f1b0a5966af",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6ec0eee0-70ba-4814-8a74-2ee573a235bf",
+                            Id = "75cab526-c163-4bfb-b1d8-c374bd6db053",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -422,7 +446,7 @@ namespace backend.Migrations
 
                     b.HasOne("BackEnd.Models.Profile", "profile")
                         .WithMany()
-                        .HasForeignKey("ProfileId");
+                        .HasForeignKey("profileId");
 
                     b.Navigation("company");
 

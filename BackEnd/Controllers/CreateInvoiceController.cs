@@ -29,9 +29,9 @@ namespace BackEnd.Controllers
         private readonly CompanyInvoicesRepo _companyRepo;
         private readonly PrivatePersonInvoicesRepo _privatePersonRepo;
         private readonly UserManager<Profile> _userManager;
-        protected double _totalPrice;
+        protected decimal _totalPrice;
         protected double _taxPercent;
-        protected double _priceWithoutTax;
+        protected decimal _priceWithoutTax;
 
         public CreateInvoiceController(CompanyInvoicesRepo companyRepo, PrivatePersonInvoicesRepo privatePersonRepo, UserManager<Profile> userManager)
         {
@@ -340,7 +340,8 @@ namespace BackEnd.Controllers
                                         : 1; 
 
                                     _taxPercent = product.TaxPercent;
-                                    double priceWithTax = product.Price * quantity + (product.Price * quantity * (_taxPercent / 100));
+                                    decimal taxPercentDecimal = (decimal)_taxPercent;
+                                    decimal priceWithTax = product.Price * quantity + (product.Price * quantity * (taxPercentDecimal / 100));
                                     _totalPrice += priceWithTax;
                                     _priceWithoutTax += product.Price * quantity;
 
@@ -547,7 +548,8 @@ namespace BackEnd.Controllers
                                         : 1; 
 
                                     _taxPercent = product.TaxPercent;
-                                    double priceWithTax = product.Price * quantity + (product.Price * quantity * (_taxPercent / 100));
+                                    decimal taxPercentDecimal = (decimal)_taxPercent;
+                                    decimal priceWithTax = product.Price * quantity + (product.Price * quantity * (taxPercentDecimal / 100));
                                     _totalPrice += priceWithTax;
                                     _priceWithoutTax += product.Price * quantity;
 

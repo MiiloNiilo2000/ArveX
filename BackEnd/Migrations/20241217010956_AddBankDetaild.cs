@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class AddBankDetaild : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,6 +69,10 @@ namespace backend.Migrations
                     DelayFine = table.Column<string>(type: "text", nullable: false),
                     Font = table.Column<string>(type: "text", nullable: false),
                     InvoiceType = table.Column<string>(type: "text", nullable: false),
+                    SenderCompanyName = table.Column<string>(type: "text", nullable: false),
+                    SenderCompanyAddress = table.Column<string>(type: "text", nullable: false),
+                    SenderCompanyRegistrationNumber = table.Column<int>(type: "integer", nullable: false),
+                    SenderCompanyKMKRNumber = table.Column<string>(type: "text", nullable: false),
                     ProductsAndQuantitiesJson = table.Column<string>(type: "text", nullable: false),
                     Discriminator = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
                     Address = table.Column<string>(type: "text", nullable: true),
@@ -200,6 +204,9 @@ namespace backend.Migrations
                     Address = table.Column<string>(type: "text", nullable: false),
                     PostalCode = table.Column<int>(type: "integer", nullable: false),
                     Country = table.Column<string>(type: "text", nullable: false),
+                    Bank = table.Column<string>(type: "text", nullable: true),
+                    IBAN = table.Column<string>(type: "text", nullable: true),
+                    SWIFT = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
                     ProfileId = table.Column<string>(type: "text", nullable: true)
@@ -222,17 +229,17 @@ namespace backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Price = table.Column<int>(type: "integer", nullable: false),
-                    ProfileId = table.Column<string>(type: "text", nullable: true),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CompanyId = table.Column<int>(type: "integer", nullable: true),
+                    profileId = table.Column<string>(type: "text", nullable: true),
                     TaxPercent = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.ProductId);
                     table.ForeignKey(
-                        name: "FK_Product_AspNetUsers_ProfileId",
-                        column: x => x.ProfileId,
+                        name: "FK_Product_AspNetUsers_profileId",
+                        column: x => x.profileId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -247,8 +254,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6ec0eee0-70ba-4814-8a74-2ee573a235bf", null, "User", "USER" },
-                    { "ca8435bc-c85d-48e7-95bd-d0700aa7d67e", null, "Admin", "ADMIN" }
+                    { "5c7083ed-5448-4e70-9af7-8f1b0a5966af", null, "Admin", "ADMIN" },
+                    { "75cab526-c163-4bfb-b1d8-c374bd6db053", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -299,9 +306,9 @@ namespace backend.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_ProfileId",
+                name: "IX_Product_profileId",
                 table: "Product",
-                column: "ProfileId");
+                column: "profileId");
         }
 
         /// <inheritdoc />

@@ -29,7 +29,10 @@ namespace BackEnd.Data.Repos
                 PostalCode = company.PostalCode,
                 Country = company.Country,
                 Email = company.Email,
-                Image = company.Image
+                Image = company.Image,
+                IBAN = company.IBAN,
+                SWIFT = company.SWIFT,
+                Bank = company.Bank,
             }).ToListAsync();
         }
 

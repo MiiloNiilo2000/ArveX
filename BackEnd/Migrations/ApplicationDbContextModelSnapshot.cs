@@ -34,12 +34,18 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Bank")
+                        .HasColumnType("text");
+
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IBAN")
                         .HasColumnType("text");
 
                     b.Property<string>("Image")
@@ -57,6 +63,9 @@ namespace backend.Migrations
 
                     b.Property<int>("RegisterCode")
                         .HasColumnType("integer");
+
+                    b.Property<string>("SWIFT")
+                        .HasColumnType("text");
 
                     b.Property<string>("VatNumber")
                         .IsRequired()
@@ -159,8 +168,8 @@ namespace backend.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<double>("TaxPercent")
                         .HasColumnType("double precision");
@@ -272,13 +281,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0326832e-861d-4da0-bb22-cfa1cebc2b06",
+                            Id = "e4e3e966-1621-47c6-9acc-896230f259ac",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4475182e-e677-4baa-9e13-d44f31c6cd30",
+                            Id = "00d38b46-c246-4635-abd8-ee174e553202",
                             Name = "User",
                             NormalizedName = "USER"
                         });

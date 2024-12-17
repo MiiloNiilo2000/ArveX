@@ -7,15 +7,18 @@
         v-if="company.image"
         :src="company.image"
         alt="Ettevõtte pilt"
-        class="absolute top-4 right-4 rounded-full w-24 h-24 mr-6"
+        class="absolute top-4 right-0 rounded-full w-24 h-24 mr-6"
       />
       <h2 class="text-xl text-black font-semibold">{{ company.name }}</h2>
       <p class="text-gray-600">KMKN: {{ company.vatNumber }}</p>
-      <p class="text-gray-600">Aadress: {{ company.address }}</p>
       <p class="text-gray-600">Riik: {{ company.country }}</p>
       <p class="text-gray-600">Registrikood: {{ company.registerCode }}</p>
+      <p class="text-gray-600">Aadress: {{ company.address }}</p>
       <p class="text-gray-600">Postiindeks: {{ company.postalCode }}</p>
       <p class="text-gray-600">E-mail: {{ company.email }}</p>
+      <p class="text-gray-600">Pank: {{ company.bank }}</p>
+      <p class="text-gray-600">IBAN: {{ company.iban }}</p>
+      <p class="text-gray-600">SWIFT: {{ company.swift }}</p>
 
       <div class="mt-6 grid grid-cols-1 grid-cols-2 gap-8">
         <UButton @click="editCompany" class="add-btn" icon="i-heroicons-pencil">
@@ -51,6 +54,9 @@
       country: string;
       registerCode: number;
       email: string;
+      bank: string;
+      iban: string;
+      swift: string;
       image: string;
     };
   }>();

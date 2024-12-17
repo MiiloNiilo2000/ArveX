@@ -45,6 +45,15 @@
         <UFormGroup label="Riik" name="country">
           <UInput v-model="state.country" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
+        <UFormGroup label="Pank" name="bank">
+          <UInput v-model="state.bank" color="emerald" class="bg-gray-900 rounded-md"/>
+        </UFormGroup>
+        <UFormGroup label="IBAN" name="iban">
+          <UInput v-model="state.iban" color="emerald" class="bg-gray-900 rounded-md"/>
+        </UFormGroup>
+        <UFormGroup label="SWIFT" name="swift">
+          <UInput v-model="state.swift" color="emerald" class="bg-gray-900 rounded-md"/>
+        </UFormGroup>
         <UFormGroup label="Pildi link">
           <UInput v-model="state.image" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
@@ -79,6 +88,9 @@ interface CompanyForRik {
     postalCode: string,
     country: string,
     email: string,
+    bank: string,
+    iban: string,
+    swift: string,
     image: string,
   }
 
@@ -90,6 +102,9 @@ const state = reactive<CompanyForRik>({
   postalCode: null,
   country: '',
   email: '',
+  bank: "",
+  iban: "",
+  swift:"",
   image: '',
   companyId: 0
 });
