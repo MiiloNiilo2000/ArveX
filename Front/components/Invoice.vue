@@ -232,7 +232,7 @@
     />
   </div>
 
-      <UFormGroup name="products" class="h-20 overflow-y-auto mx-5  ">
+      <UFormGroup name="products" class="h-20 overflow-y-auto mx-7  ">
             <div class="product-selection">
               <div 
                 v-for="product in filteredProducts" 
