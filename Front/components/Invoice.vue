@@ -232,7 +232,7 @@
     />
   </div>
 
-      <UFormGroup name="products" class="h-64 overflow-y-auto">
+      <UFormGroup name="products" class="h-20 overflow-y-auto mx-7  ">
             <div class="product-selection">
               <div 
                 v-for="product in filteredProducts" 
@@ -277,10 +277,10 @@
       </div>
 
     <div class="flex w-full gap-20"> 
-      <div class="w-1/2"> 
+      <div class="flex-auto"> 
         <UDivider label="Kujunda Arvet" class="h-10 mb-2" />
 
-        <UFormGroup label="Font" name="font" class="h-20">
+        <UFormGroup label="Font" name="font" class="h-20 p-1">
           <select v-model="state.selectedFont" class="font-selector" :style="{ fontFamily: state.selectedFont }">
             <option v-for="font in fonts" :key="font" :value="font">
               {{ font }}
