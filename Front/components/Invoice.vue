@@ -93,7 +93,7 @@
     </div>
   </div>
 
-  <div class="flex justify-center gap-20 "> 
+  <div class="flex justify-center gap-20 p-20 "> 
 
     <div v-if="state.invoiceType === 'company'" class="w-1/2"> 
 
@@ -221,8 +221,8 @@
   </div>
 
   <div class=" justify-center h-auto">
-  <UDivider label="Vali tooted" class="h-10 mb-2" />
-  <div class="flex items-center mb-4">
+  <UDivider label="Vali tooted" class=" mb-2" />
+  <div class="flex items-center p-10 mb-4">
       <UButton @click="navigateToAddProduct" class="add-btn mr-4" icon="i-heroicons-plus">Lisa uus toode</UButton>
       <input
       v-model="searchTerm"
