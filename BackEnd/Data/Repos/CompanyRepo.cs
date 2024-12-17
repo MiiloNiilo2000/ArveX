@@ -30,6 +30,9 @@ namespace BackEnd.Data.Repos
                 Country = company.Country,
                 Email = company.Email,
                 Image = company.Image
+                IBAN = company.IBAN,
+                SWIFT = company.SWIFT,
+                Bank = company.Bank,
             }).ToListAsync();
         }
 

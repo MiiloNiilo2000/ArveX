@@ -45,6 +45,15 @@
         <UFormGroup label="Riik" name="country">
           <UInput v-model="state.country" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
+        <UFormGroup label="Pank" name="bank">
+          <UInput v-model="state.bank" color="emerald" class="bg-gray-900 rounded-md"/>
+        </UFormGroup>
+        <UFormGroup label="IBAN" name="iban">
+          <UInput v-model="state.iban" color="emerald" class="bg-gray-900 rounded-md"/>
+        </UFormGroup>
+        <UFormGroup label="SWIFT" name="swift">
+          <UInput v-model="state.swift" color="emerald" class="bg-gray-900 rounded-md"/>
+        </UFormGroup>
         <UFormGroup label="Pildi link">
           <UInput v-model="state.image" color="emerald" class="bg-gray-900 rounded-md"/>
         </UFormGroup>
